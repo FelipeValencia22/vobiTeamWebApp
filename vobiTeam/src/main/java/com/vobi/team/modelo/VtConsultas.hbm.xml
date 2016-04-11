@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 28/07/2015 09:06:31 AM by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+	
+	
+  <query name="consultarUsuarioPorLogin">
+  <![CDATA[
+  Select usu From VtUsuario usu where usu.login=:login
+   ]]>
+  </query>
+  
+  <query name="consultarUsuarioPorID">
+  <![CDATA[
+  Select usu From VtUsuario usu where usu.usuaCodigo=:usuaCodigo
+   ]]>
+  </query>
+  
+  <query name="consultarEmpresaPorId">
+  <![CDATA[
+  Select emp From VtEmpresa emp where emp.identificacion=:identificacion
+   ]]>
+  </query>
+  
+  <query name="consultarProyectoUsuarioPorProyecto">
+  <![CDATA[
+  Select proyUsu From VtProyectoUsuario proyUsu where proyUsu.vtProyecto.proyCodigo=:proyectoCodigo 
+
+   ]]>
+  </query>
+  
+    <query name="consultarProyectosUsuariosPorProyectoYUsuario">
+  <![CDATA[
+	Select proyUsuarios from VtProyectoUsuario proyUsuarios where proyUsuarios.vtProyecto.proyCodigo=:proyCodigo and proyUsuarios.vtUsuario.usuaCodigo=:usuaCodigo
+
+   ]]>
+  </query>
+  
+	
+	
+</hibernate-mapping>

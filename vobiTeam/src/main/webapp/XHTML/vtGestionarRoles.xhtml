@@ -1,0 +1,224 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+			onsuccess="PF('statusDialog').hide()" />
+		<p:dialog modal="true" widgetVar="statusDialog" header="Loading"
+			draggable="false" closable="false">
+			<p:graphicImage
+				value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+		</p:dialog>
+
+		<!-- Expired session -->
+		<p:idleMonitor onactive="PF('sessionTimeOutDialog').show();"
+			timeout="#{session.maxInactiveInterval * 1000}" />
+		<p:dialog modal="true" widgetVar="sessionTimeOutDialog"
+			header="La sesión ha expirado" draggable="false" closable="false">
+			<h:outputText value="La sesión esta terminada" />
+			<input id="confirmBackToLogin" type="button" value="Ingresar"
+				onclick="window.location='#{facesContext.externalContext.requestContextPath}/index.jsp';" />
+		</p:dialog>
+
+
+
+		<h:form id="frm">
+
+			<p:growl id="growl" />
+
+			<p:panel id="pnlRol" header="ROLES">
+
+				<br></br>
+				<p:commandButton value="Crear Rol" type="button"
+					onclick="PF('dlg').show();" />
+				<br></br>
+				<br></br>
+
+				<p:accordionPanel id="panelDataTableVtRol" header="Roles"
+					multiple="true">
+
+					<p:tab title="Roles activos ">
+						<p:panel id="dataTableVtRolA">
+
+							<p:dataTable value="#{vtRolView.data}" var="vtRol"
+								paginator="true" rows="5">
+
+								<p:column filterBy="#{vtRol.rolCodigo}"
+									sortBy="#{vtRol.rolCodigo}">
+									<f:facet name="header">
+										<h:outputText value="Código Rol" />
+									</f:facet>
+									<h:outputText value="#{vtRol.rolCodigo}" />
+								</p:column>
+
+								<p:column filterBy="#{vtRol.rolNombre}"
+									sortBy="#{vtRol.rolNombre}">
+									<f:facet name="header">
+										<h:outputText value="Nombre rol" />
+									</f:facet>
+									<h:outputText value="#{vtRol.rolNombre}" />
+								</p:column>
+
+								<p:column filterBy="#{vtRol.activo}" sortBy="#{vtRol.activo}">
+									<f:facet name="header">
+										<h:outputText value="Activo" />
+									</f:facet>
+									<h:outputText value="#{vtRol.activo}" />
+								</p:column>
+
+								<p:column headerText="Modificar">
+									<div align="center">
+										<p:commandButton id="btnEdit" icon="fa fa-edit"
+											update=":dialogVtRol"
+											actionListener="#{vtRolView.modificar}">
+											<f:attribute name="selectedVtRol" value="#{vtRol}" />
+										</p:commandButton>
+									</div>
+								</p:column>
+
+								<p:column headerText="Cambiar estado">
+									<div align="center">
+										<p:commandButton id="btnEstado" icon="fa fa-retweet"
+											update="frm:panelDataTableVtRol, :frm:growl"
+											actionListener="#{vtRolView.cambiarEstado}">
+											<f:attribute name="selectedVtRol" value="#{vtRol}" />
+										</p:commandButton>
+									</div>
+								</p:column>
+
+							</p:dataTable>
+						</p:panel>
+					</p:tab>
+
+					<br></br>
+
+					<p:tab title="Roles Inactivos ">
+						<p:panel id="dataTableVtRolI">
+
+							<p:dataTable value="#{vtRolView.dataI}" var="vtRol"
+								paginator="true" rows="5">
+
+								<p:column filterBy="#{vtRol.rolCodigo}"
+									sortBy="#{vtRol.rolCodigo}">
+									<f:facet name="header">
+										<h:outputText value="Código Rol" />
+									</f:facet>
+									<h:outputText value="#{vtRol.rolCodigo}" />
+								</p:column>
+
+								<p:column filterBy="#{vtRol.rolNombre}"
+									sortBy="#{vtRol.rolNombre}">
+									<f:facet name="header">
+										<h:outputText value="Nombre rol" />
+									</f:facet>
+									<h:outputText value="#{vtRol.rolNombre}" />
+								</p:column>
+
+								<p:column filterBy="#{vtRol.activo}" sortBy="#{vtRol.activo}">
+									<f:facet name="header">
+										<h:outputText value="Activo" />
+									</f:facet>
+									<h:outputText value="#{vtRol.activo}" />
+								</p:column>
+
+								<p:column headerText="Modificar">
+									<div align="center">
+										<p:commandButton id="btnEditI" icon="fa fa-edit"
+											update=":dialogVtRol"
+											actionListener="#{vtRolView.modificar}">
+											<f:attribute name="selectedVtRol" value="#{vtRol}" />
+										</p:commandButton>
+									</div>
+								</p:column>
+
+								<p:column headerText="Cambiar estado">
+									<div align="center">
+										<p:commandButton id="btnEstadoI" icon="fa fa-retweet"
+											update=":frm:panelDataTableVtRol, :frm:growl"
+											actionListener="#{vtRolView.cambiarEstado}">
+											<f:attribute name="selectedVtRol" value="#{vtRol}" />
+										</p:commandButton>
+									</div>
+								</p:column>
+
+							</p:dataTable>
+						</p:panel>
+					</p:tab>
+				</p:accordionPanel>
+
+			</p:panel>
+
+		</h:form>
+
+
+
+
+		<p:dialog header="Crear rol" appendTo="@(body)" widgetVar="dlg"
+			resizable="false" width="500">
+			<h:form id="formDialogCrear">
+				<p:messages id="msges" />
+				<p:panel id="panelRol">
+					<h:panelGrid id="panelgridRol" columns="1">
+
+						<p:selectOneMenu id="somActivo" binding="#{vtRolView.somActivo}">
+							<f:selectItem itemValue="-1" itemLabel="Activo" />
+							<f:selectItems value="#{vtRolView.esActivoItems}" />
+						</p:selectOneMenu>
+						<p:inputText id="txtNombre" placeholder="Nombre del rol"
+							binding="#{vtRolView.txtNombre}" />
+					</h:panelGrid>
+
+
+				</p:panel>
+
+				<br></br>
+				<p:panel id="panelBotonesRol">
+					<p:commandButton id="btnCrear" icon="fa fa-save" title="Crear rol"
+						binding="#{vtRolView.btnCrear}" action="#{vtRolView.crearRol}"
+						update="formDialogCrear,@([id$=growl],@([id$=panelDataTableVtArtefacto]" />
+
+					<p:commandButton id="btnLimpiar" icon="fa fa-eraser"
+						title="Limpiar" binding="#{vtRolView.btnLimpiar}"
+						action="#{vtRolView.limpiar}" update="formDialogCrear,msges" />
+				</p:panel>
+
+
+			</h:form>
+		</p:dialog>
+
+		<p:dialog id="dialogVtRol" appendTo="@(body)" closable="false"
+			visible="#{vtRolView.showDialog}" resizable="false" width="500">
+				<h:form id="formDialogR">
+			<p:messages id="msge" />
+			<p:panel id="panelVtRol" header="VtRol">
+				<h:panelGrid id="panaleGridRolCambio">
+					<p:selectOneMenu id="somActivoCambio"
+						binding="#{vtRolView.somActivoCambio}">
+						<f:selectItem itemValue="-1" itemLabel="Activo" />
+						<f:selectItems value="#{vtRolView.esActivoItems}" />
+					</p:selectOneMenu>
+					<p:inputText id="txtNombreCambio" placeholder="Nombre del rol"
+						binding="#{vtRolView.txtNombreCambio}" />
+				</h:panelGrid>
+			</p:panel>
+			<p:panel id="panelBotones">
+				<div align="center">
+					<p:commandButton id="btnSave" binding="#{vtRolView.btnGuardar}"
+						value="Guardar" action="#{vtRolView.action_save()}"
+						update=":dialogVtRol :frm:panelDataTableVtRol" />
+					<p:commandButton id="btnExit" value="Salir"
+						action="#{vtRolView.action_closeDialog()}" update="dialogVtRol" />
+				</div>
+			</p:panel>
+			</h:form>
+		</p:dialog>
+
+
+
+
+	</ui:define>
+</ui:composition>
+

@@ -1,0 +1,122 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+			onsuccess="PF('statusDialog').hide()" />
+		<p:dialog modal="true" widgetVar="statusDialog" header="Loading"
+			draggable="false" closable="false">
+			<p:graphicImage
+				value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+		</p:dialog>
+
+		<!-- Expired session -->
+		<p:idleMonitor onactive="PF('sessionTimeOutDialog').show();"
+			timeout="#{session.maxInactiveInterval * 1000}" />
+		<p:dialog modal="true" widgetVar="sessionTimeOutDialog"
+			header="Expired session" draggable="false" closable="false">
+			<h:outputText value="The session is finished" />
+			<input id="confirmBackToLogin" type="button" value="Sign in"
+				onclick="window.location='#{facesContext.externalContext.requestContextPath}/index.jsp';" />
+		</p:dialog>
+
+		<p:panel id="mostrarTodo" visible="true">
+		
+		
+			<p:dialog id="artefacto" dynamic="true" header="Crear artefacto" appendTo="@(body)" rendered="true"
+			responsive="true" widgetVar="dlg" height="600" width="500" >
+			<h:form id="formDialogCrearArtefacto">
+				<p:messages id="msg" />
+				<h:panelGrid columns="1" id="panelGrid">
+					<div align="left">
+						<p:selectOneMenu id="somTiposDeArtefactos" style="width:160px"
+							binding="#{vtArtefactoView.somTiposDeArtefactos}">
+							<f:selectItem itemValue="-1" itemLabel="Tipo de artefacto" />
+							<f:selectItems value="#{vtArtefactoView.esTipoArtefactoItems}" />
+						</p:selectOneMenu>
+
+						<p:selectOneMenu id="somPilaProductoCrear" style="width:160px"
+							binding="#{vtArtefactoView.somPilaProductoCrear}"
+							onchange="submit()"
+							valueChangeListener="#{vtArtefactoView.imprimirValue}">
+							<f:selectItem itemValue="-1" itemLabel="Pila de producto" />
+							<f:selectItems value="#{vtArtefactoView.esPilaProductoItems}" />
+						</p:selectOneMenu>
+
+						<p:selectOneMenu id="somSprintsCrear" style="width:160px"
+							binding="#{vtArtefactoView.somSprintsCrear}">
+							<f:selectItem itemValue="-1" itemLabel="Sprint" />
+							<f:selectItems value="#{vtArtefactoView.esSprintItems}" />
+						</p:selectOneMenu>
+
+						<p:selectOneMenu id="somActivo" style="width:160px"
+							binding="#{vtArtefactoView.somActivo}">
+							<f:selectItem itemValue="-1" itemLabel="Activo" />
+							<f:selectItems value="#{vtArtefactoView.esActivoItems}" />
+						</p:selectOneMenu>
+					</div>
+
+
+
+					<p:inputText id="txtnombre" placeholder="Titulo"
+						style="width:160px" binding="#{vtArtefactoView.txtnombre}" />
+
+					<p:inputTextarea id="txtAreaDescripcion" rows="10" cols="15"
+						style="width:160px" placeholder="Descripci&#243;n"
+						binding="#{vtArtefactoView.txtdescripcion}" />
+
+					<p:selectOneMenu id="somPrioridades" style="width:160px"
+						binding="#{vtArtefactoView.somPrioridades}">
+						<f:selectItem itemValue="-1" itemLabel="Prioridad" />
+						<f:selectItems value="#{vtArtefactoView.esPrioridadItems}" />
+					</p:selectOneMenu>
+
+					<p:selectOneMenu id="somEstados" style="width:160px"
+						binding="#{vtArtefactoView.somEstados}">
+						<f:selectItem itemValue="-1" itemLabel="Estado" />
+						<f:selectItems value="#{vtArtefactoView.esEstadoItems}" />
+					</p:selectOneMenu>
+
+					<p:inputText id="txtEsfuerzoEstimado"
+						placeholder="Esfuerzo estimado"
+						binding="#{vtArtefactoView.txtEsfuerzoEstimado}" />
+
+
+				
+
+						<p:fileUpload id="fileUpload" sequential="true"
+							fileUploadListener="#{vtArtefactoView.handleFileUpload}"
+							mode="advanced" update="@([id$=growl],formDialogCrearArtefacto,msg"
+							multiple="true" label="Seleccionar" cancelLabel="Cancelar"
+							uploadLabel="Subir archivo(s)" dragdropsupport="true"
+							sizeLimit="5000000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+			
+				</h:panelGrid>
+
+
+
+				<div align="center">
+					<p:commandButton id="btnCrearS" icon="fa fa-save"
+						binding="#{vtArtefactoView.btnCrearS}" title="crear"
+						action="#{vtArtefactoView.crearArtefacto}"
+						update="@([id$=growl],formDialogCrearArtefacto,msg" />
+
+					<p:commandButton id="btnLimpiarS" icon="fa fa-eraser"
+						binding="#{vtArtefactoView.btnLimpiarS}" title="Limpiar"
+						action="#{vtArtefactoView.limpiar}" update="artefacto,msg" />
+				</div>
+
+
+			</h:form>
+		</p:dialog>
+		
+		
+		</p:panel>
+	
+		
+
+	</ui:define>
+</ui:composition>
