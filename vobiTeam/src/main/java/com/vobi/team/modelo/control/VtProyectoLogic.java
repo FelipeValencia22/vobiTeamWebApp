@@ -274,7 +274,7 @@ public class VtProyectoLogic implements IVtProyectoLogic {
 	}
 
 	@Transactional(readOnly = true)
-	public List<VtProyectoDTO> getDataVtProyecto() throws Exception {
+	public List<VtProyectoDTO> getDataVtProyecto(Long codigoFiltro) throws Exception {
 		try {
 			List<VtProyecto> vtProyecto = vtProyectoDAO.findAll();
 
@@ -285,37 +285,40 @@ public class VtProyectoLogic implements IVtProyectoLogic {
 
 				if(vtProyectoTmp.getActivo().equalsIgnoreCase("S")){
 
-					vtProyectoDTO2.setProyCodigo(vtProyectoTmp.getProyCodigo());
+					if(vtProyectoTmp.getVtEmpresa().getEmprCodigo().equals(codigoFiltro)){
 
-					vtProyectoDTO2.setActivo((vtProyectoTmp.getActivo() != null)
-							? vtProyectoTmp.getActivo()+"i" : null);
+						vtProyectoDTO2.setProyCodigo(vtProyectoTmp.getProyCodigo());
 
-					vtProyectoDTO2.setDescripcion((vtProyectoTmp.getDescripcion() != null)
-							? vtProyectoTmp.getDescripcion() : null);
+						vtProyectoDTO2.setActivo((vtProyectoTmp.getActivo() != null)
+								? vtProyectoTmp.getActivo()+"i" : null);
 
-					vtProyectoDTO2.setFechaCreacion(vtProyectoTmp.getFechaCreacion());
+						vtProyectoDTO2.setDescripcion((vtProyectoTmp.getDescripcion() != null)
+								? vtProyectoTmp.getDescripcion() : null);
 
-					vtProyectoDTO2.setFechaModificacion(vtProyectoTmp.getFechaModificacion());
+						vtProyectoDTO2.setFechaCreacion(vtProyectoTmp.getFechaCreacion());
 
-					vtProyectoDTO2.setNombre((vtProyectoTmp.getNombre() != null)
-							? vtProyectoTmp.getNombre() : null);
+						vtProyectoDTO2.setFechaModificacion(vtProyectoTmp.getFechaModificacion());
 
-					vtProyectoDTO2.setPublico((vtProyectoTmp.getPublico() != null)
-							? vtProyectoTmp.getPublico() : null);
+						vtProyectoDTO2.setNombre((vtProyectoTmp.getNombre() != null)
+								? vtProyectoTmp.getNombre() : null);
 
-					vtProyectoDTO2.setUsuCreador((vtProyectoTmp.getUsuCreador() != null)
-							? vtProyectoTmp.getUsuCreador() : null);
+						vtProyectoDTO2.setPublico((vtProyectoTmp.getPublico() != null)
+								? vtProyectoTmp.getPublico() : null);
 
-					vtProyectoDTO2.setUsuModificador((vtProyectoTmp.getUsuModificador() != null)
-							? vtProyectoTmp.getUsuModificador() : null);
+						vtProyectoDTO2.setUsuCreador((vtProyectoTmp.getUsuCreador() != null)
+								? vtProyectoTmp.getUsuCreador() : null);
 
-					vtProyectoDTO2.setEmprCodigo_VtEmpresa((vtProyectoTmp.getVtEmpresa()
-							.getEmprCodigo() != null)
-							? vtProyectoTmp.getVtEmpresa().getEmprCodigo() : null);
+						vtProyectoDTO2.setUsuModificador((vtProyectoTmp.getUsuModificador() != null)
+								? vtProyectoTmp.getUsuModificador() : null);
 
-					vtProyectoDTO2.setNombre_VtEmpresa(vtProyectoTmp.getVtEmpresa().getNombre());
+						vtProyectoDTO2.setEmprCodigo_VtEmpresa((vtProyectoTmp.getVtEmpresa()
+								.getEmprCodigo() != null)
+								? vtProyectoTmp.getVtEmpresa().getEmprCodigo() : null);
 
-					vtProyectoDTO.add(vtProyectoDTO2);
+						vtProyectoDTO2.setNombre_VtEmpresa(vtProyectoTmp.getVtEmpresa().getNombre());
+
+						vtProyectoDTO.add(vtProyectoDTO2);
+					}
 				}
 			}
 
@@ -326,7 +329,7 @@ public class VtProyectoLogic implements IVtProyectoLogic {
 	}
 
 	@Transactional(readOnly = true)
-	public List<VtProyectoDTO> getDataVtProyectoInactivo() throws Exception {
+	public List<VtProyectoDTO> getDataVtProyectoInactivo(Long codigoFiltro) throws Exception {
 		try {
 			List<VtProyecto> vtProyecto = vtProyectoDAO.findAll();
 
@@ -337,37 +340,40 @@ public class VtProyectoLogic implements IVtProyectoLogic {
 
 				if(vtProyectoTmp.getActivo().equalsIgnoreCase("N")){
 
-					vtProyectoDTO2.setProyCodigo(vtProyectoTmp.getProyCodigo());
+					if(vtProyectoTmp.getVtEmpresa().getEmprCodigo().equals(codigoFiltro)){
 
-					vtProyectoDTO2.setActivo((vtProyectoTmp.getActivo() != null)
-							? vtProyectoTmp.getActivo()+"o" : null);
+						vtProyectoDTO2.setProyCodigo(vtProyectoTmp.getProyCodigo());
 
-					vtProyectoDTO2.setDescripcion((vtProyectoTmp.getDescripcion() != null)
-							? vtProyectoTmp.getDescripcion() : null);
+						vtProyectoDTO2.setActivo((vtProyectoTmp.getActivo() != null)
+								? vtProyectoTmp.getActivo()+"o" : null);
 
-					vtProyectoDTO2.setFechaCreacion(vtProyectoTmp.getFechaCreacion());
+						vtProyectoDTO2.setDescripcion((vtProyectoTmp.getDescripcion() != null)
+								? vtProyectoTmp.getDescripcion() : null);
 
-					vtProyectoDTO2.setFechaModificacion(vtProyectoTmp.getFechaModificacion());
+						vtProyectoDTO2.setFechaCreacion(vtProyectoTmp.getFechaCreacion());
 
-					vtProyectoDTO2.setNombre((vtProyectoTmp.getNombre() != null)
-							? vtProyectoTmp.getNombre() : null);
+						vtProyectoDTO2.setFechaModificacion(vtProyectoTmp.getFechaModificacion());
 
-					vtProyectoDTO2.setPublico((vtProyectoTmp.getPublico() != null)
-							? vtProyectoTmp.getPublico() : null);
+						vtProyectoDTO2.setNombre((vtProyectoTmp.getNombre() != null)
+								? vtProyectoTmp.getNombre() : null);
 
-					vtProyectoDTO2.setUsuCreador((vtProyectoTmp.getUsuCreador() != null)
-							? vtProyectoTmp.getUsuCreador() : null);
+						vtProyectoDTO2.setPublico((vtProyectoTmp.getPublico() != null)
+								? vtProyectoTmp.getPublico() : null);
 
-					vtProyectoDTO2.setUsuModificador((vtProyectoTmp.getUsuModificador() != null)
-							? vtProyectoTmp.getUsuModificador() : null);
+						vtProyectoDTO2.setUsuCreador((vtProyectoTmp.getUsuCreador() != null)
+								? vtProyectoTmp.getUsuCreador() : null);
 
-					vtProyectoDTO2.setEmprCodigo_VtEmpresa((vtProyectoTmp.getVtEmpresa()
-							.getEmprCodigo() != null)
-							? vtProyectoTmp.getVtEmpresa().getEmprCodigo() : null);
+						vtProyectoDTO2.setUsuModificador((vtProyectoTmp.getUsuModificador() != null)
+								? vtProyectoTmp.getUsuModificador() : null);
 
-					vtProyectoDTO2.setNombre_VtEmpresa(vtProyectoTmp.getVtEmpresa().getNombre());
+						vtProyectoDTO2.setEmprCodigo_VtEmpresa((vtProyectoTmp.getVtEmpresa()
+								.getEmprCodigo() != null)
+								? vtProyectoTmp.getVtEmpresa().getEmprCodigo() : null);
 
-					vtProyectoDTOI.add(vtProyectoDTO2);
+						vtProyectoDTO2.setNombre_VtEmpresa(vtProyectoTmp.getVtEmpresa().getNombre());
+
+						vtProyectoDTOI.add(vtProyectoDTO2);
+					}
 				}
 			}
 

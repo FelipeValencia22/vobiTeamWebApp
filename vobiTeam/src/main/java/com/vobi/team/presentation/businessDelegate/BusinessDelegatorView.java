@@ -644,12 +644,12 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
         return vtProyectoLogic.findTotalNumberVtProyecto();
     }
 
-    public List<VtProyectoDTO> getDataVtProyecto() throws Exception {
-        return vtProyectoLogic.getDataVtProyecto();
+    public List<VtProyectoDTO> getDataVtProyecto(Long codigoFiltro) throws Exception {
+        return vtProyectoLogic.getDataVtProyecto(codigoFiltro);
     }
     
-    public List<VtProyectoDTO> getDataVtProyectoInactivo() throws Exception {
-        return vtProyectoLogic.getDataVtProyectoInactivo(); 
+    public List<VtProyectoDTO> getDataVtProyectoInactivo(Long codigoFiltro) throws Exception {
+        return vtProyectoLogic.getDataVtProyectoInactivo(codigoFiltro); 
     }
 
 

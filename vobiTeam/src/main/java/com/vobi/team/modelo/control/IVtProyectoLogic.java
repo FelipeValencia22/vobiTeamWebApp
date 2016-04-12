@@ -52,7 +52,7 @@ public interface IVtProyectoLogic {
 
     public Long findTotalNumberVtProyecto() throws Exception;
 
-    public List<VtProyectoDTO> getDataVtProyecto() throws Exception;
+    public List<VtProyectoDTO> getDataVtProyecto(Long codigoFiltro) throws Exception;
     
-    public List<VtProyectoDTO> getDataVtProyectoInactivo() throws Exception;
+    public List<VtProyectoDTO> getDataVtProyectoInactivo(Long codigoFiltro) throws Exception;
 }

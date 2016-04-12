@@ -53,6 +53,7 @@ public class VtProyectoView implements Serializable{
 	private SelectOneMenu somPublicoCambio;
 	private SelectOneMenu somActivoCambio;
 	private SelectOneMenu somEmpresas;
+	private SelectOneMenu somEmpresasFiltro;
 	private SelectOneMenu somEmpresasCambio;
 
 	private CommandButton btnCrear;
@@ -106,6 +107,14 @@ public class VtProyectoView implements Serializable{
 
 	public void setTxtDescripcion(InputTextarea txtDescripcion) {
 		this.txtDescripcion = txtDescripcion;
+	}
+
+	public SelectOneMenu getSomEmpresasFiltro() {
+		return somEmpresasFiltro;
+	}
+
+	public void setSomEmpresasFiltro(SelectOneMenu somEmpresasFiltro) {
+		this.somEmpresasFiltro = somEmpresasFiltro;
 	}
 
 	public List<SelectItem> getEsPublicoItems() {
@@ -301,8 +310,9 @@ public class VtProyectoView implements Serializable{
 			businessDelegatorView.saveVtProyecto(vtProyecto);
 			limpiar();
 			FacesContext.getCurrentInstance().addMessage("", new FacesMessage("El proyecto se creo con exito"));
-			data = businessDelegatorView.getDataVtProyecto();
-			dataI = businessDelegatorView.getDataVtProyectoInactivo();
+			Long codigoFiltro = Long.valueOf(empresaS);
+			data = businessDelegatorView.getDataVtProyecto(codigoFiltro);
+			dataI = businessDelegatorView.getDataVtProyectoInactivo(codigoFiltro);
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage("", new FacesMessage(e.getMessage()));
 		}
@@ -340,14 +350,15 @@ public class VtProyectoView implements Serializable{
 	private InputText txtProyCodigo;
 
 	public List<VtProyectoDTO> getData() {
-		try {
+		
+		/*try {
 			if (data == null) {
 				data = businessDelegatorView.getDataVtProyecto();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+*/
 		return data;
 	}
 
@@ -356,14 +367,14 @@ public class VtProyectoView implements Serializable{
 	}
 
 	public List<VtProyectoDTO> getDataI() {
-		try {
+		/*try {
 			if (dataI == null) {
 				dataI = businessDelegatorView.getDataVtProyectoInactivo();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+*/
 		return dataI;
 	}
 
@@ -506,11 +517,15 @@ public class VtProyectoView implements Serializable{
 			entity.setFechaModificacion(fechaModificacion);
 			VtUsuario vtUsuarioEnSession =  (VtUsuario) FacesUtils.getfromSession("vtUsuario");
 			entity.setUsuModificador(vtUsuarioEnSession.getUsuaCodigo());
+			
+			Long codigoFiltro=entity.getVtEmpresa().getEmprCodigo();
 
 			businessDelegatorView.updateVtProyecto(entity);
 			FacesUtils.addInfoMessage("El proyecto ha sido modificado con exito");
-			data = businessDelegatorView.getDataVtProyecto();
-			dataI = businessDelegatorView.getDataVtProyectoInactivo();
+			
+	
+			data = businessDelegatorView.getDataVtProyecto(codigoFiltro);
+			dataI = businessDelegatorView.getDataVtProyectoInactivo(codigoFiltro);
 		} catch (Exception e) {
 			data = null;
 			FacesUtils.addErrorMessage(e.getMessage());
@@ -543,10 +558,13 @@ public class VtProyectoView implements Serializable{
 			VtUsuario vtUsuarioEnSession =  (VtUsuario) FacesUtils.getfromSession("vtUsuario");
 			entity.setUsuModificador(vtUsuarioEnSession.getUsuaCodigo());
 			
+			Long codigoFiltro=entity.getVtEmpresa().getEmprCodigo();
+			
 			businessDelegatorView.updateVtProyecto(entity);
 			FacesUtils.addInfoMessage("El proyecto ha sido modificado con exito");
-			data = businessDelegatorView.getDataVtProyecto();
-			dataI = businessDelegatorView.getDataVtProyectoInactivo();
+		
+			data = businessDelegatorView.getDataVtProyecto(codigoFiltro);
+			dataI = businessDelegatorView.getDataVtProyectoInactivo(codigoFiltro);
 			
 			selectedVtProyecto=null;
 			entity=null;
@@ -556,6 +574,20 @@ public class VtProyectoView implements Serializable{
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
 
+		return "";
+	}
+	
+	public String filtrarEmpresa() {
+		try {
+			String empresaS = somEmpresasFiltro.getValue().toString().trim();
+			Long codigoFiltro = Long.valueOf(empresaS);
+			data=businessDelegatorView.getDataVtProyecto(codigoFiltro);
+			dataI=businessDelegatorView.getDataVtProyectoInactivo(codigoFiltro);
+			log.info(empresaS);
+		
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
 		return "";
 	}
 

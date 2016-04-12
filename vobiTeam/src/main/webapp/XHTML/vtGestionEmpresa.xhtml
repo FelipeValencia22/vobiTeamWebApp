@@ -89,6 +89,7 @@
 											actionListener="#{vtEmpresaView.action_edit}">
 											<f:attribute name="selectedVtEmpresa" value="#{vtEmpresa}" />
 										</p:commandButton>
+										<p:tooltip id="toolTipFadeM" for="btnEdit" value="Modificar" />
 									</div>
 								</p:column>
 
@@ -99,6 +100,7 @@
 											actionListener="#{vtEmpresaView.cambiarEstado}">
 											<f:attribute name="selectedVtEmpresa" value="#{vtEmpresa}" />
 										</p:commandButton>
+										<p:tooltip id="toolTipFadeC" for="btnEstado" value="Cambiar estado" />
 									</div>
 								</p:column>
 
@@ -156,6 +158,7 @@
 											actionListener="#{vtEmpresaView.action_edit}">
 											<f:attribute name="selectedVtEmpresa" value="#{vtEmpresa}" />
 										</p:commandButton>
+										<p:tooltip id="toolTipFadeMi" for="btnEdit" value="Modificar" />
 									</div>
 								</p:column>
 
@@ -166,6 +169,7 @@
 											actionListener="#{vtEmpresaView.cambiarEstado}">
 											<f:attribute name="selectedVtEmpresa" value="#{vtEmpresa}" />
 										</p:commandButton>
+										<p:tooltip id="toolTipFadeCi" for="btnEstado" value="Cambiar estado" />
 									</div>
 								</p:column>
 							</p:dataTable>

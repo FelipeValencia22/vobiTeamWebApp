@@ -201,7 +201,9 @@ public class VtSprintView implements Serializable {
 				List<VtProyecto> listaProyectos=businessDelegatorView.getVtProyecto();
 				esPilaProductoItems=new ArrayList<SelectItem>();
 				for (VtProyecto vtProyecto:listaProyectos) {
-					esPilaProductoItems.add(new SelectItem(vtProyecto.getProyCodigo(), vtProyecto.getNombre()));
+					if(vtProyecto.getActivo().equalsIgnoreCase("S")){
+						esPilaProductoItems.add(new SelectItem(vtProyecto.getProyCodigo(), vtProyecto.getNombre()));
+					}
 				}
 			}
 
@@ -532,7 +534,7 @@ public class VtSprintView implements Serializable {
 			FacesContext.getCurrentInstance().addMessage("", new FacesMessage("El sprint se creó con exito"));
 			dataFiltro=businessDelegatorView.getDataVtSprintFiltro(pilaCodigo);
 			dataFiltroI=businessDelegatorView.getDataVtSprintFiltroI(pilaCodigo);
-			limipiar();
+			action_clear();
 			vtSprint=null;
 		} catch (Exception e) {
 			log.error(e.getMessage());

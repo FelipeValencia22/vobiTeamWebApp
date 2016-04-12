@@ -43,6 +43,7 @@ public class VtPilaProductoView implements Serializable {
 	String proyectoSeleccionado;
 
 	private SelectOneMenu somEmpresas;
+	private SelectOneMenu somEmpresasCrear;
 	private SelectOneMenu somActivo;
 	private SelectOneMenu somActivoCrear;
 	private SelectOneMenu somActivoCambio;
@@ -189,6 +190,7 @@ public class VtPilaProductoView implements Serializable {
 	}
 
 	public List<SelectItem> getLosProyectosItems() {
+		/*
 		try {
 			if (losProyectosItems == null) {
 				List<VtProyecto> listaProyectos = businessDelegatorView.getVtProyecto();
@@ -203,6 +205,7 @@ public class VtPilaProductoView implements Serializable {
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}
+		*/
 		return losProyectosItems;
 	}
 
@@ -321,6 +324,14 @@ public class VtPilaProductoView implements Serializable {
 
 	public void setSomEmpresas(SelectOneMenu somEmpresas) {
 		this.somEmpresas = somEmpresas;
+	}
+
+	public SelectOneMenu getSomEmpresasCrear() {
+		return somEmpresasCrear;
+	}
+
+	public void setSomEmpresasCrear(SelectOneMenu somEmpresasCrear) {
+		this.somEmpresasCrear = somEmpresasCrear;
 	}
 
 	public CommandButton getBtnFiltrar() {
@@ -673,6 +684,37 @@ public class VtPilaProductoView implements Serializable {
 					for (VtProyecto vtProyecto:listaProyectos) {
 						if(vtProyecto.getActivo().equalsIgnoreCase("S") && vtProyecto.getVtEmpresa().getEmprCodigo().equals(vtEmpresa.getEmprCodigo())){
 							losProyectosFiltro.add(new SelectItem(vtProyecto.getNombre()));
+						}
+					}
+				}
+
+			}catch(Exception e) {
+				log.error(e.getMessage());
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+		return "";
+	}
+	
+	public String filtrarEmpresaCrear(){
+		try {
+			VtEmpresa vtEmpresa=null;
+			losProyectosItems=null;
+			String empresaS=somEmpresasCrear.getValue().toString().trim();
+			if(empresaS.isEmpty() || empresaS.equals("-1")){
+			}else{
+				Long empresa=Long.parseLong(empresaS);
+				vtEmpresa=businessDelegatorView.getVtEmpresa(empresa);
+			}
+
+			try{
+				if(losProyectosItems==null){
+					List<VtProyecto> listaProyectos=businessDelegatorView.getVtProyecto();
+					losProyectosItems=new ArrayList<SelectItem>();
+					for (VtProyecto vtProyecto:listaProyectos) {
+						if(vtProyecto.getActivo().equalsIgnoreCase("S") && vtProyecto.getVtEmpresa().getEmprCodigo().equals(vtEmpresa.getEmprCodigo())){
+							losProyectosItems.add(new SelectItem(vtProyecto.getProyCodigo(),vtProyecto.getNombre()));
 						}
 					}
 				}
