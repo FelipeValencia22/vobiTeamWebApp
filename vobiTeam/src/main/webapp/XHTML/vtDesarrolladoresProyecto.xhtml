@@ -1,0 +1,56 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+			onsuccess="PF('statusDialog').hide()" />
+		<p:dialog modal="true" widgetVar="statusDialog" header="Loading"
+			draggable="false" closable="false">
+			<p:graphicImage
+				value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+		</p:dialog>
+
+		<!-- Expired session -->
+		<p:idleMonitor onactive="PF('sessionTimeOutDialog').show();"
+			timeout="#{session.maxInactiveInterval * 1000}" />
+		<p:dialog modal="true" widgetVar="sessionTimeOutDialog"
+			header="La sesión ha expirado" draggable="false" closable="false">
+			<h:outputText value="La sesión esta terminada" />
+			<input id="confirmBackToLogin" type="button" value="Ingresar"
+				onclick="window.location='#{facesContext.externalContext.requestContextPath}/index.jsp';" />
+		</p:dialog>
+
+		<h:form id="formDialog1">
+
+			<p:growl id="growl" />
+
+			<br></br>
+
+			<p:panel header="ASIGNAR DESARROLLADORES A PROYECTO">
+
+				<h:panelGrid columns="1">
+					<p:selectOneMenu id="somProyectos"
+						binding="#{vtProyectoUsuariosView.somProyectos}"
+						onchange="submit()"
+						valueChangeListener="#{vtProyectoUsuariosView.localeChanged}">
+						<f:selectItem itemValue="-1" itemLabel="Proyecto" />
+						<f:selectItems value="#{vtProyectoUsuariosView.losProyectosItems}" />
+					</p:selectOneMenu>
+
+					<br></br>
+				</h:panelGrid>
+
+			</p:panel>
+
+
+		</h:form>
+		<br></br>
+
+
+
+	</ui:define>
+</ui:composition>
+

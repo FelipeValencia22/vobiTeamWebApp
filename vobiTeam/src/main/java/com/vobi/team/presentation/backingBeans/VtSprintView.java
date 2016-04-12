@@ -708,8 +708,6 @@ public class VtSprintView implements Serializable {
 					if(lasPilasDeProductoFiltro==null){
 						List<VtPilaProducto> listaPilasDeProducto=businessDelegatorView.getVtPilaProducto();
 						lasPilasDeProductoFiltro= new ArrayList<SelectItem>();
-						System.out.println(proyectoS);
-						System.out.println(vtProyecto.getProyCodigo());
 						for (VtPilaProducto vtPilaProducto:listaPilasDeProducto){
 							if(vtPilaProducto.getActivo().equalsIgnoreCase("S") && vtPilaProducto.getVtProyecto().getProyCodigo().equals(vtProyecto.getProyCodigo())){
 								lasPilasDeProductoFiltro.add(new SelectItem(vtPilaProducto.getPilaCodigo(), vtPilaProducto.getNombre()));
@@ -756,17 +754,28 @@ public class VtSprintView implements Serializable {
 		selectedVtSprint = (VtSprintDTO) (evt.getComponent().getAttributes()
 				.get("selectedVtSprint"));
 
+		boolean artefactosActivos=false;
+
 		try {
-			Long spriCodigo = null;
-			if (entity == null) {
-				spriCodigo = new Long(selectedVtSprint.getSpriCodigo());
-				entity = businessDelegatorView.getVtSprint(spriCodigo);
+			List<VtArtefacto> listavtArtefacto= businessDelegatorView.getVtArtefacto();
+			for(VtArtefacto vtArtefacto: listavtArtefacto){
+				if(vtArtefacto.getActivo().equalsIgnoreCase("S") 
+						&& vtArtefacto.getVtSprint().getSpriCodigo().equals(selectedVtSprint.getSpriCodigo())){
+					artefactosActivos=true;
+				}
 			}
+		} catch (Exception ee) {
+			ee.printStackTrace();
+			log.error(ee.toString());
+		}
 
-			dataActivo=null;
-			dataActivo=businessDelegatorView.getDataVtArtefactoActivo(spriCodigo);
-
-			if(dataActivo==null){
+		if(!artefactosActivos){
+			try {
+				Long spriCodigo = null;
+				if (entity == null) {
+					spriCodigo = new Long(selectedVtSprint.getSpriCodigo());
+					entity = businessDelegatorView.getVtSprint(spriCodigo);
+				}
 
 				String cambioActivo=entity.getActivo().toString().trim();
 				if (cambioActivo.equalsIgnoreCase("S")) {
@@ -791,14 +800,14 @@ public class VtSprintView implements Serializable {
 				selectedVtSprint=null;
 				entity=null;
 
+
+			}catch (Exception e) {
+				data = null;
+				log.error(e.toString());
+				FacesUtils.addErrorMessage(e.getMessage());
 			}
-			else{
-				FacesUtils.addInfoMessage("No se puede cambiar el estado porque tiene artefactos activos");
-			} 
-		}catch (Exception e) {
-			data = null;
-			log.error(e.toString());
-			FacesUtils.addErrorMessage(e.getMessage());
+		}else{
+			FacesContext.getCurrentInstance().addMessage("", new FacesMessage("No se puede cambiar el estado porque aún tiene artefactos activos"));
 		}
 
 		return "";

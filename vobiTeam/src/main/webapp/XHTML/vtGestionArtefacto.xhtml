@@ -148,6 +148,7 @@
 										actionListener="#{vtArtefactoView.modificar}">
 										<f:attribute name="selectedVtArtefacto" value="#{vtArtefacto}" />
 									</p:commandButton>
+									<p:tooltip id="toolTipFadeM" for="btnEdit" value="Modificar" />
 								</div>
 							</p:column>
 
@@ -158,6 +159,7 @@
 										actionListener="#{vtArtefactoView.cambiarEstado}">
 										<f:attribute name="selectedVtArtefacto" value="#{vtArtefacto}" />
 									</p:commandButton>
+									<p:tooltip id="toolTipFadeC" for="btnEstado" value="Cambiar estado" />
 								</div>
 							</p:column>
 
@@ -168,6 +170,7 @@
 										actionListener="#{vtArtefactoView.filtrarArchivo}">
 										<f:attribute name="selectedVtArtefacto" value="#{vtArtefacto}" />
 									</p:commandButton>
+									<p:tooltip id="toolTipFadeA" for="btnDescargar" value="Mostrar archivos" />
 								</div>
 							</p:column>
 
@@ -178,6 +181,7 @@
 										actionListener="#{vtArtefactoView.filtrarVersionHistorialView}">
 										<f:attribute name="selectedVtArtefacto" value="#{vtArtefacto}" />
 									</p:commandButton>
+									<p:tooltip id="toolTipFadeH" for="btnHistorial" value="Historial" />
 								</div>
 							</p:column>
 
@@ -268,6 +272,7 @@
 										actionListener="#{vtArtefactoView.modificar}">
 										<f:attribute name="selectedVtArtefacto" value="#{vtArtefacto}" />
 									</p:commandButton>
+									<p:tooltip id="toolTipFadeMi" for="btnEdit" value="Modificar" />
 								</div>
 							</p:column>
 
@@ -278,6 +283,7 @@
 										actionListener="#{vtArtefactoView.cambiarEstado}">
 										<f:attribute name="selectedVtArtefacto" value="#{vtArtefacto}" />
 									</p:commandButton>
+									<p:tooltip id="toolTipFadeCi" for="btnEstado" value="Cambiar estado" />
 								</div>
 							</p:column>
 
@@ -288,6 +294,7 @@
 										actionListener="#{vtArtefactoView.filtrarArchivo}">
 										<f:attribute name="selectedVtArtefacto" value="#{vtArtefacto}" />
 									</p:commandButton>
+									<p:tooltip id="toolTipFadeAi" for="btnDescargar" value="Mostrar archivos" />
 								</div>
 							</p:column>
 
@@ -298,6 +305,7 @@
 										actionListener="#{vtArtefactoView.filtrarVersionHistorialView}">
 										<f:attribute name="selectedVtArtefacto" value="#{vtArtefacto}" />
 									</p:commandButton>
+									<p:tooltip id="toolTipFadeHi" for="btnHistorial" value="Historial" />
 								</div>
 							</p:column>
 						</p:dataTable>
@@ -515,7 +523,7 @@
 
 		<p:dialog id="historialArtefactos" header="Historial del artefacto"
 			closable="false" rendered="true" modal="true" responsive=" true"
-			visible="#{vtArtefactoView.showDialogHistorial}" width="1500"
+			visible="#{vtArtefactoView.showDialogHistorial}" width="1000"
 			height="500">
 			<h:form id="msgHistorial">
 

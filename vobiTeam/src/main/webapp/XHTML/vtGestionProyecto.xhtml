@@ -39,17 +39,17 @@
 
 			</p:panel>
 
-
 			<p:panel id="pnlListaSprint" header="Lista de proyectos">
 				<h:panelGrid columns="1">
-				
-				<p:selectOneMenu id="somEmpresas" style="width:300px"
-						binding="#{vtProyectoView.somEmpresasFiltro}"> 
+
+					<p:selectOneMenu id="somEmpresas" style="width:300px"
+						binding="#{vtProyectoView.somEmpresasFiltro}">
 						<p:ajax update="@([id$=accordionPanelVtProyecto]" event="change"
 							listener="#{vtProyectoView.filtrarEmpresa}" />
 						<f:selectItem itemValue="-1" itemLabel="Empresa" />
 						<f:selectItems value="#{vtProyectoView.lasEmpresasItems}" />
 					</p:selectOneMenu>
+
 
 					<p:accordionPanel id="accordionPanelVtProyecto" multiple="true">
 						<p:growl id="men" />
@@ -76,14 +76,6 @@
 										</f:facet>
 										<h:outputText value="#{vtProyecto.nombre_VtEmpresa}" />
 									</p:column>
-									
-									<p:column filterBy="#{vtProyecto.nombre}"
-										sortBy="#{vtProyecto.nombre}">
-										<f:facet name="header">
-											<h:outputText value="Nombre proyecto" />
-										</f:facet>
-										<h:outputText value="#{vtProyecto.nombre}" />
-									</p:column>
 
 									<p:column filterBy="#{vtProyecto.publico}"
 										sortBy="#{vtProyecto.publico}">
@@ -93,7 +85,13 @@
 										<h:outputText value="#{vtProyecto.publico}" />
 									</p:column>
 
-									
+									<p:column filterBy="#{vtProyecto.nombre}"
+										sortBy="#{vtProyecto.nombre}">
+										<f:facet name="header">
+											<h:outputText value="Nombre proyecto" />
+										</f:facet>
+										<h:outputText value="#{vtProyecto.nombre}" />
+									</p:column>
 
 									<p:column filterBy="#{vtProyecto.activo}"
 										sortBy="#{vtProyecto.activo}">
@@ -120,8 +118,8 @@
 												update=":dialogVtProyecto"
 												actionListener="#{vtProyectoView.action_edit}">
 												<f:attribute name="selectedVtProyecto" value="#{vtProyecto}" />
-												<p:tooltip id="toolTipFadeM" for="btnEdit" value="Modificar" />
 											</p:commandButton>
+											<p:tooltip id="toolTipFadeM" for="btnEdit" value="Modificar" />
 										</div>
 									</p:column>
 
@@ -133,7 +131,8 @@
 												actionListener="#{vtProyectoView.cambiarEstado}">
 												<f:attribute name="selectedVtProyecto" value="#{vtProyecto}" />
 											</p:commandButton>
-											<p:tooltip id="toolTipFadeC" for="btnEstado" value="Cambiar estado" />
+											<p:tooltip id="toolTipFadeC" for="btnEstado"
+												value="Cambiar estado" />
 										</div>
 									</p:column>
 
@@ -164,15 +163,15 @@
 										</f:facet>
 										<h:outputText value="#{vtProyecto.nombre_VtEmpresa}" />
 									</p:column>
-									
-									<p:column filterBy="#{vtProyecto.nombre}"
-										sortBy="#{vtProyecto.nombre}">
+
+									<p:column filterBy="#{vtProyecto.activo}"
+										sortBy="#{vtProyecto.activo}">
 										<f:facet name="header">
-											<h:outputText value="Nombre proyecto" />
+											<h:outputText value="Activo" />
 										</f:facet>
-										<h:outputText value="#{vtProyecto.nombre}" />
+										<h:outputText value="#{vtProyecto.activo}" />
 									</p:column>
-									
+
 									<p:column filterBy="#{vtProyecto.publico}"
 										sortBy="#{vtProyecto.publico}">
 										<f:facet name="header">
@@ -181,12 +180,12 @@
 										<h:outputText value="#{vtProyecto.publico}" />
 									</p:column>
 
-									<p:column filterBy="#{vtProyecto.activo}"
-										sortBy="#{vtProyecto.activo}">
+									<p:column filterBy="#{vtProyecto.nombre}"
+										sortBy="#{vtProyecto.nombre}">
 										<f:facet name="header">
-											<h:outputText value="Activo" />
+											<h:outputText value="Nombre proyecto" />
 										</f:facet>
-										<h:outputText value="#{vtProyecto.activo}" />
+										<h:outputText value="#{vtProyecto.nombre}" />
 									</p:column>
 
 									<p:column filterBy="#{vtProyecto.descripcion}"
@@ -218,7 +217,8 @@
 												actionListener="#{vtProyectoView.cambiarEstado}">
 												<f:attribute name="selectedVtProyecto" value="#{vtProyecto}" />
 											</p:commandButton>
-											<p:tooltip id="toolTipFadeCi" for="btnEstado" value="Cambiar estado" />
+											<p:tooltip id="toolTipFadeCi" for="btnEstado"
+												value="Cambiar estado" />
 										</div>
 									</p:column>
 
@@ -229,6 +229,10 @@
 					</p:accordionPanel>
 				</h:panelGrid>
 			</p:panel>
+
+
+
+		
 		</h:form>
 
 
@@ -243,27 +247,27 @@
 				<h:panelGrid columns="1">
 
 
-					<p:selectOneMenu id="somEmpresas" style="width:400px"
+					<p:selectOneMenu id="somEmpresas"
 						binding="#{vtProyectoView.somEmpresas}">
 						<f:selectItem itemValue="-1" itemLabel="Empresa" />
 						<f:selectItems value="#{vtProyectoView.lasEmpresasItems}" />
 					</p:selectOneMenu>
 
 					<p:inputText id="txtNombre" placeholder="Nombre"
-						style="width:400px" binding="#{vtProyectoView.txtNombreC}" />
+						binding="#{vtProyectoView.txtNombreC}" />
 
-					<p:inputTextarea id="txtDescripcion" rows="10" cols="64"
+					<p:inputTextarea id="txtDescripcion" rows="10" cols="33"
 						placeholder="Descripci&#243;n"
 						binding="#{vtProyectoView.txtDescripcionC}" />
 
-					<p:selectOneMenu id="somPublico" style="width:200px"
+					<p:selectOneMenu id="somPublico"
 						binding="#{vtProyectoView.somPublico}"
 						value="#{vtProyectoView.stringActivo}">
 						<f:selectItem itemValue="-1" itemLabel="Privacidad del Proyecto" />
 						<f:selectItems value="#{vtProyectoView.esPublicoItems}" />
 					</p:selectOneMenu>
 
-					<p:selectOneMenu id="somActivo" style="width:200px"
+					<p:selectOneMenu id="somActivo"
 						binding="#{vtProyectoView.somActivo}">
 						<f:selectItem itemValue="-1" itemLabel="Activo" />
 						<f:selectItems value="#{vtProyectoView.esActivoItems}" />
@@ -335,19 +339,20 @@
 
 					<h:panelGrid columns="2" id="panelGrid">
 
-						<h:outputText id="msgNombre" value=" Nombre" />
-						<p:inputText id="txtNombre" disabled="true"
-							binding="#{vtProyectoView.txtNombre}" />
 
-						<h:outputText id="msgDescripcion" value=" Descripcion" />
-						<p:inputTextarea id="txtDescripcion" disabled="true"
-							binding="#{vtProyectoView.txtDescripcion}" />
 
 						<h:outputText id="msgActivo" value=" Activo" />
 						<p:selectOneMenu id="somActivoCambio"
 							binding="#{vtProyectoView.somActivoCambio}">
 							<f:selectItem itemValue="-1" itemLabel="Activo" />
 							<f:selectItems value="#{vtProyectoView.esActivoItems}" />
+						</p:selectOneMenu>
+
+						<h:outputText id="msgSomEmpresa" value=" Empresa" />
+						<p:selectOneMenu id="somEmpresasCambio"
+							binding="#{vtProyectoView.somEmpresasCambio}">
+							<f:selectItem itemValue="-1" itemLabel="Empresa" />
+							<f:selectItems value="#{vtProyectoView.lasEmpresasItems}" />
 						</p:selectOneMenu>
 
 						<h:outputText id="msgPublico" value="Privacidad" />
@@ -357,7 +362,13 @@
 							<f:selectItems value="#{vtProyectoView.esPublicoItems}" />
 						</p:selectOneMenu>
 
+						<h:outputText id="msgNombre" value=" Nombre" />
+						<p:inputText id="txtNombre" disabled="true"
+							binding="#{vtProyectoView.txtNombre}" />
 
+						<h:outputText id="msgDescripcion" value=" Descripcion" />
+						<p:inputTextarea id="txtDescripcion" disabled="true"
+							binding="#{vtProyectoView.txtDescripcion}" />
 
 
 

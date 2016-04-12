@@ -24,7 +24,7 @@
 		</p:dialog>
 
 		<h:form id="frm">
-			<p:growl id="growl" showDetail="true" />
+			<p:growl id="growl"/>
 
 			<p:panel id="pnlListaSprint" header="SPRINT">
 				<br></br>
@@ -132,6 +132,7 @@
 										actionListener="#{vtSprintView.modificar}">
 										<f:attribute name="selectedVtSprint" value="#{vtSprint}" />
 									</p:commandButton>
+									<p:tooltip id="toolTipFadeM" for="btnEdit" value="Modificar" />
 								</div>
 							</p:column>
 
@@ -143,6 +144,7 @@
 										actionListener="#{vtSprintView.cambiarEstado}">
 										<f:attribute name="selectedVtSprint" value="#{vtSprint}" />
 									</p:commandButton>
+									<p:tooltip id="toolTipFadeC" for="btnEstado" value="Cambiar estado" />
 								</div>
 							</p:column>
 						</p:dataTable>
@@ -215,6 +217,7 @@
 										actionListener="#{vtSprintView.modificar}">
 										<f:attribute name="selectedVtSprint" value="#{vtSprint}" />
 									</p:commandButton>
+									<p:tooltip id="toolTipFadeMi" for="btnEdit" value="Modificar" />
 								</div>
 							</p:column>
 
@@ -225,6 +228,7 @@
 										actionListener="#{vtSprintView.cambiarEstado}">
 										<f:attribute name="selectedVtSprint" value="#{vtSprint}" />
 									</p:commandButton>
+									<p:tooltip id="toolTipFadeCi" for="btnEstado" value="Cambiar estado" />
 								</div>
 							</p:column>
 
@@ -240,7 +244,6 @@
 			closable="false" visible="#{vtSprintView.showDialog}"
 			resizable="false" modal="true" width="500">
 			<h:form id="formDialog">
-				<p:messages id="msg" />
 				<p:panel id="panelVtSprint" header="Sprint">
 					<h:panelGrid columns="2" id="panelGrid">
 
