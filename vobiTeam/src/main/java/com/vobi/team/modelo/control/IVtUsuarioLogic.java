@@ -2,6 +2,7 @@ package com.vobi.team.modelo.control;
 
 import com.vobi.team.modelo.VtProyecto;
 import com.vobi.team.modelo.VtUsuario;
+import com.vobi.team.modelo.VtUsuarioRol;
 import com.vobi.team.modelo.dto.VtUsuarioDTO;
 
 import java.math.BigDecimal;
@@ -66,4 +67,6 @@ public interface IVtUsuarioLogic {
     public List<VtUsuario> obtenerUsuariosAsignados(VtProyecto vtproyecto) throws Exception;
     
     public List<VtUsuario> obtenerUsuariosNoAsignados(VtProyecto vtproyecto) throws Exception;
+    
+   
 }

@@ -19,13 +19,27 @@
   
   <query name="consultarEmpresaPorId">
   <![CDATA[
-  Select emp From VtEmpresa emp where emp.identificacion=:identificacion
+   Select emp From VtEmpresa emp where emp.identificacion=:identificacion
    ]]>
   </query>
   
   <query name="consultarProyectoUsuarioPorProyecto">
   <![CDATA[
   Select proyUsu From VtProyectoUsuario proyUsu where proyUsu.vtProyecto.proyCodigo=:proyectoCodigo 
+
+   ]]>
+  </query>
+  
+    <query name="consultarRolUsuarioPorUsuario">
+  <![CDATA[
+  Select rolUsu From VtUsuarioRol rolUsu where rolUsu.vtUsuario.usuaCodigo=:usuarioCodigo
+
+   ]]>
+  </query>
+  
+     <query name="consultarRolUsuarioPorUsuarioYPorRol">
+  <![CDATA[
+  Select rolUsu From VtUsuarioRol rolUsu where rolUsu.vtUsuario.usuaCodigo=:usuarioCodigo and rolUsu.vtRol.rolCodigo=:rolCodigo
 
    ]]>
   </query>
@@ -37,6 +51,28 @@
    ]]>
   </query>
   
-	
-	
+   <query name="consultarArtefactosSinAsignarASprint">
+  <![CDATA[
+  	Select artefactos from VtArtefacto artefactos where artefactos.vtSprint.spriCodigo is null
+   ]]>
+  </query>
+  
+     <query name="consultarTodosLosArtefactosAsignados">
+  <![CDATA[
+  	Select artefactos from VtArtefacto artefactos where artefactos.vtSprint.spriCodigo is not null
+   ]]>
+  </query>
+
+   <query name="artefactosPorPila">
+  <![CDATA[
+  	Select artefactos from VtArtefacto artefactos where artefactos.arteCodigo=:artecodigo  and artefactos.vtPilaProducto.pilaCodigo=:codigoPila
+   ]]>
+  </query>
+	  
+   <query name="consultarArtefactosAsignadosASprint">
+  <![CDATA[
+  	Select artefactos from VtArtefacto artefactos where artefactos.vtSprint.spriCodigo=:codigoSprint
+   ]]>
+  </query>
+  
 </hibernate-mapping>

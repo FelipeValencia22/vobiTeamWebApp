@@ -708,6 +708,8 @@ public class VtSprintView implements Serializable {
 					if(lasPilasDeProductoFiltro==null){
 						List<VtPilaProducto> listaPilasDeProducto=businessDelegatorView.getVtPilaProducto();
 						lasPilasDeProductoFiltro= new ArrayList<SelectItem>();
+						System.out.println(proyectoS);
+						System.out.println(vtProyecto.getProyCodigo());
 						for (VtPilaProducto vtPilaProducto:listaPilasDeProducto){
 							if(vtPilaProducto.getActivo().equalsIgnoreCase("S") && vtPilaProducto.getVtProyecto().getProyCodigo().equals(vtProyecto.getProyCodigo())){
 								lasPilasDeProductoFiltro.add(new SelectItem(vtPilaProducto.getPilaCodigo(), vtPilaProducto.getNombre()));
@@ -754,28 +756,17 @@ public class VtSprintView implements Serializable {
 		selectedVtSprint = (VtSprintDTO) (evt.getComponent().getAttributes()
 				.get("selectedVtSprint"));
 
-		boolean artefactosActivos=false;
-
 		try {
-			List<VtArtefacto> listavtArtefacto= businessDelegatorView.getVtArtefacto();
-			for(VtArtefacto vtArtefacto: listavtArtefacto){
-				if(vtArtefacto.getActivo().equalsIgnoreCase("S") 
-						&& vtArtefacto.getVtSprint().getSpriCodigo().equals(selectedVtSprint.getSpriCodigo())){
-					artefactosActivos=true;
-				}
+			Long spriCodigo = null;
+			if (entity == null) {
+				spriCodigo = new Long(selectedVtSprint.getSpriCodigo());
+				entity = businessDelegatorView.getVtSprint(spriCodigo);
 			}
-		} catch (Exception ee) {
-			ee.printStackTrace();
-			log.error(ee.toString());
-		}
 
-		if(!artefactosActivos){
-			try {
-				Long spriCodigo = null;
-				if (entity == null) {
-					spriCodigo = new Long(selectedVtSprint.getSpriCodigo());
-					entity = businessDelegatorView.getVtSprint(spriCodigo);
-				}
+			dataActivo=null;
+			dataActivo=businessDelegatorView.getDataVtArtefactoActivo(spriCodigo);
+
+			if(dataActivo==null){
 
 				String cambioActivo=entity.getActivo().toString().trim();
 				if (cambioActivo.equalsIgnoreCase("S")) {
@@ -800,16 +791,34 @@ public class VtSprintView implements Serializable {
 				selectedVtSprint=null;
 				entity=null;
 
-
-			}catch (Exception e) {
-				data = null;
-				log.error(e.toString());
-				FacesUtils.addErrorMessage(e.getMessage());
 			}
-		}else{
-			FacesContext.getCurrentInstance().addMessage("", new FacesMessage("No se puede cambiar el estado porque aún tiene artefactos activos"));
+			else{
+				FacesUtils.addInfoMessage("No se puede cambiar el estado porque tiene artefactos activos");
+			} 
+		}catch (Exception e) {
+			data = null;
+			log.error(e.toString());
+			FacesUtils.addErrorMessage(e.getMessage());
 		}
 
+		return "";
+	}
+	
+	public String redireccionarAArtefactos(ActionEvent evt){
+		try {
+		selectedVtSprint = (VtSprintDTO) (evt.getComponent().getAttributes()
+				.get("selectedVtSprint"));		
+		String sprint = selectedVtSprint.getSpriCodigo().toString().trim();
+		Long idSprint = Long.parseLong(sprint);
+		
+			VtSprint vtSprint = businessDelegatorView.getVtSprint(idSprint);
+			FacesUtils.putinSession("vtSprint", vtSprint);
+			selectedVtSprint = null;
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			e.printStackTrace();
+		}
+		
 		return "";
 	}
 

@@ -170,7 +170,7 @@
 										actionListener="#{vtArtefactoView.filtrarArchivo}">
 										<f:attribute name="selectedVtArtefacto" value="#{vtArtefacto}" />
 									</p:commandButton>
-									<p:tooltip id="toolTipFadeA" for="btnDescargar" value="Mostrar archivos" />
+									<p:tooltip id="toolTipFadeMa" for="btnDescargar" value="Mostrar archivos" />
 								</div>
 							</p:column>
 
@@ -254,16 +254,6 @@
 								</f:facet>
 								<h:outputText value="#{vtArtefacto.activo}" />
 							</p:column>
-							<!-- 
-							<p:column headerText="Modificar">
-								<div align="center">
-									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
-										update=":dialogVtArtefacto"
-										actionListener="#{vtArtefactoView.modificar}">
-										<f:attribute name="selectedVtArtefacto" value="#{vtArtefacto}" />
-									</p:commandButton>
-								</div>
-							</p:column>
  -->
 							<p:column headerText="Modificar">
 								<div align="center">
@@ -294,7 +284,7 @@
 										actionListener="#{vtArtefactoView.filtrarArchivo}">
 										<f:attribute name="selectedVtArtefacto" value="#{vtArtefacto}" />
 									</p:commandButton>
-									<p:tooltip id="toolTipFadeAi" for="btnDescargar" value="Mostrar archivos" />
+									<p:tooltip id="toolTipFadeMai" for="btnDescargar" value="Mostrar archivos" />
 								</div>
 							</p:column>
 
@@ -431,7 +421,7 @@
 
 
 
-		<p:dialog header="Subir artefacto" rendered="true" responsive="true"
+		<p:dialog header="Subir artefacto" rendered="true" responsive="true" 
 			resizable="true" position="center" widgetVar="dlgArchivo"
 			visible="#{vtArtefactoView.showDialog}" modal="true">
 			<h:form id="formDialogSubirArchivo">
@@ -439,7 +429,7 @@
 				<h:panelGrid id="archivosPanel" columns="1">
 					<p:fileUpload id="fileUpload" sequential="true"
 						fileUploadListener="#{vtArtefactoView.handleFileUpload}"
-						mode="advanced" update="formDialogSubirArchivo" multiple="true"
+						mode="advanced" update="msgArchivo" multiple="true"
 						label="Seleccionar" cancelLabel="Cancelar"
 						uploadLabel="Subir archivo(s)" dragdropsupport="false"
 						sizeLimit="5000000" />
@@ -523,7 +513,7 @@
 
 		<p:dialog id="historialArtefactos" header="Historial del artefacto"
 			closable="false" rendered="true" modal="true" responsive=" true"
-			visible="#{vtArtefactoView.showDialogHistorial}" width="1000"
+			visible="#{vtArtefactoView.showDialogHistorial}" width="1500"
 			height="500">
 			<h:form id="msgHistorial">
 
@@ -632,31 +622,23 @@
 		</p:dialog>
 
 		<p:dialog id="dialogArte" header="Crear artefacto" rendered="true"
-			responsive="true" widgetVar="dlg" height="420" modal="true"
-			width="900">
+			responsive="true" widgetVar="dlg" height="800" modal="true"
+			width="1000">
 			<h:form id="formDialogCrearArtefacto">
-				<h:panelGrid columns="2" id="panelGrid">
-
-					<h:panelGrid columns="2" id="artefactoIzq">
+				<h:panelGrid columns="2" id="panelGrid" rendered="true">
+					<h:panelGrid columns="2" id="artefactoIzq"  rendered="true">
 						<h:outputText id="msgTiposArtefacto" value="Tipos de artefacto" />
-						<p:selectOneMenu id="somTiposDeArtefactos" style="width:120px"
+						<p:selectOneMenu id="somTiposDeArtefactos" style="width:140px" rendered="true"
 							binding="#{vtArtefactoView.somTiposDeArtefactos}">
 							<f:selectItem itemValue="-1" itemLabel="Tipo de artefacto" />
 							<f:selectItems value="#{vtArtefactoView.esTipoArtefactoItems}" />
 						</p:selectOneMenu>
+						
 						<h:outputText id="msgPilaProducto" value="Pila de producto" />
-						<p:selectOneMenu id="somPilaProductoCrear" style="width:120px"
-							binding="#{vtArtefactoView.somPilaProductoCrear}">
-							<p:ajax update="somSprintsCrear" event="change"
-								listener="#{vtArtefactoView.imprimirValue}" />
+						<p:selectOneMenu id="somPilaProductoCrear" style="width:140px"
+							binding="#{vtArtefactoView.somPilaProductoCrear}">						
 							<f:selectItem itemValue="-1" itemLabel="Pila de producto" />
 							<f:selectItems value="#{vtArtefactoView.esPilaProductoItems}" />
-						</p:selectOneMenu>
-						<h:outputText id="msgSprint" value="Sprint" />
-						<p:selectOneMenu id="somSprintsCrear" style="width:120px"
-							binding="#{vtArtefactoView.somSprintsCrear}">
-							<f:selectItem itemValue="-1" itemLabel="Sprint" />
-							<f:selectItems value="#{vtArtefactoView.esSprintItems}" />
 						</p:selectOneMenu>
 						<h:outputText id="msgTitulo" value="Título" />
 						<p:inputText id="txtnombre" size="60" placeholder="Titulo"
@@ -665,26 +647,26 @@
 						<p:spacer />
 						<h:outputText id="msgDescripcion" value="Descripción" />
 						<p:inputTextarea id="txtAreaDescripcion" scrollHeight="30"
-							style="overflow:auto;" autoResize="false" rows="8" cols="60"
+							style="overflow:auto;" autoResize="false" rows="15" cols="60"
 							placeholder="Descripci&#243;n"
 							binding="#{vtArtefactoView.txtdescripcion}" />
 					</h:panelGrid>
 
 					<h:panelGrid id="artefactoDe" columns="2">
 						<h:outputText id="msgActivo" value="Activo" />
-						<p:selectOneMenu id="somActivo" style="width:120px"
+						<p:selectOneMenu id="somActivo" style="width:140px"
 							binding="#{vtArtefactoView.somActivo}">
 							<f:selectItem itemValue="-1" itemLabel="Activo" />
 							<f:selectItems value="#{vtArtefactoView.esActivoItems}" />
 						</p:selectOneMenu>
 						<h:outputText id="msgProridad" value="Prioridad" />
-						<p:selectOneMenu id="somPrioridades" style="width:120px"
+						<p:selectOneMenu id="somPrioridades" style="width:140px"
 							binding="#{vtArtefactoView.somPrioridades}">
 							<f:selectItem itemValue="-1" itemLabel="Prioridad" />
 							<f:selectItems value="#{vtArtefactoView.esPrioridadItems}" />
 						</p:selectOneMenu>
 						<h:outputText id="msgEstado" value="Estado" />
-						<p:selectOneMenu id="somEstados" style="width:120px"
+						<p:selectOneMenu id="somEstados" style="width:140px"
 							binding="#{vtArtefactoView.somEstados}">
 							<f:selectItem itemValue="-1" itemLabel="Estado" />
 							<f:selectItems value="#{vtArtefactoView.esEstadoItems}" />

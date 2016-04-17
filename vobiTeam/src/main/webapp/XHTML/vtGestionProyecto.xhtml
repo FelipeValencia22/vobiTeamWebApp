@@ -289,47 +289,6 @@
 			</h:form>
 		</p:dialog>
 
-
-		<p:dialog id="dialogVtProyectoUsuario" appendTo="@(body)"
-			draggable="true" closable="false"
-			visible="#{vtProyectoUsuariosView.showDialog}" resizable="false"
-			modal="true" width="800">
-			<h:form id="formDialogEdit">
-				<p:messages id="msg" />
-				<p:panel id="panelVtUsuario" header="Asignar usuarios">
-					<h:panelGrid columns="1" id="panelGrid">
-
-						<p:pickList id="pickList"
-							value="#{vtProyectoUsuariosView.vtUsuario}" var="usuario"
-							itemLabel="#{usuario}" itemValue="#{usuario}"
-							showSourceControls="true" showTargetControls="true"
-							showSourceFilter="true" showTargetFilter="true" responsive="true"
-							converter="usuarioPickListConverter">
-							<f:facet name="sourceCaption">Usuarios Disponibles</f:facet>
-							<f:facet name="targetCaption">Usuarios Asignados</f:facet>
-							<p:ajax event="transfer"
-								listener="#{vtProyectoUsuariosView.onTransfer}"
-								update="msg,pickList" />
-							<p:column>
-
-								<h:outputText value="#{usuario.nombre}" />
-							</p:column>
-						</p:pickList>
-					</h:panelGrid>
-				</p:panel>
-				<p:panel id="panelBotones">
-					<div align="center">
-						<p:commandButton id="btnExit" value="Salir"
-							action="#{vtProyectoUsuariosView.action_closeDialog()}"
-							update=":dialogVtProyectoUsuario" />
-					</div>
-				</p:panel>
-			</h:form>
-		</p:dialog>
-
-
-
-
 		<p:dialog id="dialogVtProyecto" appendTo="@(body)" draggable="true"
 			closable="false" visible="#{vtProyectoView.showDialog}"
 			resizable="false" modal="true" width="500">
@@ -392,4 +351,3 @@
 
 	</ui:define>
 </ui:composition>
-

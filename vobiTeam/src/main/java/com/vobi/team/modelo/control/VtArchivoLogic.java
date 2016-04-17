@@ -32,7 +32,7 @@ import java.util.Set;
 *
 */
 @Scope("singleton")
-@Service("VtArchivoLogic")
+@Service("VtArchivoLogic")// Probando git
 public class VtArchivoLogic implements IVtArchivoLogic {
     private static final Logger log = LoggerFactory.getLogger(VtArchivoLogic.class);
 

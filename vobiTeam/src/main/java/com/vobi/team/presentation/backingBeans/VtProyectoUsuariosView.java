@@ -121,19 +121,19 @@ public class VtProyectoUsuariosView implements Serializable {
 				vtProyectoUsuario.setFechaModificacion(new Date());
 				vtProyectoUsuario.setUsuModificador(vtUsuarioEnSession.getUsuaCodigo());
 				businessDelegatorView.updateVtProyectoUsuario(vtProyectoUsuario);
-			
+
 			}
 		} catch (Exception e) {
-			
+
 			log.error(e.getMessage());
 		}
 	}
 
 	public void removerProyecto(VtUsuario vtUsuario, VtProyecto vtProyecto) {
-	
+
 		try {
-			VtProyectoUsuario vtProyectoUsuario = businessDelegatorView
-					.consultarProyectoUsuarioPorProyectoYPorUsuario(vtProyecto.getProyCodigo(), vtUsuario.getUsuaCodigo());
+			VtProyectoUsuario vtProyectoUsuario = businessDelegatorView.consultarProyectoUsuarioPorProyectoYPorUsuario(
+					vtProyecto.getProyCodigo(), vtUsuario.getUsuaCodigo());
 			VtUsuario vtUsuarioEnSession = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
 			vtProyectoUsuario.setActivo("N");
 			vtProyectoUsuario.setFechaModificacion(new Date());
@@ -148,19 +148,15 @@ public class VtProyectoUsuariosView implements Serializable {
 	public void actualizarListaUsuarios() throws Exception {
 
 		try {
-		
-				Long idProyecto = Long.parseLong(somProyectos.getValue().toString().trim());
-				VtProyecto vtProyecto = businessDelegatorView.getVtProyecto(idProyecto);
+			Long idProyecto = Long.parseLong(somProyectos.getValue().toString().trim());
+			VtProyecto vtProyecto = businessDelegatorView.getVtProyecto(idProyecto);
 
-				log.info("Codigo del proyecto" + vtProyecto.getProyCodigo());
-				usuariosSource = businessDelegatorView.obtenerUsuariosNoAsignados(vtProyecto);
-				usuariosTarget = businessDelegatorView.obtenerUsuariosAsignados(vtProyecto);
-				vtUsuario.setSource(usuariosSource);
-				vtUsuario.setTarget(usuariosTarget);
-			
-			
-	
-		
+			log.info("Codigo del proyecto" + vtProyecto.getProyCodigo());
+			usuariosSource = businessDelegatorView.obtenerUsuariosNoAsignados(vtProyecto);
+			usuariosTarget = businessDelegatorView.obtenerUsuariosAsignados(vtProyecto);
+			vtUsuario.setSource(usuariosSource);
+			vtUsuario.setTarget(usuariosTarget);
+
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}
@@ -168,7 +164,7 @@ public class VtProyectoUsuariosView implements Serializable {
 	}
 
 	public void onTransfer(TransferEvent event) throws Exception {
-		
+
 		try {
 			StringBuilder builder = new StringBuilder();
 			Long idProyecto = Long.parseLong(somProyectos.getValue().toString().trim());
@@ -189,9 +185,6 @@ public class VtProyectoUsuariosView implements Serializable {
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage("No se pudo realizar la transferencia");
 		}
-		
-
-		
 
 	}
 
@@ -218,7 +211,7 @@ public class VtProyectoUsuariosView implements Serializable {
 	public void setSomProyectos(SelectOneMenu somProyectos) {
 		this.somProyectos = somProyectos;
 	}
- 
+
 	public List<SelectItem> getLosProyectosItems() {
 		try {
 			if (losProyectosItems == null) {
@@ -242,7 +235,7 @@ public class VtProyectoUsuariosView implements Serializable {
 		setProyectoSeleccionado(e.getNewValue().toString());
 		actualizarListaUsuarios();
 		setShowDialog(true);
-		
+
 	}
 
 	public boolean isShowDialog() {
@@ -253,12 +246,13 @@ public class VtProyectoUsuariosView implements Serializable {
 		this.showDialog = showDialog;
 	}
 
-	public String action_closeDialog() {		
+	public String action_closeDialog() {
 		setShowDialog(false);
 		somProyectos.setValue("-1");
 		return "";
 	}
-///////////////////////////////////////////////////////////////////////////////////////////////////
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////
 	public String action_Guardar() {
 
 		// Source

@@ -6,16 +6,16 @@ import com.vobi.team.exceptions.*;
 
 import com.vobi.team.modelo.*;
 import com.vobi.team.modelo.dto.VtUsuarioDTO;
-
+import com.vobi.team.send.email.IEnvioMensajePorEmail;
 import com.vobi.team.utilities.Utilities;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.context.annotation.Scope;
-
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
 import org.springframework.transaction.annotation.Propagation;
@@ -27,9 +27,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 
 /**
  * @author Zathura Code Generator http://zathuracode.org www.zathuracode.org
@@ -53,7 +57,8 @@ public class VtUsuarioLogic implements IVtUsuarioLogic {
 	 */
 	@Autowired
 	private IVtProyectoUsuarioDAO vtProyectoUsuarioDAO;
-
+	
+	private static BeanFactory beanFactory;
 	/**
 	 * DAO injected by Spring that manages VtUsuarioArtefacto entities
 	 *
@@ -139,11 +144,19 @@ public class VtUsuarioLogic implements IVtUsuarioLogic {
 				throw new Exception("El nombre es obligatorio");
 			}
 
-			if (entity.getVtEmpresa().toString().equals(null) || entity.getVtEmpresa().toString().equals("")
+			if (entity.getVtEmpresa().toString().equals(null) || entity.getVtEmpresa().toString().equals("-1")
 					|| entity.getVtEmpresa().toString().isEmpty()) {
 				throw new Exception("Seleccionar empresa");
 			}
 
+			VtUsuario usuarioSession = vtUsuarioDAO.findById(entity.getUsuCreador());
+			enviarMensajeAlCorreo(usuarioSession.getLogin(), entity.getLogin(), "Creación de cuenta",
+					"Bienvenido, se le informa que se le ha creado su cuenta para vobiTeam con los siguientes Datos \n1.Contraseña asignada : "
+							+ entity.getClave().toString().trim() + "\n2. Dirección de correo electrónico : "
+							+ entity.getLogin()
+							+ "\n\n\n Nota: Cualquier inquietud generar una no conformidad en www.vobiteam.com");
+			
+			
 			vtUsuarioDAO.save(entity);
 
 			log.debug("save VtUsuario successful");
@@ -153,6 +166,29 @@ public class VtUsuarioLogic implements IVtUsuarioLogic {
 		} finally {
 		}
 	}
+	
+	public void enviarMensajeAlCorreo(String from, String to, String subject, String body) throws Exception {
+		beanFactory = new ClassPathXmlApplicationContext("/applicationContext.xml");
+		IEnvioMensajePorEmail enviarMensajePorEmail = (IEnvioMensajePorEmail) beanFactory
+				.getBean(IEnvioMensajePorEmail.class);
+		log.info("Entro al metodo de enviar correos");
+		enviarMensajePorEmail.enviarMensaje(from, to, subject, body);
+		new Thread() {
+			@SuppressWarnings("unused")
+			public void enviaCorreos() throws Exception {
+				log.info("Enviando mensaje al correo");
+				try {
+					enviarMensajePorEmail.enviarMensaje(from, to, subject, body);
+				} catch (Exception e) {
+					log.error(e.getMessage());
+					FacesContext.getCurrentInstance().addMessage("", new FacesMessage(e.getMessage()));
+				}
+
+			}
+		}.start();
+
+	}
+
 
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public void deleteVtUsuario(VtUsuario entity) throws Exception {
@@ -276,7 +312,7 @@ public class VtUsuarioLogic implements IVtUsuarioLogic {
 				if (vtUsuarioTmp.getActivo().toString().trim().equalsIgnoreCase("S")) {
 					vtUsuarioDTOActivo.setUsuaCodigo(vtUsuarioTmp.getUsuaCodigo());
 
-					vtUsuarioDTOActivo.setActivo((vtUsuarioTmp.getActivo() != null) ? vtUsuarioTmp.getActivo() : null);
+					vtUsuarioDTOActivo.setActivo((vtUsuarioTmp.getActivo() != null) ? vtUsuarioTmp.getActivo()+"i" : null);
 
 					vtUsuarioDTOActivo.setClave((vtUsuarioTmp.getClave() != null) ? vtUsuarioTmp.getClave() : null);
 
@@ -326,7 +362,7 @@ public class VtUsuarioLogic implements IVtUsuarioLogic {
 					vtUsuarioDTOInactivo.setUsuaCodigo(vtUsuarioTmp.getUsuaCodigo());
 
 					vtUsuarioDTOInactivo
-							.setActivo((vtUsuarioTmp.getActivo() != null) ? vtUsuarioTmp.getActivo() : null);
+							.setActivo((vtUsuarioTmp.getActivo() != null) ? vtUsuarioTmp.getActivo()+"o" : null);
 
 					vtUsuarioDTOInactivo.setClave((vtUsuarioTmp.getClave() != null) ? vtUsuarioTmp.getClave() : null);
 
@@ -636,5 +672,6 @@ public class VtUsuarioLogic implements IVtUsuarioLogic {
 		}
 		return usuariosSource;
 	}
+
 
 }

@@ -9,6 +9,7 @@ import com.vobi.team.modelo.VtEmpresa;
 import com.vobi.team.modelo.VtProyectoUsuario;
 import com.vobi.team.modelo.VtRol;
 import com.vobi.team.modelo.VtUsuario;
+import com.vobi.team.modelo.VtUsuarioRol;
 
 
 /**
@@ -315,7 +316,12 @@ public interface Dao<T, PK extends Serializable> {
     public VtRol consultarRolPorNombre(String rolNombre);
     
     public List<VtProyectoUsuario> consultarProyectoUsuarioPorProyecto(Long proyectoCodigo);
-
+    
+    public List<VtArtefacto> consultarArtefactosSinAsignarASprint();
+    public List<VtArtefacto> consultarArtefactosAsignadosASprint(Long codigoSprint);
+    public VtArtefacto consultarArtefactosAsignadosASprintYPila(Long artecodigo,Long codigoPila);
+    public List<VtUsuarioRol> consultarRolUsuarioPorUsuario(Long usuarioCodigo);
+    public List<VtArtefacto> consultarTodosLosArtefactosAsignados();
     
     
 }

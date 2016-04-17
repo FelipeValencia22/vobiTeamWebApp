@@ -24,7 +24,7 @@
 		</p:dialog>
 
 		<h:form id="frm">
-			<p:growl id="growl"/>
+			<p:growl id="growl" />
 
 			<p:panel id="pnlListaSprint" header="SPRINT">
 				<br></br>
@@ -147,6 +147,17 @@
 									<p:tooltip id="toolTipFadeC" for="btnEstado" value="Cambiar estado" />
 								</div>
 							</p:column>
+
+							<p:column headerText="Lista artefactos">
+								<div align="center">
+									<p:commandButton id="btnListadoArtefacto" icon="fa fa-list"
+										action="vtGestionArtefacto.xhtml" update="frm"
+										actionListener="#{vtSprintView.redireccionarAArtefactos}">
+										<f:attribute name="selectedVtSprint" value="#{vtSprint}" />
+									</p:commandButton>
+									<p:tooltip id="toolTipFadeL" for="btnListadoArtefacto" value="Lista artefactos" />
+								</div>
+							</p:column>
 						</p:dataTable>
 					</p:panel>
 
@@ -232,6 +243,17 @@
 								</div>
 							</p:column>
 
+							<p:column headerText="Lista artefactos">
+								<div align="center">
+									<p:commandButton id="btnListadoArtefacto" icon="fa fa-list"
+										action="vtGestionArtefacto.xhtml" update="frm"
+										actionListener="#{vtSprintView.redireccionarAArtefactos}">
+										<f:attribute name="selectedVtSprint" value="#{vtSprint}" />
+									</p:commandButton>
+									<p:tooltip id="toolTipFadeLi" for="btnListadoArtefacto" value="Lista artefactos" />
+								</div>
+							</p:column>
+
 						</p:dataTable>
 					</p:panel>
 
@@ -244,6 +266,7 @@
 			closable="false" visible="#{vtSprintView.showDialog}"
 			resizable="false" modal="true" width="500">
 			<h:form id="formDialog">
+				<p:messages id="msg" />
 				<p:panel id="panelVtSprint" header="Sprint">
 					<h:panelGrid columns="2" id="panelGrid">
 

@@ -1,6 +1,7 @@
 package com.vobi.team.dataaccess.dao;
 
 import com.vobi.team.dataaccess.api.HibernateDaoImpl;
+import com.vobi.team.modelo.VtProyectoUsuario;
 import com.vobi.team.modelo.VtUsuarioRol;
 
 import org.hibernate.Query;
@@ -51,4 +52,13 @@ public class VtUsuarioRolDAO extends HibernateDaoImpl<VtUsuarioRol, Long>
         ApplicationContext ctx) {
         return (IVtUsuarioRolDAO) ctx.getBean("VtUsuarioRolDAO");
     }
+
+	@Override
+	public VtUsuarioRol consultarRolUsuarioPorUsuarioYPorRol(Long usuarioCodigo, Long rolCodigo) {
+		Query query = getSession().getNamedQuery("consultarRolUsuarioPorUsuarioYPorRol");
+		query.setParameter("usuarioCodigo", usuarioCodigo);
+		query.setParameter("rolCodigo", rolCodigo);
+		VtUsuarioRol vtUsuarioRol = (VtUsuarioRol) query.uniqueResult();
+		return vtUsuarioRol;
+	}
 }

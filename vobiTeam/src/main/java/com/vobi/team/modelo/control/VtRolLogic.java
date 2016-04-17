@@ -107,13 +107,12 @@ public class VtRolLogic implements IVtRolLogic {
 			// throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
 			// }
 
-			
 			VtRol rol = new VtRol();
 			rol.setActivo(entity.getActivo());
 			rol.setFechaCreacion(entity.getFechaCreacion());
 			rol.setRolNombre(entity.getRolNombre());
-			rol.setUsuCreador(entity.getUsuCreador());			
-			vtRolDAO.save(rol);	
+			rol.setUsuCreador(entity.getUsuCreador());
+			vtRolDAO.save(rol);
 
 			log.debug("save VtRol successful");
 		} catch (Exception e) {
@@ -176,7 +175,6 @@ public class VtRolLogic implements IVtRolLogic {
 				throw new Exception("Digite la fecha de creación");
 			}
 
-
 			if (entity.getRolNombre() == null) {
 				throw new Exception("Debe escribir un nombre para el rol");
 			}
@@ -189,7 +187,6 @@ public class VtRolLogic implements IVtRolLogic {
 			if (entity.getUsuCreador() == null) {
 				throw new Exception("El usuario creador debe existir");
 			}
-			
 
 			vtRolDAO.update(entity);
 
@@ -209,7 +206,7 @@ public class VtRolLogic implements IVtRolLogic {
 			List<VtRolDTO> vtRolDTO = new ArrayList<VtRolDTO>();
 
 			for (VtRol vtRolTmp : vtRol) {
-				if (vtRolTmp.getActivo().toString().trim().equalsIgnoreCase("S")){
+				if (vtRolTmp.getActivo().toString().trim().equalsIgnoreCase("S")) {
 					VtRolDTO vtRolDTO2 = new VtRolDTO();
 					vtRolDTO2.setRolCodigo(vtRolTmp.getRolCodigo());
 					vtRolDTO2.setActivo((vtRolTmp.getActivo() != null) ? vtRolTmp.getActivo() : null);
@@ -383,11 +380,11 @@ public class VtRolLogic implements IVtRolLogic {
 					if (booVariable.booleanValue()) {
 						tempWhere = (tempWhere.length() == 0)
 								? ("(model." + variable + " " + comparator + " \'" + value + "\' )")
-										: (tempWhere + " AND (model." + variable + " " + comparator + " \'" + value + "\' )");
+								: (tempWhere + " AND (model." + variable + " " + comparator + " \'" + value + "\' )");
 					} else {
 						tempWhere = (tempWhere.length() == 0)
 								? ("(model." + variable + " " + comparator + " " + value + " )")
-										: (tempWhere + " AND (model." + variable + " " + comparator + " " + value + " )");
+								: (tempWhere + " AND (model." + variable + " " + comparator + " " + value + " )");
 					}
 				}
 
@@ -408,8 +405,8 @@ public class VtRolLogic implements IVtRolLogic {
 					tempWhere = (tempWhere.length() == 0)
 							? ("(" + value + " " + comparator1 + " " + variable + " and " + variable + " " + comparator2
 									+ " " + value2 + " )")
-									: (tempWhere + " AND (" + value + " " + comparator1 + " " + variable + " and " + variable
-											+ " " + comparator2 + " " + value2 + " )");
+							: (tempWhere + " AND (" + value + " " + comparator1 + " " + variable + " and " + variable
+									+ " " + comparator2 + " " + value2 + " )");
 				}
 
 				j = j + 4;
@@ -438,8 +435,8 @@ public class VtRolLogic implements IVtRolLogic {
 
 					tempWhere = (tempWhere.length() == 0)
 							? ("(model." + variable + " between \'" + value + "\' and \'" + value2 + "\')")
-									: (tempWhere + " AND (model." + variable + " between \'" + value + "\' and \'" + value2
-											+ "\')");
+							: (tempWhere + " AND (model." + variable + " between \'" + value + "\' and \'" + value2
+									+ "\')");
 				}
 
 				k = k + 2;
@@ -460,6 +457,44 @@ public class VtRolLogic implements IVtRolLogic {
 		}
 
 		return list;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<VtRol> obtenerRolesAsignados(VtUsuario vtUsuario) throws Exception {
+		List<VtRol> rolesSoruces = getVtRol();
+
+		List<VtUsuarioRol> usuariosRoles = vtRolDAO.consultarRolUsuarioPorUsuario(vtUsuario.getUsuaCodigo());
+		List<VtRol> rolesTarget = new ArrayList<>();
+
+		if (usuariosRoles != null) {
+			for (VtRol vtRol : rolesSoruces) {
+				for (VtUsuarioRol vtUsuarioRol : usuariosRoles) {
+					if (vtRol.getRolNombre().toUpperCase().toString().trim().equalsIgnoreCase(
+							vtUsuarioRol.getVtRol().getRolNombre()) && vtUsuarioRol.getActivo().equals("S")) {
+						log.info("Usuario rol que entro " + vtUsuarioRol.getVtRol().getRolNombre());
+						rolesTarget.add(vtRol);
+					}
+				}
+			}
+		}
+
+		return rolesTarget;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<VtRol> obtenerRolesNoAsignados(VtUsuario vtUsuario) throws Exception {
+		List<VtRol> rolesSoruces = getVtRol();
+		List<VtUsuarioRol> usuariosRoles = vtRolDAO.consultarRolUsuarioPorUsuario(vtUsuario.getUsuaCodigo());
+		if (usuariosRoles != null) {
+			for (VtUsuarioRol vtUsuarioRol : usuariosRoles) {
+				if (vtUsuarioRol.getActivo().equals("S") == true) {
+					rolesSoruces.remove(vtUsuarioRol.getVtRol());
+				}
+			}
+		}
+		return rolesSoruces;
 	}
 
 }
