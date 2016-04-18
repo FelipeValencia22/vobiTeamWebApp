@@ -9,12 +9,15 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
 import org.primefaces.component.selectonemenu.SelectOneMenu;
 import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
+import org.primefaces.model.chart.Axis;
+import org.primefaces.model.chart.AxisType;
+import org.primefaces.model.chart.ChartSeries;
+import org.primefaces.model.chart.HorizontalBarChartModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,6 +38,8 @@ public class VtArtefactoSprintView implements Serializable {
 	private SelectOneMenu somSprints;
 	private List<SelectItem> losSprintsItems;
 	private String sprintSeleccionado;
+	private HorizontalBarChartModel horizontalBarModel;
+	VtSprint vtSprint=null;
 
 	List<VtArtefacto> artefactosSource;
 
@@ -44,13 +49,48 @@ public class VtArtefactoSprintView implements Serializable {
 
 	@ManagedProperty(value = "#{BusinessDelegatorView}")
 	private IBusinessDelegatorView businessDelegatorView;
-
+	
+	public HorizontalBarChartModel getHorizontalBarModel() {
+		return horizontalBarModel;
+	}
+	public void setHorizontalBarModel(HorizontalBarChartModel horizontalBarModel) {
+		this.horizontalBarModel = horizontalBarModel;
+	}
 	@PostConstruct
 	public void init() {
 		List<VtArtefacto> artefactosSource = new ArrayList<VtArtefacto>();
 		List<VtArtefacto> artefactosTarget = new ArrayList<VtArtefacto>();
 		vtArtefacto = new DualListModel<>(artefactosSource, artefactosTarget);
+
 	}
+	
+	private void createHorizontalBarModel() {
+        horizontalBarModel = new HorizontalBarChartModel();
+ 
+        ChartSeries boys = new ChartSeries();
+        boys.setLabel("Boys");
+        boys.set("2004", 50);
+        boys.set("2005", 96);
+        boys.set("2006", 44);
+        boys.set("2007", 55);
+        boys.set("2008", 25);
+ 
+        horizontalBarModel.addSeries(boys);
+         
+        horizontalBarModel.setTitle("Esfuerzo sprint");
+        horizontalBarModel.setLegendPosition("e");
+        horizontalBarModel.setStacked(true);
+        
+        Axis xAxis = horizontalBarModel.getAxis(AxisType.X);
+        xAxis.setLabel("Horas");
+        xAxis.setMin(0);
+        xAxis.setMax(200);
+       
+        
+        Axis yAxis = horizontalBarModel.getAxis(AxisType.Y);
+        yAxis.setLabel("Gender");        
+    }
+	
 	public void asignarArtefactoASprint(VtArtefacto vtArtefacto,VtSprint vtSprint, VtPilaProducto vtPilaProducto) {
 		try {
 			VtUsuario vtUsuarioEnSession = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
@@ -111,7 +151,7 @@ public class VtArtefactoSprintView implements Serializable {
 
 		try {
 			Long idSprint = Long.parseLong(somSprints.getValue().toString().trim());
-			VtSprint vtSprint = businessDelegatorView.getVtSprint(idSprint);
+			vtSprint = businessDelegatorView.getVtSprint(idSprint);
 
 			log.info("Codigo del sprint" + vtSprint.getSpriCodigo());
 
@@ -161,13 +201,15 @@ public class VtArtefactoSprintView implements Serializable {
 	public void localeChanged() throws Exception {
 		setSprintSeleccionado(somSprints.getValue().toString().trim());
 		actualizarListaUsuarios();
-
+		createHorizontalBarModel();
 	}
+	
 	public String action_closeDialog() {
 		setShowDialog(false);
 		somSprints.setValue("-1");
 		return "";
 	}
+	
 	public void setLosSprintsItems(List<SelectItem> losSprintsItems) {
 		this.losSprintsItems = losSprintsItems;
 	}

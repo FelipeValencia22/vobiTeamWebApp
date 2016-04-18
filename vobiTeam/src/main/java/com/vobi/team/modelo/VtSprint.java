@@ -1,5 +1,5 @@
 package com.vobi.team.modelo;
-// Generated Mar 1, 2016 5:26:24 PM by Hibernate Tools 4.3.1.Final
+// Generated 8/04/2016 12:30:16 AM by Hibernate Tools 4.3.1.Final
 
 
 import java.util.Date;
@@ -18,6 +18,8 @@ public class VtSprint  implements java.io.Serializable {
      private Date fechaInicio;
      private Date fechaFin;
      private String objetivo;
+     private Integer capacidadEstimada;
+     private Integer capacidadReal;
      private Date fechaCreacion;
      private Date fechaModificacion;
      private Long usuCreador;
@@ -37,13 +39,15 @@ public class VtSprint  implements java.io.Serializable {
         this.usuCreador = usuCreador;
         this.activo = activo;
     }
-    public VtSprint(Long spriCodigo, VtPilaProducto vtPilaProducto, String nombre, Date fechaInicio, Date fechaFin, String objetivo, Date fechaCreacion, Date fechaModificacion, Long usuCreador, Long usuModificador, String activo, Set<VtArtefacto> vtArtefactos) {
+    public VtSprint(Long spriCodigo, VtPilaProducto vtPilaProducto, String nombre, Date fechaInicio, Date fechaFin, String objetivo, Integer capacidadEstimada, Integer capacidadReal, Date fechaCreacion, Date fechaModificacion, Long usuCreador, Long usuModificador, String activo, Set<VtArtefacto> vtArtefactos) {
        this.spriCodigo = spriCodigo;
        this.vtPilaProducto = vtPilaProducto;
        this.nombre = nombre;
        this.fechaInicio = fechaInicio;
        this.fechaFin = fechaFin;
        this.objetivo = objetivo;
+       this.capacidadEstimada = capacidadEstimada;
+       this.capacidadReal = capacidadReal;
        this.fechaCreacion = fechaCreacion;
        this.fechaModificacion = fechaModificacion;
        this.usuCreador = usuCreador;
@@ -93,6 +97,20 @@ public class VtSprint  implements java.io.Serializable {
     
     public void setObjetivo(String objetivo) {
         this.objetivo = objetivo;
+    }
+    public Integer getCapacidadEstimada() {
+        return this.capacidadEstimada;
+    }
+    
+    public void setCapacidadEstimada(Integer capacidadEstimada) {
+        this.capacidadEstimada = capacidadEstimada;
+    }
+    public Integer getCapacidadReal() {
+        return this.capacidadReal;
+    }
+    
+    public void setCapacidadReal(Integer capacidadReal) {
+        this.capacidadReal = capacidadReal;
     }
     public Date getFechaCreacion() {
         return this.fechaCreacion;
