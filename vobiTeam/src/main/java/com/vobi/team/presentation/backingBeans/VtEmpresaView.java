@@ -15,6 +15,7 @@ import javax.faces.model.SelectItem;
 
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.inputtext.InputText;
+import org.primefaces.component.inputtextarea.InputTextarea;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,10 +35,10 @@ public class VtEmpresaView implements Serializable{
 
 	private static final Logger log = LoggerFactory.getLogger(VtEmpresaView.class);
 
-	private InputText txtId;
-	private InputText txtNombre;
-	private InputText txtIDCrear;
-	private InputText txtNombreCrear; 
+	private InputTextarea txtId;
+	private InputTextarea txtNombre;
+	private InputTextarea txtIDCrear;
+	private InputTextarea txtNombreCrear; 
 
 	private CommandButton btnCrear;
 	private CommandButton btnModificar;
@@ -68,19 +69,19 @@ public class VtEmpresaView implements Serializable{
 		super();
 	}
 
-	public InputText getTxtId() {
+	public InputTextarea getTxtId() {
 		return txtId;
 	}
 
-	public void setTxtId(InputText txtId) {
+	public void setTxtId(InputTextarea txtId) {
 		this.txtId = txtId;
 	}
 
-	public InputText getTxtNombre() {
+	public InputTextarea getTxtNombre() {
 		return txtNombre;
 	}
 
-	public void setTxtNombre(InputText txtNombre) {
+	public void setTxtNombre(InputTextarea txtNombre) {
 		this.txtNombre = txtNombre;
 	}
 
@@ -185,19 +186,19 @@ public class VtEmpresaView implements Serializable{
 		return somActivo;
 	}
 
-	public InputText getTxtIDCrear() {
+	public InputTextarea getTxtIDCrear() {
 		return txtIDCrear;
 	}
 
-	public void setTxtIDCrear(InputText txtIdCrear) {
+	public void setTxtIDCrear(InputTextarea txtIdCrear) {
 		this.txtIDCrear = txtIdCrear;
 	}
 
-	public InputText getTxtNombreCrear() {
+	public InputTextarea getTxtNombreCrear() {
 		return txtNombreCrear;
 	}
 
-	public void setTxtNombreCrear(InputText txtNombreCrear) {
+	public void setTxtNombreCrear(InputTextarea txtNombreCrear) {
 		this.txtNombreCrear = txtNombreCrear;
 	}
 

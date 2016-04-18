@@ -70,8 +70,8 @@
 									</f:facet>
 									<h:outputText value="#{vtEmpresa.nombre}" />
 								</p:column>
-								
-								
+
+
 								<p:column filterBy="#{vtEmpresa.activo}"
 									sortBy="#{vtEmpresa.activo}">
 									<f:facet name="header">
@@ -100,7 +100,8 @@
 											actionListener="#{vtEmpresaView.cambiarEstado}">
 											<f:attribute name="selectedVtEmpresa" value="#{vtEmpresa}" />
 										</p:commandButton>
-										<p:tooltip id="toolTipFadeC" for="btnEstado" value="Cambiar estado" />
+										<p:tooltip id="toolTipFadeC" for="btnEstado"
+											value="Cambiar estado" />
 									</div>
 								</p:column>
 
@@ -169,7 +170,8 @@
 											actionListener="#{vtEmpresaView.cambiarEstado}">
 											<f:attribute name="selectedVtEmpresa" value="#{vtEmpresa}" />
 										</p:commandButton>
-										<p:tooltip id="toolTipFadeCi" for="btnEstado" value="Cambiar estado" />
+										<p:tooltip id="toolTipFadeCi" for="btnEstado"
+											value="Cambiar estado" />
 									</div>
 								</p:column>
 							</p:dataTable>
@@ -183,30 +185,40 @@
 		<p:dialog header="Crear empresa" appendTo="@(body)" draggable="true"
 			widgetVar="dlg" resizable="false" modal="true" width="500">
 			<h:form id="formDialogCrear">
-				<p:messages id="msg" />
-					<h:panelGrid columns="1">
+				<h:panelGrid columns="1">
 
-						<p:inputText id="txtIDCrear" style="width:400px"
-							placeholder="Identificaci&#243;n o NIT"
-							binding="#{vtEmpresaView.txtIDCrear}">
-							<p:ajax listener="#{vtEmpresaView.txtIdListener}"
-								update="formDialogCrear" />
-						</p:inputText>
+					<p:inputTextarea id="txtIDCrear" rows="1" cols="30"
+						counter="display" maxlength="50" 
+						counterTemplate="{0} Caracteres restantes" style="width:400px" 
+						placeholder="Identificaci&#243;n o NIT"
+						binding="#{vtEmpresaView.txtIDCrear}">
+						<p:ajax listener="#{vtEmpresaView.txtIdListener}"
+							update="formDialogCrear" />
+					</p:inputTextarea>
+					<h:outputText id="display" />
 
-						<p:inputText id="txtNombreCrear" placeholder="Nombre" style="width:400px"
-							binding="#{vtEmpresaView.txtNombreCrear}" />
-					</h:panelGrid>
-					<br></br>
 
-					<p:commandButton id="btnCrear" icon="fa fa-save"
-						title="Crear empresa" binding="#{vtEmpresaView.btnCrear}"
-						action="#{vtEmpresaView.crearEmpresa}"
-						update="@([id$=pnlEmpresa],@([id$=growl], @([id$=dataTableVtEmpresaA]"
-						disabled="true" />
+					<p:inputTextarea id="txtNombreCrear" rows="1" cols="30"
+						counter="display2" maxlength="50"
+						counterTemplate="{0} Caracteres restantes" placeholder="Nombre"
+						style="width:400px" binding="#{vtEmpresaView.txtNombreCrear}" />
+				</h:panelGrid>
+				<h:outputText id="display2" />
 
-					<p:commandButton id="btnLimpiar" icon="fa fa-eraser"
-						title="Limpiar" binding="#{vtEmpresaView.btnLimpiar}"
-						action="#{vtEmpresaView.limpiar}" update="formDialogCrear" />
+				<br>
+				</br>
+
+				<p:commandButton id="btnCrear" icon="fa fa-save"
+					title="Crear empresa" binding="#{vtEmpresaView.btnCrear}"
+					action="#{vtEmpresaView.crearEmpresa}"
+					update="@([id$=pnlEmpresa],@([id$=growl], @([id$=dataTableVtEmpresaA]"
+					disabled="true" />
+
+				<p:commandButton id="btnLimpiar" icon="fa fa-eraser" title="Limpiar"
+					binding="#{vtEmpresaView.btnLimpiar}"
+					action="#{vtEmpresaView.limpiar}" update="formDialogCrear" />
+					
+				<br></br>
 
 			</h:form>
 		</p:dialog>
@@ -233,7 +245,8 @@
 						</p:selectOneMenu>
 
 						<h:outputText id="msgNombre" value=" Nombre" />
-						<p:inputText id="txtNombre" binding="#{vtEmpresaView.txtNombre}" />
+						<p:inputTextarea id="txtNombre"
+							binding="#{vtEmpresaView.txtNombre}" />
 
 					</h:panelGrid>
 				</p:panel>
