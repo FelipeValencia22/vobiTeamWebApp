@@ -822,4 +822,9 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 		return vtArtefactoDAO.consultarArtefactosAsignadosASprintYPila(artecodigo, codigoPila);
 	}
 
+	@Transactional(readOnly = true)
+	public List<VtArtefacto> consultarTodosLosArtefactosAsignados() throws Exception {		
+		return vtArtefactoDAO.consultarTodosLosArtefactosAsignados();
+	}
+
 }

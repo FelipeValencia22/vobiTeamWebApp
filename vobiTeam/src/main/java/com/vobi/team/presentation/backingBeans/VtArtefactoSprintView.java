@@ -127,6 +127,13 @@ public class VtArtefactoSprintView implements Serializable {
 			 }
 			
 			
+			vtArtefacto = (VtArtefacto) businessDelegatorView
+					.consultarArtefactosAsignadosASprintYPila(vtArtefacto.getArteCodigo(), vtPilaProducto.getPilaCodigo());
+			vtArtefacto.setUsuModificador(vtUsuarioEnSession.getUsuaCodigo());
+			vtArtefacto.setFechaModificacion(new Date());
+			vtArtefacto.setActivo("N");
+			vtArtefacto.setVtSprint(null);
+			businessDelegatorView.updateVtArtefacto(vtArtefacto);
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}

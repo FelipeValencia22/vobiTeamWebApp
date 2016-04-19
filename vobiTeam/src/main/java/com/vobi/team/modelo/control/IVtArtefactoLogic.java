@@ -66,4 +66,6 @@ public interface IVtArtefactoLogic {
     public List<VtArtefacto> consultarArtefactosAsignadosASprint(Long codigoSprint)throws Exception;
     
     public VtArtefacto consultarArtefactosAsignadosASprintYPila(Long artecodigo,Long codigoPila) throws Exception;
+    
+    public List<VtArtefacto> consultarTodosLosArtefactosAsignados() throws Exception;
 }

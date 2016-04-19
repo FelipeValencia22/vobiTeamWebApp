@@ -41,7 +41,6 @@
 					<p:growl id="men" />
 
 					<p:tab title="Empresas activas ">
-						<p:panel id="dataTableVtEmpresaA">
 
 							<p:dataTable id="dataTableVtEmpresa"
 								value="#{vtEmpresaView.data}" var="vtEmpresa" paginator="true"
@@ -106,13 +105,11 @@
 								</p:column>
 
 							</p:dataTable>
-						</p:panel>
 					</p:tab>
 
 					<br></br>
 
 					<p:tab title="Empresas inactivas ">
-						<p:panel id="dataTableVtEmpresaI">
 
 							<p:dataTable id="dataTableVtEmpresaIn"
 								value="#{vtEmpresaView.dataI}" var="vtEmpresa" paginator="true"
@@ -175,7 +172,6 @@
 									</div>
 								</p:column>
 							</p:dataTable>
-						</p:panel>
 					</p:tab>
 				</p:accordionPanel>
 			</p:panel>
@@ -211,7 +207,7 @@
 				<p:commandButton id="btnCrear" icon="fa fa-save"
 					title="Crear empresa" binding="#{vtEmpresaView.btnCrear}"
 					action="#{vtEmpresaView.crearEmpresa}"
-					update="@([id$=pnlEmpresa],@([id$=growl], @([id$=dataTableVtEmpresaA]"
+					update="@([id$=pnlEmpresa],@([id$=growl], @([id$=panelDataTableVtEmpresa]"
 					disabled="true" />
 
 				<p:commandButton id="btnLimpiar" icon="fa fa-eraser" title="Limpiar"

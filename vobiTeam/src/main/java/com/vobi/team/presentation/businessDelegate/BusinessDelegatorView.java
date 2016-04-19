@@ -1069,4 +1069,9 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return vtUsuarioRolLogic.consultarRolUsuarioPorUsuarioYPorRol(usuarioId, rolId);
 	}
 
+	@Override
+	public List<VtArtefacto> consultarTodosLosArtefactosAsignados() throws Exception {
+		return vtArtefactoLogic.consultarTodosLosArtefactosAsignados();
+	}
+
 }
