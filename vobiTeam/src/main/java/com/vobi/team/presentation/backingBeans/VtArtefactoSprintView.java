@@ -14,10 +14,7 @@ import javax.faces.model.SelectItem;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
 import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
-import org.primefaces.model.chart.Axis;
-import org.primefaces.model.chart.AxisType;
-import org.primefaces.model.chart.ChartSeries;
-import org.primefaces.model.chart.HorizontalBarChartModel;
+import org.primefaces.model.chart.MeterGaugeChartModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,8 +35,9 @@ public class VtArtefactoSprintView implements Serializable {
 	private SelectOneMenu somSprints;
 	private List<SelectItem> losSprintsItems;
 	private String sprintSeleccionado;
-	private HorizontalBarChartModel horizontalBarModel;
 	VtSprint vtSprint=null;
+
+	private MeterGaugeChartModel meterGaugeModel;
 
 	List<VtArtefacto> artefactosSource;
 
@@ -49,167 +47,15 @@ public class VtArtefactoSprintView implements Serializable {
 
 	@ManagedProperty(value = "#{BusinessDelegatorView}")
 	private IBusinessDelegatorView businessDelegatorView;
-	
-	public HorizontalBarChartModel getHorizontalBarModel() {
-		return horizontalBarModel;
-	}
-	public void setHorizontalBarModel(HorizontalBarChartModel horizontalBarModel) {
-		this.horizontalBarModel = horizontalBarModel;
-	}
-	@PostConstruct
-	public void init() {
-		List<VtArtefacto> artefactosSource = new ArrayList<VtArtefacto>();
-		List<VtArtefacto> artefactosTarget = new ArrayList<VtArtefacto>();
-		vtArtefacto = new DualListModel<>(artefactosSource, artefactosTarget);
 
-	}
-	
-	private void createHorizontalBarModel() {
-        horizontalBarModel = new HorizontalBarChartModel();
- 
-        ChartSeries boys = new ChartSeries();
-        boys.setLabel("Boys");
-        boys.set("2004", 50);
-        boys.set("2005", 96);
-        boys.set("2006", 44);
-        boys.set("2007", 55);
-        boys.set("2008", 25);
- 
-        horizontalBarModel.addSeries(boys);
-         
-        horizontalBarModel.setTitle("Esfuerzo sprint");
-        horizontalBarModel.setLegendPosition("e");
-        horizontalBarModel.setStacked(true);
-        
-        Axis xAxis = horizontalBarModel.getAxis(AxisType.X);
-        xAxis.setLabel("Horas");
-        xAxis.setMin(0);
-        xAxis.setMax(200);
-       
-        
-        Axis yAxis = horizontalBarModel.getAxis(AxisType.Y);
-        yAxis.setLabel("Gender");        
-    }
-	
-	public void asignarArtefactoASprint(VtArtefacto vtArtefacto,VtSprint vtSprint, VtPilaProducto vtPilaProducto) {
-		try {
-			VtUsuario vtUsuarioEnSession = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
-			 vtArtefacto = (VtArtefacto) businessDelegatorView
-					.consultarArtefactosAsignadosASprintYPila(vtArtefacto.getArteCodigo(), vtPilaProducto.getPilaCodigo());
-			if (vtArtefacto != null) {
-				vtArtefacto.setVtSprint(vtSprint);
-				vtArtefacto.setUsuModificador(vtUsuarioEnSession.getUsuaCodigo());
-				vtArtefacto.setFechaModificacion(new Date());
-				vtArtefacto.setActivo("S");
-				businessDelegatorView.updateVtArtefacto(vtArtefacto);
-				
-			}
-		} catch (Exception e) {
-			log.error(e.getMessage());
-		}
-	}
-	
-	public void removerArtefactoDelSprint(VtArtefacto vtArtefacto,VtSprint vtSprint, VtPilaProducto vtPilaProducto){
-		try {
-			VtUsuario vtUsuarioEnSession = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
-			 vtArtefacto = (VtArtefacto) businessDelegatorView
-						.consultarArtefactosAsignadosASprintYPila(vtArtefacto.getArteCodigo(), vtPilaProducto.getPilaCodigo());
-			 vtArtefacto.setUsuModificador(vtUsuarioEnSession.getUsuaCodigo());
-			 vtArtefacto.setFechaModificacion(new Date());
-			 vtArtefacto.setActivo("N");
-			 vtArtefacto.setVtSprint(null);
-			 businessDelegatorView.updateVtArtefacto(vtArtefacto);
-		} catch (Exception e) {
-			log.error(e.getMessage());
-		}
-	}
-	
-	public void onTransfer(TransferEvent event) throws Exception {
-		try {
-			StringBuilder builder = new StringBuilder();
-			Long idSprint= Long.parseLong(somSprints.getValue().toString().trim());
-			VtSprint vtSprint = businessDelegatorView.getVtSprint(idSprint);
-			VtPilaProducto vtPilaProducto = businessDelegatorView.getVtPilaProducto(vtSprint.getVtPilaProducto().getPilaCodigo());
-			for (Object item : event.getItems()) {
-				VtArtefacto vtArtefacto =(VtArtefacto) item;
-
-				builder.append(((VtArtefacto) item).getTitulo()).append("<br />");
-				if (event.isAdd()) {
-					asignarArtefactoASprint(vtArtefacto, vtSprint, vtPilaProducto);
-				}
-				if (event.isRemove()) {
-					removerArtefactoDelSprint(vtArtefacto, vtSprint, vtPilaProducto);
-				}
-			}
-			FacesUtils.addInfoMessage("Artefactos(s) Asignado(s)");
-		} catch (Exception e) {
-			FacesUtils.addErrorMessage("No se pudo realizar la transferencia");
-		}
-
-	}
-	public void actualizarListaUsuarios() throws Exception {
-
-		try {
-			Long idSprint = Long.parseLong(somSprints.getValue().toString().trim());
-			vtSprint = businessDelegatorView.getVtSprint(idSprint);
-
-			log.info("Codigo del sprint" + vtSprint.getSpriCodigo());
-
-			artefactosSource = businessDelegatorView.consultarArtefactosSinAsignarASprint();
-			artefactosTarget = businessDelegatorView.consultarArtefactosAsignadosASprint(idSprint);
-
-			vtArtefacto.setSource(artefactosSource);
-			vtArtefacto.setTarget(artefactosTarget);
-
-		} catch (Exception e) {
-			log.error(e.getMessage());
-		}
-
-	}
-	public DualListModel<VtArtefacto> getVtArtefacto() {
-		return vtArtefacto;
+	public MeterGaugeChartModel getMeterGaugeModel() {
+		return meterGaugeModel;
 	}
 
-	public void setVtArtefacto(DualListModel<VtArtefacto> vtArtefacto) {
-		this.vtArtefacto = vtArtefacto;
+	public void setMeterGaugeModel(MeterGaugeChartModel meterGaugeModel) {
+		this.meterGaugeModel = meterGaugeModel;
 	}
 
-	public SelectOneMenu getSomSprints() {
-		return somSprints;
-	}
-
-	public void setSomSprints(SelectOneMenu somSprints) {
-		this.somSprints = somSprints;
-	}
-
-	public List<SelectItem> getLosSprintsItems() {
-		
-		try {
-			if (losSprintsItems == null) {
-				List<VtSprint> listaSprint = businessDelegatorView.getVtSprint();
-				losSprintsItems = new ArrayList<SelectItem>();				
-				for (VtSprint vtSprint : listaSprint) {
-					losSprintsItems.add(new SelectItem(vtSprint.getSpriCodigo(), vtSprint.getNombre()));
-				}
-			}
-		} catch (Exception e) {
-			log.error(e.getMessage());
-		}
-		return losSprintsItems;
-	}
-	
-	public void localeChanged() throws Exception {
-		setSprintSeleccionado(somSprints.getValue().toString().trim());
-		actualizarListaUsuarios();
-		createHorizontalBarModel();
-	}
-	
-	public String action_closeDialog() {
-		setShowDialog(false);
-		somSprints.setValue("-1");
-		return "";
-	}
-	
 	public void setLosSprintsItems(List<SelectItem> losSprintsItems) {
 		this.losSprintsItems = losSprintsItems;
 	}
@@ -252,6 +98,199 @@ public class VtArtefactoSprintView implements Serializable {
 
 	public void setBusinessDelegatorView(IBusinessDelegatorView businessDelegatorView) {
 		this.businessDelegatorView = businessDelegatorView;
+	}
+
+	@PostConstruct
+	public void init() {
+		List<VtArtefacto> artefactosSource = new ArrayList<VtArtefacto>();
+		List<VtArtefacto> artefactosTarget = new ArrayList<VtArtefacto>();
+		vtArtefacto = new DualListModel<>(artefactosSource, artefactosTarget);
+		iniciarMeterGaugeModels();
+	}
+
+
+	public void asignarArtefactoASprint(VtArtefacto vtArtefacto,VtSprint vtSprint, VtPilaProducto vtPilaProducto) {
+		try {
+			VtUsuario vtUsuarioEnSession = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
+			vtArtefacto = (VtArtefacto) businessDelegatorView
+					.consultarArtefactosAsignadosASprintYPila(vtArtefacto.getArteCodigo(), vtPilaProducto.getPilaCodigo());
+			if (vtArtefacto != null) {
+				vtArtefacto.setVtSprint(vtSprint);
+				vtArtefacto.setUsuModificador(vtUsuarioEnSession.getUsuaCodigo());
+				vtArtefacto.setFechaModificacion(new Date());
+				vtArtefacto.setActivo("S");
+				businessDelegatorView.updateVtArtefacto(vtArtefacto);
+
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+	}
+
+	public void removerArtefactoDelSprint(VtArtefacto vtArtefacto,VtSprint vtSprint, VtPilaProducto vtPilaProducto){
+		try {
+			VtUsuario vtUsuarioEnSession = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
+			vtArtefacto = (VtArtefacto) businessDelegatorView
+					.consultarArtefactosAsignadosASprintYPila(vtArtefacto.getArteCodigo(), vtPilaProducto.getPilaCodigo());
+			vtArtefacto.setUsuModificador(vtUsuarioEnSession.getUsuaCodigo());
+			vtArtefacto.setFechaModificacion(new Date());
+			vtArtefacto.setActivo("N");
+			vtArtefacto.setVtSprint(null);
+			businessDelegatorView.updateVtArtefacto(vtArtefacto);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+	}
+
+	public void onTransfer(TransferEvent event) throws Exception {
+		try {
+			StringBuilder builder = new StringBuilder();
+			Long idSprint= Long.parseLong(somSprints.getValue().toString().trim());
+			VtSprint vtSprint = businessDelegatorView.getVtSprint(idSprint);
+			VtPilaProducto vtPilaProducto = businessDelegatorView.getVtPilaProducto(vtSprint.getVtPilaProducto().getPilaCodigo());
+			String mensaje="";
+			for (Object item : event.getItems()) {
+				VtArtefacto vtArtefacto =(VtArtefacto) item;
+
+				builder.append(((VtArtefacto) item).getTitulo()).append("<br />");
+				if (event.isAdd()) {
+					asignarArtefactoASprint(vtArtefacto, vtSprint, vtPilaProducto);
+					mensaje="Artefacto(s) asignado(s)";
+					calcularEsfuerzo();
+				}
+				if (event.isRemove()) {
+					removerArtefactoDelSprint(vtArtefacto, vtSprint, vtPilaProducto);
+					mensaje="Artefacto(s) retirado(s)";
+					calcularEsfuerzo();
+				}
+			}
+			FacesUtils.addInfoMessage(""+mensaje);
+		} catch (Exception e) {
+			FacesUtils.addErrorMessage("No se pudo realizar la transferencia");
+		}
+
+	}
+	public void actualizarListaUsuarios() throws Exception {
+
+		try {
+			Long idSprint = Long.parseLong(somSprints.getValue().toString().trim());
+			vtSprint = businessDelegatorView.getVtSprint(idSprint);
+
+			log.info("Codigo del sprint" + vtSprint.getSpriCodigo());
+
+			artefactosSource = businessDelegatorView.consultarArtefactosSinAsignarASprint();
+			artefactosTarget = businessDelegatorView.consultarArtefactosAsignadosASprint(idSprint);
+
+			vtArtefacto.setSource(artefactosSource);
+			vtArtefacto.setTarget(artefactosTarget);
+
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+
+	}
+	public DualListModel<VtArtefacto> getVtArtefacto() {
+		return vtArtefacto;
+	}
+
+	public void setVtArtefacto(DualListModel<VtArtefacto> vtArtefacto) {
+		this.vtArtefacto = vtArtefacto;
+	}
+
+	public SelectOneMenu getSomSprints() {
+		return somSprints;
+	}
+
+	public void setSomSprints(SelectOneMenu somSprints) {
+		this.somSprints = somSprints;
+	}
+
+	public List<SelectItem> getLosSprintsItems() {
+
+		try {
+			if (losSprintsItems == null) {
+				List<VtSprint> listaSprint = businessDelegatorView.getVtSprint();
+				losSprintsItems = new ArrayList<SelectItem>();				
+				for (VtSprint vtSprint : listaSprint) {
+					losSprintsItems.add(new SelectItem(vtSprint.getSpriCodigo(), vtSprint.getNombre()));
+				}
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+		return losSprintsItems;
+	}
+
+	public void localeChanged() throws Exception {
+		try {
+			setSprintSeleccionado(somSprints.getValue().toString().trim());
+			actualizarListaUsuarios();
+			createMeterGaugeModels();
+
+		} catch (Exception e) {
+
+		}
+	}
+
+	public String action_closeDialog() {
+		setShowDialog(false);
+		somSprints.setValue("-1");
+		return "";
+	}
+
+	@SuppressWarnings("serial")
+	private MeterGaugeChartModel initMeterGaugeModel() {
+		List<Number> intervals = new ArrayList<Number>(){
+			{
+				if(vtSprint==null){
+					add(100);
+					add(200);
+					add(300);
+				}else{
+					int valores=vtSprint.getCapacidadEstimada();
+					add(valores/2);
+					add(valores);
+					add(valores*2);
+				}
+			}};
+
+			return new MeterGaugeChartModel(140, intervals);
+	}
+
+	private void createMeterGaugeModels() {
+		meterGaugeModel = initMeterGaugeModel();
+		meterGaugeModel.setTitle("Capacidad Sprint");
+		meterGaugeModel.setSeriesColors("66cc66,E7E658,cc6666");
+		meterGaugeModel.setGaugeLabel("km/h");
+		meterGaugeModel.setGaugeLabelPosition("bottom");
+		meterGaugeModel.setShowTickLabels(true);
+		meterGaugeModel.setLabelHeightAdjust(110);
+		meterGaugeModel.setIntervalOuterRadius(100);
+		calcularEsfuerzo();
+	}
+
+	private void iniciarMeterGaugeModels() {
+		meterGaugeModel = initMeterGaugeModel();
+		meterGaugeModel.setTitle("Capacidad Sprint");
+		meterGaugeModel.setSeriesColors("66cc66,E7E658,cc6666");
+		meterGaugeModel.setShowTickLabels(false);	        
+	}
+
+	public void calcularEsfuerzo(){
+		double esfuerzo=0;
+		try {
+			List<VtArtefacto> listaArtefactos=businessDelegatorView.getVtArtefacto();
+			for(VtArtefacto vtArtefacto: listaArtefactos){
+				if(vtArtefacto.getVtSprint().getSpriCodigo().equals(vtSprint.getSpriCodigo())){
+						log.info("Artefacto: "+vtArtefacto.getTitulo());
+						esfuerzo=esfuerzo+vtArtefacto.getEsfuerzoEstimado();
+					}
+				}
+			meterGaugeModel.setValue(esfuerzo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 }
