@@ -17,7 +17,7 @@
         <property name="descripcion" type="java.lang.String">
             <column name="descripcion" />
         </property>
-        <property name="esfuerzoEstimado" type="java.lang.String">
+        <property name="esfuerzoEstimado" type="java.lang.Integer">
             <column name="esfuerzo_estimado" />
         </property>
         <property name="esfuerzoRestante" type="java.lang.Integer">

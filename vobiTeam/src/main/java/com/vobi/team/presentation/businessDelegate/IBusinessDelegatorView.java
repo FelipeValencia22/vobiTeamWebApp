@@ -108,7 +108,7 @@ public interface IBusinessDelegatorView {
 
     public List<VtArtefacto> getVtArtefacto() throws Exception;
 
-    public void saveVtArtefacto(VtArtefacto entity) throws Exception;
+    public void saveVtArtefacto(VtArtefacto entity,String esfuerzoEstimado,String esfuerzoRestantes, String puntos) throws Exception;
 
     public void deleteVtArtefacto(VtArtefacto entity) throws Exception;
 

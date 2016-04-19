@@ -8,6 +8,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -130,17 +131,17 @@ public class VtArtefactoView implements Serializable {
 	@PostConstruct
 	public void vtArtefactoViewPostConstructor() {
 		try {
-		
+
 			VtSprint vtSprint = (VtSprint) FacesUtils.getfromSession("vtSprint");
 			log.info("Le llego un Sprint con código" + vtSprint.getSpriCodigo().longValue());
 			if (vtSprint != null) {
 				dataFiltro = businessDelegatorView.getDataVtArtefactoFiltro(vtSprint.getSpriCodigo().longValue());
 				dataFiltroI = businessDelegatorView.getDataVtArtefactoFiltroI(vtSprint.getSpriCodigo().longValue());
 				FacesUtils.putinSession("vtSprint", null);
-			}else{
+			} else {
 				dataFiltro = null;
-				dataFiltroI = null;				
-			}	
+				dataFiltroI = null;
+			}
 			vtSprint = null;
 		} catch (Exception e) {
 			log.error(e.getMessage());
@@ -802,47 +803,21 @@ public class VtArtefactoView implements Serializable {
 	}
 
 	public String crearArtefacto() {
-		int esfuerzoEstimado, esfuerzoReal, esfueroRestante, puntos;
+		String esfuerzoEstimado, esfuerzoRestante, puntos;
 		log.info("Creando artefacto");
 
 		try {
 			VtHistoriaArtefacto vtHistoriaArtefacto = new VtHistoriaArtefacto();
 			entity = new VtArtefacto();
-
 			entity.setDescripcion(txtdescripcion.getValue().toString().trim());
 			entity.setTitulo(txtnombre.getValue().toString().trim());
 			Date fechaCreacion = new Date();
 			entity.setFechaCreacion(fechaCreacion);
-
-			if (txtEsfuerzoEstimado.getValue() == null || txtEsfuerzoEstimado.getValue().toString().trim().equals("")) {
-				throw new Exception("El campo para el esfuerzo estimado no puede estar vacio");
-			} else {
-				esfuerzoEstimado = Integer.parseInt(txtEsfuerzoEstimado.getValue().toString().trim());
-			}
-			if (txtEsfuerzoReal.getValue() == null || txtEsfuerzoReal.getValue().toString().trim().equals("")) {
-				throw new Exception("El campo para el esfuerzo real no puede estar vacio");
-			} else {
-				esfuerzoReal = Integer.parseInt(txtEsfuerzoReal.getValue().toString().trim());
-			}
-			if (txtEsfuerzoRestante.getValue() == null || txtEsfuerzoRestante.getValue().toString().trim().equals("")) {
-				throw new Exception("El campo para el esfuerzo restante no puede estar vacio");
-			} else {
-				esfueroRestante = Integer.parseInt(txtEsfuerzoRestante.getValue().toString().trim());
-			}
-			if (txtOrigen.getValue() == null || txtOrigen.getValue().toString().trim().equals("")) {
-				throw new Exception("El campo para el origen no puede ser vacio");
-			}
-			if (txtPuntos.getValue() == null || txtPuntos.getValue().toString().trim().equals("")) {
-				throw new Exception("El campo para los puntos no puede ser vacio");
-			} else {
-				puntos = Integer.parseInt(txtPuntos.getValue().toString().trim());
-			}
-			entity.setEsfuerzoEstimado(esfuerzoEstimado);
-			entity.setEsfuerzoReal(esfuerzoReal);
-			entity.setEsfuerzoRestante(esfueroRestante);
-			entity.setPuntos(puntos);
+			esfuerzoEstimado = txtEsfuerzoEstimado.getValue().toString().trim();
+			esfuerzoRestante = txtEsfuerzoRestante.getValue().toString().trim();
+			puntos = (txtPuntos.getValue().toString().trim());
 			entity.setOrigen(txtOrigen.getValue().toString().trim());
-			
+
 			String pilasProducto = somPilaProductoCrear.getValue().toString().trim();
 			Long idPilaProducto = Long.parseLong(pilasProducto);
 			VtPilaProducto vtPilaProducto = businessDelegatorView.getVtPilaProducto(idPilaProducto);
@@ -873,20 +848,16 @@ public class VtArtefactoView implements Serializable {
 			} else {
 				entity.setActivo("N");
 			}
-
-			businessDelegatorView.saveVtArtefacto(entity);
-			limpiar();
-			action_clear();
+			businessDelegatorView.saveVtArtefacto(entity, esfuerzoEstimado, esfuerzoRestante, puntos);
 			FacesUtils.addInfoMessage("Se ha creado el artefacto con éxito");
+			limpiar();
 
-			vtHistoriaArtefacto.setEsfuerzoEstimado(entity.getEsfuerzoEstimado().toString());
-			vtHistoriaArtefacto.setEsfuerzoReal(entity.getEsfuerzoReal());
-			vtHistoriaArtefacto.setEsfuerzoRestante(entity.getEsfuerzoRestante());
+			vtHistoriaArtefacto.setEsfuerzoEstimado(entity.getEsfuerzoEstimado());
 			vtHistoriaArtefacto.setFechaCreacion(entity.getFechaCreacion());
 			vtHistoriaArtefacto.setFechaModificacion(entity.getFechaModificacion());
 			vtHistoriaArtefacto.setOrigen(entity.getOrigen());
 			vtHistoriaArtefacto.setDescripcion(entity.getDescripcion());
-			vtHistoriaArtefacto.setPuntos(entity.getPuntos());
+			vtHistoriaArtefacto.setPuntos(Integer.parseInt(puntos));
 			vtHistoriaArtefacto.setTitulo(entity.getTitulo());
 			vtHistoriaArtefacto.setUsuCreador(entity.getUsuCreador());
 			vtHistoriaArtefacto.setUsuModificador(entity.getUsuModificador());
@@ -896,7 +867,7 @@ public class VtArtefactoView implements Serializable {
 			vtHistoriaArtefacto = null;
 
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage("", new FacesMessage(e.getMessage()));
+			log.error(e.getMessage());
 		}
 		return "";
 	}
@@ -929,12 +900,8 @@ public class VtArtefactoView implements Serializable {
 
 	public void fileDownloadView(ActionEvent evt) {
 
-		log.info("Entro al metodo fileDownload antes del try catch");
 		try {
-			log.info("Entro a descargar archivos");
 			selectedVtAchivo = ((VtArchivoDTO) (evt.getComponent().getAttributes().get("selectedVtAchivo")));
-			String archivoNombre = selectedVtAchivo.getNombre();
-			log.info("Nombre del archivo " + archivoNombre + " a descargar");
 			Long archivoId = Long.parseLong(selectedVtAchivo.getArchCodigo().toString());
 			VtArchivo vtArchivo = businessDelegatorView.getVtArchivo(archivoId.longValue());
 
@@ -966,9 +933,7 @@ public class VtArtefactoView implements Serializable {
 	}
 
 	public void restablecerArtefactoView(ActionEvent evt) {
-		log.info("Entro al método restablecer antes del try catch");
 		try {
-			log.info("Entro al try para restablecer el artefacto");
 			selectedVtHistoriaArtefacto = null;
 			selectedVtHistoriaArtefacto = ((VtHistoriaArtefactoDTO) (evt.getComponent().getAttributes()
 					.get("selectedVtHistoriaArtefacto")));
@@ -976,7 +941,7 @@ public class VtArtefactoView implements Serializable {
 					.getVtArtefacto(selectedVtHistoriaArtefacto.getArteCodigo_VtArtefacto().longValue());
 
 			vtArtefacto.setDescripcion(selectedVtHistoriaArtefacto.getDescripcion());
-			vtArtefacto.setEsfuerzoEstimado(Integer.parseInt(selectedVtHistoriaArtefacto.getEsfuerzoEstimado()));
+			vtArtefacto.setEsfuerzoEstimado(selectedVtHistoriaArtefacto.getEsfuerzoEstimado());
 			vtArtefacto.setEsfuerzoReal(selectedVtHistoriaArtefacto.getEsfuerzoReal());
 			vtArtefacto.setEsfuerzoRestante(selectedVtHistoriaArtefacto.getEsfuerzoRestante());
 			vtArtefacto.setFechaCreacion(selectedVtHistoriaArtefacto.getFechaCreacion());
@@ -1011,9 +976,7 @@ public class VtArtefactoView implements Serializable {
 		somEstados.setValue("-1");
 		somPilaProductoCrear.setValue("-1");
 		somPrioridades.setValue("-1");
-		somSprintsCrear.setValue("-1");
 		somTiposDeArtefactos.setValue("-1");
-		txtEsfuerzoReal.resetValue();
 		txtEsfuerzoRestante.resetValue();
 		txtPuntos.resetValue();
 		txtOrigen.resetValue();
@@ -1052,7 +1015,6 @@ public class VtArtefactoView implements Serializable {
 	public String filtrarArchivo(ActionEvent evt) {
 		selectedVtArtefacto = (VtArtefactoDTO) (evt.getComponent().getAttributes().get("selectedVtArtefacto"));
 
-
 		VtArtefacto vtArtefacto = null;
 		setShowDialogArchivos(true);
 		try {
@@ -1072,9 +1034,9 @@ public class VtArtefactoView implements Serializable {
 
 	public String action_closeDialog() {
 		setShowDialog(false);
-		action_clear();
 		return "";
 	}
+	
 
 	public String cerrarDialogArchivos() {
 		setShowDialogArchivos(false);
@@ -1137,9 +1099,7 @@ public class VtArtefactoView implements Serializable {
 		somEstados.setValue("-1");
 		somPilaProductoCrear.setValue("-1");
 		somPrioridades.setValue("-1");
-		somSprintsCrear.setValue("-1");
 		somTiposDeArtefactos.setValue("-1");
-		txtEsfuerzoReal.resetValue();
 		txtEsfuerzoRestante.resetValue();
 		txtPuntos.resetValue();
 		txtOrigen.resetValue();
@@ -1308,14 +1268,16 @@ public class VtArtefactoView implements Serializable {
 			entity.setVtTipoArtefacto(vtTipoArtefacto);
 
 			businessDelegatorView.updateVtArtefacto(entity);
+			
 			String sprint = somSprints.getValue().toString().trim();
 			Long codigoSprint = Long.valueOf(sprint);
 			VtSprint vtSprint = businessDelegatorView.getVtSprint(codigoSprint);
+			actualizarTiempos(entity,vtSprint);
 			entity.setVtSprint(vtSprint);
 			FacesUtils.addInfoMessage("El Artefacto se ha sido modificado con exito");
 			dataFiltro = businessDelegatorView.getDataVtArtefactoFiltro(vtSprint.getSpriCodigo());
 			dataFiltroI = businessDelegatorView.getDataVtArtefactoFiltroI((vtSprint.getSpriCodigo()));
-			vtHistoriaArtefacto.setEsfuerzoEstimado(entity.getEsfuerzoEstimado().toString());
+			vtHistoriaArtefacto.setEsfuerzoEstimado(entity.getEsfuerzoEstimado());
 			vtHistoriaArtefacto.setEsfuerzoReal(entity.getEsfuerzoReal());
 			vtHistoriaArtefacto.setEsfuerzoRestante(entity.getEsfuerzoRestante());
 			vtHistoriaArtefacto.setFechaCreacion(entity.getFechaCreacion());
@@ -1338,6 +1300,67 @@ public class VtArtefactoView implements Serializable {
 					"Lo sentimos no se pudo actualizar el artefacto, faltan datos o estos son errados");
 		}
 
+		return "";
+	}
+
+	@SuppressWarnings("unused")
+	public String actualizarTiempos(VtArtefacto vtArtefacto,VtSprint vtSprint) {
+
+		try {
+
+			Date fechaActual = new Date();
+			final long milisegundosPorDia = 24 * 60 * 60 * 1000; // Milisegundos
+			// al
+			// día
+			final long minutosPorDia = 60 * 1000; // minutos al día
+			final long horasPorDia = 60 * 60 * 1000; // horas al día
+			String fechaInicioSprint = vtSprint.getFechaInicio().toString()+"-";
+
+			String[] partes = fechaInicioSprint.split("-");
+			int añoFechaInicio = vtSprint.getFechaInicio().getYear(); 
+			int mesFechaInicio = vtSprint.getFechaInicio().getMonth();
+			int diaFechaInicio = vtSprint.getFechaInicio().getDay();
+
+			GregorianCalendar calendar = new GregorianCalendar(añoFechaInicio, mesFechaInicio - 1, diaFechaInicio);
+			Date fecha = new Date(calendar.getTimeInMillis());
+			Long horasTranscurridas = (fechaActual.getTime()-fecha.getTime()) / horasPorDia;
+			Long minutosTranscurridos = ( fechaActual.getTime()-fecha.getTime()) / minutosPorDia;
+			Long segundosTranscurridos = (fechaActual.getTime()-fecha.getTime()  ) / 1000;
+
+			log.info("Cantidad de minutos transcurridos desde el inicio del sprint hasta hoy " + minutosTranscurridos + "\nEsfuerzo Estimado "
+					+ vtArtefacto.getEsfuerzoEstimado() + "\nEsfuerzo restante " + vtArtefacto.getEsfuerzoRestante());
+
+			String fechaFinalSprint = vtSprint.getFechaFin().toString()+"-";
+			String[] partesFin = fechaFinalSprint.split("-");
+			int añoFechaFin = vtSprint.getFechaFin().getYear();
+			int mesFechaFin = vtSprint.getFechaFin().getMonth();
+			int diaFechaFin = vtSprint.getFechaFin().getDay();
+
+			GregorianCalendar calendarFinal = new GregorianCalendar(añoFechaFin, mesFechaFin - 1, diaFechaFin);
+			Date tiempoDisponible = new Date(calendarFinal.getTimeInMillis());
+
+			Long horasTotalesDisponibles = (tiempoDisponible.getTime()-fecha.getTime() ) / horasPorDia;
+			Long minutosTotalesDisponibles = (tiempoDisponible.getTime()-fecha.getTime()) / minutosPorDia;
+			Long segundosTotalesDisponibles = (tiempoDisponible.getTime()-fecha.getTime()) / 1000;
+			
+			if(fechaActual.getTime()>tiempoDisponible.getTime()){
+			
+			}else if(fechaActual.getTime()>=tiempoDisponible.getTime()){
+				log.info("Usted dispone de " + horasTotalesDisponibles + " horas con " + minutosTotalesDisponibles + " minutos y "
+						+ segundosTotalesDisponibles + " Segundos\n Y esta actividad le restan  "
+						+ vtArtefacto.getEsfuerzoRestante() + "horas/puntos");
+
+				int tiempoTrabajado = vtArtefacto.getEsfuerzoEstimado() - vtArtefacto.getEsfuerzoRestante();
+			}
+
+		
+			if (vtArtefacto.getEsfuerzoRestante() == 0) {
+				FacesUtils.addInfoMessage("Has terminado el artefacto del sprint");
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			e.printStackTrace();
+		}
 		return "";
 	}
 
@@ -1370,7 +1393,7 @@ public class VtArtefactoView implements Serializable {
 			businessDelegatorView.updateVtArtefacto(entity);
 			dataFiltro = businessDelegatorView.getDataVtArtefactoFiltro(vtSprint.getSpriCodigo());
 			dataFiltroI = businessDelegatorView.getDataVtArtefactoFiltroI(vtSprint.getSpriCodigo());
-			vtHistoriaArtefacto.setEsfuerzoEstimado(entity.getEsfuerzoEstimado().toString());
+			vtHistoriaArtefacto.setEsfuerzoEstimado(entity.getEsfuerzoEstimado());
 			vtHistoriaArtefacto.setEsfuerzoReal(entity.getEsfuerzoReal());
 			vtHistoriaArtefacto.setEsfuerzoRestante(entity.getEsfuerzoRestante());
 			vtHistoriaArtefacto.setFechaCreacion(entity.getFechaCreacion());

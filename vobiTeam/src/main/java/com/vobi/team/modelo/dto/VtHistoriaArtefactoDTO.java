@@ -20,7 +20,7 @@ public class VtHistoriaArtefactoDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     private static final Logger log = LoggerFactory.getLogger(VtHistoriaArtefactoDTO.class);
     private String descripcion;
-    private String esfuerzoEstimado;
+    private Integer esfuerzoEstimado;
     private Integer esfuerzoReal;
     private Integer esfuerzoRestante;
     private Date fechaCreacion;
@@ -41,12 +41,12 @@ public class VtHistoriaArtefactoDTO implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public String getEsfuerzoEstimado() {
+    public Integer getEsfuerzoEstimado() {
         return esfuerzoEstimado;
     }
 
-    public void setEsfuerzoEstimado(String esfuerzoEstimado) {
-        this.esfuerzoEstimado = esfuerzoEstimado;
+    public void setEsfuerzoEstimado(Integer integer) {
+        this.esfuerzoEstimado = integer;
     }
 
     public Integer getEsfuerzoReal() {

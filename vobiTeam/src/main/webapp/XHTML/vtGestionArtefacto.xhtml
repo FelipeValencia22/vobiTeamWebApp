@@ -423,7 +423,7 @@
 
 		<p:dialog header="Subir artefacto" rendered="true" responsive="true" 
 			resizable="true" position="center" widgetVar="dlgArchivo"
-			visible="#{vtArtefactoView.showDialog}" modal="true">
+			visible="#{vtArtefactoView.showDialogArchivos}" modal="true">
 			<h:form id="formDialogSubirArchivo">
 				<p:messages id="msgArchivo" />
 				<h:panelGrid id="archivosPanel" columns="1">
@@ -431,8 +431,8 @@
 						fileUploadListener="#{vtArtefactoView.handleFileUpload}"
 						mode="advanced" update="msgArchivo" multiple="true"
 						label="Seleccionar" cancelLabel="Cancelar"
-						uploadLabel="Subir archivo(s)" dragdropsupport="false"
-						sizeLimit="5000000" />
+						uploadLabel="Subir archivo(s)" dragdropsupport="true"
+						sizeLimit="500000000" />
 				</h:panelGrid>
 
 			</h:form>
@@ -602,7 +602,7 @@
 							<div align="center">
 								<p:commandButton id="btnRestablecer" icon="fa fa-history"
 									actionListener="#{vtArtefactoView.restablecerArtefactoView}"
-									update=":frm:pnlVtArtefacto,msgHistorial " ajax="false">
+									update=":frm:pnlVtArtefacto,msgHistorial,historialArtefactos " ajax="false">
 									<f:attribute name="selectedVtHistoriaArtefacto"
 										value="#{vtHistoriaArtefacto}" />
 								</p:commandButton>
@@ -675,9 +675,7 @@
 						<p:inputText id="txtEsfuerzoEstimado"
 							placeholder="Esfuerzo estimado"
 							binding="#{vtArtefactoView.txtEsfuerzoEstimado}" />
-						<h:outputText id="msgEsfuerzoReal" value="Esfuerzo real" />
-						<p:inputText id="txtEsfuerzoReal" placeholder="Esfuerzo real"
-							binding="#{vtArtefactoView.txtEsfuerzoReal}" />
+					
 						<h:outputText id="msgEsfuerzoRestante" value="EsfuerzoRestante" />
 						<p:inputText id="txtEsfuerzoRestante"
 							placeholder="Esfuerzo restante"

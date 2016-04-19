@@ -240,8 +240,8 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return vtArtefactoLogic.getVtArtefacto();
 	}
 
-	public void saveVtArtefacto(VtArtefacto entity) throws Exception {
-		vtArtefactoLogic.saveVtArtefacto(entity);
+	public void saveVtArtefacto(VtArtefacto entity,String esfuerzoEstimado,String esfuerzoRestantes, String puntos) throws Exception {
+		vtArtefactoLogic.saveVtArtefacto(entity,esfuerzoEstimado,esfuerzoRestantes,puntos);
 	}
 
 	public void deleteVtArtefacto(VtArtefacto entity) throws Exception {

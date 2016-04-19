@@ -217,6 +217,15 @@
 			<version>1.4</version>
 		</dependency>
 		<!-- email -->
+		
+		
+		<!-- Quartz -->
+		<dependency>
+	    	<groupId>quartz</groupId>
+	    	<artifactId>quartz</artifactId>
+	    	<version>1.5.2</version>
+		</dependency>
+		<!-- Quartz -->
 
 	</dependencies>
 

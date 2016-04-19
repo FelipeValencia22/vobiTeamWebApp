@@ -116,95 +116,99 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 	}
 
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public void saveVtArtefacto(VtArtefacto entity) throws Exception {
-		log.debug("saving VtArtefacto instance");
+	public void saveVtArtefacto(VtArtefacto entity, String esfuerzoEstimado, String esfuerzoRestantes, String puntos)
+			throws Exception {
+		log.info("saving VtArtefacto instance");
 
 		try {
 
-			if (entity.getActivo() == null || entity.getActivo().toString().trim().equalsIgnoreCase("") == true) {
-				throw new Exception("Defina si el artefacto esta activo o no");
+			if (entity.getVtTipoArtefacto() == null) {
+				throw new Exception("Seleccione el tipo de artefacto que sera el nuevo artefacto a crear.");
 			}
 
+			if (entity.getVtPilaProducto() == null) {
+				throw new Exception(
+						"Seleccione la pila de producto a la que va a pertenecer el nuevo artefacto a crear.");
+			}
 			if (entity.getTitulo() == null || entity.getTitulo().toString().trim().equalsIgnoreCase("") == true) {
-				throw new Exception("El título es obligatorio");
+				throw new Exception(
+						"El campo para el título del artefacto no puede estar vacío, digite el título por favor.");
 			}
-
 			if ((entity.getTitulo() != null)
 					&& (Utilities.checkWordAndCheckWithlength(entity.getTitulo(), 255) == false)) {
 				throw new ZMessManager().new NotValidFormatException("titulo");
 			}
-
+			if (entity.getDescripcion().toString().trim().equalsIgnoreCase("") == true) {
+				throw new Exception("El campo para la descripción no puede estar en vacío, escriba una descripción.");
+			}
 			if ((entity.getDescripcion() != null)
 					&& (Utilities.checkWordAndCheckWithlength(entity.getDescripcion(), 255) == false)) {
 				throw new ZMessManager().new NotValidFormatException("descripcion");
 			}
-
-			if (entity.getDescripcion().toString().trim().equalsIgnoreCase("") == true) {
-				throw new Exception("Es importante la descricpión para este artefacto");
+			if (entity.getActivo() == null || entity.getActivo().toString().trim().equalsIgnoreCase("") == true) {
+				throw new Exception("Defina si el artefacto esta activo o no");
 			}
 
-			if ((entity.getEsfuerzoEstimado() == null)
-					&& (FacesUtils.checkInteger(entity.getEsfuerzoEstimado()) == null)) {
-				throw new Exception("Es importante estimar el tiempo en horas para este artefacto");
-			}
-
-			if ((entity.getEsfuerzoEstimado() == null)
-					&& (Utilities.checkWordAndCheckWithlength(entity.getActivo(), 0) == true)) {
-				throw new ZMessManager().new NotValidFormatException("activo");
-			}
-			if (entity.getVtPilaProducto() == null) {
-				throw new Exception("Debe elegir una pila de producto ");
-			}
-			if (entity.getVtTipoArtefacto() == null) {
-				throw new Exception("Es necesario definir el tipo del artefacto ");
-			}
 			if (entity.getVtPrioridad() == null) {
-				throw new Exception("Por favor, elija una prioridad ");
+				throw new Exception("Seleccione la prioridad que tendra el nuevo artefacto a crear.");
 			}
 
 			if (entity.getVtEstado() == null) {
-				throw new Exception("El estado es un campo obligatorio");
+				throw new Exception("Seleccione el estado que va a tener el nuevo artefacto a crear.");
 			}
 
-			if (entity.getEsfuerzoEstimado().intValue() < 0) {
-				throw new Exception("El esfuerzo estimado no puede ser vacio, cero o menor que cero");
+			if (esfuerzoEstimado.toString().trim().equals("") || esfuerzoEstimado == null) {
+				throw new Exception(
+						"El campo para el esfuerzo estimado no puede ser vacio, digite el esfuerzo estimado del artefacto a crear.");
+			} else {
+				if ((Utilities.isNumeric(esfuerzoEstimado) == true)) {
+					entity.setEsfuerzoEstimado(Integer.parseInt(esfuerzoEstimado));
+				} else {
+					throw new Exception(
+							"El campo para el esfuerzo estimado no acepta cadenas de texto o números negativos, solo se aceptan valores númericos positivos.");
+				}
 			}
 
-			if (entity.getEsfuerzoEstimado().toString().trim().equals("") == true
-					|| entity.getEsfuerzoEstimado().toString().trim().isEmpty()) {
-				throw new Exception("El esfuerzo estimado no puede ser nulo");
+			if (esfuerzoRestantes.toString().trim().equals("") || esfuerzoRestantes == null) {
+				throw new Exception(
+						"El campo para el esfuerzo restante no puede ser vacio, digite el esfuerzo restante del artefacto a crear.");
+			} else {
+				if(Utilities.isNumeric(esfuerzoRestantes) == true){
+					entity.setEsfuerzoRestante(Integer.parseInt(esfuerzoRestantes));
+				}else{
+					throw new Exception(
+							"El campo para el esfuerzo restante no acepta cadenas de texto o números negativos, solo se aceptan valores númericos positivos.");
+				}
+
 			}
 
-			// if (entity.getArteCodigo() == null) {
-			// throw new ZMessManager().new
-			// EmptyFieldException("arteCodigo");
-			// }
-
+			if (puntos.toString().trim().equals("") || puntos == null) {
+				throw new Exception(
+						"El campo para los puntos no puede ser vacio, digite los puntos del artefacto a crear.");
+			} else {
+				if(Utilities.isNumeric(puntos) == true){
+					entity.setPuntos(Integer.parseInt(puntos));
+				}else{
+					throw new Exception(
+							"El campo para los puntos no acepta cadenas de texto o números negativos, solo se aceptan valores numéricos positivos.");
+				}
+				
+			}
+			if (entity.getOrigen().toString().trim().equals("") || entity.getOrigen() == null) {
+				throw new Exception(
+						"El campo para el origen no puede ser vacio, digite el origen del nuevo artefacto a crear.");
+			}
+			if (entity.getOrigen() != null && (Utilities.isNumeric(entity.getOrigen()) == true)) {
+				throw new Exception(
+						"El campo para el origen no puede recibir números, solo se aceptan cadenas de texto.");
+			}
 			if (entity.getFechaCreacion() == null) {
 				throw new Exception("La fecha de creación es obligatoria");
-			}
-
-			if ((entity.getOrigen() != null)
-					&& (Utilities.checkWordAndCheckWithlength(entity.getOrigen(), 255) == false)) {
-				throw new ZMessManager().new NotValidFormatException("origen");
 			}
 
 			if (entity.getUsuCreador() == null) {
 				throw new Exception("El usuario es obligatorio");
 			}
-
-			if (entity.getVtEstado().getEstaCodigo() == null) {
-				throw new ZMessManager().new EmptyFieldException("estaCodigo_VtEstado");
-			}
-
-			if (entity.getVtTipoArtefacto().getTparCodigo() == null) {
-				throw new ZMessManager().new EmptyFieldException("tparCodigo_VtTipoArtefacto");
-			}
-			//
-			// if (getVtArtefacto(entity.getArteCodigo()) != null) {
-			// throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
-			// }
-
 			vtArtefactoDAO.save(entity);
 
 			log.debug("save VtArtefacto successful");
@@ -399,7 +403,7 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 			String codigoSprint = "";
 			for (VtArtefacto vtArtefactoTmp : vtArtefacto) {
 				codigoSprint = vtArtefactoTmp.getVtSprint().getSpriCodigo().toString().trim();
-				if (!codigoSprint.equalsIgnoreCase("")|| !codigoSprint.equalsIgnoreCase(null)) {
+				if (!codigoSprint.equalsIgnoreCase("") || !codigoSprint.equalsIgnoreCase(null)) {
 					if (vtArtefactoTmp.getActivo().equalsIgnoreCase("S")) {
 
 						if (vtArtefactoTmp.getVtSprint().getSpriCodigo().equals(codigoFiltro)) {
@@ -471,7 +475,7 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 			String codigoSprint = "";
 			for (VtArtefacto vtArtefactoTmp : vtArtefacto) {
 				codigoSprint = vtArtefactoTmp.getVtSprint().getSpriCodigo().toString().trim();
-				if (!codigoSprint.equalsIgnoreCase("")|| !codigoSprint.equalsIgnoreCase(null)) {
+				if (!codigoSprint.equalsIgnoreCase("") || !codigoSprint.equalsIgnoreCase(null)) {
 					if (vtArtefactoTmp.getActivo().equalsIgnoreCase("N")) {
 
 						if (vtArtefactoTmp.getVtSprint().getSpriCodigo().equals(codigoFiltro)) {
@@ -536,7 +540,7 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 	@Transactional(readOnly = true)
 	public List<VtArtefactoDTO> getDataVtArtefactoActivo(Long codigoFiltro) throws Exception {
 		try {
-			List<VtArtefacto> vtArtefacto = vtArtefactoDAO.findAll();
+			List<VtArtefacto> vtArtefacto = vtArtefactoDAO.consultarTodosLosArtefactosAsignados();
 
 			List<VtArtefactoDTO> vtArtefactoDTO = new ArrayList<VtArtefactoDTO>();
 

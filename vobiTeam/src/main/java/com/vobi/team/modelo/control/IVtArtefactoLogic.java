@@ -23,9 +23,9 @@ public interface IVtArtefactoLogic {
     /**
          * Save an new VtArtefacto entity
          */
-    public void saveVtArtefacto(VtArtefacto entity) throws Exception;
+    public void saveVtArtefacto(VtArtefacto entity,String esfuerzoEstimado,String esfuerzoRestantes, String puntos) throws Exception;
 
-    /**
+    /**esfuerzoEstimado, esfuerzoReal, esfueroRestante, puntos
          * Delete an existing VtArtefacto entity
          *
          */

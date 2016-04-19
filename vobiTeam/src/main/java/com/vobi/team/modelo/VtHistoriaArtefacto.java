@@ -14,7 +14,7 @@ public class VtHistoriaArtefacto  implements java.io.Serializable {
      private VtArtefacto vtArtefacto;
      private String titulo;
      private String descripcion;
-     private String esfuerzoEstimado;
+     private Integer esfuerzoEstimado;
      private Integer esfuerzoRestante;
      private Integer esfuerzoReal;
      private Integer puntos;
@@ -35,7 +35,7 @@ public class VtHistoriaArtefacto  implements java.io.Serializable {
         this.fechaCreacion = fechaCreacion;
         this.usuCreador = usuCreador;
     }
-    public VtHistoriaArtefacto(Long historiaCodigo, VtArtefacto vtArtefacto, String titulo, String descripcion, String esfuerzoEstimado, Integer esfuerzoRestante, Integer esfuerzoReal, Integer puntos, String origen, Date fechaCreacion, Date fechaModificacion, Long usuCreador, Long usuModificador) {
+    public VtHistoriaArtefacto(Long historiaCodigo, VtArtefacto vtArtefacto, String titulo, String descripcion, Integer esfuerzoEstimado, Integer esfuerzoRestante, Integer esfuerzoReal, Integer puntos, String origen, Date fechaCreacion, Date fechaModificacion, Long usuCreador, Long usuModificador) {
        this.historiaCodigo = historiaCodigo;
        this.vtArtefacto = vtArtefacto;
        this.titulo = titulo;
@@ -79,12 +79,12 @@ public class VtHistoriaArtefacto  implements java.io.Serializable {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-    public String getEsfuerzoEstimado() {
+    public Integer getEsfuerzoEstimado() {
         return this.esfuerzoEstimado;
     }
     
-    public void setEsfuerzoEstimado(String esfuerzoEstimado) {
-        this.esfuerzoEstimado = esfuerzoEstimado;
+    public void setEsfuerzoEstimado(Integer integer) {
+        this.esfuerzoEstimado = integer;
     }
     public Integer getEsfuerzoRestante() {
         return this.esfuerzoRestante;

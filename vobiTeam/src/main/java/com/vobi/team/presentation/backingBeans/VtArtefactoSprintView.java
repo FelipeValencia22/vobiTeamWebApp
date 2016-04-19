@@ -106,6 +106,7 @@ public class VtArtefactoSprintView implements Serializable {
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 	
@@ -114,11 +115,18 @@ public class VtArtefactoSprintView implements Serializable {
 			VtUsuario vtUsuarioEnSession = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
 			 vtArtefacto = (VtArtefacto) businessDelegatorView
 						.consultarArtefactosAsignadosASprintYPila(vtArtefacto.getArteCodigo(), vtPilaProducto.getPilaCodigo());
-			 vtArtefacto.setUsuModificador(vtUsuarioEnSession.getUsuaCodigo());
-			 vtArtefacto.setFechaModificacion(new Date());
-			 vtArtefacto.setActivo("N");
-			 vtArtefacto.setVtSprint(null);
-			 businessDelegatorView.updateVtArtefacto(vtArtefacto);
+			 if(vtArtefacto==null){
+				 log.info("No existe");
+			 }else{
+				 log.info("Titulo del artefacto " + vtArtefacto.getTitulo());
+				 vtArtefacto.setUsuModificador(vtUsuarioEnSession.getUsuaCodigo());
+				 vtArtefacto.setFechaModificacion(new Date());
+				 vtArtefacto.setActivo("N");
+				 vtArtefacto.setVtSprint(null);
+				 businessDelegatorView.updateVtArtefacto(vtArtefacto);
+			 }
+			
+			
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}
@@ -163,6 +171,7 @@ public class VtArtefactoSprintView implements Serializable {
 
 		} catch (Exception e) {
 			log.error(e.getMessage());
+			e.printStackTrace();
 		}
 
 	}
