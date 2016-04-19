@@ -1303,7 +1303,7 @@ public class VtArtefactoView implements Serializable {
 		return "";
 	}
 
-	@SuppressWarnings("unused")
+	@SuppressWarnings({ "unused", "deprecation" })
 	public String actualizarTiempos(VtArtefacto vtArtefacto,VtSprint vtSprint) {
 
 		try {
@@ -1343,9 +1343,10 @@ public class VtArtefactoView implements Serializable {
 			Long minutosTotalesDisponibles = (tiempoDisponible.getTime()-fecha.getTime()) / minutosPorDia;
 			Long segundosTotalesDisponibles = (tiempoDisponible.getTime()-fecha.getTime()) / 1000;
 			
-			if(fechaActual.getTime()>tiempoDisponible.getTime()){
+			if(fechaActual.getTime()>=tiempoDisponible.getTime()){
+				
 			
-			}else if(fechaActual.getTime()>=tiempoDisponible.getTime()){
+			}else if(fechaActual.getTime()<tiempoDisponible.getTime()){
 				log.info("Usted dispone de " + horasTotalesDisponibles + " horas con " + minutosTotalesDisponibles + " minutos y "
 						+ segundosTotalesDisponibles + " Segundos\n Y esta actividad le restan  "
 						+ vtArtefacto.getEsfuerzoRestante() + "horas/puntos");
