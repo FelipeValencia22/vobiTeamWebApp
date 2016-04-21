@@ -30,19 +30,46 @@
 			<br></br>
 
 			<p:panel header="ASIGNAR ARTEFACTOS A SPRINT">
-
 				<h:panelGrid columns="1">
-					<p:selectOneMenu id="somSprints" style="width:300px"
-						binding="#{vtArtefactoSprintView.somSprints}">
-						<p:ajax update="panelVArtefacto"
-							listener="#{vtArtefactoSprintView.localeChanged}" />
-						<f:selectItem itemValue="-1" itemLabel="Sprint" />
-						<f:selectItems value="#{vtArtefactoSprintView.losSprintsItems}" />
+
+					<p:selectOneMenu id="somEmpresas" style="width:300px"
+						binding="#{vtArtefactoSprintView.somEmpresas}">
+						<p:ajax update="somProyectos" event="change"
+							listener="#{vtArtefactoSprintView.filtrarEmpresa}" />
+						<f:selectItem itemValue="-1" itemLabel="Empresa" />
+						<f:selectItems value="#{vtArtefactoSprintView.lasEmpresasItems}" />
 					</p:selectOneMenu>
 
-					<br></br>
-				</h:panelGrid>
+					<p:selectOneMenu id="somProyectos" style="width:300px"
+						binding="#{vtArtefactoSprintView.somProyectos}">
+						<p:ajax update="somPilaProducto" event="change"
+							listener="#{vtArtefactoSprintView.filtrarProyecto}" />
+						<f:selectItem itemValue="-1" itemLabel="Proyecto" />
+						<f:selectItems value="#{vtArtefactoSprintView.losProyectosFiltro}" />
+					</p:selectOneMenu>
 
+					<p:selectOneMenu id="somPilaProducto" style="width:300px"
+						binding="#{vtArtefactoSprintView.somPilaProducto}">
+						<p:ajax update="somSprints" event="change"
+							listener="#{vtArtefactoSprintView.filtrarPila}" />
+						<f:selectItem itemValue="-1" itemLabel="Pila de Producto" />
+						<f:selectItems
+							value="#{vtArtefactoSprintView.lasPilasDeProductoFiltro}" />
+					</p:selectOneMenu>
+
+					<h:panelGrid columns="1">
+						<p:selectOneMenu id="somSprints" style="width:300px"
+							binding="#{vtArtefactoSprintView.somSprints}">
+							<p:ajax update="panelVArtefacto"
+								listener="#{vtArtefactoSprintView.localeChanged}" />
+							<f:selectItem itemValue="-1" itemLabel="Sprint" />
+							<f:selectItems value="#{vtArtefactoSprintView.losSprintsItems}" />
+						</p:selectOneMenu>
+
+						<br></br>
+					</h:panelGrid>
+
+				</h:panelGrid>
 			</p:panel>
 
 			<p:panel id="panelVArtefacto" header="Asignar artefactos">
@@ -81,16 +108,18 @@
 
 					</h:panelGrid>
 				</h:panelGrid>
-				
+
 
 				<br></br>
-				
-				<p:chart type="metergauge" model="#{vtArtefactoSprintView.meterGaugeModel}" style="width:500px;height:350px" />
-				
-				
+
+				<p:chart type="metergauge"
+					model="#{vtArtefactoSprintView.meterGaugeModel}"
+					style="width:500px;height:350px" />
+
+
 				<br></br>
-				
-				
+
+
 			</p:panel>
 
 

@@ -19,9 +19,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.vobi.team.modelo.VtArtefacto;
+import com.vobi.team.modelo.VtEmpresa;
 import com.vobi.team.modelo.VtPilaProducto;
+import com.vobi.team.modelo.VtProyecto;
 import com.vobi.team.modelo.VtSprint;
 import com.vobi.team.modelo.VtUsuario;
+import com.vobi.team.modelo.dto.VtSprintDTO;
 import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
 import com.vobi.team.utilities.FacesUtils;
 
@@ -29,21 +32,33 @@ import com.vobi.team.utilities.FacesUtils;
 @ManagedBean
 @ViewScoped
 public class VtArtefactoSprintView implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
 	private static final Logger log = LoggerFactory.getLogger(VtArtefactoSprintView.class);
-	private DualListModel<VtArtefacto> vtArtefacto;
-	private SelectOneMenu somSprints;
-	private List<SelectItem> losSprintsItems;
-	private String sprintSeleccionado;
+	
 	VtSprint vtSprint=null;
+	
+	private DualListModel<VtArtefacto> vtArtefacto;
+	private List<SelectItem> losSprintsItems;
+	private List<VtArtefacto> artefactosSource;
+	private List<VtArtefacto> artefactosTarget;
+	
+	private SelectOneMenu somSprints;
+	private SelectOneMenu somPilaProducto;
+	private SelectOneMenu somEmpresas;
+	private SelectOneMenu somProyectos;	
+	
+	private List<SelectItem> lasEmpresasItems;
+	private List<SelectItem> losProyectosFiltro;
+	private List<SelectItem> lasPilasDeProductoFiltro;
 
 	private MeterGaugeChartModel meterGaugeModel;
 
-	List<VtArtefacto> artefactosSource;
-
-	List<VtArtefacto> artefactosTarget;
+	private String sprintSeleccionado;
 
 	private boolean showDialog;
+	
+	private List<VtSprintDTO> dataSprint;
 
 	@ManagedProperty(value = "#{BusinessDelegatorView}")
 	private IBusinessDelegatorView businessDelegatorView;
@@ -98,6 +113,91 @@ public class VtArtefactoSprintView implements Serializable {
 
 	public void setBusinessDelegatorView(IBusinessDelegatorView businessDelegatorView) {
 		this.businessDelegatorView = businessDelegatorView;
+	}
+
+	public SelectOneMenu getSomPilaProducto() {
+		return somPilaProducto;
+	}
+
+	public void setSomPilaProducto(SelectOneMenu somPilaProducto) {
+		this.somPilaProducto = somPilaProducto;
+	}
+
+	public SelectOneMenu getSomEmpresas() {
+		return somEmpresas;
+	}
+
+	public void setSomEmpresas(SelectOneMenu somEmpresas) {
+		this.somEmpresas = somEmpresas;
+	}
+
+	public SelectOneMenu getSomProyectos() {
+		return somProyectos;
+	}
+
+	public void setSomProyectos(SelectOneMenu somProyectos) {
+		this.somProyectos = somProyectos;
+	}
+
+	public List<VtSprintDTO> getDataSprint() {
+		return dataSprint;
+	}
+
+	public void setDataSprint(List<VtSprintDTO> dataSprint) {
+		this.dataSprint = dataSprint;
+	}
+
+	public List<SelectItem> getLasEmpresasItems() {
+		try {
+			if (lasEmpresasItems == null) {
+				List<VtEmpresa> listaEmpresas = businessDelegatorView.getVtEmpresa();
+				lasEmpresasItems = new ArrayList<SelectItem>();
+				for (VtEmpresa vtEmpresa : listaEmpresas) {
+					if (vtEmpresa.getActivo().equalsIgnoreCase("S")) {
+						lasEmpresasItems.add(new SelectItem(vtEmpresa.getEmprCodigo(), vtEmpresa.getNombre()));
+					}
+				}
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+		return lasEmpresasItems;
+	}
+
+	public void setLasEmpresasItems(List<SelectItem> lasEmpresasItems) {
+		this.lasEmpresasItems = lasEmpresasItems;
+	}
+
+	public List<SelectItem> getLosProyectosFiltro() {
+		return losProyectosFiltro;
+	}
+
+	public void setLosProyectosFiltro(List<SelectItem> losProyectosFiltro) {
+		this.losProyectosFiltro = losProyectosFiltro;
+	}
+
+	public List<SelectItem> getLasPilasDeProductoFiltro() {
+		return lasPilasDeProductoFiltro;
+	}
+
+	public void setLasPilasDeProductoFiltro(List<SelectItem> lasPilasDeProductoFiltro) {
+		this.lasPilasDeProductoFiltro = lasPilasDeProductoFiltro;
+	}
+	
+	public DualListModel<VtArtefacto> getVtArtefacto() {
+		return vtArtefacto;
+	}
+
+	public void setVtArtefacto(DualListModel<VtArtefacto> vtArtefacto) {
+		this.vtArtefacto = vtArtefacto;
+	}
+
+	public SelectOneMenu getSomSprints() {
+		return somSprints;
+	}
+
+	public void setSomSprints(SelectOneMenu somSprints) {
+		this.somSprints = somSprints;
 	}
 
 	@PostConstruct
@@ -189,21 +289,6 @@ public class VtArtefactoSprintView implements Serializable {
 		}
 
 	}
-	public DualListModel<VtArtefacto> getVtArtefacto() {
-		return vtArtefacto;
-	}
-
-	public void setVtArtefacto(DualListModel<VtArtefacto> vtArtefacto) {
-		this.vtArtefacto = vtArtefacto;
-	}
-
-	public SelectOneMenu getSomSprints() {
-		return somSprints;
-	}
-
-	public void setSomSprints(SelectOneMenu somSprints) {
-		this.somSprints = somSprints;
-	}
 
 	public List<SelectItem> getLosSprintsItems() {
 
@@ -294,6 +379,101 @@ public class VtArtefactoSprintView implements Serializable {
 			e.printStackTrace();
 		}
 
+	}
+	
+	public String filtrarEmpresa() {
+		try {
+			VtEmpresa vtEmpresa = null;
+			losProyectosFiltro = null;
+			String empresaS = somEmpresas.getValue().toString().trim();
+			if (empresaS.isEmpty() || empresaS.equals("-1")) {
+			} else {
+				Long empresa = Long.parseLong(empresaS);
+				vtEmpresa = businessDelegatorView.getVtEmpresa(empresa);
+			}
+			try {
+				if (losProyectosFiltro == null) {
+					List<VtProyecto> listaProyectos = businessDelegatorView.getVtProyecto();
+					losProyectosFiltro = new ArrayList<SelectItem>();
+					for (VtProyecto vtProyecto : listaProyectos) {
+						if (vtProyecto.getActivo().equalsIgnoreCase("S")
+								&& vtProyecto.getVtEmpresa().getEmprCodigo().equals(vtEmpresa.getEmprCodigo())) {
+							losProyectosFiltro.add(new SelectItem(vtProyecto.getProyCodigo(), vtProyecto.getNombre()));
+						}
+					}
+				}
+			} catch (Exception e) {
+				log.error(e.getMessage());
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+		return "";
+	}
+	
+	public String filtrarProyecto() {
+		try {
+			VtProyecto vtProyecto = null;
+			lasPilasDeProductoFiltro = null;
+			String proyectoS = somProyectos.getValue().toString().trim();
+
+			if (proyectoS.isEmpty() || proyectoS.equals("-1")) {
+			} else {
+				Long proyecto = Long.parseLong(proyectoS);
+				vtProyecto = businessDelegatorView.getVtProyecto(proyecto);
+			}
+
+			try {
+				if (lasPilasDeProductoFiltro == null) {
+					List<VtPilaProducto> listaPilasDeProducto = businessDelegatorView.getVtPilaProducto();
+					lasPilasDeProductoFiltro = new ArrayList<SelectItem>();
+					for (VtPilaProducto vtPilaProducto : listaPilasDeProducto) {
+						if (vtPilaProducto.getActivo().equalsIgnoreCase("S")
+								&& vtPilaProducto.getVtProyecto().getProyCodigo().equals(vtProyecto.getProyCodigo())) {
+							lasPilasDeProductoFiltro
+									.add(new SelectItem(vtPilaProducto.getPilaCodigo(), vtPilaProducto.getNombre()));
+						}
+					}
+				}
+			} catch (Exception e) {
+				log.error(e.getMessage());
+			}
+
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+
+		return "";
+	}
+	
+	public String filtrarPila() {
+
+		try {
+			VtPilaProducto vtPilaProducto = null;
+			String pila = somPilaProducto.getValue().toString();
+			if (pila.isEmpty() || pila.equals("-1")) {
+			} else {
+				Long idPila = Long.parseLong(pila);
+				vtPilaProducto = businessDelegatorView.getVtPilaProducto(idPila);
+			}
+
+			try {
+
+				dataSprint = businessDelegatorView.getDataVtSprintFiltro(vtPilaProducto.getPilaCodigo());
+				losSprintsItems= new ArrayList<SelectItem>();
+				for (VtSprintDTO vtSprintDTO : dataSprint) {
+					losSprintsItems.add(new SelectItem(vtSprintDTO.getSpriCodigo(), vtSprintDTO.getNombre()));
+
+				}
+
+			} catch (Exception e) {
+				log.error(e.getMessage());
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+
+		return "";
 	}
 
 }
