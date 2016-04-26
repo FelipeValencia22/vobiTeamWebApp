@@ -474,4 +474,10 @@ public class VtUsuarioRolLogic implements IVtUsuarioRolLogic {
 	public VtUsuarioRol consultarRolUsuarioPorUsuarioYPorRol(Long usuarioId, Long rolId) throws Exception {
 		return vtUsuarioRolDAO.consultarRolUsuarioPorUsuarioYPorRol(usuarioId, rolId);
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public VtUsuarioRol consultarRolUsuarioPorUsuario(Long usuarioId) throws Exception {		
+		return (VtUsuarioRol) vtUsuarioRolDAO.consultarRolUsuarioPorUsuario(usuarioId);		
+	}
 }

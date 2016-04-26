@@ -116,8 +116,7 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 	}
 
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public void saveVtArtefacto(VtArtefacto entity, String esfuerzoEstimado, String esfuerzoRestantes, String puntos)
-			throws Exception {
+	public void saveVtArtefacto(VtArtefacto entity, String esfuerzoEstimado, String esfuerzoRestantes, String puntos)throws Exception {
 		log.info("saving VtArtefacto instance");
 
 		try {
@@ -165,19 +164,25 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 					entity.setEsfuerzoEstimado(Integer.parseInt(esfuerzoEstimado));
 				} else {
 					throw new Exception(
-							"El campo para el esfuerzo estimado no acepta cadenas de texto o números negativos, solo se aceptan valores númericos positivos.");
+							"El campo para el esfuerzo"
+							+ " estimado no acepta cadenas de texto o "
+							+ "números negativos, solo se aceptan valores númericos positivos.");
 				}
 			}
 
 			if (esfuerzoRestantes.toString().trim().equals("") || esfuerzoRestantes == null) {
 				throw new Exception(
-						"El campo para el esfuerzo restante no puede ser vacio, digite el esfuerzo restante del artefacto a crear.");
+						"El campo para el esf"
+						+ "uerzo restante no p"
+						+ "uede ser vacio, digite el esfuerzo restante del artefacto a crear.");
 			} else {
 				if(Utilities.isNumeric(esfuerzoRestantes) == true){
 					entity.setEsfuerzoRestante(Integer.parseInt(esfuerzoRestantes));
 				}else{
 					throw new Exception(
-							"El campo para el esfuerzo restante no acepta cadenas de texto o números negativos, solo se aceptan valores númericos positivos.");
+							"El campo para el "
+							+ "esfuerzo restante no acepta cadenas "
+							+ "de texto o números negativos, solo se aceptan valores númericos positivos.");
 				}
 
 			}
@@ -190,17 +195,20 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 					entity.setPuntos(Integer.parseInt(puntos));
 				}else{
 					throw new Exception(
-							"El campo para los puntos no acepta cadenas de texto o números negativos, solo se aceptan valores numéricos positivos.");
+							"El campo para los puntos no acepta cadenas de texto"
+							+ " o números negativos, solo se aceptan valores numéricos positivos.");
 				}
 				
 			}
 			if (entity.getOrigen().toString().trim().equals("") || entity.getOrigen() == null) {
 				throw new Exception(
-						"El campo para el origen no puede ser vacio, digite el origen del nuevo artefacto a crear.");
+						"El campo para el origen no puede ser vacio, digite e"
+						+ "l origen del nuevo artefacto a crear.");
 			}
 			if (entity.getOrigen() != null && (Utilities.isNumeric(entity.getOrigen()) == true)) {
 				throw new Exception(
-						"El campo para el origen no puede recibir números, solo se aceptan cadenas de texto.");
+						"El campo para el origen no puede recibir n"
+						+ "úmeros, solo se aceptan cadenas de texto.");
 			}
 			if (entity.getFechaCreacion() == null) {
 				throw new Exception("La fecha de creación es obligatoria");
@@ -213,12 +221,10 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 
 			log.debug("save VtArtefacto successful");
 		} catch (Exception e) {
-			log.error("save VtArtefacto failed", e);
 			throw e;
 		} finally {
 		}
 	}
-
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public void deleteVtArtefacto(VtArtefacto entity) throws Exception {
 		log.debug("deleting VtArtefacto instance");
@@ -823,8 +829,9 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 	}
 
 	@Transactional(readOnly = true)
-	public List<VtArtefacto> consultarTodosLosArtefactosAsignados() throws Exception {		
+	public List<VtArtefacto> consultarTodosLosArtefactosAsignados() throws Exception {
 		return vtArtefactoDAO.consultarTodosLosArtefactosAsignados();
 	}
+
 
 }

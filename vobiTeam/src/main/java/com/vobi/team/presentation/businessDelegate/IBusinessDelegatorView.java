@@ -108,7 +108,7 @@ public interface IBusinessDelegatorView {
 
     public List<VtArtefacto> getVtArtefacto() throws Exception;
 
-    public void saveVtArtefacto(VtArtefacto entity,String esfuerzoEstimado,String esfuerzoRestantes, String puntos) throws Exception;
+    public void saveVtArtefacto(VtArtefacto vtArtefacto,String esfuerzoEstimado,String esfuerzoRestante,String puntos) throws Exception;
 
     public void deleteVtArtefacto(VtArtefacto entity) throws Exception;
 
@@ -526,5 +526,7 @@ public interface IBusinessDelegatorView {
     public VtUsuarioRol consultarRolUsuarioPorUsuarioYPorRol(Long usuarioId, Long rolId)throws Exception;
     
     public List<VtArtefacto> consultarTodosLosArtefactosAsignados() throws Exception;
+    
+	public VtUsuarioRol consultarRolUsuarioPorUsuario(Long usuarioId) throws Exception;
  
 }

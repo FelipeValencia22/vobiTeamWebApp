@@ -254,7 +254,7 @@
 								</f:facet>
 								<h:outputText value="#{vtArtefacto.activo}" />
 							</p:column>
- -->
+
 							<p:column headerText="Modificar">
 								<div align="center">
 									<p:commandButton id="btnEdit" icon="fa fa-edit"
@@ -625,6 +625,7 @@
 			responsive="true" widgetVar="dlg" height="800" modal="true"
 			width="1000">
 			<h:form id="formDialogCrearArtefacto">
+				<p:growl id="growl" />
 				<h:panelGrid columns="2" id="panelGrid" rendered="true">
 					<h:panelGrid columns="2" id="artefactoIzq"  rendered="true">
 						<h:outputText id="msgTiposArtefacto" value="Tipos de artefacto" />
@@ -693,11 +694,11 @@
 					<p:commandButton id="btnCrearS" icon="fa fa-save"
 						binding="#{vtArtefactoView.btnCrearS}" title="crear"
 						action="#{vtArtefactoView.crearArtefacto}"
-						update="@([id$=growl],panelGsrid" />
+						update="formDialogCrearArtefacto,@([id$=pnlVtArtefacto]" />
 
 					<p:commandButton id="btnLimpiarS" icon="fa fa-eraser"
 						binding="#{vtArtefactoView.btnLimpiarS}" title="Limpiar"
-						action="#{vtArtefactoView.limpiar}" update="panelGrid" />
+						action="#{vtArtefactoView.limpiar}" update="formDialogCrearArtefacto" />
 
 					<p:commandButton id="btnSubir" icon="fa fa-upload" type="button"
 						onclick="PF('dlgArchivo').show();" />

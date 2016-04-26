@@ -59,4 +59,6 @@ public interface IVtUsuarioRolLogic {
         throws Exception;
     
     public VtUsuarioRol consultarRolUsuarioPorUsuarioYPorRol(Long usuarioId, Long rolId)throws Exception;
+    
+    public VtUsuarioRol consultarRolUsuarioPorUsuario(Long usuarioId)throws Exception;
 }

@@ -240,9 +240,6 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return vtArtefactoLogic.getVtArtefacto();
 	}
 
-	public void saveVtArtefacto(VtArtefacto entity,String esfuerzoEstimado,String esfuerzoRestantes, String puntos) throws Exception {
-		vtArtefactoLogic.saveVtArtefacto(entity,esfuerzoEstimado,esfuerzoRestantes,puntos);
-	}
 
 	public void deleteVtArtefacto(VtArtefacto entity) throws Exception {
 		vtArtefactoLogic.deleteVtArtefacto(entity);
@@ -1074,4 +1071,20 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return vtArtefactoLogic.consultarTodosLosArtefactosAsignados();
 	}
 
+	@Override
+	public VtUsuarioRol consultarRolUsuarioPorUsuario(Long usuarioId) throws Exception {
+		return vtUsuarioRolLogic.consultarRolUsuarioPorUsuario(usuarioId);
+	}
+
+	@Override
+	public void saveVtArtefacto(VtArtefacto vtArtefacto, String esfuerzoEstimado, String esfuerzoRestante,
+			String puntos) throws Exception {
+		// TODO Auto-generated method stub
+		vtArtefactoLogic.saveVtArtefacto(vtArtefacto, esfuerzoEstimado, esfuerzoRestante, puntos);
+		
+	}
+
+
+
+	
 }

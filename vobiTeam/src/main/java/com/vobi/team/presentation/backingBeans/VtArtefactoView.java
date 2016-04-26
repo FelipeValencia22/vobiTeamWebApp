@@ -807,7 +807,7 @@ public class VtArtefactoView implements Serializable {
 		log.info("Creando artefacto");
 
 		try {
-			VtHistoriaArtefacto vtHistoriaArtefacto = new VtHistoriaArtefacto();
+			
 			entity = new VtArtefacto();
 			entity.setDescripcion(txtdescripcion.getValue().toString().trim());
 			entity.setTitulo(txtnombre.getValue().toString().trim());
@@ -850,8 +850,8 @@ public class VtArtefactoView implements Serializable {
 			}
 			businessDelegatorView.saveVtArtefacto(entity, esfuerzoEstimado, esfuerzoRestante, puntos);
 			FacesUtils.addInfoMessage("Se ha creado el artefacto con éxito");
-			limpiar();
-
+		
+			VtHistoriaArtefacto vtHistoriaArtefacto = new VtHistoriaArtefacto();
 			vtHistoriaArtefacto.setEsfuerzoEstimado(entity.getEsfuerzoEstimado());
 			vtHistoriaArtefacto.setFechaCreacion(entity.getFechaCreacion());
 			vtHistoriaArtefacto.setFechaModificacion(entity.getFechaModificacion());
@@ -863,11 +863,11 @@ public class VtArtefactoView implements Serializable {
 			vtHistoriaArtefacto.setUsuModificador(entity.getUsuModificador());
 			vtHistoriaArtefacto.setVtArtefacto(entity);
 			businessDelegatorView.saveVtHistoriaArtefacto(vtHistoriaArtefacto);
-
+			FacesUtils.addInfoMessage("Se ha creado el historial del artefacto con éxito");
 			vtHistoriaArtefacto = null;
-
+			limpiar();
 		} catch (Exception e) {
-			log.error(e.getMessage());
+			FacesUtils.addErrorMessage(e.getMessage());
 		}
 		return "";
 	}
