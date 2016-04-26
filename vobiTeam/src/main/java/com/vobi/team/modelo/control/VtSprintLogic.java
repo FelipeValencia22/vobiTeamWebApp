@@ -19,12 +19,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Zathura Code Generator http://zathuracode.org/ www.zathuracode.org
@@ -107,6 +105,10 @@ public class VtSprintLogic implements IVtSprintLogic {
 			}
 
 			if (entity.getFechaFin().before(entity.getFechaInicio())) {
+				throw new Exception("La fecha final no puede situarse antes de la fecha inicial");
+			}
+			
+			if (entity.getCapacidadEstimada().toString().isEmpty() || entity.getCapacidadEstimada().toString().equals("")) {
 				throw new Exception("La fecha final no puede situarse antes de la fecha inicial");
 			}
 			VtUsuario vtUsuarioEnSession = (VtUsuario) FacesUtils.getfromSession("vtUsuario");

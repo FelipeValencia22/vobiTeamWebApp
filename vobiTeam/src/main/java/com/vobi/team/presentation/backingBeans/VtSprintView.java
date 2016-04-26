@@ -1,28 +1,25 @@
 package com.vobi.team.presentation.backingBeans;
 
-import com.vobi.team.exceptions.*;
 import com.vobi.team.modelo.*;
 import com.vobi.team.modelo.dto.VtArtefactoDTO;
-import com.vobi.team.modelo.dto.VtPilaProductoDTO;
 import com.vobi.team.modelo.dto.VtSprintDTO;
 import com.vobi.team.presentation.businessDelegate.*;
 import com.vobi.team.utilities.*;
 
-import com.vobi.team.exceptions.ZMessManager;
 
 import org.primefaces.component.calendar.*;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.inputtext.InputText;
 import org.primefaces.component.inputtextarea.InputTextarea;
+import org.primefaces.component.panel.Panel;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
-import org.primefaces.event.RowEditEvent;
-
+import org.primefaces.event.CloseEvent;
+import org.primefaces.event.ToggleEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 
-import java.sql.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -30,8 +27,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
-import java.util.TimeZone;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -39,7 +34,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
 
@@ -72,6 +66,7 @@ public class VtSprintView implements Serializable {
 
 	private InputText txtNombre;
 	private InputText txtNombreCrear;
+	private InputText txtEsfuerzoCrear;
 	private InputTextarea txtObjetivo;
 	private InputTextarea txtObjetivoCrear;
 	private InputText txtSpriCodigo;
@@ -89,6 +84,7 @@ public class VtSprintView implements Serializable {
 	private CommandButton btnGuardar;
 	private CommandButton btnLimpiar;
 	private CommandButton btnFiltrar;
+	private CommandButton btnCrearSprintFiltrado;
 
 	private List<VtSprintDTO> data;
 	private List<VtSprintDTO> dataFiltro;
@@ -97,6 +93,8 @@ public class VtSprintView implements Serializable {
 
 	private VtSprintDTO selectedVtSprint;
 	private VtSprint entity;
+	
+	private Panel pnlToogle;
 
 	private boolean showDialog;
 
@@ -115,6 +113,22 @@ public class VtSprintView implements Serializable {
 
 	public void setTxtNombreCrear(InputText txtNombreCrear) {
 		this.txtNombreCrear = txtNombreCrear;
+	}
+
+	public InputText getTxtEsfuerzoCrear() {
+		return txtEsfuerzoCrear;
+	}
+
+	public void setTxtEsfuerzoCrear(InputText txtEsfuerzoCrear) {
+		this.txtEsfuerzoCrear = txtEsfuerzoCrear;
+	}
+
+	public Panel getPnlToogle() {
+		return pnlToogle;
+	}
+
+	public void setPnlToogle(Panel pnlToogle) {
+		this.pnlToogle = pnlToogle;
 	}
 
 	public InputTextarea getTxtObjetivoCrear() {
@@ -501,10 +515,17 @@ public class VtSprintView implements Serializable {
 		this.losProyectosItems = losProyectosItems;
 	}
 
+	public CommandButton getBtnCrearSprintFiltrado() {
+		return btnCrearSprintFiltrado;
+	}
+
+	public void setBtnCrearSprintFiltrado(CommandButton btnCrearSprintFiltrado) {
+		this.btnCrearSprintFiltrado = btnCrearSprintFiltrado;
+	}
+
 	// TODO: Metodos
 	public String crearSprint(){
 		log.info("Guardando..");
-
 		try {
 			VtSprint vtSprint = new VtSprint();
 			String activo = somActivo.getValue().toString().trim();
@@ -514,7 +535,7 @@ public class VtSprintView implements Serializable {
 				vtSprint.setActivo("N");
 			}
 			VtPilaProducto vtPilaProducto;
-			String longPila=somPilaProductoCrear.getValue().toString().trim();
+			String longPila=somPilaProducto.getValue().toString().trim();
 			Long codigoPila= Long.valueOf(longPila);
 			vtPilaProducto=businessDelegatorView.getVtPilaProducto(codigoPila);
 
@@ -527,8 +548,8 @@ public class VtSprintView implements Serializable {
 
 			vtSprint.setNombre(txtNombreCrear.getValue().toString().trim());
 			vtSprint.setObjetivo(txtObjetivoCrear.getValue().toString().trim());
-
-
+			int esfuerzo=Integer.parseInt(txtEsfuerzoCrear.getValue().toString().trim());
+			vtSprint.setCapacidadEstimada(esfuerzo);
 
 			businessDelegatorView.saveVtSprint(vtSprint);
 			FacesContext.getCurrentInstance().addMessage("", new FacesMessage("El sprint se creó con exito"));
@@ -537,6 +558,7 @@ public class VtSprintView implements Serializable {
 			action_clear();
 			vtSprint=null;
 		} catch (Exception e) {
+			e.printStackTrace();
 			log.error(e.getMessage());
 			FacesContext.getCurrentInstance().addMessage("", new FacesMessage(e.getMessage()));
 		}
@@ -632,10 +654,6 @@ public class VtSprintView implements Serializable {
 
 
 		}catch (Exception e) {
-			System.out.println(e.toString());
-			System.out.println(e.getMessage());
-			System.out.println(e.getLocalizedMessage());
-			System.out.println(e.getCause());
 			e.printStackTrace();
 			data = null;
 			log.error(e.getMessage());
@@ -708,8 +726,6 @@ public class VtSprintView implements Serializable {
 					if(lasPilasDeProductoFiltro==null){
 						List<VtPilaProducto> listaPilasDeProducto=businessDelegatorView.getVtPilaProducto();
 						lasPilasDeProductoFiltro= new ArrayList<SelectItem>();
-						System.out.println(proyectoS);
-						System.out.println(vtProyecto.getProyCodigo());
 						for (VtPilaProducto vtPilaProducto:listaPilasDeProducto){
 							if(vtPilaProducto.getActivo().equalsIgnoreCase("S") && vtPilaProducto.getVtProyecto().getProyCodigo().equals(vtProyecto.getProyCodigo())){
 								lasPilasDeProductoFiltro.add(new SelectItem(vtPilaProducto.getPilaCodigo(), vtPilaProducto.getNombre()));
@@ -736,6 +752,7 @@ public class VtSprintView implements Serializable {
 	}
 
 	public String filtrar(){
+		btnCrearSprintFiltrado.setDisabled(false);
 		String pila=somPilaProducto.getValue().toString().trim();
 		if(!pila.equals("-1")){
 			try {
@@ -821,6 +838,16 @@ public class VtSprintView implements Serializable {
 		
 		return "";
 	}
+	
+	public void onClose(CloseEvent event) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Panel Closed", "Closed panel id:'" + event.getComponent().getId() + "'");
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+     
+    public void onToggle(ToggleEvent event) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, event.getComponent().getId() + " toggled", "Status:" + event.getVisibility().name());
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
 
 
 }

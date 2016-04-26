@@ -554,9 +554,7 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 
 				if (vtArtefactoTmp.getActivo().equalsIgnoreCase("S")) {
 
-					if (vtArtefactoTmp.getVtSprint().getSpriCodigo() == codigoFiltro
-							&& (vtArtefactoTmp.getVtEstado().getEstaCodigo().equals(1)
-									|| vtArtefactoTmp.getVtEstado().getEstaCodigo().equals(5))) {
+					if (vtArtefactoTmp.getVtSprint().getSpriCodigo().equals(codigoFiltro)){
 						VtArtefactoDTO vtArtefactoDTO2 = new VtArtefactoDTO();
 
 						vtArtefactoDTO2.setArteCodigo(vtArtefactoTmp.getArteCodigo());
