@@ -527,6 +527,6 @@ public interface IBusinessDelegatorView {
     
     public List<VtArtefacto> consultarTodosLosArtefactosAsignados() throws Exception;
     
-	public VtUsuarioRol consultarRolUsuarioPorUsuario(Long usuarioId) throws Exception;
+    public List<VtUsuarioRol> consultarRolUsuarioPorUsuario(Long usuarioId)throws Exception;
  
 }

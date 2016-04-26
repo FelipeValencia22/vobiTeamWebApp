@@ -27,16 +27,9 @@
 
 		<h:form id="frm">
 			<p:growl id="msg" />
+			<br></br>
 
-			<p:panel id="pnlListArtefacto" header="ARTEFACTO">
-				<br></br>
-				<p:growl id="growl" />
-				<p:commandButton value="Crear artefacto" type="button"
-					onclick="PF('dlg').show();" update="pnlListArtefacto" />
-			</p:panel>
-
-
-			<p:panel id="pnlListaSprint" header="LISTA ARTEFACTOS">
+			<p:panel id="pnlListaSprint" header="ARTEFACTOS">
 				<h:panelGrid columns="1">
 
 					<p:selectOneMenu id="somEmpresas" style="width:300px"
@@ -65,12 +58,19 @@
 
 					<p:selectOneMenu id="somSprints" style="width:300px"
 						binding="#{vtArtefactoView.somSprints}">
-						<p:ajax update="pnlVtArtefacto" event="change"
+						<p:ajax update="pnlVtArtefacto,frm" event="change"
 							listener="#{vtArtefactoView.filtrar}" />
 						<f:selectItem itemValue="-1" itemLabel="Sprint" />
 						<f:selectItems value="#{vtArtefactoView.esSprintItems}" />
 					</p:selectOneMenu>
-
+					
+					<br></br>
+					
+					<p:commandButton value="Crear artefacto" type="button"
+					onclick="PF('dlg').show();" update="pnlListArtefacto" 
+					binding="#{vtArtefactoView.btnCrearArtefactoFiltrado}" disabled="true"/> 
+					
+					<br></br>
 
 				</h:panelGrid>
 			</p:panel>
@@ -155,7 +155,7 @@
 							<p:column headerText="Cambiar estado">
 								<div align="center">
 									<p:commandButton id="btnEstado" icon="fa fa-retweet"
-										update=":frm:pnlVtArtefacto, :frm:growl"
+										update=":frm:pnlVtArtefacto, :frm:msg"
 										actionListener="#{vtArtefactoView.cambiarEstado}">
 										<f:attribute name="selectedVtArtefacto" value="#{vtArtefacto}" />
 									</p:commandButton>
@@ -269,7 +269,7 @@
 							<p:column headerText="Cambiar estado">
 								<div align="center">
 									<p:commandButton id="btnEstado" icon="fa fa-retweet"
-										update=":frm:pnlVtArtefacto, :frm:growl"
+										update=":frm:pnlVtArtefacto, :frm:msg"
 										actionListener="#{vtArtefactoView.cambiarEstado}">
 										<f:attribute name="selectedVtArtefacto" value="#{vtArtefacto}" />
 									</p:commandButton>
@@ -628,6 +628,7 @@
 				<p:growl id="growl" />
 				<h:panelGrid columns="2" id="panelGrid" rendered="true">
 					<h:panelGrid columns="2" id="artefactoIzq"  rendered="true">
+					
 						<h:outputText id="msgTiposArtefacto" value="Tipos de artefacto" />
 						<p:selectOneMenu id="somTiposDeArtefactos" style="width:140px" rendered="true"
 							binding="#{vtArtefactoView.somTiposDeArtefactos}">
@@ -635,12 +636,7 @@
 							<f:selectItems value="#{vtArtefactoView.esTipoArtefactoItems}" />
 						</p:selectOneMenu>
 						
-						<h:outputText id="msgPilaProducto" value="Pila de producto" />
-						<p:selectOneMenu id="somPilaProductoCrear" style="width:140px"
-							binding="#{vtArtefactoView.somPilaProductoCrear}">						
-							<f:selectItem itemValue="-1" itemLabel="Pila de producto" />
-							<f:selectItems value="#{vtArtefactoView.esPilaProductoItems}" />
-						</p:selectOneMenu>
+											
 						<h:outputText id="msgTitulo" value="Título" />
 						<p:inputText id="txtnombre" size="60" placeholder="Titulo"
 							binding="#{vtArtefactoView.txtnombre}" />
@@ -694,7 +690,7 @@
 					<p:commandButton id="btnCrearS" icon="fa fa-save"
 						binding="#{vtArtefactoView.btnCrearS}" title="crear"
 						action="#{vtArtefactoView.crearArtefacto}"
-						update="formDialogCrearArtefacto,@([id$=pnlVtArtefacto]" />
+						update="formDialogCrearArtefacto,@([id$=pnlVtArtefacto],@([id$=frm]" />
 
 					<p:commandButton id="btnLimpiarS" icon="fa fa-eraser"
 						binding="#{vtArtefactoView.btnLimpiarS}" title="Limpiar"

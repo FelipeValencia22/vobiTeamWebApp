@@ -18,50 +18,10 @@
 				class="layout-menubar-search floatLeft Animated05"
 				placeholder="Search Here" />
 		</div>
-
+	
 		<h:form id="menuform">
-			<ps:menu id="sm_leftmenu">
-
-				<p:menuitem id="sm_dashboard" value="Dashboard"
-					icon="icon-home-outline" outcome="/XHTML/dashboard"
-					containerStyleClass="layout-menubar-active" />
-
-				<p:menuitem id="sm_vtEmpresa" value="Empresas"
-					icon="fa fa-building-o" outcome="/XHTML/vtGestionEmpresa.xhtml" />
-
-				<p:menuitem id="sm_VtUsuario" value="Usuarios" icon="fa fa-user"
-					outcome="/XHTML/vtGestionUsuarios.xhtml" />
-
-
-
-				<p:menuitem id="sm_VtProyecto" value="Proyectos"
-					icon="fa fa-folder-open" outcome="/XHTML/vtGestionProyecto.xhtml" />
-				
-				<p:menuitem id="sm_VtDesarrolladoresProyecto" value="Desarrolladores-Proyecto"
-					icon="fa fa-folder-open" outcome="/XHTML/vtDesarrolladoresProyecto.xhtml" />
-					
-					
-				<p:menuitem id="sm_VtArtefactosSprint" value="Artefactos-Sprint"
-					icon="fa fa-calendar" outcome="/XHTML/vtArtefactoSprint.xhtml" />
-
-				<p:menuitem id="sm_VtCrearProductBacklog" value="Pila de producto"
-					icon="fa fa-server" outcome="/XHTML/vtGestionPilaProducto.xhtml" />
-
-				<p:menuitem id="sm_VtSprint" value="Sprint" icon="fa fa-calendar"
-					outcome="/XHTML/vtGestionSprint.xhtml" />
-
-				<p:menuitem id="sm_VtArtefacto" value="Artefactos"
-					icon="fa fa-files-o" outcome="/XHTML/vtGestionArtefacto.xhtml" />
-
-
-				<p:menuitem id="sm_VtRol" value="Roles" icon="fa fa-users"
-					outcome="/XHTML/vtGestionarRoles.xhtml" />
-				
-				<p:menuitem id="sm_VtUsuarioRol" value="Roles por usuario" icon="fa fa-users"
-					outcome="/XHTML/vtUsuarioRol.xhtml" />
-
-
-			</ps:menu>
+		
+			 <ps:menu model="#{menuView.model}" />
 		</h:form>
 	</div>
 

@@ -117,6 +117,7 @@ public class VtArtefactoView implements Serializable {
 	private CommandButton btnDescargar;
 	private Long spriCodigo = null;
 	private CommandButton btnLimpiar;
+	private CommandButton btnCrearArtefactoFiltrado;
 	private CommandButton btnFiltrar;
 	private VtArtefacto entity;
 	private VtArchivo archivoEntity;
@@ -159,6 +160,14 @@ public class VtArtefactoView implements Serializable {
 
 	public InputText getTxtEsfuerzoRestante() {
 		return txtEsfuerzoRestante;
+	}
+
+	public CommandButton getBtnCrearArtefactoFiltrado() {
+		return btnCrearArtefactoFiltrado;
+	}
+
+	public void setBtnCrearArtefactoFiltrado(CommandButton btnCrearArtefactoFiltrado) {
+		this.btnCrearArtefactoFiltrado = btnCrearArtefactoFiltrado;
 	}
 
 	public boolean isShowDialogHistorial() {
@@ -818,7 +827,7 @@ public class VtArtefactoView implements Serializable {
 			puntos = (txtPuntos.getValue().toString().trim());
 			entity.setOrigen(txtOrigen.getValue().toString().trim());
 
-			String pilasProducto = somPilaProductoCrear.getValue().toString().trim();
+			String pilasProducto = somPilaProducto.getValue().toString().trim();
 			Long idPilaProducto = Long.parseLong(pilasProducto);
 			VtPilaProducto vtPilaProducto = businessDelegatorView.getVtPilaProducto(idPilaProducto);
 			entity.setVtPilaProducto(vtPilaProducto);
@@ -974,7 +983,6 @@ public class VtArtefactoView implements Serializable {
 		txtEsfuerzoEstimado.resetValue();
 		txtnombre.resetValue();
 		somEstados.setValue("-1");
-		somPilaProductoCrear.setValue("-1");
 		somPrioridades.setValue("-1");
 		somTiposDeArtefactos.setValue("-1");
 		txtEsfuerzoRestante.resetValue();
@@ -984,6 +992,7 @@ public class VtArtefactoView implements Serializable {
 	}
 
 	public String filtrar() {
+		btnCrearArtefactoFiltrado.setDisabled(false);
 		try {
 			String sprint = somSprints.getValue().toString().trim();
 			spriCodigo = Long.valueOf(sprint);

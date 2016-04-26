@@ -477,7 +477,7 @@ public class VtUsuarioRolLogic implements IVtUsuarioRolLogic {
 
 	@Override
 	@Transactional(readOnly = true)
-	public VtUsuarioRol consultarRolUsuarioPorUsuario(Long usuarioId) throws Exception {		
-		return (VtUsuarioRol) vtUsuarioRolDAO.consultarRolUsuarioPorUsuario(usuarioId);		
+	public List<VtUsuarioRol> consultarRolUsuarioPorUsuario(Long usuarioId) throws Exception {		
+		return vtUsuarioRolDAO.consultarRolUsuarioPorUsuario(usuarioId);		
 	}
 }

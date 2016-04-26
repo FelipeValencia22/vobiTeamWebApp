@@ -41,7 +41,6 @@ public class MenuView {
 
 	private MenuModel model;
 
-	@SuppressWarnings("unchecked")
 	@PostConstruct
 	public void init(){
 		
@@ -75,130 +74,100 @@ public class MenuView {
 
 	public void establecerPermisosADMIN(){
 		//Empresa
-		DefaultSubMenu empresaSubmenu = new DefaultSubMenu("Empresas");
+		
+		DefaultMenuItem dashboardItem = new DefaultMenuItem("Dashboard");
+		dashboardItem.setOutcome("/XHTML/dashboard");
+		dashboardItem.setIcon("icon-home-outline");
+		dashboardItem.setId("sm_dashboard");
+		dashboardItem.setContainerStyleClass("layout-menubar-active");
+		model.addElement(dashboardItem);
+		
 		DefaultMenuItem empresaItem = new DefaultMenuItem("Empresas");
-
-		empresaItem.setOutcome("empresaVista");
-		empresaItem.setIcon("icon-building-filled");
-		empresaItem.setId("sm_empresaVista");
+		empresaItem.setOutcome("/XHTML/vtGestionEmpresa.xhtml");
+		empresaItem.setIcon("fa fa-building-o");
+		empresaItem.setId("sm_vtEmpresa");
 		empresaItem.setContainerStyleClass("layout-menubar-active");
-
-		empresaSubmenu.setId("sm_Empresas");
-		empresaSubmenu.setIcon("icon-building");
-		empresaSubmenu.addElement(empresaItem);
-		model.addElement(empresaSubmenu);
+		model.addElement(empresaItem);
 
 		//Usuario
-		DefaultSubMenu usuarioSubmenu = new DefaultSubMenu("Usuarios");
 		DefaultMenuItem usuarioItem = new DefaultMenuItem("Usuarios");
+		usuarioItem.setOutcome("/XHTML/vtGestionUsuarios.xhtml");
+		usuarioItem.setIcon("fa fa-user");
+		usuarioItem.setId("sm_VtUsuario");
+		model.addElement(usuarioItem);
+		
+		
+		DefaultMenuItem proyectoItem = new DefaultMenuItem("Proyectos");
+		proyectoItem.setOutcome("/XHTML/vtGestionProyecto.xhtml");
+		proyectoItem.setIcon("fa fa-folder-open");
+		proyectoItem.setId("sm_VtProyecto");
+		model.addElement(proyectoItem);
+		
+		DefaultMenuItem desarrolladorProyectoItem = new DefaultMenuItem("Desarrolladores-proyecto");
+		desarrolladorProyectoItem.setOutcome("/XHTML/vtDesarrolladoresProyecto.xhtml");
+		desarrolladorProyectoItem.setIcon("fa fa-folder-open");
+		desarrolladorProyectoItem.setId("sm_VtDesarrolladoresProyecto");
+		model.addElement(desarrolladorProyectoItem);
+		
+		DefaultMenuItem artefactosSprintItem = new DefaultMenuItem("Artefactos-sprint");
+		artefactosSprintItem.setOutcome("/XHTML/vtArtefactoSprint.xhtml");
+		artefactosSprintItem.setIcon("fa fa-calendar");
+		artefactosSprintItem.setId("sm_VtArtefactosSprint");
+		model.addElement(artefactosSprintItem);
 
-		usuarioItem.setOutcome("usuarioVista");
-		usuarioItem.setIcon("icon-user-add");
-		usuarioItem.setId("sm_usuarioVista");
-
-		usuarioSubmenu.setId("sm_Usuarios");
-		usuarioSubmenu.setIcon("icon-user-1");
-		usuarioSubmenu.addElement(usuarioItem);
-
-
-		DefaultMenuItem rolItem = new DefaultMenuItem("Roles");
-		rolItem.setOutcome("rolVista");
-		rolItem.setIcon("icon-users");
-		rolItem.setId("sm_rolVista");
-
-		usuarioSubmenu.addElement(rolItem);
-		model.addElement(usuarioSubmenu);
+		
 
 		//Pila de producto
-		DefaultSubMenu pilaSubmenu = new DefaultSubMenu("Pila de producto");
-		DefaultMenuItem pilaItem = new DefaultMenuItem("Gestionar Pila");
-
-		pilaItem.setOutcome("pilaProductoVista");
-		pilaItem.setIcon("icon-align-justify");
-		pilaItem.setId("sm_pilaProductoVista");
-
-		pilaSubmenu.setId("sm_Pila_Producto");
-		pilaSubmenu.setIcon("icon-align-center");
-		pilaSubmenu.addElement(pilaItem);
-		model.addElement(pilaSubmenu);
+		DefaultMenuItem pilaItem = new DefaultMenuItem("Pila de producto");
+		pilaItem.setOutcome("/XHTML/vtGestionPilaProducto.xhtml");
+		pilaItem.setIcon("fa fa-server");
+		pilaItem.setId("sm_VtCrearProductBacklog");		
+		model.addElement(pilaItem);
 
 
 		//Sprint
-		DefaultSubMenu sprintSubmenu = new DefaultSubMenu("Sprint");
-		DefaultMenuItem sprintItem = new DefaultMenuItem("Gestionar Sprint");
-
-		sprintItem.setOutcome("sprintVista");
-		sprintItem.setIcon("icon-th-list-1");
-		sprintItem.setId("sm_sprintVista");
-
-		sprintSubmenu.setId("sm_Sprint");
-		sprintSubmenu.setIcon("icon-book");
-		sprintSubmenu.addElement(sprintItem);
-		model.addElement(sprintSubmenu);
-
-
-		//Comportamiento artefacto
-		DefaultSubMenu cpArtefactoSubmenu = new DefaultSubMenu("Comportamiento Artefacto");
-
-		//Estado Artefacto
-		DefaultMenuItem estadoArtefactoItem = new DefaultMenuItem("Estado Artefacto");
-
-		estadoArtefactoItem.setOutcome("estadoVista");
-		estadoArtefactoItem.setIcon("icon-vcard");
-		estadoArtefactoItem.setId("sm_estadoVista");
-		cpArtefactoSubmenu.addElement(estadoArtefactoItem);
-
-		//Prioridad Artefacto
-		DefaultMenuItem prioridadArtefactoItem = new DefaultMenuItem("Prioridad Artefacto");
-
-		prioridadArtefactoItem.setOutcome("prioridadVista");
-		prioridadArtefactoItem.setIcon("icon-news");
-		prioridadArtefactoItem.setId("sm_prioridadVista");
-		cpArtefactoSubmenu.addElement(prioridadArtefactoItem);
-
-		//tipo Artefacto
-		DefaultMenuItem tpArtefactoItem = new DefaultMenuItem("Tipo de Artefacto");
-
-		tpArtefactoItem.setOutcome("tipoArtefactoVista");
-		tpArtefactoItem.setIcon("icon-calendar-2");
-		tpArtefactoItem.setId("sm_tipoArtefactoVista");
-		cpArtefactoSubmenu.addElement(tpArtefactoItem);
-
-		cpArtefactoSubmenu.setId("sm_Comportamiento_Artefacto");
-		cpArtefactoSubmenu.setIcon("icon-list-alt");
-
-		model.addElement(cpArtefactoSubmenu);
+		DefaultMenuItem sprintItem = new DefaultMenuItem("Sprint");
+		sprintItem.setOutcome("/XHTML/vtGestionSprint.xhtml");
+		sprintItem.setIcon("fa fa-calendar");
+		sprintItem.setId("sm_VtSprint");
+		model.addElement(sprintItem);
+		
+		
+		DefaultMenuItem artefactosItem = new DefaultMenuItem("Artefacto");
+		artefactosItem.setOutcome("/XHTML/vtGestionArtefacto.xhtml");
+		artefactosItem.setIcon("fa fa-files-o");
+		artefactosItem.setId("sm_VtArtefacto");
+		model.addElement(artefactosItem);
+		
+		
+		
+		DefaultMenuItem rolItem = new DefaultMenuItem("Roles");
+		rolItem.setOutcome("/XHTML/vtGestionarRoles.xhtml");
+		rolItem.setIcon("fa fa-users");
+		rolItem.setId("sm_VtRol");	
+		model.addElement(rolItem);
+		
+		
+		DefaultMenuItem rolUsuarioItem = new DefaultMenuItem("Roles por usuario");
+		rolUsuarioItem.setOutcome("/XHTML/vtUsuarioRol.xhtml");
+		rolUsuarioItem.setIcon("fa fa-users");
+		rolUsuarioItem.setId("sm_VtUsuarioRol");	
+		model.addElement(rolUsuarioItem);
+		
+		
+	
 
 	}
 
 	
 	public void establecerPermisosDESARROLLADOR(){
 		
-		DefaultSubMenu empresaSubmenu = new DefaultSubMenu("Sprint");
-		DefaultMenuItem empresaItem = new DefaultMenuItem("Gestionar Sprints");
-
-		empresaItem.setOutcome("desarrolladorSprintVista");
-		empresaItem.setIcon("icon-book");
-		empresaItem.setId("sm_ArtefactiVista");
-		empresaItem.setContainerStyleClass("layout-menubar-active");
-
-		empresaSubmenu.setId("sm_Artefactos");
-		empresaSubmenu.setIcon("icon-briefcase");
-		empresaSubmenu.addElement(empresaItem);
-		model.addElement(empresaSubmenu);
-		
-		
-		DefaultSubMenu desarrolladorDatosSubmenu = new DefaultSubMenu("Cuenta");
-		DefaultMenuItem desarrolladorDatosItem = new DefaultMenuItem("Datos");
-
-		desarrolladorDatosItem.setOutcome("desarrolladorDatos");
-		desarrolladorDatosItem.setIcon("icon-list-alt");
-		desarrolladorDatosItem.setId("sm_DatosVista");
-
-		desarrolladorDatosSubmenu.setId("sm_Cuenta");
-		desarrolladorDatosSubmenu.setIcon("icon-user");
-		desarrolladorDatosSubmenu.addElement(desarrolladorDatosItem);
-		model.addElement(desarrolladorDatosSubmenu);
+		DefaultMenuItem dashboardItem = new DefaultMenuItem("Dashboard");
+		dashboardItem.setOutcome("/XHTML/dashboard");
+		dashboardItem.setIcon("icon-home-outline");
+		dashboardItem.setId("sm_dashboard");
+		dashboardItem.setContainerStyleClass("layout-menubar-active");
+		model.addElement(dashboardItem);
 		
 
 		
