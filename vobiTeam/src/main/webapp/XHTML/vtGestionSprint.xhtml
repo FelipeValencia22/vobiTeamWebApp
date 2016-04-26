@@ -26,15 +26,9 @@
 		<h:form id="frm">
 			<p:growl id="growl" />
 
-			<p:panel id="pnlListaSprint" header="SPRINT">
-				<br></br>
-				<p:commandButton value="Crear Sprint" type="button"
-					onclick="PF('dlg').show();" />
-			</p:panel>
-
 			<br></br>
 
-			<p:panel id="outputLabelPilaProducto" header="Lista de Sprints">
+			<p:panel id="outputLabelPilaProducto" header="SPRINT">
 
 				<h:panelGrid columns="1">
 
@@ -56,12 +50,15 @@
 
 					<p:selectOneMenu id="somPilaProducto" style="width:400px"
 						binding="#{vtSprintView.somPilaProducto}">
-						<p:ajax update="pnlVtSprint" event="change"
+						<p:ajax update="pnlVtSprint, frm" event="change"
 							listener="#{vtSprintView.filtrar}" />
 						<f:selectItem itemValue="-1" itemLabel="Pila de Producto" />
 						<f:selectItems value="#{vtSprintView.lasPilasDeProductoFiltro}" />
 					</p:selectOneMenu>
 					<br></br>
+
+				<p:commandButton value="Crear Sprint" type="button"
+					onclick="PF('dlg').show();" disabled="true" binding="#{vtSprintView.btnCrearSprintFiltrado}"/>
 
 				</h:panelGrid>
 
@@ -315,17 +312,7 @@
 		<p:dialog header="Crear Sprint" appendTo="@(body)" draggable="true"
 			widgetVar="dlg" resizable="false" modal="true" width="500">
 			<h:form id="formDialogCrearSprint">
-				<p:growl id="growl" showDetail="true" />
 				<h:panelGrid columns="1" id="panelGrid">
-
-					<p:selectOneMenu id="somPilaProductoCrear" style="width:400px"
-						binding="#{vtSprintView.somPilaProductoCrear}">
-						<f:selectItem itemValue="-1" itemLabel="Pila producto" />
-						<f:selectItems value="#{vtSprintView.esPilaProductoItems}" />
-					</p:selectOneMenu>
-
-
-
 
 					<p:inputText id="txtNombreCrear" placeholder="Nombre"
 						binding="#{vtSprintView.txtNombreCrear}" style="width:400px" />
@@ -333,6 +320,9 @@
 
 					<p:inputTextarea id="txtObjetivoCrear" placeholder="Objetivo"
 						rows="10" cols="64" binding="#{vtSprintView.txtObjetivoCrear}" />
+						
+						<p:inputText id="txtEsfuerzoCrear" placeholder="Objetivo"
+						binding="#{vtSprintView.txtEsfuerzoCrear}" />
 
 					<p:selectOneMenu id="somActivo" binding="#{vtSprintView.somActivo}"
 						style="width:200px">
@@ -360,7 +350,7 @@
 				<p:commandButton id="btnCrearS" binding="#{vtSprintView.btnCrearS}"
 					icon="fa fa-save" title="Crear"
 					action="#{vtSprintView.crearSprint}"
-					update="formDialogCrearSprint,@([id$=pnlVtSprint]" />
+					update="formDialogCrearSprint,@([id$=pnlVtSprint],@([id$=growl]" />
 
 				<p:commandButton id="btnLimpiarS"
 					binding="#{vtSprintView.btnLimpiarS}" icon="fa fa-eraser"

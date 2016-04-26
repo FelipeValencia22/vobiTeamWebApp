@@ -33,22 +33,6 @@ import com.vobi.team.modelo.control.IVtTipoArtefactoLogic;
 import com.vobi.team.modelo.control.IVtUsuarioArtefactoLogic;
 import com.vobi.team.modelo.control.IVtUsuarioLogic;
 import com.vobi.team.modelo.control.IVtUsuarioRolLogic;
-import com.vobi.team.modelo.control.VtArchivoLogic;
-import com.vobi.team.modelo.control.VtArtefactoLogic;
-import com.vobi.team.modelo.control.VtEmpresaLogic;
-import com.vobi.team.modelo.control.VtEstadoLogic;
-import com.vobi.team.modelo.control.VtHistoriaArtefactoLogic;
-import com.vobi.team.modelo.control.VtInteresLogic;
-import com.vobi.team.modelo.control.VtPilaProductoLogic;
-import com.vobi.team.modelo.control.VtPrioridadLogic;
-import com.vobi.team.modelo.control.VtProyectoLogic;
-import com.vobi.team.modelo.control.VtProyectoUsuarioLogic;
-import com.vobi.team.modelo.control.VtRolLogic;
-import com.vobi.team.modelo.control.VtSprintLogic;
-import com.vobi.team.modelo.control.VtTipoArtefactoLogic;
-import com.vobi.team.modelo.control.VtUsuarioArtefactoLogic;
-import com.vobi.team.modelo.control.VtUsuarioLogic;
-import com.vobi.team.modelo.control.VtUsuarioRolLogic;
 import com.vobi.team.modelo.dto.VtArchivoDTO;
 import com.vobi.team.modelo.dto.VtArtefactoDTO;
 import com.vobi.team.modelo.dto.VtEmpresaDTO;
@@ -65,7 +49,6 @@ import com.vobi.team.modelo.dto.VtTipoArtefactoDTO;
 import com.vobi.team.modelo.dto.VtUsuarioArtefactoDTO;
 import com.vobi.team.modelo.dto.VtUsuarioDTO;
 import com.vobi.team.modelo.dto.VtUsuarioRolDTO;
-import com.vobi.team.presentation.backingBeans.VtProyectoUsuariosView;
 import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
 
 import org.slf4j.Logger;
@@ -77,13 +60,7 @@ import org.springframework.context.annotation.Scope;
 
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-
-import java.sql.*;
-
-import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Use a Business Delegate to reduce coupling between presentation-tier clients
@@ -150,6 +127,7 @@ import java.util.Set;
 @Scope("singleton")
 @Service("BusinessDelegatorView")
 public class BusinessDelegatorView implements IBusinessDelegatorView {
+	@SuppressWarnings("unused")
 	private static final Logger log = LoggerFactory.getLogger(BusinessDelegatorView.class);
 	@Autowired
 	private IVtArchivoLogic vtArchivoLogic;
