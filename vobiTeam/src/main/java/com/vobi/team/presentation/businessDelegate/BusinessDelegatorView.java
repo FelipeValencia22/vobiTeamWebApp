@@ -1056,9 +1056,29 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	@Override
 	public void saveVtArtefacto(VtArtefacto vtArtefacto, String esfuerzoEstimado, String esfuerzoRestante,
 			String puntos) throws Exception {
-		// TODO Auto-generated method stub
 		vtArtefactoLogic.saveVtArtefacto(vtArtefacto, esfuerzoEstimado, esfuerzoRestante, puntos);
 		
+	}
+
+	@Override
+	public List<VtArtefacto> obtenerArtefactosNoAsignados(VtUsuario vtUsuario) throws Exception {
+		return vtArtefactoLogic.obtenerArtefactosNoAsignados(vtUsuario);
+	}
+
+	@Override
+	public List<VtArtefacto> obtenerArtefactosAsignados(VtUsuario vtUsuario) throws Exception {
+		return vtArtefactoLogic.obtenerArtefactosAsignados(vtUsuario);
+	}
+	
+	@Override
+	public VtUsuarioArtefacto consultarUsuarioArtefactoPorUsuarioYArtefacto(Long codigoUsuario, Long codigoArtefacto)
+			throws Exception {
+		return vtArtefactoLogic.consultarUsuarioArtefactoPorUsuarioYArtefacto(codigoUsuario, codigoArtefacto);
+	}
+
+	@Override
+	public List<VtArchivoDTO> getDataVtArchivoInactivo(Long codigoArtefacto) throws Exception {
+		return vtArchivoLogic.getDataVtArchivoInactivo(codigoArtefacto);
 	}
 
 

@@ -16,8 +16,6 @@ import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.vobi.team.modelo.VtEmpresa;
 import com.vobi.team.modelo.VtProyecto;
 import com.vobi.team.modelo.VtRol;
 import com.vobi.team.modelo.VtUsuario;
@@ -135,49 +133,7 @@ public class VtUsuarioRolView implements Serializable {
 		return "";
 	}
 
-	public void setLosUsuariosItems(List<SelectItem> losUsuariosItems) {
-		this.losUsuariosItems = losUsuariosItems;
-	}
 
-	public ValueChangeEvent getSomEmpresasEvent() {
-		return somEmpresasEvent;
-	}
-
-	public void setSomEmpresasEvent(ValueChangeEvent somEmpresasEvent) {
-		this.somEmpresasEvent = somEmpresasEvent;
-	}
-
-	public String getUsuarioSeleccionado() {
-		return usuarioSeleccionado;
-	}
-
-	public void setUsuarioSeleccionado(String usuarioSeleccionado) {
-		this.usuarioSeleccionado = usuarioSeleccionado;
-	}
-
-	public List<VtRol> getRolesSource() {
-		return rolesSource;
-	}
-
-	public void setRolesSource(List<VtRol> rolesSource) {
-		this.rolesSource = rolesSource;
-	}
-
-	public List<VtRol> getRolesTarget() {
-		return rolesTarget;
-	}
-
-	public void setRolesTarget(List<VtRol> rolesTarget) {
-		this.rolesTarget = rolesTarget;
-	}
-
-	public IBusinessDelegatorView getBusinessDelegatorView() {
-		return businessDelegatorView;
-	}
-
-	public void setBusinessDelegatorView(IBusinessDelegatorView businessDelegatorView) {
-		this.businessDelegatorView = businessDelegatorView;
-	}
 
 	public void asignarRolAUsuario(VtUsuario vtUsuario, VtRol vtRol) {
 
@@ -227,7 +183,6 @@ public class VtUsuarioRolView implements Serializable {
 	public void localeChanged() throws Exception {
 		setUsuarioSeleccionado(somUsuarios.getValue().toString().trim());
 		actualizarListaRoles();
-
 	}
 
 	public void actualizarListaRoles() throws Exception {
@@ -272,7 +227,49 @@ public class VtUsuarioRolView implements Serializable {
 		}
 
 	}
+	public void setLosUsuariosItems(List<SelectItem> losUsuariosItems) {
+		this.losUsuariosItems = losUsuariosItems;
+	}
 
+	public ValueChangeEvent getSomEmpresasEvent() {
+		return somEmpresasEvent;
+	}
+
+	public void setSomEmpresasEvent(ValueChangeEvent somEmpresasEvent) {
+		this.somEmpresasEvent = somEmpresasEvent;
+	}
+
+	public String getUsuarioSeleccionado() {
+		return usuarioSeleccionado;
+	}
+
+	public void setUsuarioSeleccionado(String usuarioSeleccionado) {
+		this.usuarioSeleccionado = usuarioSeleccionado;
+	}
+
+	public List<VtRol> getRolesSource() {
+		return rolesSource;
+	}
+
+	public void setRolesSource(List<VtRol> rolesSource) {
+		this.rolesSource = rolesSource;
+	}
+
+	public List<VtRol> getRolesTarget() {
+		return rolesTarget;
+	}
+
+	public void setRolesTarget(List<VtRol> rolesTarget) {
+		this.rolesTarget = rolesTarget;
+	}
+
+	public IBusinessDelegatorView getBusinessDelegatorView() {
+		return businessDelegatorView;
+	}
+
+	public void setBusinessDelegatorView(IBusinessDelegatorView businessDelegatorView) {
+		this.businessDelegatorView = businessDelegatorView;
+	}
 	public List<SelectItem> getLosUsuariosFiltro() {
 		return losUsuariosFiltro;
 	}

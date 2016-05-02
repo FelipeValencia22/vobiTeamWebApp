@@ -510,6 +510,8 @@ public interface IBusinessDelegatorView {
     
     
     public List<VtArchivoDTO> getDataVtArchivoActivo(Long codigoArtefacto) throws Exception;
+    
+    public List<VtArchivoDTO> getDataVtArchivoInactivo(Long codigoArtefacto) throws Exception;
     public List<VtHistoriaArtefactoDTO> getDataVtHistoriaArtefactoPorIdArtefacto(Long codigoArtefacto)
             throws Exception;
     
@@ -528,5 +530,12 @@ public interface IBusinessDelegatorView {
     public List<VtArtefacto> consultarTodosLosArtefactosAsignados() throws Exception;
     
     public List<VtUsuarioRol> consultarRolUsuarioPorUsuario(Long usuarioId)throws Exception;
+    
+	public List<VtArtefacto> obtenerArtefactosNoAsignados(VtUsuario vtUsuario) throws Exception;
+	
+	public List<VtArtefacto> obtenerArtefactosAsignados(VtUsuario vtUsuario) throws Exception;
+	
+	public VtUsuarioArtefacto consultarUsuarioArtefactoPorUsuarioYArtefacto(
+			Long codigoUsuario, Long codigoArtefacto) throws Exception;
  
 }

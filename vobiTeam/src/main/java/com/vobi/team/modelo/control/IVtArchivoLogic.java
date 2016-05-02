@@ -56,4 +56,6 @@ public interface IVtArchivoLogic {
     
     
     public List<VtArchivoDTO> getDataVtArchivoActivo(Long codigoArtefacto) throws Exception;
+    
+    public List<VtArchivoDTO> getDataVtArchivoInactivo(Long codigoArtefacto) throws Exception;
 }

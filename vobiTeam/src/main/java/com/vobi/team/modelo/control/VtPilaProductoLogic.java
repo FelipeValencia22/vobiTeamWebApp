@@ -88,6 +88,28 @@ public class VtPilaProductoLogic implements IVtPilaProductoLogic {
 
 		try {
 
+		
+
+			if (entity.getVtProyecto()==null) {
+				throw new Exception("Seleccione el proyecto al que va a pertenecer la pila");
+			}
+			if(entity.getNombre().toString().trim().equalsIgnoreCase("")){
+				throw new Exception("El campo para el nombre de la pila es obligatorio");
+			}
+			if ((entity.getNombre() != null)
+					&& (Utilities.checkWordAndCheckWithlength(entity.getNombre(), 255) == false)) {
+				throw new ZMessManager().new NotValidFormatException("nombre");
+			}
+			
+			if(entity.getDescripcion().toString().trim().equalsIgnoreCase("")){
+				throw new Exception("El campo para la descripción de la pila es obligatorio");
+			}
+
+			if ((entity.getDescripcion() != null)
+					&& (Utilities.checkWordAndCheckWithlength(entity.getDescripcion(), 255) == false)) {
+				throw new ZMessManager().new NotValidFormatException("descripcion");
+			}
+			
 			if (entity.getActivo() == null) {
 				throw new ZMessManager().new EmptyFieldException("activo");
 			}
@@ -96,31 +118,17 @@ public class VtPilaProductoLogic implements IVtPilaProductoLogic {
 					&& (Utilities.checkWordAndCheckWithlength(entity.getActivo(), 1) == false)) {
 				throw new ZMessManager().new NotValidFormatException("activo");
 			}
-
-			if ((entity.getDescripcion() != null)
-					&& (Utilities.checkWordAndCheckWithlength(entity.getDescripcion(), 255) == false)) {
-				throw new ZMessManager().new NotValidFormatException("descripcion");
-			}
-
 			if (entity.getFechaCreacion() == null) {
 				throw new ZMessManager().new EmptyFieldException("fechaCreacion");
 			}
 
-			if ((entity.getNombre() != null)
-					&& (Utilities.checkWordAndCheckWithlength(entity.getNombre(), 255) == false)) {
-				throw new ZMessManager().new NotValidFormatException("nombre");
-			}
 
 			if (entity.getUsuCreador() == null) {
 				throw new ZMessManager().new EmptyFieldException("usuCreador");
 			}
-
-			if (entity.getVtProyecto().getProyCodigo() == null) {
-				throw new ZMessManager().new EmptyFieldException("proyCodigo_VtProyecto");
-			}
-
-
-
+			
+			
+			
 			VtPilaProducto vtPilaProducto =  new VtPilaProducto();
 			vtPilaProducto.setDescripcion(entity.getDescripcion());
 			vtPilaProducto.setFechaCreacion(entity.getFechaCreacion());

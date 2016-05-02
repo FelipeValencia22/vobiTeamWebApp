@@ -51,13 +51,13 @@
 					</p:selectOneMenu>
 
 
-					<p:accordionPanel id="accordionPanelVtProyecto" multiple="true">
+					<p:accordionPanel id="accordionPanelVtProyecto" multiple="true" rendered="true"> 
 						<p:growl id="men" />
 
 						<p:tab title="Proyectos activos">
 							<p:panel id="panelDataTableVtProyecto">
 
-								<p:dataTable value="#{vtProyectoView.data}" var="vtProyecto"
+								<p:dataTable value="#{vtProyectoView.data}" var="vtProyecto" reflow="true"
 									paginator="true" rows="10">
 
 
@@ -144,7 +144,7 @@
 						<p:tab title="Proyectos inactivos">
 							<p:panel id="panelDataTableVtProyectoI">
 
-								<p:dataTable value="#{vtProyectoView.dataI}" var="vtProyecto"
+								<p:dataTable value="#{vtProyectoView.dataI}" var="vtProyecto" reflow="true"
 									paginator="true" rows="10">
 
 
@@ -164,13 +164,7 @@
 										<h:outputText value="#{vtProyecto.nombre_VtEmpresa}" />
 									</p:column>
 
-									<p:column filterBy="#{vtProyecto.activo}"
-										sortBy="#{vtProyecto.activo}">
-										<f:facet name="header">
-											<h:outputText value="Activo" />
-										</f:facet>
-										<h:outputText value="#{vtProyecto.activo}" />
-									</p:column>
+								
 
 									<p:column filterBy="#{vtProyecto.publico}"
 										sortBy="#{vtProyecto.publico}">
@@ -187,7 +181,13 @@
 										</f:facet>
 										<h:outputText value="#{vtProyecto.nombre}" />
 									</p:column>
-
+									<p:column filterBy="#{vtProyecto.activo}"
+										sortBy="#{vtProyecto.activo}">
+										<f:facet name="header">
+											<h:outputText value="Activo" />
+										</f:facet>
+										<h:outputText value="#{vtProyecto.activo}" />
+									</p:column>
 									<p:column filterBy="#{vtProyecto.descripcion}"
 										sortBy="#{vtProyecto.descripcion}">
 										<f:facet name="header">
@@ -232,7 +232,7 @@
 
 
 
-		
+
 		</h:form>
 
 
@@ -242,32 +242,32 @@
 			visible="#{vtProyectoView.showDialog}" widgetVar="dlg"
 			resizable="false" modal="true" width="500">
 			<h:form id="formDialogCrearProyecto">
-				<p:messages id="msg" />
+				<p:growl id="msg" />
 
 				<h:panelGrid columns="1">
 
 
-					<p:selectOneMenu id="somEmpresas"
+					<p:selectOneMenu id="somEmpresas" style="width:140px"
 						binding="#{vtProyectoView.somEmpresas}">
 						<f:selectItem itemValue="-1" itemLabel="Empresa" />
 						<f:selectItems value="#{vtProyectoView.lasEmpresasItems}" />
 					</p:selectOneMenu>
 
-					<p:inputText id="txtNombre" placeholder="Nombre"
+					<p:inputText id="txtNombre" placeholder="Nombre del proyecto" size="51"
 						binding="#{vtProyectoView.txtNombreC}" />
 
-					<p:inputTextarea id="txtDescripcion" rows="10" cols="33"
-						placeholder="Descripci&#243;n"
-						binding="#{vtProyectoView.txtDescripcionC}" />
+					<p:inputTextarea id="txtDescripcion" rows="10" cols="50"
+						placeholder="Descripci&#243;n" style="overflow:auto;"
+						autoResize="false" binding="#{vtProyectoView.txtDescripcionC}" />
 
-					<p:selectOneMenu id="somPublico"
+					<p:selectOneMenu id="somPublico" style="width:140px"
 						binding="#{vtProyectoView.somPublico}"
 						value="#{vtProyectoView.stringActivo}">
 						<f:selectItem itemValue="-1" itemLabel="Privacidad del Proyecto" />
 						<f:selectItems value="#{vtProyectoView.esPublicoItems}" />
 					</p:selectOneMenu>
 
-					<p:selectOneMenu id="somActivo"
+					<p:selectOneMenu id="somActivo" style="width:140px"
 						binding="#{vtProyectoView.somActivo}">
 						<f:selectItem itemValue="-1" itemLabel="Activo" />
 						<f:selectItems value="#{vtProyectoView.esActivoItems}" />
@@ -280,7 +280,7 @@
 				<p:commandButton id="btnCrear" icon="fa fa-save"
 					title="Crear proyecto" binding="#{vtProyectoView.btnCrear}"
 					disable="true" action="#{vtProyectoView.crearProyecto}"
-					update="@([id$=pnlProyecto],@([id$=growl], @([id$=panelDataTableVtProyecto], @([id$=panelDataTableVtProyectoI])" />
+					update="formDialogCrearProyecto,msg,:formDialog1:accordionPanelVtProyecto" />
 
 				<p:commandButton id="btnLimpiar" icon="fa fa-eraser"
 					title="Limpiar " binding="#{vtProyectoView.btnLimpiar}"
@@ -293,7 +293,7 @@
 			closable="false" visible="#{vtProyectoView.showDialog}"
 			resizable="false" modal="true" width="500">
 			<h:form id="formDialog">
-				<p:messages id="msg" />
+				<p:growl id="msg" />
 				<p:panel id="panelVtProyecto" header="Modificar proyecto">
 
 					<h:panelGrid columns="2" id="panelGrid">
@@ -301,32 +301,33 @@
 
 
 						<h:outputText id="msgActivo" value=" Activo" />
-						<p:selectOneMenu id="somActivoCambio"
+						<p:selectOneMenu id="somActivoCambio"  style="width:120px"
 							binding="#{vtProyectoView.somActivoCambio}">
 							<f:selectItem itemValue="-1" itemLabel="Activo" />
 							<f:selectItems value="#{vtProyectoView.esActivoItems}" />
 						</p:selectOneMenu>
 
 						<h:outputText id="msgSomEmpresa" value=" Empresa" />
-						<p:selectOneMenu id="somEmpresasCambio"
+						<p:selectOneMenu id="somEmpresasCambio" style="width:120px"
 							binding="#{vtProyectoView.somEmpresasCambio}">
 							<f:selectItem itemValue="-1" itemLabel="Empresa" />
 							<f:selectItems value="#{vtProyectoView.lasEmpresasItems}" />
 						</p:selectOneMenu>
 
 						<h:outputText id="msgPublico" value="Privacidad" />
-						<p:selectOneMenu id="somPublicoCambio"
+						<p:selectOneMenu id="somPublicoCambio" style="width:120px"
 							binding="#{vtProyectoView.somPublicoCambio}">
 							<f:selectItem itemValue="-1" itemLabel="Privacidad" />
 							<f:selectItems value="#{vtProyectoView.esPublicoItems}" />
 						</p:selectOneMenu>
 
 						<h:outputText id="msgNombre" value=" Nombre" />
-						<p:inputText id="txtNombre" disabled="true"
+						<p:inputText id="txtNombre" disabled="true" size="51"
 							binding="#{vtProyectoView.txtNombre}" />
 
 						<h:outputText id="msgDescripcion" value=" Descripcion" />
 						<p:inputTextarea id="txtDescripcion" disabled="true"
+							style="overflow:auto;" autoResize="false" rows="5" cols="50"
 							binding="#{vtProyectoView.txtDescripcion}" />
 
 
@@ -337,7 +338,7 @@
 					<div align="center">
 						<p:commandButton id="btnSave" binding="#{vtProyectoView.btnSave}"
 							value="Guardar" action="#{vtProyectoView.action_save()}"
-							update=":dialogVtProyecto :formDialog1:accordionPanelVtProyecto" />
+							update="formDialog,msg,:formDialog1:accordionPanelVtProyecto" />
 
 
 						<p:commandButton id="btnExit" value="Salir"

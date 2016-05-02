@@ -209,7 +209,7 @@ public class VtRolLogic implements IVtRolLogic {
 				if (vtRolTmp.getActivo().toString().trim().equalsIgnoreCase("S")) {
 					VtRolDTO vtRolDTO2 = new VtRolDTO();
 					vtRolDTO2.setRolCodigo(vtRolTmp.getRolCodigo());
-					vtRolDTO2.setActivo((vtRolTmp.getActivo() != null) ? vtRolTmp.getActivo() : null);
+					vtRolDTO2.setActivo((vtRolTmp.getActivo() != null) ? vtRolTmp.getActivo()+"i": null);
 					vtRolDTO2.setFechaCreacion(vtRolTmp.getFechaCreacion());
 					vtRolDTO2.setFechaModificacion(vtRolTmp.getFechaModificacion());
 					vtRolDTO2.setRolNombre((vtRolTmp.getRolNombre() != null) ? vtRolTmp.getRolNombre() : null);
@@ -238,7 +238,7 @@ public class VtRolLogic implements IVtRolLogic {
 				if (vtRolTmp.getActivo().toString().trim().equalsIgnoreCase("N")) {
 					VtRolDTO vtRolDTO2 = new VtRolDTO();
 					vtRolDTO2.setRolCodigo(vtRolTmp.getRolCodigo());
-					vtRolDTO2.setActivo((vtRolTmp.getActivo() != null) ? vtRolTmp.getActivo() : null);
+					vtRolDTO2.setActivo((vtRolTmp.getActivo() != null) ? vtRolTmp.getActivo()+"o" : null);
 					vtRolDTO2.setFechaCreacion(vtRolTmp.getFechaCreacion());
 					vtRolDTO2.setFechaModificacion(vtRolTmp.getFechaModificacion());
 					vtRolDTO2.setRolNombre((vtRolTmp.getRolNombre() != null) ? vtRolTmp.getRolNombre() : null);

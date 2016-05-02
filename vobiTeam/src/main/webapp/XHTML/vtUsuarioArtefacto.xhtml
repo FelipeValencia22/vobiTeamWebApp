@@ -29,59 +29,48 @@
 
 			<br></br>
 
-			<p:panel header="ASIGNAR ARTEFACTOS A SPRINT">
+			<p:panel header="ASIGNAR ROLES A USUARIOS">
+
 				<h:panelGrid columns="1">
 
-					<p:selectOneMenu id="somEmpresas" style="width:300px"
-						binding="#{vtArtefactoSprintView.somEmpresas}">
+
+					<p:selectOneMenu id="somIntereses" style="width:300px"
+						binding="#{vtUsuarioArtefactoView.somIntereses}">
 						<p:ajax update="somProyectos" event="change"
-							listener="#{vtArtefactoSprintView.filtrarEmpresa}" />
-						<f:selectItem itemValue="-1" itemLabel="Empresa" />
-						<f:selectItems value="#{vtArtefactoSprintView.lasEmpresasItems}" />
+							listener="#{vtUsuarioArtefactoView.habilitarSelectOneMenu()}" />
+						<f:selectItem itemValue="-1" itemLabel="Interés" />
+						<f:selectItems value="#{vtUsuarioArtefactoView.losInteresesFiltro}" />
 					</p:selectOneMenu>
 
 					<p:selectOneMenu id="somProyectos" style="width:300px"
-						binding="#{vtArtefactoSprintView.somProyectos}">
-						<p:ajax update="somPilaProducto" event="change"
-							listener="#{vtArtefactoSprintView.filtrarProyecto}" />
+						binding="#{vtUsuarioArtefactoView.somProyectos}">
+						<p:ajax update="somUsuarios" event="change"
+							listener="#{vtUsuarioArtefactoView.filtrarProyectoUsuario}" />
 						<f:selectItem itemValue="-1" itemLabel="Proyecto" />
-						<f:selectItems value="#{vtArtefactoSprintView.losProyectosFiltro}" />
-					</p:selectOneMenu>
-
-					<p:selectOneMenu id="somPilaProducto" style="width:300px"
-						binding="#{vtArtefactoSprintView.somPilaProducto}">
-						<p:ajax update="somSprints" event="change"
-							listener="#{vtArtefactoSprintView.filtrarPila}" />
-						<f:selectItem itemValue="-1" itemLabel="Pila de Producto" />
 						<f:selectItems
-							value="#{vtArtefactoSprintView.lasPilasDeProductoFiltro}" />
+							value="#{vtUsuarioArtefactoView.losProyectosFiltro}" />
 					</p:selectOneMenu>
 
-					<h:panelGrid columns="1">
+					<p:selectOneMenu id="somUsuarios" style="width:300px"
+						binding="#{vtUsuarioArtefactoView.somUsuarios}">
+						<p:ajax update="panelVtArtefactoUsuario" event="change"
+							listener="#{vtUsuarioArtefactoView.localeChanged}" />
+						<f:selectItem itemValue="-1" itemLabel="Usuario" />
+						<f:selectItems value="#{vtUsuarioArtefactoView.losUsuariosFiltro}" />
+					</p:selectOneMenu>
 
-						<p:selectOneMenu id="somSprints" style="width:300px"
-							binding="#{vtArtefactoSprintView.somSprints}">
-							<p:ajax update="panelVArtefacto" event="change"
-								listener="#{vtArtefactoSprintView.localeChanged}" />
-							<f:selectItem itemValue="-1" itemLabel="Sprint" />
-							<f:selectItems value="#{vtArtefactoSprintView.losSprintsItems}" />
-						</p:selectOneMenu>
-
-
-						<br></br>
-					</h:panelGrid>
-
+					<br></br>
 				</h:panelGrid>
+
 			</p:panel>
 
-			<p:panel id="panelVArtefacto" header="Asignar artefactos">
-				<h:panelGrid columns="1" id="panelGrid">
+			<p:panel id="panelVtArtefactoUsuario" header="Asignar artefactos">
+				<h:panelGrid columns="2" id="panelGrid">
 
 					<h:panelGrid id="ParteIzquierda" columns="6">
 
-						<p:pickList id="pickList"
-							value="#{vtArtefactoSprintView.vtArtefacto}" var="artefacto"
-							itemLabel="#{artefacto}" itemValue="#{artefacto}"
+						<p:pickList id="pickList" value="#{vtUsuarioArtefactoView.vtArtefacto}"
+							var="Artefacto" itemLabel="#{Artefacto}" itemValue="#{Artefacto}"
 							showSourceControls="true" showTargetControls="true"
 							addLabel="Agregar artefacto" removeLabel="Sacar artefacto"
 							moveBottomLabel="Bajar hasta el final"
@@ -91,37 +80,24 @@
 							showCheckbox="true" responsive="true" showSourceFilter="true"
 							showTargetFilter="true" filterMatchMode="contains"
 							converter="usuarioPickListConverter">
-							<f:facet name="sourceCaption">Artefactos disponibles / Esfuerzo</f:facet>
-							<f:facet name="targetCaption">Artefactos asignados / Esfuerzo</f:facet>
+							<f:facet name="sourceCaption">Artefactos Disponibles</f:facet>
+							<f:facet name="targetCaption">Artefactos Asignados</f:facet>
 							<p:ajax event="transfer"
-								listener="#{vtArtefactoSprintView.onTransfer}"
+								listener="#{vtUsuarioArtefactoView.onTransfer}"
 								update="formDialog1,pickList" />
 
 							<p:column style="width:10%">
-								<h:outputText styleClass="fa fa-files-o" />
+								<h:outputText styleClass="fa fa-folder-open" />
 							</p:column>
 							<p:column style="width:90%;">
-								<h:outputText value="#{artefacto.titulo}" />
-							</p:column>
-							<p:column style="width:90%;">
-								<h:outputText value="#{artefacto.esfuerzoEstimado}" />
+								<h:outputText value="#{Artefacto.titulo}" />
 							</p:column>
 						</p:pickList>
 
 					</h:panelGrid>
+
+
 				</h:panelGrid>
-
-
-				<br></br>
-
-				<p:chart type="metergauge"
-					model="#{vtArtefactoSprintView.meterGaugeModel}"
-					style="width:500px;height:350px" />
-
-
-				<br></br>
-
-
 			</p:panel>
 
 

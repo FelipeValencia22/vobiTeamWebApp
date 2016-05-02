@@ -163,7 +163,7 @@
 		<p:dialog header="Crear rol" appendTo="@(body)" widgetVar="dlg"
 			resizable="false" width="500">
 			<h:form id="formDialogCrear">
-				<p:messages id="msges" />
+				<p:growl id="msges" />
 				<p:panel id="panelRol">
 					<h:panelGrid id="panelgridRol" columns="1">
 
@@ -182,7 +182,7 @@
 				<p:panel id="panelBotonesRol">
 					<p:commandButton id="btnCrear" icon="fa fa-save" title="Crear rol"
 						binding="#{vtRolView.btnCrear}" action="#{vtRolView.crearRol}"
-						update="formDialogCrear,@([id$=growl],@([id$=panelDataTableVtArtefacto]" />
+						update="formDialogCrear,msges,:frm:panelDataTableVtRol" />
 
 					<p:commandButton id="btnLimpiar" icon="fa fa-eraser"
 						title="Limpiar" binding="#{vtRolView.btnLimpiar}"
@@ -193,10 +193,10 @@
 			</h:form>
 		</p:dialog>
 
-		<p:dialog id="dialogVtRol" appendTo="@(body)" closable="false"
+		<p:dialog id="dialogVtRol" appendTo="@(body)" closable="false" modal="true"
 			visible="#{vtRolView.showDialog}" resizable="false" width="500">
 				<h:form id="formDialogR">
-			<p:messages id="msge" />
+			<p:growl id="msge" />
 			<p:panel id="panelVtRol" header="VtRol">
 				<h:panelGrid id="panaleGridRolCambio">
 					<p:selectOneMenu id="somActivoCambio"
@@ -212,7 +212,7 @@
 				<div align="center">
 					<p:commandButton id="btnSave" binding="#{vtRolView.btnGuardar}"
 						value="Guardar" action="#{vtRolView.action_save()}"
-						update=":dialogVtRol :frm:panelDataTableVtRol" />
+						update="msge :frm:panelDataTableVtRol" />
 					<p:commandButton id="btnExit" value="Salir"
 						action="#{vtRolView.action_closeDialog()}" update="dialogVtRol" />
 				</div>

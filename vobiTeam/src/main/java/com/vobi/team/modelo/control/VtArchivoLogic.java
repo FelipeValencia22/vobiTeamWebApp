@@ -73,6 +73,9 @@ public class VtArchivoLogic implements IVtArchivoLogic {
         log.debug("saving VtArchivo instance");
 
         try {
+        	if(entity == null){
+        		throw new Exception("No es posible subir archivos, falta información fundamental");
+        	}
             if (entity.getVtArtefacto() == null) {
                 throw new Exception("No puedes subir archivos porque no se han llenado los datos del artefacto");
             }
@@ -109,10 +112,10 @@ public class VtArchivoLogic implements IVtArchivoLogic {
                 throw new ZMessManager().new EmptyFieldException("usuCreador");
             }
 
-            if (entity.getVtArtefacto().getArteCodigo() == null) {
-                throw new ZMessManager().new EmptyFieldException(
-                    "arteCodigo_VtArtefacto");
-            }
+//            if (entity.getVtArtefacto().getArteCodigo() == null) {
+//                throw new ZMessManager().new EmptyFieldException(
+//                    "arteCodigo_VtArtefacto");
+//            }
 
 //            if (getVtArchivo(entity.getArchCodigo()) != null) {
 //                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
@@ -255,16 +258,52 @@ public class VtArchivoLogic implements IVtArchivoLogic {
 
             for (VtArchivo vtArchivoTmp : vtArchivo) {
             	if(vtArchivoTmp.getActivo().equals("S")){
-            		
-            	log.info("Artefacto codigo vtarchivo " + vtArchivoTmp.getVtArtefacto().getArteCodigo());
-            	log.info("Codigo del artefacto que le entro" + codigoArtefacto);
             	if(vtArchivoTmp.getVtArtefacto().getArteCodigo().equals(codigoArtefacto)){
-            		log.info("Entro a descargar");
             	     VtArchivoDTO vtArchivoDTO2 = new VtArchivoDTO();
 
                      vtArchivoDTO2.setArchCodigo(vtArchivoTmp.getArchCodigo());
                      vtArchivoDTO2.setActivo((vtArchivoTmp.getActivo() != null)
                          ? vtArchivoTmp.getActivo()+"i" : null);
+                     vtArchivoDTO2.setArchivo((vtArchivoTmp.getArchivo() != null)
+                         ? vtArchivoTmp.getArchivo() : null);
+                     vtArchivoDTO2.setFechaCreacion(vtArchivoTmp.getFechaCreacion());
+                     vtArchivoDTO2.setFechaModificacion(vtArchivoTmp.getFechaModificacion());
+                     vtArchivoDTO2.setNombre((vtArchivoTmp.getNombre() != null)
+                         ? vtArchivoTmp.getNombre() : null);
+                     vtArchivoDTO2.setUsuCreador((vtArchivoTmp.getUsuCreador() != null)
+                         ? vtArchivoTmp.getUsuCreador() : null);
+                     vtArchivoDTO2.setUsuModificador((vtArchivoTmp.getUsuModificador() != null)
+                         ? vtArchivoTmp.getUsuModificador() : null);
+                     vtArchivoDTO2.setArteCodigo_VtArtefacto((vtArchivoTmp.getVtArtefacto()
+                                                                          .getArteCodigo() != null)
+                         ? vtArchivoTmp.getVtArtefacto().getArteCodigo() : null);
+                     vtArchivoDTO.add(vtArchivoDTO2);
+            	}
+            	}
+            }
+
+            return vtArchivoDTO;
+        } catch (Exception e) {
+            throw e;
+        }
+	}
+    
+    @Transactional(readOnly = true)
+	public List<VtArchivoDTO> getDataVtArchivoInactivo(Long codigoArtefacto) throws Exception {
+    	try {
+            List<VtArchivo> vtArchivo = vtArchivoDAO.findAll();
+
+            List<VtArchivoDTO> vtArchivoDTO = new ArrayList<VtArchivoDTO>();
+
+            for (VtArchivo vtArchivoTmp : vtArchivo) {
+            	if(vtArchivoTmp.getActivo().equals("N")){
+            	if(vtArchivoTmp.getVtArtefacto().getArteCodigo().equals(codigoArtefacto)){
+ 
+            	     VtArchivoDTO vtArchivoDTO2 = new VtArchivoDTO();
+
+                     vtArchivoDTO2.setArchCodigo(vtArchivoTmp.getArchCodigo());
+                     vtArchivoDTO2.setActivo((vtArchivoTmp.getActivo() != null)
+                         ? vtArchivoTmp.getActivo()+"o" : null);
                      vtArchivoDTO2.setArchivo((vtArchivoTmp.getArchivo() != null)
                          ? vtArchivoTmp.getArchivo() : null);
                      vtArchivoDTO2.setFechaCreacion(vtArchivoTmp.getFechaCreacion());
@@ -503,6 +542,8 @@ public class VtArchivoLogic implements IVtArchivoLogic {
 
         return list;
     }
+
+	
 
 	
 

@@ -127,27 +127,23 @@ public class VtUsuarioLogic implements IVtUsuarioLogic {
 			if (entity == null) {
 				log.error("La entidad es nula");
 			}
+			if (entity.getVtEmpresa()==null) {
+				throw new Exception("Seleccionar la empresa a la que pertenecera el nuevo usuario");
+			}
 
+			if (entity.getLogin().trim().equals("") || entity.getLogin().isEmpty()) {
+				throw new Exception("El campo para el correo electrónico es obligatorio, digite un correo electrónico");
+			}
+			if (!validateEmail(entity.getLogin().toString().trim())) {
+				throw new Exception("Lo sentimos, el formato de escritura del correo es incorrecto");
+			}
+			if (entity.getNombre().trim().equals("") || entity.getNombre().isEmpty()) {
+				throw new Exception("El campo para el nombre del usuario es obligatorio, digite el nombre por favor.");
+			}
 			if (entity.getClave().trim().equals("") || entity.getClave().isEmpty()) {
 				throw new Exception("La clave es obligatoria");
 			}
 
-			if (entity.getLogin().trim().equals("") || entity.getLogin().isEmpty()) {
-				throw new Exception("El correo es obligatorio");
-			}
-
-			if (!validateEmail(entity.getLogin().toString().trim())) {
-				throw new Exception("Correo incorrecto");
-			}
-
-			if (entity.getNombre().trim().equals("") || entity.getNombre().isEmpty()) {
-				throw new Exception("El nombre es obligatorio");
-			}
-
-			if (entity.getVtEmpresa().toString().equals(null) || entity.getVtEmpresa().toString().equals("-1")
-					|| entity.getVtEmpresa().toString().isEmpty()) {
-				throw new Exception("Seleccionar empresa");
-			}
 
 			VtUsuario usuarioSession = vtUsuarioDAO.findById(entity.getUsuCreador());
 			enviarMensajeAlCorreo(usuarioSession.getLogin(), entity.getLogin(), "Creación de cuenta",
@@ -658,17 +654,14 @@ public class VtUsuarioLogic implements IVtUsuarioLogic {
 	@Transactional(readOnly = true)
 	public List<VtUsuario> obtenerUsuariosNoAsignados(VtProyecto vtproyecto) throws Exception {
 		List<VtUsuario> usuariosSource = getVtUsuario();
-
 		List<VtProyectoUsuario> proyectosUsuarios = vtProyectoUsuarioDAO
 				.consultarProyectoUsuarioPorProyecto(vtproyecto.getProyCodigo());
 		if (proyectosUsuarios != null) {
 			for (VtProyectoUsuario vtProyectoUsuario : proyectosUsuarios) {
 				if (vtProyectoUsuario.getActivo().equals("S")){
 					usuariosSource.remove(vtProyectoUsuario.getVtUsuario());	
-				}
-					
+				}					
 			}
-
 		}
 		return usuariosSource;
 	}

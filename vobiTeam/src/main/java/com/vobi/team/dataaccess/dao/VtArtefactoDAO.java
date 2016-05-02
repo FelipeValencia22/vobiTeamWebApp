@@ -2,6 +2,8 @@ package com.vobi.team.dataaccess.dao;
 
 import com.vobi.team.dataaccess.api.HibernateDaoImpl;
 import com.vobi.team.modelo.VtArtefacto;
+import com.vobi.team.modelo.VtProyectoUsuario;
+import com.vobi.team.modelo.VtUsuarioArtefacto;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
@@ -51,4 +53,13 @@ public class VtArtefactoDAO extends HibernateDaoImpl<VtArtefacto, Long>
         ApplicationContext ctx) {
         return (IVtArtefactoDAO) ctx.getBean("VtArtefactoDAO");
     }
+
+	@Override
+	public VtUsuarioArtefacto consultarUsuarioArtefactoPorUsuarioYArtefacto(Long codigoUsuario, Long codigoArtefacto) {
+		Query query = getSession().getNamedQuery("consultarUsuarioArtefactoPorUsuarioYArtefacto");
+		query.setParameter("codigoUsuario", codigoUsuario);
+		query.setParameter("codigoArtefacto", codigoArtefacto);
+		VtUsuarioArtefacto vtUsuarioArtefacto = (VtUsuarioArtefacto) query.uniqueResult();
+		return vtUsuarioArtefacto;
+	}
 }

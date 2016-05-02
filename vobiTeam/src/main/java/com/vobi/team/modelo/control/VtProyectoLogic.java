@@ -93,31 +93,23 @@ public class VtProyectoLogic implements IVtProyectoLogic {
 			if(entity == null) {
 				throw new Exception("La entidad es nula");
 			}
-
-			if(entity.getActivo().equals("-1") || entity.getActivo().equals("") ) {
-				throw new Exception("Seleccione la empresa");
+			
+			if(entity.getVtEmpresa()==null){
+				throw new Exception("Seleccione la empresa para el nuevo proyecto a crear.");
 			}
-
+			
+			if(entity.getNombre().toString().equals("") || entity.getNombre().toString().isEmpty()){
+				throw new Exception("El campo para el nombre del proyecto no puede estar vacío, digite un nombre por favor.");
+			}
 			if(entity.getDescripcion().equals("") || entity.getDescripcion().isEmpty() ) {
-				throw new Exception("La descripcion es obligatoria");
+				throw new Exception("La campo para la descripción del proyecto no puede estar vacío, digite una descripción porfavor.");
 			}
-
+			if(entity.getPublico().equals("-1") || entity.getPublico().toString().equals("") ) {
+				throw new Exception("Seleccione el nivel de privacidad para el proyecto a crear.");
+			}
 			if(entity.getFechaCreacion().toString().equals("") || entity.getFechaCreacion().toString().isEmpty()){
 				throw new Exception("Fecha incorrecta");
 			}
-
-			if(entity.getNombre().toString().equals("") || entity.getNombre().toString().isEmpty()){
-				throw new Exception("El nombre es obligatorio");
-			}
-
-			if(entity.getPublico().equals("-1") || entity.getPublico().toString().equals("") ) {
-				throw new Exception("Seleccione la privacidad del proyecto");
-			}
-
-			if(entity.getVtEmpresa().equals("-1") || entity.getVtEmpresa().toString().equals("") ) {
-				throw new Exception("Seleccione la Empresa");
-			}
-
 			VtProyecto vtProyecto= new VtProyecto();
 
 			vtProyecto.setActivo(entity.getActivo());
@@ -127,9 +119,6 @@ public class VtProyectoLogic implements IVtProyectoLogic {
 			vtProyecto.setPublico(entity.getPublico());
 			vtProyecto.setVtEmpresa(entity.getVtEmpresa());
 			vtProyecto.setUsuCreador(1L);
-
-
-
 			vtProyectoDAO.save(vtProyecto);
 
 			VtPilaProducto vtPilaProducto= new VtPilaProducto();
@@ -197,72 +186,23 @@ public class VtProyectoLogic implements IVtProyectoLogic {
 		log.debug("updating VtProyecto instance");
 
 		try {
-			if (entity == null) {
-				throw new ZMessManager().new NullEntityExcepcion("VtProyecto");
+			if(entity == null) {
+				throw new Exception("La entidad es nula");
 			}
-
-			if (entity.getVtEmpresa() == null) {
-				throw new ZMessManager().new ForeignException("vtEmpresa");
+			
+			if(entity.getVtEmpresa()==null){
+				throw new Exception("Seleccione la empresa para el nuevo proyecto a modificar.");
 			}
-
-			if (entity.getActivo() == null) {
-				throw new ZMessManager().new EmptyFieldException("activo");
+			
+			if(entity.getNombre().toString().equals("") || entity.getNombre().toString().isEmpty()){
+				throw new Exception("El campo para el nombre del proyecto no puede estar vacío, digite un nombre por favor.");
 			}
-
-			if ((entity.getActivo() != null) &&
-					(Utilities.checkWordAndCheckWithlength(entity.getActivo(), 1) == false)) {
-				throw new ZMessManager().new NotValidFormatException("activo");
+			if(entity.getDescripcion().equals("") || entity.getDescripcion().isEmpty() ) {
+				throw new Exception("La campo para la descripción del proyecto no puede estar vacío, digite una descripción porfavor.");
 			}
-
-			if (entity.getDescripcion() == null) {
-				throw new ZMessManager().new EmptyFieldException("descripcion");
+			if(entity.getPublico().equals("-1") || entity.getPublico().toString().equals("") ) {
+				throw new Exception("Seleccione el nivel de privacidad para el proyecto a modificar.");
 			}
-
-			if ((entity.getDescripcion() != null) &&
-					(Utilities.checkWordAndCheckWithlength(
-							entity.getDescripcion(), 255) == false)) {
-				throw new ZMessManager().new NotValidFormatException(
-						"descripcion");
-			}
-
-			if (entity.getFechaCreacion() == null) {
-				throw new ZMessManager().new EmptyFieldException(
-						"fechaCreacion");
-			}
-
-			if (entity.getNombre() == null) {
-				throw new ZMessManager().new EmptyFieldException("nombre");
-			}
-
-			if ((entity.getNombre() != null) &&
-					(Utilities.checkWordAndCheckWithlength(entity.getNombre(),
-							255) == false)) {
-				throw new ZMessManager().new NotValidFormatException("nombre");
-			}
-
-			//            if (entity.getProyCodigo() == null) {
-			//                throw new ZMessManager().new EmptyFieldException("proyCodigo");
-			//            }
-
-			if (entity.getPublico() == null) {
-				throw new ZMessManager().new EmptyFieldException("publico");
-			}
-
-			if ((entity.getPublico() != null) &&
-					(Utilities.checkWordAndCheckWithlength(
-							entity.getPublico(), 1) == false)) {
-				throw new ZMessManager().new NotValidFormatException("publico");
-			}
-
-			if (entity.getUsuCreador() == null) {
-				throw new ZMessManager().new EmptyFieldException("usuCreador");
-			}
-
-			if (entity.getVtEmpresa().getEmprCodigo() == null) {
-				throw new ZMessManager().new EmptyFieldException(
-						"emprCodigo_VtEmpresa");
-			}
-
 			vtProyectoDAO.update(entity);
 
 			log.debug("update VtProyecto successful");
@@ -285,7 +225,7 @@ public class VtProyectoLogic implements IVtProyectoLogic {
 
 				if(vtProyectoTmp.getActivo().equalsIgnoreCase("S")){
 
-					if(vtProyectoTmp.getVtEmpresa().getEmprCodigo().equals(codigoFiltro)){
+					if(vtProyectoTmp.getVtEmpresa().getEmprCodigo()==codigoFiltro.longValue()){
 
 						vtProyectoDTO2.setProyCodigo(vtProyectoTmp.getProyCodigo());
 
@@ -340,7 +280,7 @@ public class VtProyectoLogic implements IVtProyectoLogic {
 
 				if(vtProyectoTmp.getActivo().equalsIgnoreCase("N")){
 
-					if(vtProyectoTmp.getVtEmpresa().getEmprCodigo().equals(codigoFiltro)){
+					if(vtProyectoTmp.getVtEmpresa().getEmprCodigo()==codigoFiltro.longValue()){
 
 						vtProyectoDTO2.setProyCodigo(vtProyectoTmp.getProyCodigo());
 

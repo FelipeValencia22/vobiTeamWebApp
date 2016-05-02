@@ -116,8 +116,8 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 	}
 
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public void saveVtArtefacto(VtArtefacto entity, String esfuerzoEstimado, String esfuerzoRestantes, String puntos)throws Exception {
-		log.info("saving VtArtefacto instance");
+	public void saveVtArtefacto(VtArtefacto entity, String esfuerzoEstimado, String esfuerzoRestantes, String puntos)
+			throws Exception {
 
 		try {
 
@@ -144,8 +144,15 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 					&& (Utilities.checkWordAndCheckWithlength(entity.getDescripcion(), 255) == false)) {
 				throw new ZMessManager().new NotValidFormatException("descripcion");
 			}
+
 			if (entity.getActivo() == null || entity.getActivo().toString().trim().equalsIgnoreCase("") == true) {
-				throw new Exception("Defina si el artefacto esta activo o no");
+				throw new Exception("Defina si el artefacto va a estar activo o inactivo");
+			} else {
+				if (entity.getActivo().toString().trim().equalsIgnoreCase("Si")) {
+					entity.setActivo("S");
+				} else {
+					entity.setActivo("N");
+				}
 			}
 
 			if (entity.getVtPrioridad() == null) {
@@ -163,25 +170,19 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 				if ((Utilities.isNumeric(esfuerzoEstimado) == true)) {
 					entity.setEsfuerzoEstimado(Integer.parseInt(esfuerzoEstimado));
 				} else {
-					throw new Exception(
-							"El campo para el esfuerzo"
-							+ " estimado no acepta cadenas de texto o "
+					throw new Exception("El campo para el esfuerzo" + " estimado no acepta cadenas de texto o "
 							+ "números negativos, solo se aceptan valores númericos positivos.");
 				}
 			}
 
 			if (esfuerzoRestantes.toString().trim().equals("") || esfuerzoRestantes == null) {
-				throw new Exception(
-						"El campo para el esf"
-						+ "uerzo restante no p"
+				throw new Exception("El campo para el esf" + "uerzo restante no p"
 						+ "uede ser vacio, digite el esfuerzo restante del artefacto a crear.");
 			} else {
-				if(Utilities.isNumeric(esfuerzoRestantes) == true){
+				if (Utilities.isNumeric(esfuerzoRestantes) == true) {
 					entity.setEsfuerzoRestante(Integer.parseInt(esfuerzoRestantes));
-				}else{
-					throw new Exception(
-							"El campo para el "
-							+ "esfuerzo restante no acepta cadenas "
+				} else {
+					throw new Exception("El campo para el " + "esfuerzo restante no acepta cadenas "
 							+ "de texto o números negativos, solo se aceptan valores númericos positivos.");
 				}
 
@@ -191,24 +192,24 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 				throw new Exception(
 						"El campo para los puntos no puede ser vacio, digite los puntos del artefacto a crear.");
 			} else {
-				if(Utilities.isNumeric(puntos) == true){
+				if (Utilities.isNumeric(puntos) == true) {
 					entity.setPuntos(Integer.parseInt(puntos));
-				}else{
-					throw new Exception(
-							"El campo para los puntos no acepta cadenas de texto"
+				} else {
+					throw new Exception("El campo para los puntos no acepta cadenas de texto"
 							+ " o números negativos, solo se aceptan valores numéricos positivos.");
 				}
-				
+
+			}
+			if (entity.getPuntos() != entity.getEsfuerzoEstimado()) {
+				throw new Exception("El esfuerzo estimado debe ser igual a los puntos.");
 			}
 			if (entity.getOrigen().toString().trim().equals("") || entity.getOrigen() == null) {
-				throw new Exception(
-						"El campo para el origen no puede ser vacio, digite e"
+				throw new Exception("El campo para el origen no puede ser vacio, digite e"
 						+ "l origen del nuevo artefacto a crear.");
 			}
 			if (entity.getOrigen() != null && (Utilities.isNumeric(entity.getOrigen()) == true)) {
 				throw new Exception(
-						"El campo para el origen no puede recibir n"
-						+ "úmeros, solo se aceptan cadenas de texto.");
+						"El campo para el origen no puede recibir n" + "úmeros, solo se aceptan cadenas de texto.");
 			}
 			if (entity.getFechaCreacion() == null) {
 				throw new Exception("La fecha de creación es obligatoria");
@@ -225,6 +226,7 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 		} finally {
 		}
 	}
+
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public void deleteVtArtefacto(VtArtefacto entity) throws Exception {
 		log.debug("deleting VtArtefacto instance");
@@ -277,67 +279,55 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 		log.debug("updating VtArtefacto instance");
 
 		try {
-			if (entity == null) {
-				throw new ZMessManager().new NullEntityExcepcion("VtArtefacto");
-			}
-
-			if (entity.getVtEstado() == null) {
-				throw new ZMessManager().new ForeignException("vtEstado");
+			if (entity.getVtTipoArtefacto() == null) {
+				throw new Exception("Seleccione el tipo de artefacto que sera el nuevo artefacto a modificar.");
 			}
 
 			if (entity.getVtPilaProducto() == null) {
-				throw new ZMessManager().new ForeignException("vtPilaProducto");
+				throw new Exception(
+						"Seleccione la pila de producto a la que va a pertenecer el nuevo artefacto a modificar.");
 			}
-
-			if (entity.getVtPrioridad() == null) {
-				throw new ZMessManager().new ForeignException("vtPrioridad");
+			if (entity.getTitulo() == null || entity.getTitulo().toString().trim().equalsIgnoreCase("") == true) {
+				throw new Exception(
+						"El campo para el título del artefacto no puede estar vacío, digite el título por favor.");
 			}
-
-			if (entity.getVtTipoArtefacto() == null) {
-				throw new ZMessManager().new ForeignException("vtTipoArtefacto");
+			if ((entity.getTitulo() != null)
+					&& (Utilities.checkWordAndCheckWithlength(entity.getTitulo(), 255) == false)) {
+				throw new ZMessManager().new NotValidFormatException("titulo");
 			}
-
-			if (entity.getActivo() == null) {
-				throw new ZMessManager().new EmptyFieldException("activo");
+			if (entity.getDescripcion().toString().trim().equalsIgnoreCase("") == true) {
+				throw new Exception("El campo para la descripción no puede estar en vacío, escriba una descripción.");
 			}
-
-			if ((entity.getActivo() != null)
-					&& (Utilities.checkWordAndCheckWithlength(entity.getActivo(), 1) == false)) {
-				throw new ZMessManager().new NotValidFormatException("activo");
-			}
-
-			if (entity.getArteCodigo() == null) {
-				throw new ZMessManager().new EmptyFieldException("arteCodigo");
-			}
-
 			if ((entity.getDescripcion() != null)
 					&& (Utilities.checkWordAndCheckWithlength(entity.getDescripcion(), 255) == false)) {
 				throw new ZMessManager().new NotValidFormatException("descripcion");
 			}
 
-			if (entity.getFechaCreacion() == null) {
-				throw new ZMessManager().new EmptyFieldException("fechaCreacion");
+			if (entity.getActivo() == null || entity.getActivo().toString().trim().equalsIgnoreCase("") == true) {
+				throw new Exception("Defina si el artefacto va a estar activo o inactivo");
 			}
 
-			if ((entity.getOrigen() != null)
-					&& (Utilities.checkWordAndCheckWithlength(entity.getOrigen(), 255) == false)) {
-				throw new ZMessManager().new NotValidFormatException("origen");
+			if (entity.getVtPrioridad() == null) {
+				throw new Exception("Seleccione la prioridad que tendra el nuevo artefacto a modificar.");
+			}
+
+			if (entity.getVtEstado() == null) {
+				throw new Exception("Seleccione el estado que va a tener el nuevo artefacto a crear.");
+			}
+			if (entity.getOrigen().toString().trim().equals("") || entity.getOrigen() == null) {
+				throw new Exception("El campo para el origen no puede ser vacio, digite e"
+						+ "l origen del nuevo artefacto a modifcar.");
+			}
+			if (entity.getOrigen() != null && (Utilities.isNumeric(entity.getOrigen()) == true)) {
+				throw new Exception(
+						"El campo para el origen no puede recibir n" + "úmeros, solo se aceptan cadenas de texto.");
+			}
+			if (entity.getFechaModificacion() == null) {
+				throw new Exception("La fecha de creación es obligatoria");
 			}
 
 			if (entity.getUsuCreador() == null) {
-				throw new ZMessManager().new EmptyFieldException("usuCreador");
-			}
-
-			if (entity.getVtEstado().getEstaCodigo() == null) {
-				throw new ZMessManager().new EmptyFieldException("estaCodigo_VtEstado");
-			}
-
-			if (entity.getVtPrioridad().getPrioCodigo() == null) {
-				throw new ZMessManager().new EmptyFieldException("prioCodigo_VtPrioridad");
-			}
-
-			if (entity.getVtTipoArtefacto().getTparCodigo() == null) {
-				throw new ZMessManager().new EmptyFieldException("tparCodigo_VtTipoArtefacto");
+				throw new Exception("El usuario es obligatorio");
 			}
 
 			vtArtefactoDAO.update(entity);
@@ -554,7 +544,7 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 
 				if (vtArtefactoTmp.getActivo().equalsIgnoreCase("S")) {
 
-					if (vtArtefactoTmp.getVtSprint().getSpriCodigo().equals(codigoFiltro)){
+					if (vtArtefactoTmp.getVtSprint().getSpriCodigo().equals(codigoFiltro)) {
 						VtArtefactoDTO vtArtefactoDTO2 = new VtArtefactoDTO();
 
 						vtArtefactoDTO2.setArteCodigo(vtArtefactoTmp.getArteCodigo());
@@ -831,5 +821,50 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 		return vtArtefactoDAO.consultarTodosLosArtefactosAsignados();
 	}
 
+	@Transactional(readOnly = true)
+	public List<VtArtefacto> obtenerArtefactosNoAsignados(VtUsuario vtUsuario) throws Exception {
+		List<VtArtefacto> artefactosSources = getVtArtefacto();
+		List<VtUsuarioArtefacto> usuarioArtefacto = vtUsuarioArtefactoDAO.findAll();
+
+		if (usuarioArtefacto != null) {
+			for (VtUsuarioArtefacto vtUsuarioArtefacto : usuarioArtefacto) {
+				if (vtUsuarioArtefacto.getActivo().equals("S")) {
+					artefactosSources.remove(vtUsuarioArtefacto.getVtArtefacto());
+				}
+			}
+
+		}
+		return artefactosSources;
+	}
+
+	@Transactional(readOnly = true)
+	public List<VtArtefacto> obtenerArtefactosAsignados(VtUsuario vtUsuario) throws Exception {
+
+		List<VtArtefacto> artefactosSources = getVtArtefacto();
+
+		List<VtUsuarioArtefacto> usuarioArtefacto = vtUsuarioArtefactoDAO
+				.consultarUsuarioArtefactoPorUsuario(vtUsuario.getUsuaCodigo());
+		List<VtArtefacto> artefactosTarget = new ArrayList<>();
+		if(usuarioArtefacto!=null){
+			for (VtArtefacto vtArtefacto : artefactosSources) {
+				for (VtUsuarioArtefacto vtUsuarioArtefacto : usuarioArtefacto) {
+					if (vtArtefacto.getTitulo().equals(vtUsuarioArtefacto.getVtArtefacto().getTitulo())==true
+							&& vtArtefacto.getActivo().equals("S")) {
+						artefactosTarget.add(vtArtefacto);
+					}
+
+				}
+			}
+		}
+		
+
+		return artefactosTarget;
+	}
+
+	@Transactional(readOnly = true)
+	public VtUsuarioArtefacto consultarUsuarioArtefactoPorUsuarioYArtefacto(Long codigoUsuario, Long codigoArtefacto)
+			throws Exception {
+		return vtArtefactoDAO.consultarUsuarioArtefactoPorUsuarioYArtefacto(codigoUsuario, codigoArtefacto);
+	}
 
 }

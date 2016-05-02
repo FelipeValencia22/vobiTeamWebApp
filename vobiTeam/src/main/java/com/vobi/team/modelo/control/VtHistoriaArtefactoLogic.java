@@ -254,13 +254,11 @@ public class VtHistoriaArtefactoLogic implements IVtHistoriaArtefactoLogic {
 			for (VtHistoriaArtefacto vtHistoriaArtefactoTmp : vtHistoriaArtefacto) {
 
 				if (vtHistoriaArtefactoTmp.getVtArtefacto().getArteCodigo().equals(codigoArtefacto.longValue())) {
-					log.info("Hidratando historias");
 					VtHistoriaArtefactoDTO vtHistoriaArtefactoDTO2 = new VtHistoriaArtefactoDTO();
 
 					vtHistoriaArtefactoDTO2.setHistoriaCodigo(vtHistoriaArtefactoTmp.getHistoriaCodigo());
 					vtHistoriaArtefactoDTO2.setDescripcion((vtHistoriaArtefactoTmp.getDescripcion() != null)
 							? vtHistoriaArtefactoTmp.getDescripcion() : null);
-					log.info("Descripcion " +vtHistoriaArtefactoTmp.getDescripcion());
 					vtHistoriaArtefactoDTO2.setEsfuerzoEstimado((vtHistoriaArtefactoTmp.getEsfuerzoEstimado() != null)
 							? vtHistoriaArtefactoTmp.getEsfuerzoEstimado() : null);
 					vtHistoriaArtefactoDTO2.setEsfuerzoReal((vtHistoriaArtefactoTmp.getEsfuerzoReal() != null)

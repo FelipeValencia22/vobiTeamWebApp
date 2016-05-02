@@ -1,6 +1,8 @@
 package com.vobi.team.modelo.control;
 
 import com.vobi.team.modelo.VtArtefacto;
+import com.vobi.team.modelo.VtUsuario;
+import com.vobi.team.modelo.VtUsuarioArtefacto;
 import com.vobi.team.modelo.dto.VtArtefactoDTO;
 import com.vobi.team.modelo.dto.VtSprintDTO;
 
@@ -68,4 +70,10 @@ public interface IVtArtefactoLogic {
     public VtArtefacto consultarArtefactosAsignadosASprintYPila(Long artecodigo,Long codigoPila) throws Exception;
     
     public List<VtArtefacto> consultarTodosLosArtefactosAsignados() throws Exception;
+    
+	public List<VtArtefacto> obtenerArtefactosNoAsignados(VtUsuario vtUsuario) throws Exception;
+	
+	public List<VtArtefacto> obtenerArtefactosAsignados(VtUsuario vtUsuario) throws Exception;
+	
+	 public VtUsuarioArtefacto consultarUsuarioArtefactoPorUsuarioYArtefacto(Long codigoUsuario, Long codigoArtefacto) throws Exception;
 }

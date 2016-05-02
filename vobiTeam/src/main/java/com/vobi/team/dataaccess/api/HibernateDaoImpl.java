@@ -25,6 +25,7 @@ import com.vobi.team.modelo.VtEmpresa;
 import com.vobi.team.modelo.VtProyectoUsuario;
 import com.vobi.team.modelo.VtRol;
 import com.vobi.team.modelo.VtUsuario;
+import com.vobi.team.modelo.VtUsuarioArtefacto;
 import com.vobi.team.modelo.VtUsuarioRol;
 
 import java.io.Serializable;
@@ -676,6 +677,12 @@ public class HibernateDaoImpl<T, PK extends Serializable> implements Dao<T, PK> 
 	public List<VtArtefacto> consultarTodosLosArtefactosAsignados() {
 		return (List<VtArtefacto>) sessionFactory.getCurrentSession()
 				.getNamedQuery("consultarTodosLosArtefactosAsignados").list();
+	}
+
+	@Override
+	public List<VtUsuarioArtefacto> consultarUsuarioArtefactoPorUsuario(Long usuarioCodigo) {
+		return (List<VtUsuarioArtefacto>) sessionFactory.getCurrentSession()
+				.getNamedQuery("consultarUsuarioArtefactoPorUsuario").setLong("codigoUsuario", usuarioCodigo).list();
 	}
 
 }

@@ -211,7 +211,7 @@
 			visible="#{vtPilaProductoView.showDialog}" widgetVar="dlg"
 			resizable="false" modal="true" width="500">
 			<h:form id="formDialogCrearPila">
-				<p:messages id="msg" />
+				<p:growl id="msg" />
 
 				<h:panelGrid columns="1">
 				
@@ -251,7 +251,7 @@
 					title="Crear pila producto"
 					binding="#{vtPilaProductoView.btnCrear}" disable="true"
 					action="#{vtPilaProductoView.crearPilaProducto}"
-					update="formDialogCrearPila,@([id$=growl]" />
+					update="formDialogCrearPila,msg,:frm:pnVtPilaProducto" />
 
 				<p:commandButton id="btnLimpiar" icon="fa fa-eraser"
 					title="Limpiar " binding="#{vtPilaProductoView.btnLimpiar}"

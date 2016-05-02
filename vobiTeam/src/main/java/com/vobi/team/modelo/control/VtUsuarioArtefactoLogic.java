@@ -119,9 +119,9 @@ public class VtUsuarioArtefactoLogic implements IVtUsuarioArtefactoLogic {
                 throw new ZMessManager().new EmptyFieldException("usuCreador");
             }
 
-            if (entity.getUsuartCodigo() == null) {
-                throw new ZMessManager().new EmptyFieldException("usuartCodigo");
-            }
+//            if (entity.getUsuartCodigo() == null) {
+//                throw new ZMessManager().new EmptyFieldException("usuartCodigo");
+//            }
 
             if (entity.getVtArtefacto().getArteCodigo() == null) {
                 throw new ZMessManager().new EmptyFieldException(
@@ -138,9 +138,9 @@ public class VtUsuarioArtefactoLogic implements IVtUsuarioArtefactoLogic {
                     "usuaCodigo_VtUsuario");
             }
 
-            if (getVtUsuarioArtefacto(entity.getUsuartCodigo()) != null) {
-                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
-            }
+//            if (getVtUsuarioArtefacto(entity.getUsuartCodigo()) != null) {
+//                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
+//            }
 
             vtUsuarioArtefactoDAO.save(entity);
 
