@@ -8,10 +8,8 @@ import com.vobi.team.utilities.*;
 
 import org.primefaces.model.menu.DefaultMenuItem;
 import org.primefaces.model.menu.DefaultMenuModel;
-import org.primefaces.model.menu.DefaultSubMenu;
+
 import org.primefaces.model.menu.MenuModel;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.web.jsf.FacesContextUtils;
 
 import java.util.List;
 
@@ -19,7 +17,6 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 @ViewScoped
 @ManagedBean(name = "menuView")
@@ -37,6 +34,9 @@ public class MenuView {
 	}
 
 	private MenuModel model;
+	boolean esAdmin = false;
+	boolean esDesarrollador = false;
+	boolean esCliente = false;
 
 	@PostConstruct
 	public void init() {
@@ -47,22 +47,36 @@ public class MenuView {
 			List<VtUsuarioRol> usuRol = ((List<VtUsuarioRol>) businessDelegatorView
 					.consultarRolUsuarioPorUsuario(vtUsuarioEnSession.getUsuaCodigo().longValue()));
 
-			if (usuRol.isEmpty() == false) {
-				VtRol rol = businessDelegatorView.getVtRol(usuRol.get(0).getVtRol().getRolCodigo());
-				switch (rol.getRolNombre()) {
-				case "ADMINISTRADOR":
+			for (VtUsuarioRol vtUsuarioRol : usuRol) {
+				if (vtUsuarioRol.getVtRol().getRolNombre().toUpperCase().equalsIgnoreCase("ADMINISTRADOR")
+						&& vtUsuarioRol.getActivo().equals("S")) {
 					establecerPermisosADMIN();
-					break;
+					esAdmin = true;
+				}
+				if (vtUsuarioRol.getVtRol().getRolNombre().toUpperCase().equalsIgnoreCase("DESARROLLADOR") && esAdmin
+						&& vtUsuarioRol.getActivo().equals("S")) {
+				} else {
+					if (vtUsuarioRol.getVtRol().getRolNombre().toUpperCase().equalsIgnoreCase("DESARROLLADOR")
+							&& vtUsuarioRol.getActivo().equals("S")) {
+						establecerPermisosDESARROLLADOR();
+						esDesarrollador = true;
+					}
+				}
 
-				case "DESARROLLADOR":
-					establecerPermisosDESARROLLADOR();
-					break;
-
+				if (vtUsuarioRol.getVtRol().getRolNombre().toUpperCase().equalsIgnoreCase("CLIENTE") && esAdmin
+						&& esDesarrollador && vtUsuarioRol.getActivo().equals("S")) {
+				} else {
+					if (vtUsuarioRol.getVtRol().getRolNombre().toUpperCase().equalsIgnoreCase("CLIENTE")
+							&& vtUsuarioRol.getActivo().equals("S")) {
+						establecerPermisosCliente();
+						esCliente = true;
+					}
 				}
 			}
-
+			esAdmin = false;
+			esCliente = false;
+			esDesarrollador = false;
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -151,6 +165,17 @@ public class MenuView {
 	}
 
 	public void establecerPermisosDESARROLLADOR() {
+
+		DefaultMenuItem dashboardItem = new DefaultMenuItem("Dashboard");
+		dashboardItem.setOutcome("/XHTML/dashboard");
+		dashboardItem.setIcon("icon-home-outline");
+		dashboardItem.setId("sm_dashboard");
+		dashboardItem.setContainerStyleClass("layout-menubar-active");
+		model.addElement(dashboardItem);
+
+	}
+
+	public void establecerPermisosCliente() {
 
 		DefaultMenuItem dashboardItem = new DefaultMenuItem("Dashboard");
 		dashboardItem.setOutcome("/XHTML/dashboard");
