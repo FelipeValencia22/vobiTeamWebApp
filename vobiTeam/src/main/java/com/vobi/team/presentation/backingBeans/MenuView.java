@@ -112,7 +112,7 @@ public class MenuView {
 		proyectoItem.setId("sm_VtProyecto");
 		model.addElement(proyectoItem);
 
-		DefaultMenuItem desarrolladorProyectoItem = new DefaultMenuItem("Desarrolladores-proyecto");
+		DefaultMenuItem desarrolladorProyectoItem = new DefaultMenuItem("Desarrolladores-Proyecto");
 		desarrolladorProyectoItem.setOutcome("/XHTML/vtDesarrolladoresProyecto.xhtml");
 		desarrolladorProyectoItem.setIcon("fa fa-folder-open");
 		desarrolladorProyectoItem.setId("sm_VtDesarrolladoresProyecto");
@@ -132,19 +132,19 @@ public class MenuView {
 		sprintItem.setId("sm_VtSprint");
 		model.addElement(sprintItem);
 
-		DefaultMenuItem artefactosSprintItem = new DefaultMenuItem("Artefactos-sprint");
-		artefactosSprintItem.setOutcome("/XHTML/vtArtefactoSprint.xhtml");
-		artefactosSprintItem.setIcon("fa fa-calendar");
-		artefactosSprintItem.setId("sm_VtArtefactosSprint");
-		model.addElement(artefactosSprintItem);
-
 		DefaultMenuItem artefactosItem = new DefaultMenuItem("Artefacto");
 		artefactosItem.setOutcome("/XHTML/vtGestionArtefacto.xhtml");
 		artefactosItem.setIcon("fa fa-files-o");
 		artefactosItem.setId("sm_VtArtefacto");
 		model.addElement(artefactosItem);
+		
+		DefaultMenuItem artefactosSprintItem = new DefaultMenuItem("Artefacto-Sprint");
+		artefactosSprintItem.setOutcome("/XHTML/vtArtefactoSprint.xhtml");
+		artefactosSprintItem.setIcon("fa fa-calendar");
+		artefactosSprintItem.setId("sm_VtArtefactosSprint");
+		model.addElement(artefactosSprintItem);
 
-		DefaultMenuItem artefactosUsuarioItem = new DefaultMenuItem("Artefactos-usuario");
+		DefaultMenuItem artefactosUsuarioItem = new DefaultMenuItem("Artefacto-Usuario");
 		artefactosUsuarioItem.setOutcome("/XHTML/vtUsuarioArtefacto.xhtml");
 		artefactosUsuarioItem.setIcon("fa fa-calendar");
 		artefactosUsuarioItem.setId("sm_VtArtefactosUsuario");
@@ -156,7 +156,7 @@ public class MenuView {
 		rolItem.setId("sm_VtRol");
 		model.addElement(rolItem);
 
-		DefaultMenuItem rolUsuarioItem = new DefaultMenuItem("Roles por usuario");
+		DefaultMenuItem rolUsuarioItem = new DefaultMenuItem("Rol-Usuario");
 		rolUsuarioItem.setOutcome("/XHTML/vtUsuarioRol.xhtml");
 		rolUsuarioItem.setIcon("fa fa-users");
 		rolUsuarioItem.setId("sm_VtUsuarioRol");
