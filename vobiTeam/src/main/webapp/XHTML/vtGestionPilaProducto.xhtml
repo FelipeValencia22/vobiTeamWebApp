@@ -25,17 +25,11 @@
 
 		<h:form id="frm">
 
-			<p:panel id="pnlTablePilaProducto" header="PILA DE PRODUCTO">
-				<br></br>
-				<p:growl id="growl" />
-				<p:commandButton value="Crear pila de producto" type="button"
-					onclick="PF('dlg').show();" />
-
-			</p:panel>
+		<p:growl/>
 				
 			<br></br>
 				
-			<p:panel id="pnlFiltrar" header="Listar pilas de producto">
+			<p:panel id="pnlFiltrar" header="PILA DE PRODUCTO">
 				<h:panelGrid columns="1">
 
 					<p:selectOneMenu id="somEmpresas"  style="width:400px"
@@ -48,11 +42,18 @@
 
 					<p:selectOneMenu id="somProyectos"  style="width:400px"
 						binding="#{vtPilaProductoView.somProyectos}">
-						<p:ajax update="pnVtPilaProducto" event="change"
+						<p:ajax update="pnVtPilaProducto, btnCrearPdP" event="change"
 								listener="#{vtPilaProductoView.filtrar}" />
 						<f:selectItem itemValue="-1" itemLabel="Proyecto" />
 						<f:selectItems value="#{vtPilaProductoView.losProyectosFiltro}" />
 					</p:selectOneMenu>
+					
+					<br></br> 
+					
+					<p:commandButton id="btnCrearPdP" value="Crear pila de producto" type="button" disabled="true"
+					binding="#{vtPilaProductoView.btnCrearPdP}" onclick="PF('dlg').show();" />
+					
+					<br></br>
 
 				</h:panelGrid>
 
@@ -117,7 +118,7 @@
 							<p:column headerText="Cambiar estado">
 								<div align="center">
 									<p:commandButton id="btnEstado" icon="fa fa-retweet"
-										update=":frm:pnVtPilaProducto, :frm:growl"
+										update="@([id$=growl], @([id$=frm]"
 										actionListener="#{vtPilaProductoView.cambiarEstado}">
 										<f:attribute name="selectedVtPilaProducto"
 											value="#{vtPilaProducto}" />
@@ -187,7 +188,7 @@
 							<p:column headerText="Cambiar estado">
 								<div align="center">
 									<p:commandButton id="btnEstado" icon="fa fa-retweet"
-										update=":frm:pnVtPilaProducto, :frm:growl"
+										update="@([id$=growl], @([id$=frm]"
 										actionListener="#{vtPilaProductoView.cambiarEstado}">
 										<f:attribute name="selectedVtPilaProducto"
 											value="#{vtPilaProducto}" />
@@ -215,21 +216,7 @@
 
 				<h:panelGrid columns="1">
 				
-					<p:selectOneMenu id="somEmpresasCrear"  style="width:400px"
-						binding="#{vtPilaProductoView.somEmpresasCrear}"> 
-						<p:ajax update="somProyectosCrear" event="change"
-								listener="#{vtPilaProductoView.filtrarEmpresaCrear}" />
-						<f:selectItem itemValue="-1" itemLabel="Empresa" />
-						<f:selectItems value="#{vtPilaProductoView.lasEmpresasItemsFiltro}" />
-					</p:selectOneMenu> 
- 
-					<p:selectOneMenu id="somProyectosCrear"  style="width:400px"
-						binding="#{vtPilaProductoView.somProyectosCrear}"> 
-						<f:selectItem itemValue="-1" itemLabel="Proyecto" />
-						<f:selectItems value="#{vtPilaProductoView.losProyectosItems}" />
-					</p:selectOneMenu>
-
-					<p:inputText id="txtNombreCrear" placeholder="Nombre"  style="width:400px"
+						<p:inputText id="txtNombreCrear" placeholder="Nombre"  style="width:400px"
 						binding="#{vtPilaProductoView.txtNombreCrear}" />
 
 					<p:inputTextarea id="txtDescripcionCrear" rows="10" cols="64"
@@ -251,7 +238,7 @@
 					title="Crear pila producto"
 					binding="#{vtPilaProductoView.btnCrear}" disable="true"
 					action="#{vtPilaProductoView.crearPilaProducto}"
-					update="formDialogCrearPila,msg,:frm:pnVtPilaProducto" />
+					update="@([id$=growl], @([id$=frm]" />
 
 				<p:commandButton id="btnLimpiar" icon="fa fa-eraser"
 					title="Limpiar " binding="#{vtPilaProductoView.btnLimpiar}"

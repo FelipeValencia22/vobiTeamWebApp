@@ -270,6 +270,7 @@ public class VtArtefactoSprintView implements Serializable {
 		}
 
 	}
+	
 	public void actualizarListaUsuarios() throws Exception {
 
 		try {

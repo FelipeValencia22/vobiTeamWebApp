@@ -317,7 +317,7 @@ public class VtPilaProductoLogic implements IVtPilaProductoLogic {
 	}
 
 	@Transactional(readOnly = true)
-	public List<VtPilaProductoDTO> getDataVtPilaProductoNombreProyecto(String nombre) throws Exception {
+	public List<VtPilaProductoDTO> getDataVtPilaProductoNombreProyecto(Long codigoFiltro) throws Exception {
 		try {
 			List<VtPilaProducto> vtPilaProducto = vtPilaProductoDAO.findAll();
 
@@ -327,7 +327,7 @@ public class VtPilaProductoLogic implements IVtPilaProductoLogic {
 				VtPilaProductoDTO vtPilaProductoDTO2 = new VtPilaProductoDTO();
 				if(vtPilaProductoTmp.getActivo().equalsIgnoreCase("S")){
 
-					if(vtPilaProductoTmp.getVtProyecto().getNombre().equals(nombre)){ 
+					if(vtPilaProductoTmp.getVtProyecto().getProyCodigo().equals(codigoFiltro)){ 
 
 						vtPilaProductoDTO2.setPilaCodigo(vtPilaProductoTmp.getPilaCodigo());
 						vtPilaProductoDTO2
@@ -356,7 +356,7 @@ public class VtPilaProductoLogic implements IVtPilaProductoLogic {
 	}
 
 	@Transactional(readOnly = true)
-	public List<VtPilaProductoDTO> getDataVtPilaProductoNombreProyectoI(String nombre) throws Exception {
+	public List<VtPilaProductoDTO> getDataVtPilaProductoNombreProyectoI(Long codigoFiltro) throws Exception {
 		try {
 			List<VtPilaProducto> vtPilaProducto = vtPilaProductoDAO.findAll();
 
@@ -366,7 +366,7 @@ public class VtPilaProductoLogic implements IVtPilaProductoLogic {
 				VtPilaProductoDTO vtPilaProductoDTO2 = new VtPilaProductoDTO();
 				if(vtPilaProductoTmp.getActivo().equalsIgnoreCase("N")){
 
-					if(vtPilaProductoTmp.getVtProyecto().getNombre().equals(nombre)){ 
+					if(vtPilaProductoTmp.getVtProyecto().getProyCodigo().equals(codigoFiltro)){ 
 
 						vtPilaProductoDTO2.setPilaCodigo(vtPilaProductoTmp.getPilaCodigo());
 						vtPilaProductoDTO2

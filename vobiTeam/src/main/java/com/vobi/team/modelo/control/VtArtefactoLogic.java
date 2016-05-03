@@ -4,7 +4,6 @@ import com.vobi.team.dataaccess.dao.*;
 import com.vobi.team.exceptions.*;
 import com.vobi.team.modelo.*;
 import com.vobi.team.modelo.dto.VtArtefactoDTO;
-import com.vobi.team.utilities.FacesUtils;
 import com.vobi.team.utilities.Utilities;
 
 import org.slf4j.Logger;
@@ -19,12 +18,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Zathura Code Generator http://zathuracode.org/ www.zathuracode.org
@@ -313,14 +310,6 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 
 			if (entity.getVtEstado() == null) {
 				throw new Exception("Seleccione el estado que va a tener el nuevo artefacto a crear.");
-			}
-			if (entity.getOrigen().toString().trim().equals("") || entity.getOrigen() == null) {
-				throw new Exception("El campo para el origen no puede ser vacio, digite e"
-						+ "l origen del nuevo artefacto a modifcar.");
-			}
-			if (entity.getOrigen() != null && (Utilities.isNumeric(entity.getOrigen()) == true)) {
-				throw new Exception(
-						"El campo para el origen no puede recibir n" + "úmeros, solo se aceptan cadenas de texto.");
 			}
 			if (entity.getFechaModificacion() == null) {
 				throw new Exception("La fecha de creación es obligatoria");
