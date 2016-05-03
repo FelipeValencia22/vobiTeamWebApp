@@ -1081,6 +1081,11 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return vtArchivoLogic.getDataVtArchivoInactivo(codigoArtefacto);
 	}
 
+	@Override
+	public List<VtArtefactoDTO> obtenerArtefactosAsignadosDTO(VtUsuario vtUsuario) throws Exception {
+		return vtArtefactoLogic.obtenerArtefactosAsignadosDTO(vtUsuario);
+	}
+
 
 
 	

@@ -1,8 +1,11 @@
-package com.vobi.team.presentation.backingBeans;
 
-import com.vobi.team.modelo.VtRol;
+
+
+package com.vobi.team.presentation.backingBeans;
 import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.modelo.VtUsuarioRol;
+import com.vobi.team.modelo.dto.VtArtefactoDTO;
+import com.vobi.team.modelo.dto.VtSprintDTO;
 import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
 import com.vobi.team.utilities.*;
 
@@ -10,6 +13,8 @@ import org.primefaces.model.menu.DefaultMenuItem;
 import org.primefaces.model.menu.DefaultMenuModel;
 
 import org.primefaces.model.menu.MenuModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -21,7 +26,7 @@ import javax.faces.bean.ViewScoped;
 @ViewScoped
 @ManagedBean(name = "menuView")
 public class MenuView {
-
+	private static final Logger log = LoggerFactory.getLogger(MenuView.class);
 	@ManagedProperty(value = "#{BusinessDelegatorView}")
 	private IBusinessDelegatorView businessDelegatorView;
 
@@ -37,13 +42,19 @@ public class MenuView {
 	boolean esAdmin = false;
 	boolean esDesarrollador = false;
 	boolean esCliente = false;
-
+	private List<VtArtefactoDTO> dataFiltro;
+	private List<VtSprintDTO> dataFiltroSprint;
 	@PostConstruct
 	public void init() {
-
+		VtUsuario vtUsuarioEnSession = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
 		model = new DefaultMenuModel();
 		try {
-			VtUsuario vtUsuarioEnSession = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
+			
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		try {
+			
 			List<VtUsuarioRol> usuRol = ((List<VtUsuarioRol>) businessDelegatorView
 					.consultarRolUsuarioPorUsuario(vtUsuarioEnSession.getUsuaCodigo().longValue()));
 
@@ -165,13 +176,24 @@ public class MenuView {
 	}
 
 	public void establecerPermisosDESARROLLADOR() {
-
-		DefaultMenuItem dashboardItem = new DefaultMenuItem("Dashboard");
-		dashboardItem.setOutcome("/XHTML/dashboard");
-		dashboardItem.setIcon("icon-home-outline");
-		dashboardItem.setId("sm_dashboard");
-		dashboardItem.setContainerStyleClass("layout-menubar-active");
-		model.addElement(dashboardItem);
+	
+		
+		try {
+			VtUsuario vtUsuarioEnSession = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
+			DefaultMenuItem dashboardItem = new DefaultMenuItem("Información desarrollador");
+			dashboardItem.setOutcome("/XHTML/informacionDesarrollador.xhtml");
+			dashboardItem.setIcon("icon-home-outline");
+			dashboardItem.setId("sm_dashboard");
+			dashboardItem.setContainerStyleClass("layout-menubar-active");
+			model.addElement(dashboardItem);
+			dataFiltro=((businessDelegatorView.obtenerArtefactosAsignadosDTO(vtUsuarioEnSession)));
+			log.info("cuantos elementos se encontraron" + dataFiltro.size());
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			e.printStackTrace();
+		}
+	
+		
 
 	}
 
@@ -193,4 +215,21 @@ public class MenuView {
 	public void setModel(MenuModel model) {
 		this.model = model;
 	}
+
+	public List<VtArtefactoDTO> getDataFiltro() {
+		return dataFiltro;
+	}
+
+	public void setDataFiltro(List<VtArtefactoDTO> dataFiltro) {
+		this.dataFiltro = dataFiltro;
+	}
+
+	public List<VtSprintDTO> getDataFiltroSprint() {
+		return dataFiltroSprint;
+	}
+
+	public void setDataFiltroSprint(List<VtSprintDTO> dataFiltroSprint) {
+		this.dataFiltroSprint = dataFiltroSprint;
+	}
 }
+

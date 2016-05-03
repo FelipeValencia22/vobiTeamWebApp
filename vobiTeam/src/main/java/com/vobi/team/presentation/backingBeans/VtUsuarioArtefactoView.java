@@ -21,6 +21,7 @@ import com.vobi.team.modelo.VtProyecto;
 import com.vobi.team.modelo.VtRol;
 import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.modelo.VtUsuarioArtefacto;
+import com.vobi.team.modelo.dto.VtArtefactoDTO;
 import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
 import com.vobi.team.utilities.FacesUtils;
 
@@ -46,9 +47,14 @@ public class VtUsuarioArtefactoView implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		artefactosSource = new ArrayList<VtArtefacto>();
-		artefactosTarget = new ArrayList<VtArtefacto>();
-		vtArtefacto = new DualListModel<>(artefactosSource, artefactosTarget);
+
+		try {
+			artefactosSource = new ArrayList<VtArtefacto>();
+			artefactosTarget = new ArrayList<VtArtefacto>();
+			vtArtefacto = new DualListModel<>(artefactosSource, artefactosTarget);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void asignarArtefactoAUsuario(VtUsuario vtUsuario, VtArtefacto vtArtefacto, VtInteres vtInteres) {
@@ -337,4 +343,6 @@ public class VtUsuarioArtefactoView implements Serializable {
 	public void setLosInteresesFiltro(List<SelectItem> losInteresesFiltro) {
 		this.losInteresesFiltro = losInteresesFiltro;
 	}
+
+
 }

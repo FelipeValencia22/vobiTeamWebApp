@@ -132,13 +132,12 @@ public class VtArtefactoView implements Serializable {
 	@ManagedProperty(value = "#{BusinessDelegatorView}")
 	private IBusinessDelegatorView businessDelegatorView;
 
-	@SuppressWarnings("unused")
 	@PostConstruct
 	public void vtArtefactoViewPostConstructor() {
 		try {
 
 			VtSprint vtSprint = (VtSprint) FacesUtils.getfromSession("vtSprint");
-			log.info("Le llego un Sprint con código" + vtSprint.getSpriCodigo().longValue());
+			
 			if (vtSprint != null) {
 				dataFiltro = businessDelegatorView.getDataVtArtefactoFiltro(vtSprint.getSpriCodigo().longValue());
 				dataFiltroI = businessDelegatorView.getDataVtArtefactoFiltroI(vtSprint.getSpriCodigo().longValue());
@@ -149,6 +148,7 @@ public class VtArtefactoView implements Serializable {
 			}
 			vtSprint = null;
 		} catch (Exception e) {
+			e.printStackTrace();
 			log.error(e.getMessage());
 		}
 

@@ -537,5 +537,6 @@ public interface IBusinessDelegatorView {
 	
 	public VtUsuarioArtefacto consultarUsuarioArtefactoPorUsuarioYArtefacto(
 			Long codigoUsuario, Long codigoArtefacto) throws Exception;
+	public List<VtArtefactoDTO> obtenerArtefactosAsignadosDTO(VtUsuario vtUsuario) throws Exception;
  
 }

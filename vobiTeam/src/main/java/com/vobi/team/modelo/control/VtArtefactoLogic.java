@@ -867,4 +867,70 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 		return vtArtefactoDAO.consultarUsuarioArtefactoPorUsuarioYArtefacto(codigoUsuario, codigoArtefacto);
 	}
 
+	@Transactional(readOnly = true)
+	public List<VtArtefactoDTO> obtenerArtefactosAsignadosDTO(VtUsuario vtUsuario) throws Exception {
+		
+		try {
+			List<VtArtefacto> artefactosAsignados = obtenerArtefactosAsignados(vtUsuario);
+
+			List<VtArtefactoDTO> vtArtefactoDTO = new ArrayList<VtArtefactoDTO>();
+
+			for (VtArtefacto vtArtefactoTmp : artefactosAsignados) {
+
+				if (vtArtefactoTmp.getActivo().equalsIgnoreCase("S")) {
+					VtArtefactoDTO vtArtefactoDTO2 = new VtArtefactoDTO();
+					vtArtefactoDTO2.setArteCodigo(vtArtefactoTmp.getArteCodigo());
+					vtArtefactoDTO2.setActivo(
+							(vtArtefactoTmp.getActivo() != null) ? vtArtefactoTmp.getActivo() + "i" : null);
+					vtArtefactoDTO2.setDescripcion(
+							(vtArtefactoTmp.getDescripcion() != null) ? vtArtefactoTmp.getDescripcion() : null);
+					vtArtefactoDTO2.setEsfuerzoEstimado((vtArtefactoTmp.getEsfuerzoEstimado() != null)
+							? vtArtefactoTmp.getEsfuerzoEstimado() : null);
+					vtArtefactoDTO2.setEsfuerzoReal((vtArtefactoTmp.getEsfuerzoReal() != null)
+							? vtArtefactoTmp.getEsfuerzoReal() : null);
+					vtArtefactoDTO2.setEsfuerzoRestante((vtArtefactoTmp.getEsfuerzoRestante() != null)
+							? vtArtefactoTmp.getEsfuerzoRestante() : null);
+					vtArtefactoDTO2.setFechaCreacion(vtArtefactoTmp.getFechaCreacion());
+					vtArtefactoDTO2.setFechaModificacion(vtArtefactoTmp.getFechaModificacion());
+					vtArtefactoDTO2.setOrigen(
+							(vtArtefactoTmp.getOrigen() != null) ? vtArtefactoTmp.getOrigen() : null);
+					vtArtefactoDTO2.setPuntos(
+							(vtArtefactoTmp.getPuntos() != null) ? vtArtefactoTmp.getPuntos() : null);
+					vtArtefactoDTO2.setTitulo(
+							(vtArtefactoTmp.getTitulo() != null) ? vtArtefactoTmp.getTitulo() : null);
+					vtArtefactoDTO2.setUsuCreador(
+							(vtArtefactoTmp.getUsuCreador() != null) ? vtArtefactoTmp.getUsuCreador() : null);
+					vtArtefactoDTO2.setUsuModificador((vtArtefactoTmp.getUsuModificador() != null)
+							? vtArtefactoTmp.getUsuModificador() : null);
+					vtArtefactoDTO2
+							.setEstaCodigo_VtEstado((vtArtefactoTmp.getVtEstado().getEstaCodigo() != null)
+									? vtArtefactoTmp.getVtEstado().getEstaCodigo() : null);
+					vtArtefactoDTO2.setPilaCodigo_VtPilaProducto(
+							(vtArtefactoTmp.getVtPilaProducto().getPilaCodigo() != null)
+									? vtArtefactoTmp.getVtPilaProducto().getPilaCodigo() : null);
+					vtArtefactoDTO2
+							.setPrioCodigo_VtPrioridad((vtArtefactoTmp.getVtPrioridad().getPrioCodigo() != null)
+									? vtArtefactoTmp.getVtPrioridad().getPrioCodigo() : null);
+					vtArtefactoDTO2
+							.setSpriCodigo_VtSprint((vtArtefactoTmp.getVtSprint().getSpriCodigo() != null)
+									? vtArtefactoTmp.getVtSprint().getSpriCodigo() : null);
+					vtArtefactoDTO2.setTparCodigo_VtTipoArtefacto(
+							(vtArtefactoTmp.getVtTipoArtefacto().getTparCodigo() != null)
+									? vtArtefactoTmp.getVtTipoArtefacto().getTparCodigo() : null);
+
+					vtArtefactoDTO2.setTpar_Nombre(vtArtefactoTmp.getVtTipoArtefacto().getNombre());
+					vtArtefactoDTO2.setEstado_Nombre(vtArtefactoTmp.getVtEstado().getNombre());
+					vtArtefactoDTO2.setPrioridad_Nombre(vtArtefactoTmp.getVtPrioridad().getNombre());
+
+					vtArtefactoDTO.add(vtArtefactoDTO2);
+					}
+				}
+			
+			return vtArtefactoDTO;
+		} catch (Exception e) {
+			log.error(e.toString());
+			throw e;
+		}
+	
+	}
 }
