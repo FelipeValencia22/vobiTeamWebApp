@@ -115,6 +115,7 @@ public class VtSprintLogic implements IVtSprintLogic {
 			entity.setUsuCreador(vtUsuarioEnSession.getUsuaCodigo());
 
 			vtSprintDAO.save(entity);
+			log.info(""+entity.getSpriCodigo());
 
 			log.debug("save VtSprint successful");
 		} catch (Exception e) {
@@ -258,6 +259,8 @@ public class VtSprintLogic implements IVtSprintLogic {
 				vtSprintDTO2.setNombrePilaProducto(vtSprintTmp.getVtPilaProducto().getNombre());
 
 				vtSprintDTO2.setNombreProyecto(vtSprintTmp.getVtPilaProducto().getVtProyecto().getNombre());
+				
+				vtSprintDTO2.setCapacidadEstimada(vtSprintTmp.getCapacidadEstimada());
 
 				vtSprintDTO.add(vtSprintDTO2);
 			}
@@ -281,7 +284,6 @@ public class VtSprintLogic implements IVtSprintLogic {
 				if (vtSprintTmp.getActivo().equalsIgnoreCase("S")) {
 
 					if (vtSprintTmp.getVtPilaProducto().getPilaCodigo().equals(codigoFiltro)) {
-						log.info("SprintEncontrado");
 						vtSprintDTO2.setSpriCodigo(vtSprintTmp.getSpriCodigo());
 
 						vtSprintDTO2
@@ -313,6 +315,8 @@ public class VtSprintLogic implements IVtSprintLogic {
 						vtSprintDTO2.setNombrePilaProducto(vtSprintTmp.getVtPilaProducto().getNombre());
 
 						vtSprintDTO2.setNombreProyecto(vtSprintTmp.getVtPilaProducto().getVtProyecto().getNombre());
+						
+						vtSprintDTO2.setCapacidadEstimada(vtSprintTmp.getCapacidadEstimada());
 
 						vtSprintDTO.add(vtSprintDTO2);
 					}
@@ -369,6 +373,8 @@ public class VtSprintLogic implements IVtSprintLogic {
 						vtSprintDTO2.setNombrePilaProducto(vtSprintTmp.getVtPilaProducto().getNombre());
 
 						vtSprintDTO2.setNombreProyecto(vtSprintTmp.getVtPilaProducto().getVtProyecto().getNombre());
+						
+						vtSprintDTO2.setCapacidadEstimada(vtSprintTmp.getCapacidadEstimada());
 
 						vtSprintDTO.add(vtSprintDTO2);
 					}

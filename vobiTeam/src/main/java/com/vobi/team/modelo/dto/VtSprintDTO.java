@@ -32,6 +32,7 @@ public class VtSprintDTO implements Serializable {
     private Long pilaCodigo_VtPilaProducto;
     private String nombrePilaProducto;
     private String nombreProyecto;
+    private int capacidadEstimada;
 
     public String getActivo() {
         return activo;
@@ -135,6 +136,14 @@ public class VtSprintDTO implements Serializable {
 
 	public void setNombreProyecto(String nombreProyecto) {
 		this.nombreProyecto = nombreProyecto;
+	}
+
+	public int getCapacidadEstimada() {
+		return capacidadEstimada;
+	}
+
+	public void setCapacidadEstimada(int capacidadEstimada) {
+		this.capacidadEstimada = capacidadEstimada;
 	}
     
     
