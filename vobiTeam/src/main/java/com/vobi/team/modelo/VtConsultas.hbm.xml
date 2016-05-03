@@ -29,6 +29,14 @@
 
    ]]>
 	</query>
+	
+
+	<query name="consultarProyectoUsuarioPorUsuario">
+  <![CDATA[
+  Select proyUsu From VtProyectoUsuario proyUsu where proyUsu.vtUsuario.usuaCodigo=:usuarioCodigo 
+
+   ]]>
+	</query>
 
 	<query name="consultarRolUsuarioPorUsuario">
   <![CDATA[
@@ -86,5 +94,7 @@
 	Select usuarioArtefacto from VtUsuarioArtefacto usuarioArtefacto  where usuarioArtefacto.vtUsuario.usuaCodigo=:codigoUsuario and usuarioArtefacto.vtArtefacto.arteCodigo=:codigoArtefacto
    ]]>
 	</query>
+	
+
 
 </hibernate-mapping>

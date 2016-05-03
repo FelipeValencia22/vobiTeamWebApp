@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -59,10 +60,15 @@ public class VtUsuarioView implements Serializable{
 	private List<SelectItem> esUsuarioActivo;
 	private List<VtUsuarioDTO> data;
 	private List<VtUsuarioDTO> dataI;
-
+	private VtUsuario vtUsuarioEnSession;
 
 	@ManagedProperty(value = "#{BusinessDelegatorView}")
 	private IBusinessDelegatorView businessDelegatorView;
+	
+	@PostConstruct
+	public void ini(){
+		vtUsuarioEnSession = ((VtUsuario) FacesUtils.getfromSession("vtUsuario"));
+	}
 
 	public IBusinessDelegatorView getBusinessDelegatorView() {
 		return businessDelegatorView;
@@ -612,6 +618,14 @@ public class VtUsuarioView implements Serializable{
 		}
 
 		return "";
+	}
+
+	public VtUsuario getVtUsuarioEnSession() {
+		return vtUsuarioEnSession;
+	}
+
+	public void setVtUsuarioEnSession(VtUsuario vtUsuarioEnSession) {
+		this.vtUsuarioEnSession = vtUsuarioEnSession;
 	}
 
 

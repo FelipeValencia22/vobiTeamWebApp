@@ -1,6 +1,8 @@
 package com.vobi.team.modelo.control;
 
 import com.vobi.team.modelo.VtProyecto;
+import com.vobi.team.modelo.VtProyectoUsuario;
+import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.modelo.dto.VtProyectoDTO;
 
 import java.math.BigDecimal;
@@ -55,4 +57,6 @@ public interface IVtProyectoLogic {
     public List<VtProyectoDTO> getDataVtProyecto(Long codigoFiltro) throws Exception;
     
     public List<VtProyectoDTO> getDataVtProyectoInactivo(Long codigoFiltro) throws Exception;
+    
+    public List<VtProyectoUsuario> consultarProyectoUsuarioPorUsuario(Long usuarioCodigo)throws Exception;
 }

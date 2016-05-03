@@ -1,0 +1,173 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="head">
+		<script type="text/javascript">
+			function skinChart() {
+				this.cfg.shadow = false;
+				this.cfg.seriesColors = [ '#dae8ef', '#27aae1' ];
+				this.cfg.grid = {
+					background : '#f3f5f7',
+					borderColor : '#e5ebf0',
+					gridLineColor : '#e5ebf0',
+					shadow : false
+				};
+				this.cfg.axesDefaults = {
+					rendererOptions : {
+						textColor : '#9fadb5'
+					}
+				};
+				this.cfg.seriesDefaults = {
+					shadow : false,
+					markerOptions : {
+						shadow : false
+					}
+				}
+			}
+
+			function skinPie() {
+				this.cfg.seriesColors = [ '#dae8ef', '#27aae1', '#33ccff',
+						'#9fadb5' ];
+				this.cfg.grid = {
+					background : '#ffffff',
+					borderColor : '#eaeaea',
+					gridLineColor : '#e5ebf0',
+					shadow : false,
+					borderWidth : 0
+				};
+				this.cfg.seriesDefaults.shadow = false;
+			}
+		</script>
+		<style type="text/css">
+.jqplot-target, .jqplot-axis {
+	color: #9fadb5;
+}
+</style>
+	</ui:define>
+
+	<ui:define name="content">
+		<div class="Container100">
+			<div class="ContainerIndent">
+				<div class="EmptyBox20"></div>
+
+				<div class="Container33 Responsive">
+					<div class="ContainerIndent">
+						<p:panel style="min-height: 300px;">
+							<i class="icon-user-2 Fs50 Fleft Wid25 hardblue TexAlCenter"></i>
+							<div class="Fs24 Fright MarTop10 leaden Wid70">
+								<span class="hardblue"><h:outputText value="#{vtUsuarioView.vtUsuarioEnSession.nombre}"/></span>, Bienvenido
+							</div>
+							<div class="Fs12 Fright leaden Wid70">
+								Actualmente tenés<span class="red">3 unread messages</span> and <span
+									class="red"><h:outputText value="#{menuView.numeroArtefactos}"/> artefactos</span> !
+							</div>
+							<div class="EmptyBox10"></div>
+							<p:separator styleClass="Wid100"></p:separator>
+							<div class="EmptyBox10"></div>
+							<div class="Fs16 Fright">
+								<a href="#" class="DispInlBlock Fleft Fs16 MarRight20"><i
+									class="icon-briefcase hardblue"> Artefactos <h:outputText value="#{menuView.numeroArtefactos}"/></i></a> <a href="#"
+									class="DispInlBlock Fleft Fs16 MarRight20"><i
+									class="icon-bell-alt hardblue"> Sprint (3)</i></a> <a href="#"
+									class="DispInlBlock Fleft Fs16 MarRight20"><i
+									class="icon-cog-alt hardblue"> Settings</i></a>
+							</div>
+							<div class="EmptyBox10"></div>
+							<p:separator styleClass="Wid100"></p:separator>
+							<div class="EmptyBox10"></div>
+							<i class="icon-key softgray MarRight10 Fs14 Fright"> Tu
+								ultima conexión - 18.08.2014, 18:30</i>
+							<div class="EmptyBox10"></div>
+							<p:separator styleClass="Wid100"></p:separator>
+
+						</p:panel>
+					</div>
+				</div>
+				<div class="EmptyBox10"></div>
+			</div>
+		</div>
+
+		<div class="Container100 BorBotLeaden ui-fluid">
+			<div class="ContainerIndent">
+				<div class="EmptyBox10"></div>
+
+			
+
+				<div class="Container50 Responsive50">
+					<div class="ContainerIndent">
+						<p:panel style="min-height:400px;">
+							<div class="Container">
+								<div class="Container50 Responsive Fs20">
+									<i class="icon-doc-text"></i> Artefactos Asignados
+								</div>
+
+								<div class="EmptyBox10"></div>
+								<div class="Container100">
+									<h:form id="form">
+										<p:dataTable value="#{menuView.dataFiltro}" var="vtArtefacto"
+											rows="5" paginator="true" pageLinks="5" reflow="true"
+											emptyMessage="No tienes artefactos asignados en este momento">
+
+											<p:column filterBy="#{vtArtefacto.titulo}"
+												filterMatchMode="contains" sortBy="#{vtArtefacto.titulo}">
+												<f:facet name="header">
+													<h:outputText value="Titulo" />
+												</f:facet>
+												<h:outputText value="#{vtArtefacto.titulo}" />
+											</p:column>
+
+											<p:column filterBy="#{vtArtefacto.esfuerzoEstimado}"
+												filterMatchMode="contains"
+												sortBy="#{vtArtefacto.esfuerzoEstimado}">
+												<f:facet name="header">
+													<h:outputText value="Esfuerzo estimado" />
+												</f:facet>
+												<h:outputText value="#{vtArtefacto.esfuerzoEstimado}" />
+											</p:column>
+
+											<p:column filterBy="#{vtArtefacto.esfuerzoRestante}"
+												filterMatchMode="contains"
+												sortBy="#{vtArtefacto.esfuerzoRestante}">
+												<f:facet name="header">
+													<h:outputText value="Esfuerzo restante" />
+												</f:facet>
+												<h:outputText value="#{vtArtefacto.esfuerzoRestante}" />
+											</p:column>
+
+											<p:column filterBy="#{vtArtefacto.tpar_Nombre}"
+												filterMatchMode="contains">
+												<f:facet name="header">
+													<h:outputText value="Tipo artefacto" />
+												</f:facet>
+												<h:outputText value="#{vtArtefacto.tpar_Nombre}" />
+											</p:column>
+
+											<p:column filterBy="#{vtArtefacto.estado_Nombre}"
+												filterMatchMode="contains"
+												sortBy="#{vtArtefacto.estado_Nombre}">
+												<f:facet name="header">
+													<h:outputText value="Estado" />
+												</f:facet>
+												<h:outputText value="#{vtArtefacto.estado_Nombre}" />
+											</p:column>
+
+
+										</p:dataTable>
+									</h:form>
+								</div>
+							</div>
+						</p:panel>
+					</div>
+				</div>
+
+				<div class="EmptyBox20"></div>
+			</div>
+		</div>
+
+
+	</ui:define>
+
+</ui:composition>

@@ -2,9 +2,12 @@
 
 
 package com.vobi.team.presentation.backingBeans;
+import com.vobi.team.modelo.VtProyecto;
+import com.vobi.team.modelo.VtProyectoUsuario;
 import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.modelo.VtUsuarioRol;
 import com.vobi.team.modelo.dto.VtArtefactoDTO;
+import com.vobi.team.modelo.dto.VtProyectoUsuarioDTO;
 import com.vobi.team.modelo.dto.VtSprintDTO;
 import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
 import com.vobi.team.utilities.*;
@@ -44,6 +47,11 @@ public class MenuView {
 	boolean esCliente = false;
 	private List<VtArtefactoDTO> dataFiltro;
 	private List<VtSprintDTO> dataFiltroSprint;
+	private List<VtProyectoUsuario> dataFiltroProyecto;
+
+	private int numeroArtefactos;
+	private int numeroSprint;
+	private int numeroProyectos;
 	@PostConstruct
 	public void init() {
 		VtUsuario vtUsuarioEnSession = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
@@ -180,6 +188,7 @@ public class MenuView {
 		
 		try {
 			VtUsuario vtUsuarioEnSession = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
+			dataFiltroProyecto =((businessDelegatorView.consultarProyectoUsuarioPorUsuario(vtUsuarioEnSession.getUsuaCodigo())));
 			DefaultMenuItem dashboardItem = new DefaultMenuItem("Información desarrollador");
 			dashboardItem.setOutcome("/XHTML/informacionDesarrollador.xhtml");
 			dashboardItem.setIcon("icon-home-outline");
@@ -187,6 +196,7 @@ public class MenuView {
 			dashboardItem.setContainerStyleClass("layout-menubar-active");
 			model.addElement(dashboardItem);
 			dataFiltro=((businessDelegatorView.obtenerArtefactosAsignadosDTO(vtUsuarioEnSession)));
+			numeroArtefactos=dataFiltro.size();
 			log.info("cuantos elementos se encontraron" + dataFiltro.size());
 		} catch (Exception e) {
 			log.error(e.getMessage());
@@ -231,5 +241,39 @@ public class MenuView {
 	public void setDataFiltroSprint(List<VtSprintDTO> dataFiltroSprint) {
 		this.dataFiltroSprint = dataFiltroSprint;
 	}
+
+	public int getNumeroProyectos() {
+		return numeroProyectos;
+	}
+
+	public void setNumeroProyectos(int numeroProyectos) {
+		this.numeroProyectos = numeroProyectos;
+	}
+
+	public int getNumeroSprint() {
+		return numeroSprint;
+	}
+
+	public void setNumeroSprint(int numeroSprint) {
+		this.numeroSprint = numeroSprint;
+	}
+
+	public int getNumeroArtefactos() {
+		return numeroArtefactos;
+	}
+
+	public void setNumeroArtefactos(int numeroArtefactos) {
+		this.numeroArtefactos = numeroArtefactos;
+	}
+
+	public List<VtProyectoUsuario> getDataFiltroProyecto() {
+		return dataFiltroProyecto;
+	}
+
+	public void setDataFiltroProyecto(List<VtProyectoUsuario> dataFiltroProyecto) {
+		this.dataFiltroProyecto = dataFiltroProyecto;
+	}
+
+
 }
 

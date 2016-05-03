@@ -324,6 +324,7 @@ public interface Dao<T, PK extends Serializable> {
     public List<VtUsuarioRol> consultarRolUsuarioPorUsuario(Long usuarioCodigo);
     public List<VtArtefacto> consultarTodosLosArtefactosAsignados();
     public List<VtUsuarioArtefacto> consultarUsuarioArtefactoPorUsuario(Long usuarioCodigo);
+    public List<VtProyectoUsuario> consultarProyectoUsuarioPorUsuario(Long usuarioCodigo);
     
     
 }

@@ -685,4 +685,10 @@ public class HibernateDaoImpl<T, PK extends Serializable> implements Dao<T, PK> 
 				.getNamedQuery("consultarUsuarioArtefactoPorUsuario").setLong("codigoUsuario", usuarioCodigo).list();
 	}
 
+	@Override
+	public List<VtProyectoUsuario> consultarProyectoUsuarioPorUsuario(Long usuarioCodigo) {
+		return (List<VtProyectoUsuario>) sessionFactory.getCurrentSession()
+				.getNamedQuery("consultarProyectoUsuarioPorUsuario").setLong("usuarioCodigo", usuarioCodigo).list();
+	}
+
 }

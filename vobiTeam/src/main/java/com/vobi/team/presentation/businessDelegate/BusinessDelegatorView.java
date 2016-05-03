@@ -1024,6 +1024,11 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return vtArtefactoLogic.obtenerArtefactosAsignadosDTO(vtUsuario);
 	}
 
+	@Override
+	public List<VtProyectoUsuario> consultarProyectoUsuarioPorUsuario(Long usuarioCodigo) throws Exception {
+		return vtProyectoLogic.consultarProyectoUsuarioPorUsuario(usuarioCodigo);
+	}
+
 
 
 	

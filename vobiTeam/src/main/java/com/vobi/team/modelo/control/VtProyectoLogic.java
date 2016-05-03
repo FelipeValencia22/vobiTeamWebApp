@@ -540,4 +540,10 @@ public class VtProyectoLogic implements IVtProyectoLogic {
 		return list;
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public List<VtProyectoUsuario> consultarProyectoUsuarioPorUsuario(Long usuarioCodigo) {
+		return vtProyectoDAO.consultarProyectoUsuarioPorUsuario(usuarioCodigo);
+	}
+
 }
