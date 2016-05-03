@@ -28,27 +28,22 @@
 			<p:growl id="growl" />
 
 			<br></br>
-
-
-			<p:panel id="pnlCrearProyectos" header="PROYECTOS">
-				<br></br>
-				<p:commandButton value="Crear proyecto" type="button"
-					onclick="PF('dlg').show();" />
-				<br></br>
-				<br></br>
-
-			</p:panel>
-
-			<p:panel id="pnlListaSprint" header="Lista de proyectos">
+			
+			<p:panel id="pnlListaSprint" header="PROYECTOS">
 				<h:panelGrid columns="1">
 
 					<p:selectOneMenu id="somEmpresas" style="width:300px"
 						binding="#{vtProyectoView.somEmpresasFiltro}">
-						<p:ajax update="@([id$=accordionPanelVtProyecto]" event="change"
+						<p:ajax update="formDialog1" event="change"
 							listener="#{vtProyectoView.filtrarEmpresa}" />
 						<f:selectItem itemValue="-1" itemLabel="Empresa" />
 						<f:selectItems value="#{vtProyectoView.lasEmpresasItems}" />
 					</p:selectOneMenu>
+					 
+					 <br></br>
+					<p:commandButton id="btnCrear" value="Crear proyecto" type="button" binding="#{vtProyectoView.btnCrearP}"
+					onclick="PF('dlg').show();" disabled="true"/>
+					<br></br>
 
 
 					<p:accordionPanel id="accordionPanelVtProyecto" multiple="true" rendered="true"> 
@@ -246,13 +241,6 @@
 
 				<h:panelGrid columns="1">
 
-
-					<p:selectOneMenu id="somEmpresas" style="width:140px"
-						binding="#{vtProyectoView.somEmpresas}">
-						<f:selectItem itemValue="-1" itemLabel="Empresa" />
-						<f:selectItems value="#{vtProyectoView.lasEmpresasItems}" />
-					</p:selectOneMenu>
-
 					<p:inputText id="txtNombre" placeholder="Nombre del proyecto" size="51"
 						binding="#{vtProyectoView.txtNombreC}" />
 
@@ -280,7 +268,7 @@
 				<p:commandButton id="btnCrear" icon="fa fa-save"
 					title="Crear proyecto" binding="#{vtProyectoView.btnCrear}"
 					disable="true" action="#{vtProyectoView.crearProyecto}"
-					update="formDialogCrearProyecto,msg,:formDialog1:accordionPanelVtProyecto" />
+					update="dialogCrearProyecto,@([id$=growl],@([id$=formDialog1]" />
 
 				<p:commandButton id="btnLimpiar" icon="fa fa-eraser"
 					title="Limpiar " binding="#{vtProyectoView.btnLimpiar}"

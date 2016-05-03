@@ -59,6 +59,7 @@ public class VtProyectoView implements Serializable{
 	private CommandButton btnCrear;
 	private CommandButton btnModificar;
 	private CommandButton btnLimpiar;
+	private CommandButton btnCrearP;
 
 	String stringActivo;
 
@@ -115,6 +116,14 @@ public class VtProyectoView implements Serializable{
 
 	public void setSomEmpresasFiltro(SelectOneMenu somEmpresasFiltro) {
 		this.somEmpresasFiltro = somEmpresasFiltro;
+	}
+
+	public CommandButton getBtnCrearP() {
+		return btnCrearP;
+	}
+
+	public void setBtnCrearP(CommandButton btnCrearP) {
+		this.btnCrearP = btnCrearP;
 	}
 
 	public List<SelectItem> getEsPublicoItems() {
@@ -298,7 +307,7 @@ public class VtProyectoView implements Serializable{
 		VtUsuario vtUsuario =  (VtUsuario) FacesUtils.getfromSession("vtUsuario");
 		vtProyecto.setUsuCreador(vtUsuario.getUsuaCodigo());
 
-		String empresaS=somEmpresas.getValue().toString().trim();
+		String empresaS=somEmpresasFiltro.getValue().toString().trim();
 		if(empresaS.isEmpty() || empresaS.equals("-1")){
 		}else{
 			Long empresa=Long.parseLong(empresaS);
@@ -326,7 +335,6 @@ public class VtProyectoView implements Serializable{
 		txtDescripcion.resetValue();
 		somPublico.setValue("-1");
 		somActivo.setValue("-1");
-		somEmpresas.setValue("-1");
 
 		btnCrear.setDisabled(true);
 		return "";
@@ -583,8 +591,8 @@ public class VtProyectoView implements Serializable{
 			Long codigoFiltro = Long.valueOf(empresaS);
 			data=businessDelegatorView.getDataVtProyecto(codigoFiltro);
 			dataI=businessDelegatorView.getDataVtProyectoInactivo(codigoFiltro);
-			log.info(empresaS);
-		
+			btnCrearP.setDisabled(false);
+			
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}

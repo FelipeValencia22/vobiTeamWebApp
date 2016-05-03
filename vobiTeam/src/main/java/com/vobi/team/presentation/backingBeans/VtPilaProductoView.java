@@ -40,7 +40,7 @@ public class VtPilaProductoView implements Serializable {
 
 	private static final Logger log = LoggerFactory.getLogger(VtEmpresaView.class);
 
-	String proyectoSeleccionado;
+	Long proyectoSeleccionado;
 
 	private SelectOneMenu somEmpresas;
 	private SelectOneMenu somEmpresasCrear;
@@ -57,6 +57,7 @@ public class VtPilaProductoView implements Serializable {
 	private CommandButton btnLimpiar;
 	private CommandButton btnFiltrar;
 	private CommandButton btnGuardar;
+	private CommandButton btnCrearPdP;
 
 	private Panel panelDataTableVtPilaProducto; 
 
@@ -124,6 +125,14 @@ public class VtPilaProductoView implements Serializable {
 
 	public SelectOneMenu getSomProyectosCrear() {
 		return somProyectosCrear;
+	}
+
+	public CommandButton getBtnCrearPdP() {
+		return btnCrearPdP;
+	}
+
+	public void setBtnCrearPdP(CommandButton btnCrearPdP) {
+		this.btnCrearPdP = btnCrearPdP;
 	}
 
 	public List<SelectItem> getLasEmpresasItemsFiltro() {
@@ -462,7 +471,7 @@ public class VtPilaProductoView implements Serializable {
 			vtPilaProducto.setActivo("N");
 		}
 
-		String proyectos = somProyectosCrear.getValue().toString().trim();
+		String proyectos = somProyectos.getValue().toString().trim();
 		Long proyecto = Long.parseLong(proyectos);
 		VtProyecto vtProyecto = businessDelegatorView.getVtProyecto(proyecto);
 		vtPilaProducto.setVtProyecto(vtProyecto);
@@ -489,7 +498,6 @@ public class VtPilaProductoView implements Serializable {
 		txtNombreCrear.resetValue();
 		txtDescripcionCrear.resetValue();
 		somActivoCrear.setValue("-1");
-		somProyectosCrear.setValue("-1");
 
 		return "";
 	}
@@ -511,8 +519,16 @@ public class VtPilaProductoView implements Serializable {
 		return "";
 	}
 
+	public Long getProyectoSeleccionado() {
+		return proyectoSeleccionado;
+	}
+
+	public void setProyectoSeleccionado(Long proyectoSeleccionado) {
+		this.proyectoSeleccionado = proyectoSeleccionado;
+	}
+
 	public void localeChanged(ValueChangeEvent e){
-		setProyectoSeleccionado(e.getNewValue().toString());
+		setProyectoSeleccionado(Long.parseLong(e.getNewValue().toString()));
 		try {
 			dataFiltro=businessDelegatorView.getDataVtPilaProductoNombreProyecto(getProyectoSeleccionado());
 
@@ -524,22 +540,16 @@ public class VtPilaProductoView implements Serializable {
 	public String filtrar(){
 		try {
 			String nombreProyecto=somProyectos.getValue().toString().trim();
-			log.info("Proyecto:"+nombreProyecto);
-			dataFiltro=businessDelegatorView.getDataVtPilaProductoNombreProyecto(nombreProyecto);
-			dataFiltroI=businessDelegatorView.getDataVtPilaProductoNombreProyectoI(nombreProyecto);
+			long codigoFiltro= Long.parseLong(nombreProyecto);
+			dataFiltro=businessDelegatorView.getDataVtPilaProductoNombreProyecto(codigoFiltro);
+			dataFiltroI=businessDelegatorView.getDataVtPilaProductoNombreProyectoI(codigoFiltro);
+			btnCrearPdP.setDisabled(false);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return "";
 	}
 
-	public String getProyectoSeleccionado() {
-		return proyectoSeleccionado;
-	}
-
-	public void setProyectoSeleccionado(String proyectoSeleccionado) {
-		this.proyectoSeleccionado = proyectoSeleccionado;
-	}
 
 	public String action_save() {
 		try {
@@ -600,8 +610,9 @@ public class VtPilaProductoView implements Serializable {
 			businessDelegatorView.updateVtPilaProducto(entity);
 
 			String nombreProyecto=somProyectos.getValue().toString().trim();
-			dataFiltro=businessDelegatorView.getDataVtPilaProductoNombreProyecto(nombreProyecto);
-			dataFiltroI=businessDelegatorView.getDataVtPilaProductoNombreProyectoI(nombreProyecto);
+			long codigoFiltro= Long.parseLong(nombreProyecto);
+			dataFiltro=businessDelegatorView.getDataVtPilaProductoNombreProyecto(codigoFiltro);
+			dataFiltroI=businessDelegatorView.getDataVtPilaProductoNombreProyectoI(codigoFiltro);
 
 			FacesContext.getCurrentInstance().addMessage("", new FacesMessage("La pila de producto se modificó con exito"));
 
@@ -647,8 +658,9 @@ public class VtPilaProductoView implements Serializable {
 			businessDelegatorView.updateVtPilaProducto(entity);
 
 			String nombreProyecto=somProyectos.getValue().toString().trim();
-			dataFiltro=businessDelegatorView.getDataVtPilaProductoNombreProyecto(nombreProyecto);
-			dataFiltroI=businessDelegatorView.getDataVtPilaProductoNombreProyectoI(nombreProyecto);
+			long codigoFiltro= Long.parseLong(nombreProyecto);
+			dataFiltro=businessDelegatorView.getDataVtPilaProductoNombreProyecto(codigoFiltro);
+			dataFiltroI=businessDelegatorView.getDataVtPilaProductoNombreProyectoI(codigoFiltro);
 
 			FacesContext.getCurrentInstance().addMessage("", new FacesMessage("La pila de producto se modificó con exito"));
 			
@@ -683,7 +695,7 @@ public class VtPilaProductoView implements Serializable {
 					losProyectosFiltro=new ArrayList<SelectItem>();
 					for (VtProyecto vtProyecto:listaProyectos) {
 						if(vtProyecto.getActivo().equalsIgnoreCase("S") && vtProyecto.getVtEmpresa().getEmprCodigo().equals(vtEmpresa.getEmprCodigo())){
-							losProyectosFiltro.add(new SelectItem(vtProyecto.getNombre()));
+							losProyectosFiltro.add(new SelectItem(vtProyecto.getProyCodigo(), vtProyecto.getNombre()));
 						}
 					}
 				}
