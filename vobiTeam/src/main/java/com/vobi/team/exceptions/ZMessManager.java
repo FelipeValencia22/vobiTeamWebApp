@@ -49,8 +49,8 @@ public class ZMessManager extends RuntimeException {
 		private static final long serialVersionUID = 1L;
 
 		public EmptyFieldException(String info) {
-			super("The valor para el campo: \"" + info
-					+ "\" no puede ser vacio");
+			super("No se ha encontrado un identificador para la relación: \"" + info
+					+ "\"");
 		}
 	}
 

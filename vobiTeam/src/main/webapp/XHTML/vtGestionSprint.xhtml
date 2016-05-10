@@ -159,7 +159,7 @@
 					<p:panel id="panelDataTableVtSprintA">
 
 						<p:dataTable value="#{vtSprintView.dataFiltro}" var="vtSprint"
-							paginator="true" rows="5">
+							paginator="true" rows="5" emptyMessage="No hay artefactos activos en este momento" reflow="true">
 							<p:column filterBy="#{vtSprint.spriCodigo}"
 								sortBy="#{vtSprint.spriCodigo}">
 								<f:facet name="header">
@@ -262,7 +262,7 @@
 					<p:panel id="panelDataTableVtSprintI">
 
 						<p:dataTable value="#{vtSprintView.dataFiltroI}" var="vtSprint"
-							paginator="true" rows="5">
+							paginator="true" rows="5" emptyMessage="No hay artefactos activos en este momento" reflow="true">
 							<p:column filterBy="#{vtSprint.spriCodigo}"
 								sortBy="#{vtSprint.spriCodigo}">
 								<f:facet name="header">

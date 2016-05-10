@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -92,7 +91,7 @@ public class VtSprintLogic implements IVtSprintLogic {
 				throw new Exception("Seleccionar si esta activo o inactivo");
 			}
 
-			if (entity.getVtPilaProducto()==null) {
+			if (entity.getVtPilaProducto() == null) {
 				throw new Exception("Seleccionar la pila de productos");
 			}
 
@@ -107,15 +106,16 @@ public class VtSprintLogic implements IVtSprintLogic {
 			if (entity.getFechaFin().before(entity.getFechaInicio())) {
 				throw new Exception("La fecha final no puede situarse antes de la fecha inicial");
 			}
-			
-			if (entity.getCapacidadEstimada().toString().isEmpty() || entity.getCapacidadEstimada().toString().equals("")) {
+
+			if (entity.getCapacidadEstimada().toString().isEmpty()
+					|| entity.getCapacidadEstimada().toString().equals("")) {
 				throw new Exception("La fecha final no puede situarse antes de la fecha inicial");
 			}
 			VtUsuario vtUsuarioEnSession = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
 			entity.setUsuCreador(vtUsuarioEnSession.getUsuaCodigo());
 
 			vtSprintDAO.save(entity);
-			log.info(""+entity.getSpriCodigo());
+			log.info("" + entity.getSpriCodigo());
 
 			log.debug("save VtSprint successful");
 		} catch (Exception e) {
@@ -259,8 +259,11 @@ public class VtSprintLogic implements IVtSprintLogic {
 				vtSprintDTO2.setNombrePilaProducto(vtSprintTmp.getVtPilaProducto().getNombre());
 
 				vtSprintDTO2.setNombreProyecto(vtSprintTmp.getVtPilaProducto().getVtProyecto().getNombre());
-				
-				vtSprintDTO2.setCapacidadEstimada(vtSprintTmp.getCapacidadEstimada());
+
+				vtSprintDTO2.setCapacidadEstimada((vtSprintTmp.getCapacidadEstimada() != null)
+						? vtSprintTmp.getCapacidadEstimada() : null);
+				vtSprintDTO2.setCapacidadReal(
+						(vtSprintTmp.getCapacidadReal() != null) ? vtSprintTmp.getCapacidadReal() : null);
 
 				vtSprintDTO.add(vtSprintDTO2);
 			}
@@ -315,8 +318,11 @@ public class VtSprintLogic implements IVtSprintLogic {
 						vtSprintDTO2.setNombrePilaProducto(vtSprintTmp.getVtPilaProducto().getNombre());
 
 						vtSprintDTO2.setNombreProyecto(vtSprintTmp.getVtPilaProducto().getVtProyecto().getNombre());
-						
-						vtSprintDTO2.setCapacidadEstimada(vtSprintTmp.getCapacidadEstimada());
+
+						vtSprintDTO2.setCapacidadEstimada((vtSprintTmp.getCapacidadEstimada() != null)
+								? vtSprintTmp.getCapacidadEstimada() : null);
+						vtSprintDTO2.setCapacidadReal(
+								(vtSprintTmp.getCapacidadReal() != null) ? vtSprintTmp.getCapacidadReal() : null);
 
 						vtSprintDTO.add(vtSprintDTO2);
 					}
@@ -373,8 +379,11 @@ public class VtSprintLogic implements IVtSprintLogic {
 						vtSprintDTO2.setNombrePilaProducto(vtSprintTmp.getVtPilaProducto().getNombre());
 
 						vtSprintDTO2.setNombreProyecto(vtSprintTmp.getVtPilaProducto().getVtProyecto().getNombre());
-						
-						vtSprintDTO2.setCapacidadEstimada(vtSprintTmp.getCapacidadEstimada());
+
+						vtSprintDTO2.setCapacidadEstimada((vtSprintTmp.getCapacidadEstimada() != null)
+								? vtSprintTmp.getCapacidadEstimada() : null);
+						vtSprintDTO2.setCapacidadReal(
+								(vtSprintTmp.getCapacidadReal() != null) ? vtSprintTmp.getCapacidadReal() : null);
 
 						vtSprintDTO.add(vtSprintDTO2);
 					}

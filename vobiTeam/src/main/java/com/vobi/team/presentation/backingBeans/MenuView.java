@@ -196,8 +196,7 @@ public class MenuView {
 			dashboardItem.setContainerStyleClass("layout-menubar-active");
 			model.addElement(dashboardItem);
 			dataFiltro=((businessDelegatorView.obtenerArtefactosAsignadosDTO(vtUsuarioEnSession)));
-			numeroArtefactos=dataFiltro.size();
-			log.info("cuantos elementos se encontraron" + dataFiltro.size());
+			dataFiltroProyecto = businessDelegatorView.consultarProyectoUsuarioPorUsuario(vtUsuarioEnSession.getUsuaCodigo());
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			e.printStackTrace();

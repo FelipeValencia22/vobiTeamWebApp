@@ -12,7 +12,7 @@ import java.util.Date;
 
 /**
 *
-* @author Zathura Code Generator http://zathuracode.org/
+* @author Zathura Code Generator http://zathuracode.org
 * www.zathuracode.org
 *
 */
@@ -20,6 +20,8 @@ public class VtSprintDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     private static final Logger log = LoggerFactory.getLogger(VtSprintDTO.class);
     private String activo;
+    private Integer capacidadEstimada;
+    private Integer capacidadReal;
     private Date fechaCreacion;
     private Date fechaFin;
     private Date fechaInicio;
@@ -29,17 +31,33 @@ public class VtSprintDTO implements Serializable {
     private Long spriCodigo;
     private Long usuCreador;
     private Long usuModificador;
+    private Long estsprCodigo_VtEstadoSprint;
     private Long pilaCodigo_VtPilaProducto;
     private String nombrePilaProducto;
     private String nombreProyecto;
-    private int capacidadEstimada;
-
+    
     public String getActivo() {
         return activo;
     }
 
     public void setActivo(String activo) {
         this.activo = activo;
+    }
+
+    public Integer getCapacidadEstimada() {
+        return capacidadEstimada;
+    }
+
+    public void setCapacidadEstimada(Integer capacidadEstimada) {
+        this.capacidadEstimada = capacidadEstimada;
+    }
+
+    public Integer getCapacidadReal() {
+        return capacidadReal;
+    }
+
+    public void setCapacidadReal(Integer capacidadReal) {
+        this.capacidadReal = capacidadReal;
     }
 
     public Date getFechaCreacion() {
@@ -114,6 +132,14 @@ public class VtSprintDTO implements Serializable {
         this.usuModificador = usuModificador;
     }
 
+    public Long getEstsprCodigo_VtEstadoSprint() {
+        return estsprCodigo_VtEstadoSprint;
+    }
+
+    public void setEstsprCodigo_VtEstadoSprint(Long estsprCodigo_VtEstadoSprint) {
+        this.estsprCodigo_VtEstadoSprint = estsprCodigo_VtEstadoSprint;
+    }
+
     public Long getPilaCodigo_VtPilaProducto() {
         return pilaCodigo_VtPilaProducto;
     }
@@ -121,14 +147,6 @@ public class VtSprintDTO implements Serializable {
     public void setPilaCodigo_VtPilaProducto(Long pilaCodigo_VtPilaProducto) {
         this.pilaCodigo_VtPilaProducto = pilaCodigo_VtPilaProducto;
     }
-
-	public String getNombrePilaProducto() {
-		return nombrePilaProducto;
-	}
-
-	public void setNombrePilaProducto(String nombrePilaProducto) {
-		this.nombrePilaProducto = nombrePilaProducto;
-	}
 
 	public String getNombreProyecto() {
 		return nombreProyecto;
@@ -138,13 +156,11 @@ public class VtSprintDTO implements Serializable {
 		this.nombreProyecto = nombreProyecto;
 	}
 
-	public int getCapacidadEstimada() {
-		return capacidadEstimada;
+	public String getNombrePilaProducto() {
+		return nombrePilaProducto;
 	}
 
-	public void setCapacidadEstimada(int capacidadEstimada) {
-		this.capacidadEstimada = capacidadEstimada;
+	public void setNombrePilaProducto(String nombrePilaProducto) {
+		this.nombrePilaProducto = nombrePilaProducto;
 	}
-    
-    
 }

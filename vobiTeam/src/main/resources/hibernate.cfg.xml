@@ -9,22 +9,24 @@
         <property name="hibernate.connection.password">postgres</property>
         <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/vobiteam</property>
         <property name="hibernate.connection.username">postgres</property>
-        <mapping resource="com/vobi/team/modelo/VtArchivo.hbm.xml" />
-        <mapping resource="com/vobi/team/modelo/VtArtefacto.hbm.xml" />
-        <mapping resource="com/vobi/team/modelo/VtEstado.hbm.xml" />
-        <mapping resource="com/vobi/team/modelo/VtRol.hbm.xml" />
-        <mapping resource="com/vobi/team/modelo/VtTipoArtefacto.hbm.xml" />
-        <mapping resource="com/vobi/team/modelo/VtUsuarioArtefacto.hbm.xml" />
         <mapping resource="com/vobi/team/modelo/VtUsuarioRol.hbm.xml" />
-        <mapping resource="com/vobi/team/modelo/VtEmpresa.hbm.xml" />
+        <mapping resource="com/vobi/team/modelo/VtProyectoUsuario.hbm.xml" />
         <mapping resource="com/vobi/team/modelo/VtInteres.hbm.xml" />
         <mapping resource="com/vobi/team/modelo/VtPilaProducto.hbm.xml" />
         <mapping resource="com/vobi/team/modelo/VtPrioridad.hbm.xml" />
-        <mapping resource="com/vobi/team/modelo/VtHistoriaArtefacto.hbm.xml" />
-        <mapping resource="com/vobi/team/modelo/VtUsuario.hbm.xml" />
         <mapping resource="com/vobi/team/modelo/VtSprint.hbm.xml" />
-        <mapping resource="com/vobi/team/modelo/VtProyectoUsuario.hbm.xml" />
+        <mapping resource="com/vobi/team/modelo/VtEstado.hbm.xml" />
+        <mapping resource="com/vobi/team/modelo/VtHistoriaArtefacto.hbm.xml" />
+        <mapping resource="com/vobi/team/modelo/VtRol.hbm.xml" />
+        <mapping resource="com/vobi/team/modelo/VtEmpresa.hbm.xml" />
         <mapping resource="com/vobi/team/modelo/VtProyecto.hbm.xml" />
+        <mapping resource="com/vobi/team/modelo/VtArtefacto.hbm.xml" />
+        <mapping resource="com/vobi/team/modelo/VtTipoArtefacto.hbm.xml" />
+        <mapping resource="com/vobi/team/modelo/VtUsuarioArtefacto.hbm.xml" />
+        <mapping resource="com/vobi/team/modelo/VtArchivo.hbm.xml" />
+        <mapping resource="com/vobi/team/modelo/VtUsuario.hbm.xml" />
+        <mapping resource="com/vobi/team/modelo/VtEstadoSprint.hbm.xml" />
+        <mapping resource="com/vobi/team/modelo/VtProgresoArtefacto.hbm.xml" />
         <mapping resource="com/vobi/team/modelo/VtConsultas.hbm.xml" />
     </session-factory>
 </hibernate-configuration>

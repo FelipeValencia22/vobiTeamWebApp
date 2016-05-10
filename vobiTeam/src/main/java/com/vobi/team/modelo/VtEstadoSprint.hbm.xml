@@ -3,19 +3,13 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 9/05/2016 01:34:00 PM by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
-    <class name="com.vobi.team.modelo.VtArchivo" table="vt_archivo" schema="public" optimistic-lock="version">
-        <id name="archCodigo" type="java.lang.Long">
-            <column name="arch_codigo" />
+    <class name="com.vobi.team.modelo.VtEstadoSprint" table="vt_estado_sprint" schema="public" optimistic-lock="version">
+        <id name="estsprCodigo" type="java.lang.Long">
+            <column name="estspr_codigo" />
             <generator class="identity" />
         </id>
-        <many-to-one name="vtArtefacto" class="com.vobi.team.modelo.VtArtefacto" fetch="select">
-            <column name="arte_codigo" not-null="true" />
-        </many-to-one>
         <property name="nombre" type="java.lang.String">
             <column name="nombre" not-null="true" />
-        </property>
-        <property name="archivo" type="binary">
-            <column name="archivo" />
         </property>
         <property name="fechaCreacion" type="java.util.Date">
             <column name="fecha_creacion" length="29" not-null="true" />
@@ -32,5 +26,11 @@
         <property name="activo" type="java.lang.String">
             <column name="activo" length="1" not-null="true" />
         </property>
+        <set name="vtSprints" table="vt_sprint" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="estspr_codigo" />
+            </key>
+            <one-to-many class="com.vobi.team.modelo.VtSprint" />
+        </set>
     </class>
 </hibernate-mapping>

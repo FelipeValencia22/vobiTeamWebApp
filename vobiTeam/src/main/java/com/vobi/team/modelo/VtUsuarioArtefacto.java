@@ -1,5 +1,5 @@
 package com.vobi.team.modelo;
-// Generated Mar 1, 2016 5:26:24 PM by Hibernate Tools 4.3.1.Final
+// Generated 9/05/2016 01:33:59 PM by Hibernate Tools 4.3.1.Final
 
 
 import java.util.Date;

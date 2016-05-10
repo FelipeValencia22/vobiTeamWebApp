@@ -53,23 +53,27 @@
 			<div class="ContainerIndent">
 				<div class="EmptyBox20"></div>
 
-				<div class="Container33 Responsive">
+				<div class="Container60 Responsive60">
 					<div class="ContainerIndent">
 						<p:panel style="min-height: 300px;">
 							<i class="icon-user-2 Fs50 Fleft Wid25 hardblue TexAlCenter"></i>
 							<div class="Fs24 Fright MarTop10 leaden Wid70">
-								<span class="hardblue"><h:outputText value="#{vtUsuarioView.vtUsuarioEnSession.nombre}"/></span>, Bienvenido
+								<span class="hardblue"><h:outputText
+										value="#{vtUsuarioView.vtUsuarioEnSession.nombre}" /></span>,
+								Bienvenido
 							</div>
 							<div class="Fs12 Fright leaden Wid70">
-								Actualmente tenés<span class="red">3 unread messages</span> and <span
-									class="red"><h:outputText value="#{menuView.numeroArtefactos}"/> artefactos</span> !
+								Actualmente tenés<span class="red">3 unread messages</span> and
+								<span class="red"><h:outputText
+										value="#{menuView.numeroArtefactos}" /> artefactos</span> !
 							</div>
 							<div class="EmptyBox10"></div>
 							<p:separator styleClass="Wid100"></p:separator>
 							<div class="EmptyBox10"></div>
 							<div class="Fs16 Fright">
 								<a href="#" class="DispInlBlock Fleft Fs16 MarRight20"><i
-									class="icon-briefcase hardblue"> Artefactos <h:outputText value="#{menuView.numeroArtefactos}"/></i></a> <a href="#"
+									class="icon-briefcase hardblue"> Artefactos <h:outputText
+											value="#{menuView.numeroArtefactos}" /></i></a> <a href="#"
 									class="DispInlBlock Fleft Fs16 MarRight20"><i
 									class="icon-bell-alt hardblue"> Sprint (3)</i></a> <a href="#"
 									class="DispInlBlock Fleft Fs16 MarRight20"><i
@@ -94,11 +98,11 @@
 			<div class="ContainerIndent">
 				<div class="EmptyBox10"></div>
 
-			
 
-				<div class="Container50 Responsive50">
+
+				<div class="Container60 Responsive60">
 					<div class="ContainerIndent">
-						<p:panel style="min-height:400px;">
+						<p:panel style="min-height:500px;">
 							<div class="Container">
 								<div class="Container50 Responsive Fs20">
 									<i class="icon-doc-text"></i> Artefactos Asignados
@@ -109,6 +113,8 @@
 									<h:form id="form">
 										<p:dataTable value="#{menuView.dataFiltro}" var="vtArtefacto"
 											rows="5" paginator="true" pageLinks="5" reflow="true"
+											scrollRows="20" scrollable="true" liveScroll="true"
+											scrollHeight="150" style="margin-bottom:0"
 											emptyMessage="No tienes artefactos asignados en este momento">
 
 											<p:column filterBy="#{vtArtefacto.titulo}"

@@ -1,5 +1,5 @@
 package com.vobi.team.modelo;
-// Generated Mar 1, 2016 5:26:24 PM by Hibernate Tools 4.3.1.Final
+// Generated 9/05/2016 01:33:59 PM by Hibernate Tools 4.3.1.Final
 
 
 import java.util.Date;
@@ -32,6 +32,7 @@ public class VtArtefacto  implements java.io.Serializable {
      private String activo;
      private Set<VtArchivo> vtArchivos = new HashSet<VtArchivo>(0);
      private Set<VtHistoriaArtefacto> vtHistoriaArtefactos = new HashSet<VtHistoriaArtefacto>(0);
+     private Set<VtProgresoArtefacto> vtProgresoArtefactos = new HashSet<VtProgresoArtefacto>(0);
      private Set<VtUsuarioArtefacto> vtUsuarioArtefactos = new HashSet<VtUsuarioArtefacto>(0);
 
     public VtArtefacto() {
@@ -49,7 +50,7 @@ public class VtArtefacto  implements java.io.Serializable {
         this.usuCreador = usuCreador;
         this.activo = activo;
     }
-    public VtArtefacto(Long arteCodigo, VtEstado vtEstado, VtPilaProducto vtPilaProducto, VtPrioridad vtPrioridad, VtSprint vtSprint, VtTipoArtefacto vtTipoArtefacto, String titulo, String descripcion, Integer esfuerzoEstimado, Integer esfuerzoRestante, Integer esfuerzoReal, Integer puntos, String origen, Date fechaCreacion, Date fechaModificacion, Long usuCreador, Long usuModificador, String activo, Set<VtArchivo> vtArchivos, Set<VtHistoriaArtefacto> vtHistoriaArtefactos, Set<VtUsuarioArtefacto> vtUsuarioArtefactos) {
+    public VtArtefacto(Long arteCodigo, VtEstado vtEstado, VtPilaProducto vtPilaProducto, VtPrioridad vtPrioridad, VtSprint vtSprint, VtTipoArtefacto vtTipoArtefacto, String titulo, String descripcion, Integer esfuerzoEstimado, Integer esfuerzoRestante, Integer esfuerzoReal, Integer puntos, String origen, Date fechaCreacion, Date fechaModificacion, Long usuCreador, Long usuModificador, String activo, Set<VtArchivo> vtArchivos, Set<VtHistoriaArtefacto> vtHistoriaArtefactos, Set<VtProgresoArtefacto> vtProgresoArtefactos, Set<VtUsuarioArtefacto> vtUsuarioArtefactos) {
        this.arteCodigo = arteCodigo;
        this.vtEstado = vtEstado;
        this.vtPilaProducto = vtPilaProducto;
@@ -70,6 +71,7 @@ public class VtArtefacto  implements java.io.Serializable {
        this.activo = activo;
        this.vtArchivos = vtArchivos;
        this.vtHistoriaArtefactos = vtHistoriaArtefactos;
+       this.vtProgresoArtefactos = vtProgresoArtefactos;
        this.vtUsuarioArtefactos = vtUsuarioArtefactos;
     }
    
@@ -212,6 +214,13 @@ public class VtArtefacto  implements java.io.Serializable {
     
     public void setVtHistoriaArtefactos(Set<VtHistoriaArtefacto> vtHistoriaArtefactos) {
         this.vtHistoriaArtefactos = vtHistoriaArtefactos;
+    }
+    public Set<VtProgresoArtefacto> getVtProgresoArtefactos() {
+        return this.vtProgresoArtefactos;
+    }
+    
+    public void setVtProgresoArtefactos(Set<VtProgresoArtefacto> vtProgresoArtefactos) {
+        this.vtProgresoArtefactos = vtProgresoArtefactos;
     }
     public Set<VtUsuarioArtefacto> getVtUsuarioArtefactos() {
         return this.vtUsuarioArtefactos;

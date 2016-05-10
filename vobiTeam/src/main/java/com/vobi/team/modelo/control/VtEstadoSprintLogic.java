@@ -1,9 +1,14 @@
 package com.vobi.team.modelo.control;
 
-import com.vobi.team.dataaccess.dao.*;
-import com.vobi.team.exceptions.*;
-import com.vobi.team.modelo.*;
-import com.vobi.team.modelo.dto.VtArchivoDTO;
+
+
+import com.vobi.team.*;
+import com.vobi.team.dataaccess.dao.IVtEstadoSprintDAO;
+import com.vobi.team.dataaccess.dao.IVtSprintDAO;
+import com.vobi.team.exceptions.ZMessManager;
+import com.vobi.team.modelo.VtEstadoSprint;
+import com.vobi.team.modelo.VtSprint;
+import com.vobi.team.modelo.dto.VtEstadoSprintDTO;
 import com.vobi.team.utilities.Utilities;
 
 import org.slf4j.Logger;
@@ -27,41 +32,41 @@ import java.util.Set;
 
 
 /**
-* @author Zathura Code Generator http://zathuracode.org/
+* @author Zathura Code Generator http://zathuracode.org
 * www.zathuracode.org
 *
 */
 @Scope("singleton")
-@Service("VtArchivoLogic")// Probando git
-public class VtArchivoLogic implements IVtArchivoLogic {
-    private static final Logger log = LoggerFactory.getLogger(VtArchivoLogic.class);
+@Service("VtEstadoSprintLogic")
+public class VtEstadoSprintLogic implements IVtEstadoSprintLogic {
+    private static final Logger log = LoggerFactory.getLogger(VtEstadoSprintLogic.class);
 
     /**
-     * DAO injected by Spring that manages VtArchivo entities
+     * DAO injected by Spring that manages VtEstadoSprint entities
      *
      */
     @Autowired
-    private IVtArchivoDAO vtArchivoDAO;
+    private IVtEstadoSprintDAO vtEstadoSprintDAO;
 
     /**
-    * Logic injected by Spring that manages VtArtefacto entities
+    * DAO injected by Spring that manages VtSprint entities
     *
     */
     @Autowired
-    IVtArtefactoLogic logicVtArtefacto1;
+    private IVtSprintDAO vtSprintDAO;
 
     @Transactional(readOnly = true)
-    public List<VtArchivo> getVtArchivo() throws Exception {
-        log.debug("finding all VtArchivo instances");
+    public List<VtEstadoSprint> getVtEstadoSprint() throws Exception {
+        log.debug("finding all VtEstadoSprint instances");
 
-        List<VtArchivo> list = new ArrayList<VtArchivo>();
+        List<VtEstadoSprint> list = new ArrayList<VtEstadoSprint>();
 
         try {
-            list = vtArchivoDAO.findAll();
+            list = vtEstadoSprintDAO.findAll();
         } catch (Exception e) {
-            log.error("finding all VtArchivo failed", e);
+            log.error("finding all VtEstadoSprint failed", e);
             throw new ZMessManager().new GettingException(ZMessManager.ALL +
-                "VtArchivo");
+                "VtEstadoSprint");
         } finally {
         }
 
@@ -69,17 +74,11 @@ public class VtArchivoLogic implements IVtArchivoLogic {
     }
 
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public void saveVtArchivo(VtArchivo entity) throws Exception {
-        log.debug("saving VtArchivo instance");
+    public void saveVtEstadoSprint(VtEstadoSprint entity)
+        throws Exception {
+        log.debug("saving VtEstadoSprint instance");
 
         try {
-        	if(entity == null){
-        		throw new Exception("No es posible subir archivos, falta información fundamental");
-        	}
-            if (entity.getVtArtefacto() == null) {
-                throw new Exception("No puedes subir archivos porque no se han llenado los datos del artefacto");
-            }
-
             if (entity.getActivo() == null) {
                 throw new ZMessManager().new EmptyFieldException("activo");
             }
@@ -89,9 +88,9 @@ public class VtArchivoLogic implements IVtArchivoLogic {
                 throw new ZMessManager().new NotValidFormatException("activo");
             }
 
-//            if (entity.getArchCodigo() == null) {
-//                throw new ZMessManager().new EmptyFieldException("archCodigo");
-//            }
+            if (entity.getEstsprCodigo() == null) {
+                throw new ZMessManager().new EmptyFieldException("estsprCodigo");
+            }
 
             if (entity.getFechaCreacion() == null) {
                 throw new ZMessManager().new EmptyFieldException(
@@ -112,59 +111,62 @@ public class VtArchivoLogic implements IVtArchivoLogic {
                 throw new ZMessManager().new EmptyFieldException("usuCreador");
             }
 
-            if (entity.getVtArtefacto().getArteCodigo() == null) {
-                throw new ZMessManager().new EmptyFieldException(
-                    "arteCodigo_VtArtefacto");
+            if (getVtEstadoSprint(entity.getEstsprCodigo()) != null) {
+                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
             }
 
-//            if (getVtArchivo(entity.getArchCodigo()) != null) {
-//                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
-//            }
+            vtEstadoSprintDAO.save(entity);
 
-            vtArchivoDAO.save(entity);
-
-            log.debug("save VtArchivo successful");
+            log.debug("save VtEstadoSprint successful");
         } catch (Exception e) {
-            log.error("save VtArchivo failed", e);
+            log.error("save VtEstadoSprint failed", e);
             throw e;
         } finally {
         }
     }
 
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public void deleteVtArchivo(VtArchivo entity) throws Exception {
-        log.debug("deleting VtArchivo instance");
+    public void deleteVtEstadoSprint(VtEstadoSprint entity)
+        throws Exception {
+        log.debug("deleting VtEstadoSprint instance");
 
         if (entity == null) {
-            throw new Exception("El archivo no puede ser nulo");
+            throw new ZMessManager().new NullEntityExcepcion("VtEstadoSprint");
         }
 
-        if (entity.getArchCodigo() == null) {
-            throw new ZMessManager().new EmptyFieldException("archCodigo");
+        if (entity.getEstsprCodigo() == null) {
+            throw new ZMessManager().new EmptyFieldException("estsprCodigo");
         }
+
+        List<VtSprint> vtSprints = null;
 
         try {
-            vtArchivoDAO.delete(entity);
+            vtSprints = vtSprintDAO.findByProperty("vtEstadoSprint.estsprCodigo",
+                    entity.getEstsprCodigo());
 
-            log.debug("Borrando artefacto satisfactoriamente");
+            if (Utilities.validationsList(vtSprints) == true) {
+                throw new ZMessManager().new DeletingException("vtSprints");
+            }
+
+            vtEstadoSprintDAO.delete(entity);
+
+            log.debug("delete VtEstadoSprint successful");
         } catch (Exception e) {
-            log.error("delete VtArchivo failed", e);
+            log.error("delete VtEstadoSprint failed", e);
             throw e;
         } finally {
         }
     }
 
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public void updateVtArchivo(VtArchivo entity) throws Exception {
-        log.debug("updating VtArchivo instance");
+    public void updateVtEstadoSprint(VtEstadoSprint entity)
+        throws Exception {
+        log.debug("updating VtEstadoSprint instance");
 
         try {
             if (entity == null) {
-                throw new ZMessManager().new NullEntityExcepcion("VtArchivo");
-            }
-
-            if (entity.getVtArtefacto() == null) {
-                throw new ZMessManager().new ForeignException("vtArtefacto");
+                throw new ZMessManager().new NullEntityExcepcion(
+                    "VtEstadoSprint");
             }
 
             if (entity.getActivo() == null) {
@@ -176,8 +178,8 @@ public class VtArchivoLogic implements IVtArchivoLogic {
                 throw new ZMessManager().new NotValidFormatException("activo");
             }
 
-            if (entity.getArchCodigo() == null) {
-                throw new ZMessManager().new EmptyFieldException("archCodigo");
+            if (entity.getEstsprCodigo() == null) {
+                throw new ZMessManager().new EmptyFieldException("estsprCodigo");
             }
 
             if (entity.getFechaCreacion() == null) {
@@ -199,146 +201,59 @@ public class VtArchivoLogic implements IVtArchivoLogic {
                 throw new ZMessManager().new EmptyFieldException("usuCreador");
             }
 
-            if (entity.getVtArtefacto().getArteCodigo() == null) {
-                throw new ZMessManager().new EmptyFieldException(
-                    "arteCodigo_VtArtefacto");
-            }
+            vtEstadoSprintDAO.update(entity);
 
-            vtArchivoDAO.update(entity);
-
-            log.debug("update VtArchivo successful");
+            log.debug("update VtEstadoSprint successful");
         } catch (Exception e) {
-            log.error("update VtArchivo failed", e);
+            log.error("update VtEstadoSprint failed", e);
             throw e;
         } finally {
         }
     }
 
     @Transactional(readOnly = true)
-    public List<VtArchivoDTO> getDataVtArchivo() throws Exception {
+    public List<VtEstadoSprintDTO> getDataVtEstadoSprint()
+        throws Exception {
         try {
-            List<VtArchivo> vtArchivo = vtArchivoDAO.findAll();
+            List<VtEstadoSprint> vtEstadoSprint = vtEstadoSprintDAO.findAll();
 
-            List<VtArchivoDTO> vtArchivoDTO = new ArrayList<VtArchivoDTO>();
+            List<VtEstadoSprintDTO> vtEstadoSprintDTO = new ArrayList<VtEstadoSprintDTO>();
 
-            for (VtArchivo vtArchivoTmp : vtArchivo) {
-                VtArchivoDTO vtArchivoDTO2 = new VtArchivoDTO();
+            for (VtEstadoSprint vtEstadoSprintTmp : vtEstadoSprint) {
+                VtEstadoSprintDTO vtEstadoSprintDTO2 = new VtEstadoSprintDTO();
 
-                vtArchivoDTO2.setArchCodigo(vtArchivoTmp.getArchCodigo());
-                vtArchivoDTO2.setActivo((vtArchivoTmp.getActivo() != null)
-                    ? vtArchivoTmp.getActivo() : null);
-                vtArchivoDTO2.setArchivo((vtArchivoTmp.getArchivo() != null)
-                    ? vtArchivoTmp.getArchivo() : null);
-                vtArchivoDTO2.setFechaCreacion(vtArchivoTmp.getFechaCreacion());
-                vtArchivoDTO2.setFechaModificacion(vtArchivoTmp.getFechaModificacion());
-                vtArchivoDTO2.setNombre((vtArchivoTmp.getNombre() != null)
-                    ? vtArchivoTmp.getNombre() : null);
-                vtArchivoDTO2.setUsuCreador((vtArchivoTmp.getUsuCreador() != null)
-                    ? vtArchivoTmp.getUsuCreador() : null);
-                vtArchivoDTO2.setUsuModificador((vtArchivoTmp.getUsuModificador() != null)
-                    ? vtArchivoTmp.getUsuModificador() : null);
-                vtArchivoDTO2.setArteCodigo_VtArtefacto((vtArchivoTmp.getVtArtefacto()
-                                                                     .getArteCodigo() != null)
-                    ? vtArchivoTmp.getVtArtefacto().getArteCodigo() : null);
-                vtArchivoDTO.add(vtArchivoDTO2);
+                vtEstadoSprintDTO2.setEstsprCodigo(vtEstadoSprintTmp.getEstsprCodigo());
+                vtEstadoSprintDTO2.setActivo((vtEstadoSprintTmp.getActivo() != null)
+                    ? vtEstadoSprintTmp.getActivo() : null);
+                vtEstadoSprintDTO2.setFechaCreacion(vtEstadoSprintTmp.getFechaCreacion());
+                vtEstadoSprintDTO2.setFechaModificacion(vtEstadoSprintTmp.getFechaModificacion());
+                vtEstadoSprintDTO2.setNombre((vtEstadoSprintTmp.getNombre() != null)
+                    ? vtEstadoSprintTmp.getNombre() : null);
+                vtEstadoSprintDTO2.setUsuCreador((vtEstadoSprintTmp.getUsuCreador() != null)
+                    ? vtEstadoSprintTmp.getUsuCreador() : null);
+                vtEstadoSprintDTO2.setUsuModificador((vtEstadoSprintTmp.getUsuModificador() != null)
+                    ? vtEstadoSprintTmp.getUsuModificador() : null);
+                vtEstadoSprintDTO.add(vtEstadoSprintDTO2);
             }
 
-            return vtArchivoDTO;
+            return vtEstadoSprintDTO;
         } catch (Exception e) {
             throw e;
         }
     }
-    
-    @Transactional(readOnly = true)
-	public List<VtArchivoDTO> getDataVtArchivoActivo(Long codigoArtefacto) throws Exception {
-        try {
-            List<VtArchivo> vtArchivo = vtArchivoDAO.findAll();
-
-            List<VtArchivoDTO> vtArchivoDTO = new ArrayList<VtArchivoDTO>();
-
-            for (VtArchivo vtArchivoTmp : vtArchivo) {
-            	if(vtArchivoTmp.getActivo().equals("S")){
-            	if(vtArchivoTmp.getVtArtefacto().getArteCodigo().equals(codigoArtefacto)){
-            	     VtArchivoDTO vtArchivoDTO2 = new VtArchivoDTO();
-
-                     vtArchivoDTO2.setArchCodigo(vtArchivoTmp.getArchCodigo());
-                     vtArchivoDTO2.setActivo((vtArchivoTmp.getActivo() != null)
-                         ? vtArchivoTmp.getActivo()+"i" : null);
-                     vtArchivoDTO2.setArchivo((vtArchivoTmp.getArchivo() != null)
-                         ? vtArchivoTmp.getArchivo() : null);
-                     vtArchivoDTO2.setFechaCreacion(vtArchivoTmp.getFechaCreacion());
-                     vtArchivoDTO2.setFechaModificacion(vtArchivoTmp.getFechaModificacion());
-                     vtArchivoDTO2.setNombre((vtArchivoTmp.getNombre() != null)
-                         ? vtArchivoTmp.getNombre() : null);
-                     vtArchivoDTO2.setUsuCreador((vtArchivoTmp.getUsuCreador() != null)
-                         ? vtArchivoTmp.getUsuCreador() : null);
-                     vtArchivoDTO2.setUsuModificador((vtArchivoTmp.getUsuModificador() != null)
-                         ? vtArchivoTmp.getUsuModificador() : null);
-                     vtArchivoDTO2.setArteCodigo_VtArtefacto((vtArchivoTmp.getVtArtefacto()
-                                                                          .getArteCodigo() != null)
-                         ? vtArchivoTmp.getVtArtefacto().getArteCodigo() : null);
-                     vtArchivoDTO.add(vtArchivoDTO2);
-            	}
-            	}
-            }
-
-            return vtArchivoDTO;
-        } catch (Exception e) {
-            throw e;
-        }
-	}
-    
-    @Transactional(readOnly = true)
-	public List<VtArchivoDTO> getDataVtArchivoInactivo(Long codigoArtefacto) throws Exception {
-    	try {
-            List<VtArchivo> vtArchivo = vtArchivoDAO.findAll();
-
-            List<VtArchivoDTO> vtArchivoDTO = new ArrayList<VtArchivoDTO>();
-
-            for (VtArchivo vtArchivoTmp : vtArchivo) {
-            	if(vtArchivoTmp.getActivo().equals("N")){
-            	if(vtArchivoTmp.getVtArtefacto().getArteCodigo().equals(codigoArtefacto)){
- 
-            	     VtArchivoDTO vtArchivoDTO2 = new VtArchivoDTO();
-
-                     vtArchivoDTO2.setArchCodigo(vtArchivoTmp.getArchCodigo());
-                     vtArchivoDTO2.setActivo((vtArchivoTmp.getActivo() != null)
-                         ? vtArchivoTmp.getActivo()+"o" : null);
-                     vtArchivoDTO2.setArchivo((vtArchivoTmp.getArchivo() != null)
-                         ? vtArchivoTmp.getArchivo() : null);
-                     vtArchivoDTO2.setFechaCreacion(vtArchivoTmp.getFechaCreacion());
-                     vtArchivoDTO2.setFechaModificacion(vtArchivoTmp.getFechaModificacion());
-                     vtArchivoDTO2.setNombre((vtArchivoTmp.getNombre() != null)
-                         ? vtArchivoTmp.getNombre() : null);
-                     vtArchivoDTO2.setUsuCreador((vtArchivoTmp.getUsuCreador() != null)
-                         ? vtArchivoTmp.getUsuCreador() : null);
-                     vtArchivoDTO2.setUsuModificador((vtArchivoTmp.getUsuModificador() != null)
-                         ? vtArchivoTmp.getUsuModificador() : null);
-                     vtArchivoDTO2.setArteCodigo_VtArtefacto((vtArchivoTmp.getVtArtefacto()
-                                                                          .getArteCodigo() != null)
-                         ? vtArchivoTmp.getVtArtefacto().getArteCodigo() : null);
-                     vtArchivoDTO.add(vtArchivoDTO2);
-            	}
-            	}
-            }
-
-            return vtArchivoDTO;
-        } catch (Exception e) {
-            throw e;
-        }
-	}
 
     @Transactional(readOnly = true)
-    public VtArchivo getVtArchivo(Long archCodigo) throws Exception {
-        log.debug("getting VtArchivo instance");
+    public VtEstadoSprint getVtEstadoSprint(Long estsprCodigo)
+        throws Exception {
+        log.debug("getting VtEstadoSprint instance");
 
-        VtArchivo entity = null;
+        VtEstadoSprint entity = null;
 
         try {
-            entity = vtArchivoDAO.findById(archCodigo);
+            entity = vtEstadoSprintDAO.findById(estsprCodigo);
         } catch (Exception e) {
-            log.error("get VtArchivo failed", e);
-            throw new ZMessManager().new FindingException("VtArchivo");
+            log.error("get VtEstadoSprint failed", e);
+            throw new ZMessManager().new FindingException("VtEstadoSprint");
         } finally {
         }
 
@@ -346,16 +261,17 @@ public class VtArchivoLogic implements IVtArchivoLogic {
     }
 
     @Transactional(readOnly = true)
-    public List<VtArchivo> findPageVtArchivo(String sortColumnName,
+    public List<VtEstadoSprint> findPageVtEstadoSprint(String sortColumnName,
         boolean sortAscending, int startRow, int maxResults)
         throws Exception {
-        List<VtArchivo> entity = null;
+        List<VtEstadoSprint> entity = null;
 
         try {
-            entity = vtArchivoDAO.findPage(sortColumnName, sortAscending,
+            entity = vtEstadoSprintDAO.findPage(sortColumnName, sortAscending,
                     startRow, maxResults);
         } catch (Exception e) {
-            throw new ZMessManager().new FindingException("VtArchivo Count");
+            throw new ZMessManager().new FindingException(
+                "VtEstadoSprint Count");
         } finally {
         }
 
@@ -363,13 +279,14 @@ public class VtArchivoLogic implements IVtArchivoLogic {
     }
 
     @Transactional(readOnly = true)
-    public Long findTotalNumberVtArchivo() throws Exception {
+    public Long findTotalNumberVtEstadoSprint() throws Exception {
         Long entity = null;
 
         try {
-            entity = vtArchivoDAO.count();
+            entity = vtEstadoSprintDAO.count();
         } catch (Exception e) {
-            throw new ZMessManager().new FindingException("VtArchivo Count");
+            throw new ZMessManager().new FindingException(
+                "VtEstadoSprint Count");
         } finally {
         }
 
@@ -434,10 +351,10 @@ public class VtArchivoLogic implements IVtArchivoLogic {
                             * @throws Exception
                             */
     @Transactional(readOnly = true)
-    public List<VtArchivo> findByCriteria(Object[] variables,
+    public List<VtEstadoSprint> findByCriteria(Object[] variables,
         Object[] variablesBetween, Object[] variablesBetweenDates)
         throws Exception {
-        List<VtArchivo> list = new ArrayList<VtArchivo>();
+        List<VtEstadoSprint> list = new ArrayList<VtEstadoSprint>();
         String where = new String();
         String tempWhere = new String();
 
@@ -534,7 +451,7 @@ public class VtArchivoLogic implements IVtArchivoLogic {
         }
 
         try {
-            list = vtArchivoDAO.findByCriteria(where);
+            list = vtEstadoSprintDAO.findByCriteria(where);
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         } finally {
@@ -542,10 +459,4 @@ public class VtArchivoLogic implements IVtArchivoLogic {
 
         return list;
     }
-
-	
-
-	
-
-
 }

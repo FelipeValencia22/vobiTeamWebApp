@@ -88,7 +88,7 @@
 							scrollRows="20" scrollable="true" liveScroll="true"
 							scrollHeight="150" style="margin-bottom:0"
 							emptyMessage="No hay artefactos activos en este momento">
-							<p:column filterBy="#{vtArtefacto.arteCodigo}"
+							<p:column filterBy="#{vtArtefacto.arteCodigo}"  filterMatchMode="contains"
 								sortBy="#{vtArtefacto.arteCodigo}">
 								<f:facet name="header">
 									<h:outputText value="Código" />
@@ -96,39 +96,40 @@
 								<h:outputText value="#{vtArtefacto.arteCodigo}" />
 							</p:column>
 
-							<p:column filterBy="#{vtArtefacto.titulo}" filterMatchMode="contains"
-								sortBy="#{vtArtefacto.titulo}">
+							<p:column filterBy="#{vtArtefacto.titulo}"
+								filterMatchMode="contains" sortBy="#{vtArtefacto.titulo}">
 								<f:facet name="header">
 									<h:outputText value="Titulo" />
 								</f:facet>
 								<h:outputText value="#{vtArtefacto.titulo}" />
 							</p:column>
 
-							<p:column filterBy="#{vtArtefacto.descripcion}" filterMatchMode="contains"
-								sortBy="#{vtArtefacto.descripcion}">
+							<p:column filterBy="#{vtArtefacto.descripcion}"
+								filterMatchMode="contains" sortBy="#{vtArtefacto.descripcion}">
 								<f:facet name="header">
 									<h:outputText value="Descripción" />
 								</f:facet>
-								<h:outputText value="#{vtArtefacto.descripcion}" /> 
+								<h:outputText value="#{vtArtefacto.descripcion}" />
 							</p:column>
 
-							<p:column filterBy="#{vtArtefacto.tpar_Nombre}" filterMatchMode="contains"
-								sortBy="#{vtArtefacto.tpar_Nombre}">
+							<p:column filterBy="#{vtArtefacto.tpar_Nombre}"
+								filterMatchMode="contains" sortBy="#{vtArtefacto.tpar_Nombre}">
 								<f:facet name="header">
 									<h:outputText value="Tipo artefacto" />
 								</f:facet>
 								<h:outputText value="#{vtArtefacto.tpar_Nombre}" />
 							</p:column>
 
-							<p:column filterBy="#{vtArtefacto.estado_Nombre}" filterMatchMode="contains"
-								sortBy="#{vtArtefacto.estado_Nombre}">
+							<p:column filterBy="#{vtArtefacto.estado_Nombre}"
+								filterMatchMode="contains" sortBy="#{vtArtefacto.estado_Nombre}">
 								<f:facet name="header">
 									<h:outputText value="Estado" />
 								</f:facet>
 								<h:outputText value="#{vtArtefacto.estado_Nombre}" />
 							</p:column>
 
-							<p:column filterBy="#{vtArtefacto.prioridad_Nombre}" filterMatchMode="contains"
+							<p:column filterBy="#{vtArtefacto.prioridad_Nombre}"
+								filterMatchMode="contains"
 								sortBy="#{vtArtefacto.prioridad_Nombre}">
 								<f:facet name="header">
 									<h:outputText value="Prioridad" />
@@ -136,9 +137,9 @@
 								<h:outputText value="#{vtArtefacto.prioridad_Nombre}" />
 							</p:column>
 
- 
-							<p:column filterBy="#{vtArtefacto.activo}"  filterMatchMode="contains"
-								sortBy="#{vtArtefacto.activo}">
+
+							<p:column filterBy="#{vtArtefacto.activo}"
+								filterMatchMode="contains" sortBy="#{vtArtefacto.activo}">
 								<f:facet name="header">
 									<h:outputText value="Activo" />
 								</f:facet>
@@ -465,13 +466,13 @@
 		<p:dialog id="descargarArchivos" header="Descargar archivos"
 			closable="false" rendered="true" modal="true" responsive=" true"
 			visible="#{vtArtefactoView.showDialogArchivos}"
-			widgetVar="dlgDescargar" width="1300" height="700">
+			widgetVar="dlgDescargar" width="1300" height="700" >
 			<h:form id="formularioDescarga">
 				<p:accordionPanel id="pnlVtArtefacto" multiple="true">
 					<p:growl id="menDos" />
 					<p:tab title="Archivos activos">
 
-						<p:dataTable id="dataTableArchivo" reflow="true"
+						<p:dataTable id="dataTableArchivo" emptyMessage="No hay archivos activos en este momento" reflow="true"  
 							value="#{vtArtefactoView.dataFiltroArchivo}" var="vtArchivo"
 							paginator="true" rows="2">
 							<p:column filterBy="#{vtArchivo.archCodigo}"
@@ -540,7 +541,7 @@
 
 					<p:tab title="Archivos inactivos">
 
-						<p:dataTable id="dataTableArchivoInactivos" reflow="true"
+						<p:dataTable id="dataTableArchivoInactivos" emptyMessage="No hay archivos inactivos en este momento"  reflow="true"
 							value="#{vtArtefactoView.dataFiltroArchivoInactivo}"
 							var="vtArchivo" paginator="true" rows="2">
 							<p:column filterBy="#{vtArchivo.archCodigo}"

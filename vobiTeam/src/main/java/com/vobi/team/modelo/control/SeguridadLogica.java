@@ -19,18 +19,24 @@ public class SeguridadLogica implements IVtSeguridadLogica {
 	@Override
 	@org.springframework.transaction.annotation.Transactional(readOnly =true)
 	public VtUsuario autenticarUsuario(String login, String clave) throws Exception {
-		String mensaje = "Usuario o clave inválida";
-		VtUsuario vtUsuario = vtUsuarioDAO.consultarUsuarioUnicoPorLogin(login);
-		if(vtUsuario==null){
-			throw new Exception(mensaje);
+		try {
+			String mensaje = "Usuario o clave inválida";
+			VtUsuario vtUsuario = vtUsuarioDAO.consultarUsuarioUnicoPorLogin(login);
+			if(vtUsuario==null){
+				throw new Exception(mensaje);
+			}
+			if(vtUsuario.getClave().equals(clave)==false){
+				throw new Exception(mensaje);
+			}
+			if(vtUsuario.getActivo().equalsIgnoreCase("N")==true){
+				throw new Exception(mensaje);
+			}
+			return vtUsuario;
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw e;
 		}
-		if(vtUsuario.getClave().equals(clave)==false){
-			throw new Exception(mensaje);
-		}
-		if(vtUsuario.getActivo().equalsIgnoreCase("N")==true){
-			throw new Exception(mensaje);
-		}
-		return vtUsuario;
+		
 	}
 	
 	@Override

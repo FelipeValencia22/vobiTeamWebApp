@@ -4,10 +4,12 @@ import com.vobi.team.modelo.VtArchivo;
 import com.vobi.team.modelo.VtArtefacto;
 import com.vobi.team.modelo.VtEmpresa;
 import com.vobi.team.modelo.VtEstado;
+import com.vobi.team.modelo.VtEstadoSprint;
 import com.vobi.team.modelo.VtHistoriaArtefacto;
 import com.vobi.team.modelo.VtInteres;
 import com.vobi.team.modelo.VtPilaProducto;
 import com.vobi.team.modelo.VtPrioridad;
+import com.vobi.team.modelo.VtProgresoArtefacto;
 import com.vobi.team.modelo.VtProyecto;
 import com.vobi.team.modelo.VtProyectoUsuario;
 import com.vobi.team.modelo.VtRol;
@@ -20,10 +22,12 @@ import com.vobi.team.modelo.control.IVtArchivoLogic;
 import com.vobi.team.modelo.control.IVtArtefactoLogic;
 import com.vobi.team.modelo.control.IVtEmpresaLogic;
 import com.vobi.team.modelo.control.IVtEstadoLogic;
+import com.vobi.team.modelo.control.IVtEstadoSprintLogic;
 import com.vobi.team.modelo.control.IVtHistoriaArtefactoLogic;
 import com.vobi.team.modelo.control.IVtInteresLogic;
 import com.vobi.team.modelo.control.IVtPilaProductoLogic;
 import com.vobi.team.modelo.control.IVtPrioridadLogic;
+import com.vobi.team.modelo.control.IVtProgresoArtefactoLogic;
 import com.vobi.team.modelo.control.IVtProyectoLogic;
 import com.vobi.team.modelo.control.IVtProyectoUsuarioLogic;
 import com.vobi.team.modelo.control.IVtRolLogic;
@@ -37,10 +41,12 @@ import com.vobi.team.modelo.dto.VtArchivoDTO;
 import com.vobi.team.modelo.dto.VtArtefactoDTO;
 import com.vobi.team.modelo.dto.VtEmpresaDTO;
 import com.vobi.team.modelo.dto.VtEstadoDTO;
+import com.vobi.team.modelo.dto.VtEstadoSprintDTO;
 import com.vobi.team.modelo.dto.VtHistoriaArtefactoDTO;
 import com.vobi.team.modelo.dto.VtInteresDTO;
 import com.vobi.team.modelo.dto.VtPilaProductoDTO;
 import com.vobi.team.modelo.dto.VtPrioridadDTO;
+import com.vobi.team.modelo.dto.VtProgresoArtefactoDTO;
 import com.vobi.team.modelo.dto.VtProyectoDTO;
 import com.vobi.team.modelo.dto.VtProyectoUsuarioDTO;
 import com.vobi.team.modelo.dto.VtRolDTO;
@@ -72,7 +78,8 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 
 	@Autowired
 	private IVtSeguridadLogica seguridadLogica;
-
+	@Autowired
+	private IVtEstadoSprintLogic vtEstadoSprintLogic;
 	@Autowired
 	private IVtArtefactoLogic vtArtefactoLogic;
 	@Autowired
@@ -90,6 +97,8 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	@Autowired
 	private IVtProyectoLogic vtProyectoLogic;
 	@Autowired
+	private IVtProgresoArtefactoLogic vtProgresoArtefactoLogic;
+	@Autowired
 	private IVtProyectoUsuarioLogic vtProyectoUsuarioLogic;
 	@Autowired
 	private IVtRolLogic vtRolLogic;
@@ -105,6 +114,99 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	private IVtUsuarioRolLogic vtUsuarioRolLogic;
 	@Autowired
 	private IVtSeguridadLogica vtSeguridadLogic;
+
+	public List<VtProgresoArtefacto> getVtProgresoArtefacto() throws Exception {
+		return vtProgresoArtefactoLogic.getVtProgresoArtefacto();
+	}
+
+	public void saveVtProgresoArtefacto(VtProgresoArtefacto entity) throws Exception {
+		vtProgresoArtefactoLogic.saveVtProgresoArtefacto(entity);
+	}
+
+	public void deleteVtProgresoArtefacto(VtProgresoArtefacto entity) throws Exception {
+		vtProgresoArtefactoLogic.deleteVtProgresoArtefacto(entity);
+	}
+
+	public void updateVtProgresoArtefacto(VtProgresoArtefacto entity) throws Exception {
+		vtProgresoArtefactoLogic.updateVtProgresoArtefacto(entity);
+	}
+
+	public VtProgresoArtefacto getVtProgresoArtefacto(Long proartCodigo) throws Exception {
+		VtProgresoArtefacto vtProgresoArtefacto = null;
+
+		try {
+			vtProgresoArtefacto = vtProgresoArtefactoLogic.getVtProgresoArtefacto(proartCodigo);
+		} catch (Exception e) {
+			throw e;
+		}
+
+		return vtProgresoArtefacto;
+	}
+
+	public List<VtProgresoArtefacto> findByCriteriaInVtProgresoArtefacto(Object[] variables, Object[] variablesBetween,
+			Object[] variablesBetweenDates) throws Exception {
+		return vtProgresoArtefactoLogic.findByCriteria(variables, variablesBetween, variablesBetweenDates);
+	}
+
+	public List<VtProgresoArtefacto> findPageVtProgresoArtefacto(String sortColumnName, boolean sortAscending,
+			int startRow, int maxResults) throws Exception {
+		return vtProgresoArtefactoLogic.findPageVtProgresoArtefacto(sortColumnName, sortAscending, startRow,
+				maxResults);
+	}
+
+	public Long findTotalNumberVtProgresoArtefacto() throws Exception {
+		return vtProgresoArtefactoLogic.findTotalNumberVtProgresoArtefacto();
+	}
+
+	public List<VtProgresoArtefactoDTO> getDataVtProgresoArtefacto() throws Exception {
+		return vtProgresoArtefactoLogic.getDataVtProgresoArtefacto();
+	}
+
+	public List<VtEstadoSprint> getVtEstadoSprint() throws Exception {
+		return vtEstadoSprintLogic.getVtEstadoSprint();
+	}
+
+	public void saveVtEstadoSprint(VtEstadoSprint entity) throws Exception {
+		vtEstadoSprintLogic.saveVtEstadoSprint(entity);
+	}
+
+	public void deleteVtEstadoSprint(VtEstadoSprint entity) throws Exception {
+		vtEstadoSprintLogic.deleteVtEstadoSprint(entity);
+	}
+
+	public void updateVtEstadoSprint(VtEstadoSprint entity) throws Exception {
+		vtEstadoSprintLogic.updateVtEstadoSprint(entity);
+	}
+
+	public VtEstadoSprint getVtEstadoSprint(Long estsprCodigo) throws Exception {
+		VtEstadoSprint vtEstadoSprint = null;
+
+		try {
+			vtEstadoSprint = vtEstadoSprintLogic.getVtEstadoSprint(estsprCodigo);
+		} catch (Exception e) {
+			throw e;
+		}
+
+		return vtEstadoSprint;
+	}
+
+	public List<VtEstadoSprint> findByCriteriaInVtEstadoSprint(Object[] variables, Object[] variablesBetween,
+			Object[] variablesBetweenDates) throws Exception {
+		return vtEstadoSprintLogic.findByCriteria(variables, variablesBetween, variablesBetweenDates);
+	}
+
+	public List<VtEstadoSprint> findPageVtEstadoSprint(String sortColumnName, boolean sortAscending, int startRow,
+			int maxResults) throws Exception {
+		return vtEstadoSprintLogic.findPageVtEstadoSprint(sortColumnName, sortAscending, startRow, maxResults);
+	}
+
+	public Long findTotalNumberVtEstadoSprint() throws Exception {
+		return vtEstadoSprintLogic.findTotalNumberVtEstadoSprint();
+	}
+
+	public List<VtEstadoSprintDTO> getDataVtEstadoSprint() throws Exception {
+		return vtEstadoSprintLogic.getDataVtEstadoSprint();
+	}
 
 	public List<VtArchivo> getVtArchivo() throws Exception {
 		return vtArchivoLogic.getVtArchivo();
@@ -155,7 +257,6 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	public List<VtArtefacto> getVtArtefacto() throws Exception {
 		return vtArtefactoLogic.getVtArtefacto();
 	}
-
 
 	public void deleteVtArtefacto(VtArtefacto entity) throws Exception {
 		vtArtefactoLogic.deleteVtArtefacto(entity);
@@ -962,8 +1063,8 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return vtArtefactoLogic.consultarArtefactosAsignadosASprint(codigoSprint);
 	}
 
-	public VtArtefacto consultarArtefactosAsignadosASprintYPila(Long artecodigo,Long codigoPila) throws Exception {
-		return vtArtefactoLogic.consultarArtefactosAsignadosASprintYPila(artecodigo,codigoPila);
+	public VtArtefacto consultarArtefactosAsignadosASprintYPila(Long artecodigo, Long codigoPila) throws Exception {
+		return vtArtefactoLogic.consultarArtefactosAsignadosASprintYPila(artecodigo, codigoPila);
 	}
 
 	@Override
@@ -972,13 +1073,13 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	}
 
 	@Override
-	public List<VtRol> obtenerRolesNoAsignados(VtUsuario vtUsuario) throws Exception {		
+	public List<VtRol> obtenerRolesNoAsignados(VtUsuario vtUsuario) throws Exception {
 		return vtRolLogic.obtenerRolesNoAsignados(vtUsuario);
 	}
 
 	@Override
 	public VtUsuarioRol consultarRolUsuarioPorUsuarioYPorRol(Long usuarioId, Long rolId) throws Exception {
-		
+
 		return vtUsuarioRolLogic.consultarRolUsuarioPorUsuarioYPorRol(usuarioId, rolId);
 	}
 
@@ -987,15 +1088,15 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return vtArtefactoLogic.consultarTodosLosArtefactosAsignados();
 	}
 
-	public List<VtUsuarioRol> consultarRolUsuarioPorUsuario(Long usuarioId) throws Exception {		
-		return vtUsuarioRolLogic.consultarRolUsuarioPorUsuario(usuarioId);		
+	public List<VtUsuarioRol> consultarRolUsuarioPorUsuario(Long usuarioId) throws Exception {
+		return vtUsuarioRolLogic.consultarRolUsuarioPorUsuario(usuarioId);
 	}
 
 	@Override
 	public void saveVtArtefacto(VtArtefacto vtArtefacto, String esfuerzoEstimado, String esfuerzoRestante,
 			String puntos) throws Exception {
 		vtArtefactoLogic.saveVtArtefacto(vtArtefacto, esfuerzoEstimado, esfuerzoRestante, puntos);
-		
+
 	}
 
 	@Override
@@ -1007,7 +1108,7 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	public List<VtArtefacto> obtenerArtefactosAsignados(VtUsuario vtUsuario) throws Exception {
 		return vtArtefactoLogic.obtenerArtefactosAsignados(vtUsuario);
 	}
-	
+
 	@Override
 	public VtUsuarioArtefacto consultarUsuarioArtefactoPorUsuarioYArtefacto(Long codigoUsuario, Long codigoArtefacto)
 			throws Exception {
@@ -1029,7 +1130,4 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return vtProyectoLogic.consultarProyectoUsuarioPorUsuario(usuarioCodigo);
 	}
 
-
-
-	
 }

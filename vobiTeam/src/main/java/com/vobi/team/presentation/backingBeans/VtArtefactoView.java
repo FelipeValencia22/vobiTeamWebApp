@@ -204,6 +204,12 @@ public class VtArtefactoView implements Serializable {
 			FacesUtils.addInfoMessage("Se ha creado el artefacto con éxito");
 
 			VtHistoriaArtefacto vtHistoriaArtefacto = new VtHistoriaArtefacto();
+			vtHistoriaArtefacto.setActivo(entity.getActivo());
+			vtHistoriaArtefacto.setEstaCodigo(entity.getVtEstado().getEstaCodigo());
+			vtHistoriaArtefacto.setTparCodigo(entity.getVtTipoArtefacto().getTparCodigo());
+			vtHistoriaArtefacto.setPilaCodigo(entity.getVtPilaProducto().getPilaCodigo());
+			vtHistoriaArtefacto.setPrioCodigo(entity.getVtPrioridad().getPrioCodigo());
+			vtHistoriaArtefacto.setSpriCodigo(entity.getVtSprint().getSpriCodigo());
 			vtHistoriaArtefacto.setEsfuerzoEstimado(entity.getEsfuerzoEstimado());
 			vtHistoriaArtefacto.setFechaCreacion(entity.getFechaCreacion());
 			vtHistoriaArtefacto.setFechaModificacion(entity.getFechaModificacion());
@@ -306,6 +312,9 @@ public class VtArtefactoView implements Serializable {
 					.get("selectedVtHistoriaArtefacto")));
 			VtArtefacto vtArtefacto = businessDelegatorView
 					.getVtArtefacto(selectedVtHistoriaArtefacto.getArteCodigo_VtArtefacto().longValue());
+			VtPrioridad prioridadArtefacto = businessDelegatorView.getVtPrioridad(selectedVtHistoriaArtefacto.getPrioCodigo());
+			VtEstado estadoArtefacto = businessDelegatorView.getVtEstado(selectedVtHistoriaArtefacto.getEstaCodigo());
+			VtSprint sprintArtefacto = businessDelegatorView.getVtSprint(selectedVtHistoriaArtefacto.getSpriCodigo());
 
 			vtArtefacto.setDescripcion(selectedVtHistoriaArtefacto.getDescripcion());
 			vtArtefacto.setEsfuerzoEstimado(selectedVtHistoriaArtefacto.getEsfuerzoEstimado());
@@ -318,11 +327,20 @@ public class VtArtefactoView implements Serializable {
 			vtArtefacto.setOrigen(selectedVtHistoriaArtefacto.getOrigen());
 			vtArtefacto.setPuntos(selectedVtHistoriaArtefacto.getPuntos());
 			vtArtefacto.setTitulo(selectedVtHistoriaArtefacto.getTitulo());
-			vtArtefacto.setVtEstado(vtArtefacto.getVtEstado());
-			vtArtefacto.setActivo(vtArtefacto.getActivo().toString().trim());
+			vtArtefacto.setVtEstado(estadoArtefacto);
+			vtArtefacto.setVtPrioridad(prioridadArtefacto);
+			vtArtefacto.setVtSprint(sprintArtefacto);
+			vtArtefacto.setActivo(selectedVtHistoriaArtefacto.getActivo());
+			vtArtefacto.setVtArchivos(vtArtefacto.getVtArchivos());
 			businessDelegatorView.updateVtArtefacto(vtArtefacto);
 
 			VtHistoriaArtefacto vtHistoriaArtefacto = new VtHistoriaArtefacto();
+			vtHistoriaArtefacto.setActivo(entity.getActivo());
+			vtHistoriaArtefacto.setEstaCodigo(entity.getVtEstado().getEstaCodigo());
+			vtHistoriaArtefacto.setTparCodigo(entity.getVtTipoArtefacto().getTparCodigo());
+			vtHistoriaArtefacto.setPilaCodigo(entity.getVtPilaProducto().getPilaCodigo());
+			vtHistoriaArtefacto.setPrioCodigo(entity.getVtPrioridad().getPrioCodigo());
+			vtHistoriaArtefacto.setSpriCodigo(entity.getVtSprint().getSpriCodigo());
 			vtHistoriaArtefacto.setEsfuerzoEstimado(vtArtefacto.getEsfuerzoEstimado());
 			vtHistoriaArtefacto.setEsfuerzoReal(vtArtefacto.getEsfuerzoReal());
 			vtHistoriaArtefacto.setEsfuerzoRestante(vtArtefacto.getEsfuerzoRestante());
@@ -341,7 +359,7 @@ public class VtArtefactoView implements Serializable {
 					.getDataVtArtefactoFiltro(vtArtefacto.getVtSprint().getSpriCodigo().longValue());
 			dataFiltroI = businessDelegatorView
 					.getDataVtArtefactoFiltroI(vtArtefacto.getVtSprint().getSpriCodigo().longValue());
-			FacesUtils.addInfoMessage("Se ha restablecido el artefacto a esta versión");
+			FacesUtils.addInfoMessage("Se ha restablecido el artefacto a la versión elegida con éxito");
 			
 			restablecioVersion = true;
 
@@ -676,6 +694,12 @@ public class VtArtefactoView implements Serializable {
 			FacesUtils.addInfoMessage("El Artefacto se ha sido modificado con exito");
 			dataFiltro = businessDelegatorView.getDataVtArtefactoFiltro(vtSprint.getSpriCodigo());
 			dataFiltroI = businessDelegatorView.getDataVtArtefactoFiltroI((vtSprint.getSpriCodigo()));
+			vtHistoriaArtefacto.setActivo(entity.getActivo());
+			vtHistoriaArtefacto.setEstaCodigo(entity.getVtEstado().getEstaCodigo());
+			vtHistoriaArtefacto.setTparCodigo(entity.getVtTipoArtefacto().getTparCodigo());
+			vtHistoriaArtefacto.setPilaCodigo(entity.getVtPilaProducto().getPilaCodigo());
+			vtHistoriaArtefacto.setSpriCodigo(entity.getVtSprint().getSpriCodigo());
+			vtHistoriaArtefacto.setPrioCodigo(entity.getVtPrioridad().getPrioCodigo());
 			vtHistoriaArtefacto.setEsfuerzoEstimado(entity.getEsfuerzoEstimado());
 			vtHistoriaArtefacto.setEsfuerzoReal(entity.getEsfuerzoReal());
 			vtHistoriaArtefacto.setEsfuerzoRestante(entity.getEsfuerzoRestante());
@@ -817,6 +841,11 @@ public class VtArtefactoView implements Serializable {
 			businessDelegatorView.updateVtArtefacto(entity);
 			dataFiltro = businessDelegatorView.getDataVtArtefactoFiltro(vtSprint.getSpriCodigo());
 			dataFiltroI = businessDelegatorView.getDataVtArtefactoFiltroI(vtSprint.getSpriCodigo());
+			vtHistoriaArtefacto.setActivo(entity.getActivo());
+			vtHistoriaArtefacto.setEstaCodigo(entity.getVtEstado().getEstaCodigo());
+			vtHistoriaArtefacto.setTparCodigo(entity.getVtTipoArtefacto().getTparCodigo());
+			vtHistoriaArtefacto.setPilaCodigo(entity.getVtPilaProducto().getPilaCodigo());
+			vtHistoriaArtefacto.setPrioCodigo(entity.getVtPrioridad().getPrioCodigo());
 			vtHistoriaArtefacto.setEsfuerzoEstimado(entity.getEsfuerzoEstimado());
 			vtHistoriaArtefacto.setEsfuerzoReal(entity.getEsfuerzoReal());
 			vtHistoriaArtefacto.setEsfuerzoRestante(entity.getEsfuerzoRestante());
@@ -825,6 +854,7 @@ public class VtArtefactoView implements Serializable {
 			vtHistoriaArtefacto.setOrigen(entity.getOrigen());
 			vtHistoriaArtefacto.setDescripcion(entity.getDescripcion());
 			vtHistoriaArtefacto.setPuntos(entity.getPuntos());
+			vtHistoriaArtefacto.setSpriCodigo(entity.getVtSprint().getSpriCodigo());
 			vtHistoriaArtefacto.setTitulo(entity.getTitulo());
 			vtHistoriaArtefacto.setUsuCreador(entity.getUsuCreador());
 			vtHistoriaArtefacto.setUsuModificador(entity.getUsuModificador());

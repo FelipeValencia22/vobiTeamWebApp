@@ -1,5 +1,5 @@
 package com.vobi.team.modelo;
-// Generated 8/04/2016 12:30:16 AM by Hibernate Tools 4.3.1.Final
+// Generated 9/05/2016 01:33:59 PM by Hibernate Tools 4.3.1.Final
 
 
 import java.util.Date;
@@ -13,6 +13,7 @@ public class VtSprint  implements java.io.Serializable {
 
 
      private Long spriCodigo;
+     private VtEstadoSprint vtEstadoSprint;
      private VtPilaProducto vtPilaProducto;
      private String nombre;
      private Date fechaInicio;
@@ -39,8 +40,9 @@ public class VtSprint  implements java.io.Serializable {
         this.usuCreador = usuCreador;
         this.activo = activo;
     }
-    public VtSprint(Long spriCodigo, VtPilaProducto vtPilaProducto, String nombre, Date fechaInicio, Date fechaFin, String objetivo, Integer capacidadEstimada, Integer capacidadReal, Date fechaCreacion, Date fechaModificacion, Long usuCreador, Long usuModificador, String activo, Set<VtArtefacto> vtArtefactos) {
+    public VtSprint(Long spriCodigo, VtEstadoSprint vtEstadoSprint, VtPilaProducto vtPilaProducto, String nombre, Date fechaInicio, Date fechaFin, String objetivo, Integer capacidadEstimada, Integer capacidadReal, Date fechaCreacion, Date fechaModificacion, Long usuCreador, Long usuModificador, String activo, Set<VtArtefacto> vtArtefactos) {
        this.spriCodigo = spriCodigo;
+       this.vtEstadoSprint = vtEstadoSprint;
        this.vtPilaProducto = vtPilaProducto;
        this.nombre = nombre;
        this.fechaInicio = fechaInicio;
@@ -62,6 +64,13 @@ public class VtSprint  implements java.io.Serializable {
     
     public void setSpriCodigo(Long spriCodigo) {
         this.spriCodigo = spriCodigo;
+    }
+    public VtEstadoSprint getVtEstadoSprint() {
+        return this.vtEstadoSprint;
+    }
+    
+    public void setVtEstadoSprint(VtEstadoSprint vtEstadoSprint) {
+        this.vtEstadoSprint = vtEstadoSprint;
     }
     public VtPilaProducto getVtPilaProducto() {
         return this.vtPilaProducto;

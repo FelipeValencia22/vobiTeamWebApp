@@ -16,25 +16,18 @@ import java.util.Date;
 * www.zathuracode.org
 *
 */
-public class VtHistoriaArtefactoDTO implements Serializable {
+public class VtProgresoArtefactoDTO implements Serializable {
     private static final long serialVersionUID = 1L;
-    private static final Logger log = LoggerFactory.getLogger(VtHistoriaArtefactoDTO.class);
+    private static final Logger log = LoggerFactory.getLogger(VtProgresoArtefactoDTO.class);
     private String activo;
     private String descripcion;
-    private Integer esfuerzoEstimado;
     private Integer esfuerzoReal;
     private Integer esfuerzoRestante;
-    private Long estaCodigo;
     private Date fechaCreacion;
     private Date fechaModificacion;
-    private Long historiaCodigo;
-    private String origen;
-    private Long pilaCodigo;
-    private Long prioCodigo;
+    private Long proartCodigo;
     private Integer puntos;
-    private Long spriCodigo;
-    private String titulo;
-    private Long tparCodigo;
+    private Integer tiempoDedicado;
     private Long usuCreador;
     private Long usuModificador;
     private Long arteCodigo_VtArtefacto;
@@ -55,14 +48,6 @@ public class VtHistoriaArtefactoDTO implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public Integer getEsfuerzoEstimado() {
-        return esfuerzoEstimado;
-    }
-
-    public void setEsfuerzoEstimado(Integer esfuerzoEstimado) {
-        this.esfuerzoEstimado = esfuerzoEstimado;
-    }
-
     public Integer getEsfuerzoReal() {
         return esfuerzoReal;
     }
@@ -77,14 +62,6 @@ public class VtHistoriaArtefactoDTO implements Serializable {
 
     public void setEsfuerzoRestante(Integer esfuerzoRestante) {
         this.esfuerzoRestante = esfuerzoRestante;
-    }
-
-    public Long getEstaCodigo() {
-        return estaCodigo;
-    }
-
-    public void setEstaCodigo(Long estaCodigo) {
-        this.estaCodigo = estaCodigo;
     }
 
     public Date getFechaCreacion() {
@@ -103,36 +80,12 @@ public class VtHistoriaArtefactoDTO implements Serializable {
         this.fechaModificacion = fechaModificacion;
     }
 
-    public Long getHistoriaCodigo() {
-        return historiaCodigo;
+    public Long getProartCodigo() {
+        return proartCodigo;
     }
 
-    public void setHistoriaCodigo(Long historiaCodigo) {
-        this.historiaCodigo = historiaCodigo;
-    }
-
-    public String getOrigen() {
-        return origen;
-    }
-
-    public void setOrigen(String origen) {
-        this.origen = origen;
-    }
-
-    public Long getPilaCodigo() {
-        return pilaCodigo;
-    }
-
-    public void setPilaCodigo(Long pilaCodigo) {
-        this.pilaCodigo = pilaCodigo;
-    }
-
-    public Long getPrioCodigo() {
-        return prioCodigo;
-    }
-
-    public void setPrioCodigo(Long prioCodigo) {
-        this.prioCodigo = prioCodigo;
+    public void setProartCodigo(Long proartCodigo) {
+        this.proartCodigo = proartCodigo;
     }
 
     public Integer getPuntos() {
@@ -143,28 +96,12 @@ public class VtHistoriaArtefactoDTO implements Serializable {
         this.puntos = puntos;
     }
 
-    public Long getSpriCodigo() {
-        return spriCodigo;
+    public Integer getTiempoDedicado() {
+        return tiempoDedicado;
     }
 
-    public void setSpriCodigo(Long spriCodigo) {
-        this.spriCodigo = spriCodigo;
-    }
-
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
-    public Long getTparCodigo() {
-        return tparCodigo;
-    }
-
-    public void setTparCodigo(Long tparCodigo) {
-        this.tparCodigo = tparCodigo;
+    public void setTiempoDedicado(Integer tiempoDedicado) {
+        this.tiempoDedicado = tiempoDedicado;
     }
 
     public Long getUsuCreador() {

@@ -4,10 +4,12 @@ import com.vobi.team.modelo.VtArchivo;
 import com.vobi.team.modelo.VtArtefacto;
 import com.vobi.team.modelo.VtEmpresa;
 import com.vobi.team.modelo.VtEstado;
+import com.vobi.team.modelo.VtEstadoSprint;
 import com.vobi.team.modelo.VtHistoriaArtefacto;
 import com.vobi.team.modelo.VtInteres;
 import com.vobi.team.modelo.VtPilaProducto;
 import com.vobi.team.modelo.VtPrioridad;
+import com.vobi.team.modelo.VtProgresoArtefacto;
 import com.vobi.team.modelo.VtProyecto;
 import com.vobi.team.modelo.VtProyectoUsuario;
 import com.vobi.team.modelo.VtRol;
@@ -52,10 +54,12 @@ import com.vobi.team.modelo.dto.VtArchivoDTO;
 import com.vobi.team.modelo.dto.VtArtefactoDTO;
 import com.vobi.team.modelo.dto.VtEmpresaDTO;
 import com.vobi.team.modelo.dto.VtEstadoDTO;
+import com.vobi.team.modelo.dto.VtEstadoSprintDTO;
 import com.vobi.team.modelo.dto.VtHistoriaArtefactoDTO;
 import com.vobi.team.modelo.dto.VtInteresDTO;
 import com.vobi.team.modelo.dto.VtPilaProductoDTO;
 import com.vobi.team.modelo.dto.VtPrioridadDTO;
+import com.vobi.team.modelo.dto.VtProgresoArtefactoDTO;
 import com.vobi.team.modelo.dto.VtProyectoDTO;
 import com.vobi.team.modelo.dto.VtProyectoUsuarioDTO;
 import com.vobi.team.modelo.dto.VtRolDTO;
@@ -124,11 +128,75 @@ public interface IBusinessDelegatorView {
     public List<VtArtefacto> findPageVtArtefacto(String sortColumnName,
         boolean sortAscending, int startRow, int maxResults)
         throws Exception;
+    
 
     public Long findTotalNumberVtArtefacto() throws Exception;
 
     public List<VtArtefactoDTO> getDataVtArtefacto() throws Exception;
+    
+    
+    
+ //
+    
+    public List<VtProgresoArtefacto> getVtProgresoArtefacto()
+            throws Exception;
 
+        public void saveVtProgresoArtefacto(VtProgresoArtefacto entity)
+            throws Exception;
+
+        public void deleteVtProgresoArtefacto(VtProgresoArtefacto entity)
+            throws Exception;
+
+        public void updateVtProgresoArtefacto(VtProgresoArtefacto entity)
+            throws Exception;
+
+        public VtProgresoArtefacto getVtProgresoArtefacto(Long proartCodigo)
+            throws Exception;
+
+        public List<VtProgresoArtefacto> findByCriteriaInVtProgresoArtefacto(
+            Object[] variables, Object[] variablesBetween,
+            Object[] variablesBetweenDates) throws Exception;
+
+        public List<VtProgresoArtefacto> findPageVtProgresoArtefacto(
+            String sortColumnName, boolean sortAscending, int startRow,
+            int maxResults) throws Exception;
+
+        public Long findTotalNumberVtProgresoArtefacto() throws Exception;
+
+        public List<VtProgresoArtefactoDTO> getDataVtProgresoArtefacto()
+            throws Exception;  
+    
+ //
+
+        public List<VtEstadoSprint> getVtEstadoSprint() throws Exception;
+
+        public void saveVtEstadoSprint(VtEstadoSprint entity)
+            throws Exception;
+
+        public void deleteVtEstadoSprint(VtEstadoSprint entity)
+            throws Exception;
+
+        public void updateVtEstadoSprint(VtEstadoSprint entity)
+            throws Exception;
+
+        public VtEstadoSprint getVtEstadoSprint(Long estsprCodigo)
+            throws Exception;
+
+        public List<VtEstadoSprint> findByCriteriaInVtEstadoSprint(
+            Object[] variables, Object[] variablesBetween,
+            Object[] variablesBetweenDates) throws Exception;
+
+        public List<VtEstadoSprint> findPageVtEstadoSprint(String sortColumnName,
+            boolean sortAscending, int startRow, int maxResults)
+            throws Exception;
+
+        public Long findTotalNumberVtEstadoSprint() throws Exception;
+
+        public List<VtEstadoSprintDTO> getDataVtEstadoSprint()
+            throws Exception;     
+
+        
+ //
     public List<VtEmpresa> getVtEmpresa() throws Exception;
 
     public void saveVtEmpresa(VtEmpresa entity) throws Exception;
