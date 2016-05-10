@@ -52,17 +52,17 @@ import javax.faces.model.SelectItem;
 public class VtSprintView implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private static final Logger log = LoggerFactory.getLogger(VtSprintView.class);
-	
+
 	private DualListModel<VtArtefacto> vtArtefacto;
-	
+
 	private MeterGaugeChartModel meterGaugeModel;
-	
+
 	VtSprint vtSprint=null;
 	Long codigoSprint=null;
-	
+
 	private List<VtArtefacto> artefactosSource;
 	private List<VtArtefacto> artefactosTarget;
-	
+
 	private PickList pickList;
 
 	private SelectOneMenu somActivo;
@@ -73,8 +73,10 @@ public class VtSprintView implements Serializable {
 	private SelectOneMenu somProyectoCambio;
 	private SelectOneMenu somEmpresas;
 	private SelectOneMenu somProyectos;
+	private SelectOneMenu somEstadosSprint;
 
 	private List<SelectItem> esActivoItems;
+	private List<SelectItem> losEstadosSprintsItems;
 	private List<SelectItem> losProyectosItems;
 	private List<SelectItem> esPilaProductoItems;
 	private List<SelectItem> lasEmpresasItems;
@@ -111,7 +113,7 @@ public class VtSprintView implements Serializable {
 
 	private VtSprintDTO selectedVtSprint;
 	private VtSprint entity;
-	
+
 	private Panel pnlToogle;
 
 	private boolean showDialog;
@@ -188,7 +190,7 @@ public class VtSprintView implements Serializable {
 	public void setTxtEsfuerzoCrear(InputText txtEsfuerzoCrear) {
 		this.txtEsfuerzoCrear = txtEsfuerzoCrear;
 	}
-	
+
 	public MeterGaugeChartModel getMeterGaugeModel() {
 		return meterGaugeModel;
 	}
@@ -596,7 +598,7 @@ public class VtSprintView implements Serializable {
 	public void setBtnCrearSprintFiltrado(CommandButton btnCrearSprintFiltrado) {
 		this.btnCrearSprintFiltrado = btnCrearSprintFiltrado;
 	}
-	
+
 	@PostConstruct
 	public void init() {
 		List<VtArtefacto> artefactosSource = new ArrayList<VtArtefacto>();
@@ -627,6 +629,10 @@ public class VtSprintView implements Serializable {
 
 			vtSprint.setNombre(txtNombreCrear.getValue().toString().trim());
 			vtSprint.setObjetivo(txtObjetivoCrear.getValue().toString().trim());
+//
+//			VtEstadoSprint vtEstadoSprint = businessDelegatorView.getVtEstadoSprint(Long.parseLong(somEstadosSprint.getValue().toString().trim()));
+//			vtSprint.setVtEstadoSprint(vtEstadoSprint);
+			
 			int esfuerzo=Integer.parseInt(txtEsfuerzoCrear.getValue().toString().trim());
 			vtSprint.setCapacidadEstimada(esfuerzo);
 
@@ -724,7 +730,7 @@ public class VtSprintView implements Serializable {
 			pilaCodigo=Long.valueOf(pila);
 			dataFiltro=businessDelegatorView.getDataVtSprintFiltro(pilaCodigo);
 			dataFiltroI=businessDelegatorView.getDataVtSprintFiltroI(pilaCodigo);
-			
+
 			createMeterGaugeModels();
 			FacesUtils.addInfoMessage("El Sprint ha sido modificado con exito");
 
@@ -840,13 +846,13 @@ public class VtSprintView implements Serializable {
 		}
 		return "";
 	}
-	
+
 	public void actualizarListaUsuarios() throws Exception {
 
 		try {
 			Long idSprint =codigoSprint;
 			vtSprint = businessDelegatorView.getVtSprint(idSprint);
-			
+
 			artefactosSource = businessDelegatorView.consultarArtefactosSinAsignarASprint();
 			artefactosTarget = businessDelegatorView.consultarArtefactosAsignadosASprint(idSprint);
 
@@ -912,14 +918,14 @@ public class VtSprintView implements Serializable {
 
 		return "";
 	}
-	
+
 	public String redireccionarAArtefactos(ActionEvent evt){
 		try {
-		selectedVtSprint = (VtSprintDTO) (evt.getComponent().getAttributes()
-				.get("selectedVtSprint"));		
-		String sprint = selectedVtSprint.getSpriCodigo().toString().trim();
-		Long idSprint = Long.parseLong(sprint);
-		
+			selectedVtSprint = (VtSprintDTO) (evt.getComponent().getAttributes()
+					.get("selectedVtSprint"));		
+			String sprint = selectedVtSprint.getSpriCodigo().toString().trim();
+			Long idSprint = Long.parseLong(sprint);
+
 			VtSprint vtSprint = businessDelegatorView.getVtSprint(idSprint);
 			FacesUtils.putinSession("vtSprint", vtSprint);
 			selectedVtSprint = null;
@@ -927,26 +933,26 @@ public class VtSprintView implements Serializable {
 			log.error(e.getMessage());
 			e.printStackTrace();
 		}
-		
+
 		return "";
 	}
-	
+
 	public void onClose(CloseEvent event) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Panel Closed", "Closed panel id:'" + event.getComponent().getId() + "'");
-        FacesContext.getCurrentInstance().addMessage(null, message);
-    }
-     
-    public void onToggle(ToggleEvent event) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, event.getComponent().getId() + " toggled", "Status:" + event.getVisibility().name());
-        FacesContext.getCurrentInstance().addMessage(null, message);
-    }
-    
-    public void handleToggle(ToggleEvent event) {
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Toggled", "Visibility:" + event.getVisibility());
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-    }
-    
-    public void onTransfer(TransferEvent event) throws Exception {
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Panel Closed", "Closed panel id:'" + event.getComponent().getId() + "'");
+		FacesContext.getCurrentInstance().addMessage(null, message);
+	}
+
+	public void onToggle(ToggleEvent event) {
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, event.getComponent().getId() + " toggled", "Status:" + event.getVisibility().name());
+		FacesContext.getCurrentInstance().addMessage(null, message);
+	}
+
+	public void handleToggle(ToggleEvent event) {
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Toggled", "Visibility:" + event.getVisibility());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+
+	public void onTransfer(TransferEvent event) throws Exception {
 		try {
 			StringBuilder builder = new StringBuilder();
 			Long idSprint= codigoSprint;
@@ -974,8 +980,8 @@ public class VtSprintView implements Serializable {
 		}
 
 	}
-    
-    public void asignarArtefactoASprint(VtArtefacto vtArtefacto,VtSprint vtSprint, VtPilaProducto vtPilaProducto) {
+
+	public void asignarArtefactoASprint(VtArtefacto vtArtefacto,VtSprint vtSprint, VtPilaProducto vtPilaProducto) {
 		try {
 			VtUsuario vtUsuarioEnSession = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
 			vtArtefacto = (VtArtefacto) businessDelegatorView
@@ -992,8 +998,8 @@ public class VtSprintView implements Serializable {
 			log.error(e.getMessage());
 		}
 	}
-    
-    public void removerArtefactoDelSprint(VtArtefacto vtArtefacto,VtSprint vtSprint, VtPilaProducto vtPilaProducto){
+
+	public void removerArtefactoDelSprint(VtArtefacto vtArtefacto,VtSprint vtSprint, VtPilaProducto vtPilaProducto){
 		try {
 			VtUsuario vtUsuarioEnSession = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
 			vtArtefacto = (VtArtefacto) businessDelegatorView
@@ -1007,8 +1013,8 @@ public class VtSprintView implements Serializable {
 			log.error(e.getMessage());
 		}
 	}
-    
-    @SuppressWarnings("serial")
+
+	@SuppressWarnings("serial")
 	private MeterGaugeChartModel initMeterGaugeModel() {
 		List<Number> intervals = new ArrayList<Number>(){
 			{
@@ -1026,7 +1032,7 @@ public class VtSprintView implements Serializable {
 
 			return new MeterGaugeChartModel(140, intervals);
 	}
-    
+
 	private void createMeterGaugeModels() {
 		try {
 			meterGaugeModel = initMeterGaugeModel();
@@ -1056,27 +1062,56 @@ public class VtSprintView implements Serializable {
 			e.printStackTrace();
 		}
 	}
-    
-    public void calcularEsfuerzo(){
+
+	public void calcularEsfuerzo(){
 		double esfuerzo=0;
 		try {
 			List<VtArtefacto> listaArtefactos=businessDelegatorView.consultarTodosLosArtefactosAsignados();
 			for(VtArtefacto vtArtefacto: listaArtefactos){
 				if(vtArtefacto.getVtSprint().getSpriCodigo().equals(vtSprint.getSpriCodigo())){
-						log.info("Artefacto: "+vtArtefacto.getTitulo());
-						esfuerzo=esfuerzo+vtArtefacto.getEsfuerzoEstimado();
-					}
+					log.info("Artefacto: "+vtArtefacto.getTitulo());
+					esfuerzo=esfuerzo+vtArtefacto.getEsfuerzoEstimado();
 				}
+			}
 			meterGaugeModel.setValue(esfuerzo);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
-    
-    public void txtEsfuerzoListener(){
-    	
-    }
+
+	public void txtEsfuerzoListener(){
+
+	}
+
+	public SelectOneMenu getSomEstadosSprint() {
+		return somEstadosSprint;
+	}
+
+	public void setSomEstadosSprint(SelectOneMenu somEstadosSprint) {
+		this.somEstadosSprint = somEstadosSprint;
+	}
+
+	public List<SelectItem> getLosEstadosSprintsItems() {
+		try{
+			if(losEstadosSprintsItems==null){
+				List<VtEstadoSprint> listaEstadosSprint=businessDelegatorView.getVtEstadoSprint();
+				losEstadosSprintsItems=new ArrayList<SelectItem>();
+				for (VtEstadoSprint vtEstadoSprint : listaEstadosSprint) {
+					losEstadosSprintsItems.add(new SelectItem(vtEstadoSprint.getEstsprCodigo(), vtEstadoSprint.getNombre()));
+				}
+
+			}
+
+		}catch(Exception e) {
+			log.error(e.getMessage());
+		}
+		return losEstadosSprintsItems;
+	}
+
+	public void setLosEstadosSprintsItems(List<SelectItem> losEstadosSprintsItems) {
+		this.losEstadosSprintsItems = losEstadosSprintsItems;
+	}
 
 
 }

@@ -50,17 +50,17 @@
 
 					<p:selectOneMenu id="somPilaProducto" style="width:400px"
 						binding="#{vtSprintView.somPilaProducto}">
-						<p:ajax update="pnlVtSprint, frm, panelVtSprint, btnCrearSc" event="change"
-							listener="#{vtSprintView.filtrar}" />
+						<p:ajax update="pnlVtSprint, frm, panelVtSprint, btnCrearSc"
+							event="change" listener="#{vtSprintView.filtrar}" />
 						<f:selectItem itemValue="-1" itemLabel="Pila de Producto" />
 						<f:selectItems value="#{vtSprintView.lasPilasDeProductoFiltro}" />
 					</p:selectOneMenu>
 					<br></br>
 
 					<p:panel id="panelVtSprint" header="Crear Sprint" toggleable="true"
-						binding="#{vtSprintView.pnlToogle}" 
-						toggleSpeed="500" closeSpeed="500" collapsed="true"
-						 widgetVar="panel" style="width:1000px">
+						binding="#{vtSprintView.pnlToogle}" toggleSpeed="500" 
+						closeSpeed="500" collapsed="true" widgetVar="panel"
+						style="width:1000px">
 
 						<h:panelGrid columns="1" id="panelGrid">
 
@@ -75,6 +75,8 @@
 								binding="#{vtSprintView.txtEsfuerzoCrear}" style="width:415px">
 							</p:inputText>
 
+						
+
 							<h:outputText id="msgFechaInicioC" value=" Fecha inicio" />
 							<p:calendar showOn="button" navigator="true" locale="en"
 								binding="#{vtSprintView.txtFechaInicio}" style="width:415px">
@@ -88,6 +90,8 @@
 								<p:ajax event="dateSelect"
 									listener="#{vtSprintView.listener_txtFechaFin}" />
 							</p:calendar>
+					
+							
 
 						</h:panelGrid>
 
@@ -95,13 +99,12 @@
 
 						<p:commandButton id="btnCrearSc"
 							binding="#{vtSprintView.btnCrearS}" icon="fa fa-save"
-							title="Crear" action="#{vtSprintView.crearSprint}" disabled="true"
-							update="frm, pickList" />
+							title="Crear" action="#{vtSprintView.crearSprint}"
+							disabled="true" update="frm, pickList" />
 
 						<p:commandButton id="btnLimpiarSc"
-							binding="#{vtSprintView.btnLimpiarS}" icon="fa fa-eraser" 
-							title="Limpiar" action="#{vtSprintView.limpiar()}"
-							update="frm" />
+							binding="#{vtSprintView.btnLimpiarS}" icon="fa fa-eraser"
+							title="Limpiar" action="#{vtSprintView.limpiar()}" update="frm" />
 
 						<br> </br>
 
@@ -159,7 +162,9 @@
 					<p:panel id="panelDataTableVtSprintA">
 
 						<p:dataTable value="#{vtSprintView.dataFiltro}" var="vtSprint"
-							paginator="true" rows="5" emptyMessage="No hay artefactos activos en este momento" reflow="true">
+							paginator="true" rows="5"
+							emptyMessage="No hay artefactos activos en este momento"
+							reflow="true">
 							<p:column filterBy="#{vtSprint.spriCodigo}"
 								sortBy="#{vtSprint.spriCodigo}">
 								<f:facet name="header">
@@ -262,7 +267,9 @@
 					<p:panel id="panelDataTableVtSprintI">
 
 						<p:dataTable value="#{vtSprintView.dataFiltroI}" var="vtSprint"
-							paginator="true" rows="5" emptyMessage="No hay artefactos activos en este momento" reflow="true">
+							paginator="true" rows="5"
+							emptyMessage="No hay artefactos activos en este momento"
+							reflow="true">
 							<p:column filterBy="#{vtSprint.spriCodigo}"
 								sortBy="#{vtSprint.spriCodigo}">
 								<f:facet name="header">
@@ -373,7 +380,7 @@
 					<h:outputText id="msgObjetivoM" value=" Objetivo" />
 					<p:inputTextarea id="txtObjetivo" disabled="true" rows="10"
 						cols="33" binding="#{vtSprintView.txtObjetivo}" />
-	
+
 					<h:outputText id="txtEsfuerzoM" value=" Esfuerzo" />
 					<p:inputText id="txtEsfuerzo" placeholder="Esfuerzo"
 						binding="#{vtSprintView.txtEsfuerzo}" style="width:215px">
