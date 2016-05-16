@@ -101,6 +101,12 @@
 	   ]]>
 	</query>
 	
+	<query name="consultarProyectoUsuario">
+  <![CDATA[
+	Select vtPu from VtProyectoUsuario vtPu  where vtPu.vtUsuario.usuaCodigo=:codigoUsuario
+	   ]]>
+	</query>
+	
 
 
 </hibernate-mapping>

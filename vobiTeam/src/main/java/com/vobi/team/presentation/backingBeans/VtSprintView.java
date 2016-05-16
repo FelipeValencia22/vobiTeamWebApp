@@ -315,6 +315,19 @@ public class VtSprintView implements Serializable {
 	}
 
 	public List<SelectItem> getLosProyectosFiltro() {
+		try{
+			VtUsuario vtUsuario = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
+			if(losProyectosFiltro==null){
+				List<VtProyectoUsuario> listaProyectos= businessDelegatorView.consultarProyectoUsuario(vtUsuario.getUsuaCodigo());
+				losProyectosFiltro = new ArrayList<SelectItem>();
+				for(VtProyectoUsuario vtProyectoUsuario : listaProyectos){
+					losProyectosFiltro.add(new SelectItem(vtProyectoUsuario.getVtProyecto().getProyCodigo(), vtProyectoUsuario.getVtProyecto().getNombre()));
+				}
+			}
+			
+		}catch (Exception e) {
+			log.error(e.getMessage());
+		}
 		return losProyectosFiltro;
 	}
 
@@ -611,16 +624,6 @@ public class VtSprintView implements Serializable {
 
 	public void setEmpresaUsuario(String empresaUsuario) {
 		this.empresaUsuario = empresaUsuario;
-	}
-
-	@PostConstruct
-	public void init() {
-		VtUsuario vtUsuario = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
-		setEmpresaUsuario(vtUsuario.getVtEmpresa().getNombre());
-		List<VtArtefacto> artefactosSource = new ArrayList<VtArtefacto>();
-		List<VtArtefacto> artefactosTarget = new ArrayList<VtArtefacto>();
-		vtArtefacto = new DualListModel<>(artefactosSource, artefactosTarget);
-		iniciarMeterGaugeModels();
 	}
 
 	// TODO: Metodos

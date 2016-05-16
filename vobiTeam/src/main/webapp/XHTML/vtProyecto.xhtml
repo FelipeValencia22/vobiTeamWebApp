@@ -32,20 +32,6 @@
 			<p:panel id="pnlListaSprint" header="PROYECTOS">
 				<h:panelGrid columns="1">
 
-					<p:selectOneMenu id="somEmpresas" style="width:300px"
-						binding="#{vtProyectoView.somEmpresasFiltro}">
-						<p:ajax update="formDialog1" event="change"
-							listener="#{vtProyectoView.filtrarEmpresa}" />
-						<f:selectItem itemValue="-1" itemLabel="Empresa" />
-						<f:selectItems value="#{vtProyectoView.lasEmpresasItems}" />
-					</p:selectOneMenu>
-					 
-					 <br></br>
-					<p:commandButton id="btnCrear" value="Crear proyecto" type="button" binding="#{vtProyectoView.btnCrearP}"
-					onclick="PF('dlg').show();" disabled="true"/>
-					<br></br>
-
-
 					<p:accordionPanel id="accordionPanelVtProyecto" multiple="true" rendered="true"> 
 						<p:growl id="men" />
 

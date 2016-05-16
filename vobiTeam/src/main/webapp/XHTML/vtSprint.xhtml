@@ -32,10 +32,6 @@
 
 				<h:panelGrid columns="1">
 
-					<p:selectOneMenu id="somEmpresas" style="width:400px"
-						binding="#{vtSprintView.somEmpresas}" disabled="true" value="#{vtSprintView.empresaUsuario}">
-					</p:selectOneMenu> 
-
 					<p:selectOneMenu id="somProyectos" style="width:400px"
 						binding="#{vtSprintView.somProyectos}">
 						<p:ajax update="somPilaProducto" event="change"
@@ -46,99 +42,12 @@
 
 					<p:selectOneMenu id="somPilaProducto" style="width:400px"
 						binding="#{vtSprintView.somPilaProducto}">
-						<p:ajax update="pnlVtSprint, frm, panelVtSprint, btnCrearSc" event="change"
+						<p:ajax update="pnlVtSprint, frm" event="change" 
 							listener="#{vtSprintView.filtrar}" />
 						<f:selectItem itemValue="-1" itemLabel="Pila de Producto" />
 						<f:selectItems value="#{vtSprintView.lasPilasDeProductoFiltro}" />
 					</p:selectOneMenu>
 					<br></br>
-
-					<p:panel id="panelVtSprint" header="Crear Sprint" toggleable="true"
-						binding="#{vtSprintView.pnlToogle}" 
-						toggleSpeed="500" closeSpeed="500" collapsed="true"
-						 widgetVar="panel" style="width:1000px">
-
-						<h:panelGrid columns="1" id="panelGrid">
-
-							<p:inputText id="txtNombreCrearC" placeholder="Nombre"
-								binding="#{vtSprintView.txtNombreCrear}" style="width:415px" />
-
-
-							<p:inputTextarea id="txtObjetivoCrearC" placeholder="Objetivo"
-								rows="10" cols="66" binding="#{vtSprintView.txtObjetivoCrear}" />
-
-							<p:inputText id="txtEsfuerzoCrear" placeholder="Esfuerzo"
-								binding="#{vtSprintView.txtEsfuerzoCrear}" style="width:415px">
-							</p:inputText>
-
-							<h:outputText id="msgFechaInicioC" value=" Fecha inicio" />
-							<p:calendar showOn="button" navigator="true" locale="en"
-								binding="#{vtSprintView.txtFechaInicio}" style="width:415px">
-								<p:ajax event="dateSelect"
-									listener="#{vtSprintView.listener_txtFechaInicio}" />
-							</p:calendar>
-
-							<h:outputText id="msgFechaFinC" value=" Fecha fin" />
-							<p:calendar showOn="button" navigator="true" locale="en"
-								binding="#{vtSprintView.txtFechaFin}" style="width:300px">
-								<p:ajax event="dateSelect"
-									listener="#{vtSprintView.listener_txtFechaFin}" />
-							</p:calendar>
-
-						</h:panelGrid>
-
-						<br> </br>
-
-						<p:commandButton id="btnCrearSc"
-							binding="#{vtSprintView.btnCrearS}" icon="fa fa-save"
-							title="Crear" action="#{vtSprintView.crearSprint}" disabled="true"
-							update="frm, pickList" />
-
-						<p:commandButton id="btnLimpiarSc"
-							binding="#{vtSprintView.btnLimpiarS}" icon="fa fa-eraser" 
-							title="Limpiar" action="#{vtSprintView.limpiar()}"
-							update="frm" />
-
-						<br> </br>
-
-						<!-- Arriba crear sprint / Abajo asignar artefactos -->
-
-						<p:pickList id="pickList" disabled="true"
-							binding="#{vtSprintView.pickList}"
-							value="#{vtSprintView.vtArtefacto}" var="artefacto"
-							itemLabel="#{artefacto}" itemValue="#{artefacto}"
-							showSourceControls="true" showTargetControls="true"
-							addLabel="Agregar artefacto" removeLabel="Sacar artefacto"
-							moveBottomLabel="Bajar hasta el final"
-							moveTopLabel="Subir hasta el final"
-							moveDownLabel="Bajar un nivel" moveUpLabel="Subir un nivel"
-							addAllLabel="Agregar todo" removeAllLabel="Quitar todo"
-							showCheckbox="true" responsive="true" showSourceFilter="true"
-							showTargetFilter="true" filterMatchMode="contains"
-							converter="usuarioPickListConverter">
-							<f:facet name="sourceCaption">Artefactos disponibles / Esfuerzo</f:facet>
-							<f:facet name="targetCaption">Artefactos asignados / Esfuerzo</f:facet>
-							<p:ajax event="transfer" listener="#{vtSprintView.onTransfer}"
-								update="pickList, Grafica" />
-
-							<p:column style="width:10%">
-								<h:outputText styleClass="fa fa-files-o" />
-							</p:column>
-							<p:column style="width:90%;">
-								<h:outputText value="#{artefacto.titulo}" />
-							</p:column>
-							<p:column style="width:90%;">
-								<h:outputText value="#{artefacto.esfuerzoEstimado}" />
-							</p:column>
-						</p:pickList>
-
-						<br></br>
-
-						<p:chart type="metergauge" id="Grafica"
-							model="#{vtSprintView.meterGaugeModel}"
-							style="width:500px;height:350px" />
-
-					</p:panel>
 
 				</h:panelGrid>
 

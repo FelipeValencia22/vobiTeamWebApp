@@ -414,4 +414,9 @@ public class VtProyectoUsuarioLogic implements IVtProyectoUsuarioLogic {
 		return vtProyectoUsuarioDAO.consultarProyectoUsuarioPorProyectoYPorUsuario(proyectoId, usuarioId);
 	}
 
+	@Transactional(readOnly = true)
+	public List<VtProyectoUsuario> consultarProyectoUsuario(Long codigoUsuario) {
+		return vtProyectoUsuarioDAO.consultarProyectoUsuario(codigoUsuario);
+	}
+
 }

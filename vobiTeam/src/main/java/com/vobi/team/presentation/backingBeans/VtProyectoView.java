@@ -359,14 +359,16 @@ public class VtProyectoView implements Serializable{
 
 	public List<VtProyectoDTO> getData() {
 		
-		/*try {
+		try {
 			if (data == null) {
-				data = businessDelegatorView.getDataVtProyecto();
+				VtUsuario vtUsuarioEnSession =  (VtUsuario) FacesUtils.getfromSession("vtUsuario");
+				data=businessDelegatorView.getDataVtProyecto(vtUsuarioEnSession.getVtEmpresa().getEmprCodigo());
+				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-*/
+
 		return data;
 	}
 
@@ -375,14 +377,15 @@ public class VtProyectoView implements Serializable{
 	}
 
 	public List<VtProyectoDTO> getDataI() {
-		/*try {
+		try {
 			if (dataI == null) {
-				dataI = businessDelegatorView.getDataVtProyectoInactivo();
+				VtUsuario vtUsuarioEnSession =  (VtUsuario) FacesUtils.getfromSession("vtUsuario");
+				dataI=businessDelegatorView.getDataVtProyectoInactivo(vtUsuarioEnSession.getVtEmpresa().getEmprCodigo());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-*/
+
 		return dataI;
 	}
 
