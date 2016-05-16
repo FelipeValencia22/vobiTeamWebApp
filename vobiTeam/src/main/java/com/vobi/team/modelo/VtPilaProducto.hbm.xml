@@ -9,7 +9,7 @@
             <column name="pila_codigo" />
             <generator class="identity" />
         </id>
-        <many-to-one name="vtProyecto" class="com.vobi.team.modelo.VtProyecto" fetch="select">
+        <many-to-one name="vtProyecto" class="com.vobi.team.modelo.VtProyecto" fetch="select" lazy="false">
             <column name="proy_codigo" not-null="true" />
         </many-to-one>
         <property name="nombre" type="java.lang.String">
@@ -33,13 +33,13 @@
         <property name="activo" type="java.lang.String">
             <column name="activo" length="1" not-null="true" />
         </property>
-        <set name="vtSprints" table="vt_sprint" inverse="true" lazy="true" fetch="select">
+        <set name="vtSprints" table="vt_sprint" inverse="true" lazy="false" fetch="select">
             <key>
                 <column name="pila_codigo" not-null="true" />
             </key>
             <one-to-many class="com.vobi.team.modelo.VtSprint" />
         </set>
-        <set name="vtArtefactos" table="vt_artefacto" inverse="true" lazy="true" fetch="select">
+        <set name="vtArtefactos" table="vt_artefacto" inverse="true" lazy="false" fetch="select">
             <key>
                 <column name="pila_codigo" not-null="true" />
             </key>

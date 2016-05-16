@@ -1,0 +1,785 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+
+	<ui:define name="content">
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+			onsuccess="PF('statusDialog').hide()" />
+		<p:dialog modal="true" widgetVar="statusDialog" header="Loading"
+			draggable="false" closable="false">
+			<p:graphicImage
+				value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+		</p:dialog>
+
+		<!-- Expired session -->
+		<p:idleMonitor onactive="PF('sessionTimeOutDialog').show();"
+			timeout="#{session.maxInactiveInterval * 1000}" />
+		<p:dialog modal="true" widgetVar="sessionTimeOutDialog"
+			header="La sesión ha expirado" draggable="false" closable="false">
+			<h:outputText value="The session is finished" />
+			<input id="confirmBackToLogin" type="button" value="Ingresar"
+				onclick="window.location='#{facesContext.externalContext.requestContextPath}/index.jsp';" />
+		</p:dialog>
+
+
+		<h:form id="frm">
+			<p:growl id="msg" />
+			<br></br>
+
+			<p:panel id="pnlListaSprint" header="ARTEFACTOS">
+				<h:panelGrid columns="1">
+
+					<p:selectOneMenu id="somSprints" style="width:300px"
+						binding="#{vtArtefactoViewDesarrollador.somSprints}">
+						<p:ajax update="pnlVtArtefacto,frm" event="change"
+							listener="#{vtArtefactoViewDesarrollador.filtrar}" />
+						<f:selectItem itemValue="-1" itemLabel="Sprint" />
+						<f:selectItems value="#{vtArtefactoViewDesarrollador.losSprintsFiltro}" />
+					</p:selectOneMenu>
+
+					<br></br>
+
+					<p:commandButton value="Crear artefacto" type="button"
+						onclick="PF('dlg').show();" update="pnlListArtefacto"
+						binding="#{vtArtefactoViewDesarrollador.btnCrearArtefactoFiltrado}"
+						disabled="true" />
+
+					<br></br>
+
+				</h:panelGrid>
+			</p:panel>
+
+			<p:accordionPanel id="pnlVtArtefacto" multiple="true">
+				<p:growl id="men" />
+
+				<p:tab title="Artefacto activo">
+
+					<p:panel id="panelDataTableVtArtefactoA">
+
+						<p:dataTable value="#{vtArtefactoViewDesarrollador.dataFiltro}"
+							var="vtArtefacto" paginator="true" rows="4" reflow="true"
+							scrollRows="20" scrollable="true" liveScroll="true"
+							scrollHeight="150" style="margin-bottom:0"
+							emptyMessage="No hay artefactos activos en este momento">
+							<p:column filterBy="#{vtArtefacto.arteCodigo}"  filterMatchMode="contains"
+								sortBy="#{vtArtefacto.arteCodigo}">
+								<f:facet name="header">
+									<h:outputText value="Código" />
+								</f:facet>
+								<h:outputText value="#{vtArtefacto.arteCodigo}" />
+							</p:column>
+
+							<p:column filterBy="#{vtArtefacto.titulo}"
+								filterMatchMode="contains" sortBy="#{vtArtefacto.titulo}">
+								<f:facet name="header">
+									<h:outputText value="Titulo" />
+								</f:facet>
+								<h:outputText value="#{vtArtefacto.titulo}" />
+							</p:column>
+
+							<p:column filterBy="#{vtArtefacto.descripcion}"
+								filterMatchMode="contains" sortBy="#{vtArtefacto.descripcion}">
+								<f:facet name="header">
+									<h:outputText value="Descripción" />
+								</f:facet>
+								<h:outputText value="#{vtArtefacto.descripcion}" />
+							</p:column>
+
+							<p:column filterBy="#{vtArtefacto.tpar_Nombre}"
+								filterMatchMode="contains" sortBy="#{vtArtefacto.tpar_Nombre}">
+								<f:facet name="header">
+									<h:outputText value="Tipo artefacto" />
+								</f:facet>
+								<h:outputText value="#{vtArtefacto.tpar_Nombre}" />
+							</p:column>
+
+							<p:column filterBy="#{vtArtefacto.estado_Nombre}"
+								filterMatchMode="contains" sortBy="#{vtArtefacto.estado_Nombre}">
+								<f:facet name="header">
+									<h:outputText value="Estado" />
+								</f:facet>
+								<h:outputText value="#{vtArtefacto.estado_Nombre}" />
+							</p:column>
+
+							<p:column filterBy="#{vtArtefacto.prioridad_Nombre}"
+								filterMatchMode="contains"
+								sortBy="#{vtArtefacto.prioridad_Nombre}">
+								<f:facet name="header">
+									<h:outputText value="Prioridad" />
+								</f:facet>
+								<h:outputText value="#{vtArtefacto.prioridad_Nombre}" />
+							</p:column>
+
+
+							<p:column filterBy="#{vtArtefacto.activo}"
+								filterMatchMode="contains" sortBy="#{vtArtefacto.activo}">
+								<f:facet name="header">
+									<h:outputText value="Activo" />
+								</f:facet>
+								<h:outputText value="#{vtArtefacto.activo}" />
+							</p:column>
+
+							<p:column headerText="Modificar">
+								<div align="center">
+									<p:commandButton id="btnEdit" icon="fa fa-edit"
+										update=":dialogVtArtefacto"
+										actionListener="#{vtArtefactoViewDesarrollador.modificar}">
+										<f:attribute name="selectedVtArtefacto" value="#{vtArtefacto}" />
+									</p:commandButton>
+									<p:tooltip id="toolTipFadeM" for="btnEdit" value="Modificar" />
+								</div>
+							</p:column>
+
+							<p:column headerText="Cambiar estado">
+								<div align="center">
+									<p:commandButton id="btnEstado" icon="fa fa-retweet"
+										update=":frm:pnlVtArtefacto, :frm:msg"
+										actionListener="#{vtArtefactoViewDesarrollador.cambiarEstado}">
+										<f:attribute name="selectedVtArtefacto" value="#{vtArtefacto}" />
+									</p:commandButton>
+									<p:tooltip id="toolTipFadeC" for="btnEstado"
+										value="Cambiar estado" />
+								</div>
+							</p:column>
+
+							<p:column headerText="Mostrar archivos">
+								<div align="center">
+									<p:commandButton id="btnDescargar" icon="fa fa-list-alt"
+										update=":descargarArchivos"
+										actionListener="#{vtArtefactoViewDesarrollador.filtrarArchivo}">
+										<f:attribute name="selectedVtArtefacto" value="#{vtArtefacto}" />
+									</p:commandButton>
+									<p:tooltip id="toolTipFadeMa" for="btnDescargar"
+										value="Mostrar archivos" />
+								</div>
+							</p:column>
+
+							<p:column headerText="Historial">
+								<div align="center">
+									<p:commandButton id="btnHistorial" icon="fa fa-history"
+										update=":historialArtefactos"
+										actionListener="#{vtArtefactoViewDesarrollador.filtrarVersionHistorialView}">
+										<f:attribute name="selectedVtArtefacto" value="#{vtArtefacto}" />
+									</p:commandButton>
+									<p:tooltip id="toolTipFadeH" for="btnHistorial"
+										value="Historial" />
+								</div>
+							</p:column>
+
+
+
+						</p:dataTable>
+					</p:panel>
+
+				</p:tab>
+
+
+				<p:tab title="Artefacto inactivo">
+
+					<p:panel id="panelDataTableVtArtefactoI">
+						<p:dataTable value="#{vtArtefactoViewDesarrollador.dataFiltroI}"
+							var="vtArtefacto" paginator="true" rows="4" reflow="true"
+							scrollRows="20" scrollable="true" liveScroll="true"
+							scrollHeight="150" style="margin-bottom:0" widgetVar="artI"
+							emptyMessage="No hay artefactos activos en este momento">
+							<p:column filterBy="#{vtArtefacto.arteCodigo}" filterMatchMode="contains"
+								sortBy="#{vtArtefacto.arteCodigo}">
+								<f:facet name="header">
+									<h:outputText value="Código" />
+								</f:facet>
+								<h:outputText value="#{vtArtefacto.arteCodigo}" />
+							</p:column>
+
+							<p:column filterBy="#{vtArtefacto.titulo}" filterMatchMode="contains" 
+								sortBy="#{vtArtefacto.titulo}">
+								<f:facet name="header">
+									<h:outputText value="Titulo" />
+								</f:facet>
+								<h:outputText value="#{vtArtefacto.titulo}" />
+							</p:column>
+
+							<p:column filterBy="#{vtArtefacto.descripcion}" filterMatchMode="contains" 
+								sortBy="#{vtArtefacto.descripcion}">
+								<f:facet name="header">
+									<h:outputText value="Descripción" />
+								</f:facet>
+								<h:outputText value="#{vtArtefacto.descripcion}" />
+							</p:column>
+
+							<p:column filterBy="#{vtArtefacto.tpar_Nombre}"   filterMatchMode="contains"
+								sortBy="#{vtArtefacto.tpar_Nombre}">
+								<f:facet name="header">
+									<h:outputText value="Tipo artefacto" /> 
+								</f:facet>
+								<h:outputText value="#{vtArtefacto.tpar_Nombre}" />
+							</p:column>
+
+							<p:column filterBy="#{vtArtefacto.estado_Nombre}" filterMatchMode="contains"
+								sortBy="#{vtArtefacto.estado_Nombre}">
+								<f:facet name="header">
+									<h:outputText value="Estado" />
+								</f:facet>
+								<h:outputText value="#{vtArtefacto.estado_Nombre}" />
+							</p:column>
+
+							<p:column filterBy="#{vtArtefacto.prioridad_Nombre}" filterMatchMode="contains"
+								sortBy="#{vtArtefacto.prioridad_Nombre}">
+								<f:facet name="header">
+									<h:outputText value="Prioridad" />
+								</f:facet>
+								<h:outputText value="#{vtArtefacto.prioridad_Nombre}" />
+							</p:column>
+
+
+							<p:column filterBy="#{vtArtefacto.activo}" filterMatchMode="contains"
+								sortBy="#{vtArtefacto.activo}">
+								<f:facet name="header">
+									<h:outputText value="Activo" />
+								</f:facet>
+								<h:outputText value="#{vtArtefacto.activo}" />
+							</p:column>
+
+							<p:column headerText="Modificar">
+								<div align="center">
+									<p:commandButton id="btnEdit" icon="fa fa-edit"
+										update=":dialogVtArtefacto"
+										actionListener="#{vtArtefactoViewDesarrollador.modificar}">
+										<f:attribute name="selectedVtArtefacto" value="#{vtArtefacto}" />
+									</p:commandButton>
+									<p:tooltip id="toolTipFadeM" for="btnEdit" value="Modificar" />
+								</div>
+							</p:column>
+
+							<p:column headerText="Cambiar estado">
+								<div align="center">
+									<p:commandButton id="btnEstado" icon="fa fa-retweet"
+										update=":frm:pnlVtArtefacto, :frm:msg"
+										actionListener="#{vtArtefactoViewDesarrollador.cambiarEstado}">
+										<f:attribute name="selectedVtArtefacto" value="#{vtArtefacto}" />
+									</p:commandButton>
+									<p:tooltip id="toolTipFadeC" for="btnEstado"
+										value="Cambiar estado" />
+								</div>
+							</p:column>
+
+							<p:column headerText="Mostrar archivos">
+								<div align="center">
+									<p:commandButton id="btnDescargar" icon="fa fa-list-alt"
+										update=":descargarArchivos"
+										actionListener="#{vtArtefactoViewDesarrollador.filtrarArchivo}">
+										<f:attribute name="selectedVtArtefacto" value="#{vtArtefacto}" />
+									</p:commandButton>
+									<p:tooltip id="toolTipFadeMa" for="btnDescargar"
+										value="Mostrar archivos" />
+								</div>
+							</p:column>
+
+							<p:column headerText="Historial">
+								<div align="center">
+									<p:commandButton id="btnHistorial" icon="fa fa-history"
+										update=":historialArtefactos"
+										actionListener="#{vtArtefactoViewDesarrollador.filtrarVersionHistorialView}">
+										<f:attribute name="selectedVtArtefacto" value="#{vtArtefacto}" />
+									</p:commandButton>
+									<p:tooltip id="toolTipFadeH" for="btnHistorial"
+										value="Historial" />
+								</div>
+							</p:column>
+
+
+
+						</p:dataTable>
+
+					</p:panel>
+
+				</p:tab>
+
+			</p:accordionPanel>
+
+		</h:form>
+
+
+
+		<p:dialog id="dialogVtArtefacto" appendTo="@(body)" draggable="true"
+			closable="false" visible="#{vtArtefactoViewDesarrollador.showDialog}"
+			resizable="true" modal="true" width="900">
+			<h:form id="formDialog">
+				<p:growl id="msg" />
+				<p:panel id="panelVtArtefacto" header="Modificar el artefacto">
+					<h:panelGrid columns="2">
+
+						<h:panelGrid columns="2" id="panelGrid">
+
+							<h:panelGrid columns="2" id="cambioDerecha">
+								<h:outputText id="msgTiposArtefactoCambio"
+									value="Tipos de artefacto" />
+								<p:selectOneMenu id="somTiposDeArtefactosCambio"
+									style="width:160px"
+									binding="#{vtArtefactoViewDesarrollador.somTiposDeArtefactosCambio}">
+									<f:selectItem itemValue="-1" itemLabel="Tipo de artefacto" />
+									<f:selectItems value="#{vtArtefactoViewDesarrollador.esTipoArtefactoItems}" />
+								</p:selectOneMenu>
+								<h:outputText id="msgActivoCambio" value="Activo" />
+								<p:selectOneMenu id="somActivoCambio" style="width:160px"
+									binding="#{vtArtefactoViewDesarrollador.somActivoCambio}">
+									<f:selectItem itemValue="-1" itemLabel="Activo" />
+									<f:selectItems value="#{vtArtefactoViewDesarrollador.esActivoItems}" />
+								</p:selectOneMenu>
+
+								<h:outputText id="msgTituloCambio" value="Titulo" />
+								<p:inputText id="txtnombre" placeholder="Titulo" size="42"
+									binding="#{vtArtefactoViewDesarrollador.txtnombreCambio}" />
+
+								<h:outputText id="msgDescripciónCambio" value="Descripción" />
+								<p:inputTextarea id="txtAreaDescripcionCambio"
+									style="overflow:auto;" autoResize="false" rows="10" cols="40"
+									placeholder="Descripci&#243;n"
+									binding="#{vtArtefactoViewDesarrollador.txtdescripcionCambio}" />
+								<h:outputText id="msgPriordadCambio" value="Prioridad" />
+								<p:selectOneMenu id="somPrioridadesCambio" style="width:160px"
+									binding="#{vtArtefactoViewDesarrollador.somPrioridadesCambio}">
+									<f:selectItem itemValue="-1" itemLabel="Prioridad" />
+									<f:selectItems value="#{vtArtefactoViewDesarrollador.esPrioridadItems}" />
+								</p:selectOneMenu>
+
+							</h:panelGrid>
+
+							<h:panelGrid columns="2" id="cambioIzquierda">
+
+
+								<h:outputText id="msgEstadoCambio" value="Estado" />
+								<p:selectOneMenu id="somEstadosCambio" size="42"
+									binding="#{vtArtefactoViewDesarrollador.somEstadosCambio}">
+									<f:selectItem itemValue="-1" itemLabel="Estado" />
+									<f:selectItems value="#{vtArtefactoViewDesarrollador.esEstadoItems}" />
+								</p:selectOneMenu>
+
+								<h:outputText id="msgEsfuerzoEstimadoCambio"
+									value="Esfuerzo Estimado" />
+								<p:inputText id="txtEsfuerzoEstimadoCambio" size="42"
+									placeholder="Esfuerzo estimado"
+									binding="#{vtArtefactoViewDesarrollador.txtEsfuerzoEstimadoCambio}" />
+
+								<h:outputText id="msgEsfuerzoRealCambio" value="Esfuerzo real" />
+								<p:inputText id="txtEsfuerzoRealCambio" size="42"
+									placeholder="Esfuerzo real"
+									binding="#{vtArtefactoViewDesarrollador.txtEsfuerzoRealCambio}" />
+
+								<h:outputText id="msgEsfuerzoRestanteCambio"
+									value="Esfuerzo restante" />
+								<p:inputText id="txtEsfuerzoRestanteCambio" size="42"
+									placeholder="Esfuerzo restante"
+									binding="#{vtArtefactoViewDesarrollador.txtEsfuerzoRestanteCambio}" />
+
+								<h:outputText id="msgOrigenCambio" value="Origen" />
+								<p:inputText id="txtOrigenCambio" size="42" placeholder="Origen"
+									binding="#{vtArtefactoViewDesarrollador.txtOrigenCambio}" />
+
+								<h:outputText id="msgPuntosCambio" value="Puntos" />
+								<p:inputText id="txtPuntosCambio" size="42" placeholder="Puntos"
+									binding="#{vtArtefactoViewDesarrollador.txtPuntosCambio}" />
+							</h:panelGrid>
+						</h:panelGrid>
+					</h:panelGrid>
+				</p:panel>
+
+				<p:panel id="panelBotones">
+					<div align="center">
+						<p:commandButton id="btnSave"
+							binding="#{vtArtefactoViewDesarrollador.btnGuardar}" value="Guardar"
+							action="#{vtArtefactoViewDesarrollador.action_save()}"
+							update=":formDialog:msg  :frm:pnlVtArtefacto" />
+
+						<p:commandButton id="btnExit" value="Salir"
+							action="#{vtArtefactoViewDesarrollador.action_closeDialog()}"
+							update=":dialogVtArtefacto" />
+
+					</div>
+				</p:panel>
+
+			</h:form>
+
+		</p:dialog>
+
+
+
+		<p:dialog id="subirArchivo" header="Subir artefacto" rendered="true"
+			responsive="true" resizable="true" position="center" closable="false"
+			widgetVar="dlgArchivo" dynamic="true"
+			visible="#{vtArtefactoViewDesarrollador.showDialogArchivos}" modal="true">
+			<h:form id="formDialogSubirArchivo">
+				<p:growl id="msgArchivo" />
+				<p:panel id="subirArchivosABd">
+					<h:panelGrid id="archivosPanel" columns="1">
+						<p:fileUpload id="fileUpload" sequential="true"
+							fileUploadListener="#{vtArtefactoViewDesarrollador.handleFileUpload}"
+							mode="advanced" update="msgArchivo" multiple="true"
+							label="Seleccionar" cancelLabel="Cancelar"
+							uploadLabel="Subir archivo(s)" dragdropsupport="true"
+							sizeLimit="500000000" />
+					</h:panelGrid>
+				</p:panel>
+				<p:panel id="botonesSalida">
+					<div align="center">
+						<p:commandButton id="btnExitUpload" value="Salir"
+							actionListener="#{vtArtefactoViewDesarrollador.cerrarDialogSubirArchivos}"
+							update="subirArchivo,:descargarArchivos" />
+					</div>
+
+
+				</p:panel>
+
+
+
+			</h:form>
+		</p:dialog>
+
+
+
+		<p:dialog id="descargarArchivos" header="Descargar archivos"
+			closable="false" rendered="true" modal="true" responsive=" true"
+			visible="#{vtArtefactoViewDesarrollador.showDialogArchivos}"
+			widgetVar="dlgDescargar" width="1300" height="700" >
+			<h:form id="formularioDescarga">
+				<p:accordionPanel id="pnlVtArtefacto" multiple="true">
+					<p:growl id="menDos" />
+					<p:tab title="Archivos activos">
+
+						<p:dataTable id="dataTableArchivo" emptyMessage="No hay archivos activos en este momento" reflow="true"  
+							value="#{vtArtefactoViewDesarrollador.dataFiltroArchivo}" var="vtArchivo"
+							paginator="true" rows="2">
+							<p:column filterBy="#{vtArchivo.archCodigo}"
+								sortBy="#{vtArchivo.archCodigo}">
+								<f:facet name="header">
+									<h:outputText value="Código" />
+								</f:facet>
+								<h:outputText value="#{vtArchivo.archCodigo}" />
+							</p:column>
+
+							<p:column filterBy="#{vtArchivo.activo}"
+								sortBy="#{vtArchivo.activo}">
+								<f:facet name="header">
+									<h:outputText value="Activo" />
+								</f:facet>
+								<h:outputText value="#{vtArchivo.activo}" />
+							</p:column>
+
+							<p:column filterBy="#{vtArchivo.nombre}"
+								sortBy="#{vtArchivo.nombre}">
+								<f:facet name="header">
+									<h:outputText value="Nombre" />
+								</f:facet>
+								<h:outputText value="#{vtArchivo.nombre}" />
+							</p:column>
+							<p:column headerText="Descargar">
+								<div align="center">
+									<p:commandButton id="btnDescargar" icon="fa fa-cloud-download"
+										actionListener="#{vtArtefactoViewDesarrollador.fileDownloadView}"
+										update=":frm:msg,formularioDescarga" ajax="false">
+										<p:fileDownload value="#{vtArtefactoViewDesarrollador.archivos}" />
+										<f:attribute name="selectedVtAchivo" value="#{vtArchivo}" />
+
+									</p:commandButton>
+								</div>
+
+							</p:column>
+							<p:column headerText="Eliminar">
+								<div align="center">
+									<p:commandButton id="btnEliminar" icon="icon-cancel-2"
+										actionListener="#{vtArtefactoViewDesarrollador.deleteFileView}"
+										update=":frm:msg,formularioDescarga">
+										<p:ajax />
+										<f:attribute name="selectedVtAchivo" value="#{vtArchivo}" />
+									</p:commandButton>
+								</div>
+							</p:column>
+
+							<p:column headerText="Estado del archivo">
+								<div align="center">
+									<p:commandButton id="btnEstadoArchivo" icon="fa fa-retweet"
+										actionListener="#{vtArtefactoViewDesarrollador.cambiarEstadoArchivo}"
+										update=":frm:msg,formularioDescarga">
+										<p:ajax />
+										<f:attribute name="selectedVtAchivo" value="#{vtArchivo}" />
+									</p:commandButton>
+								</div>
+							</p:column>
+						</p:dataTable>
+
+						<br></br>
+
+
+					</p:tab>
+
+
+					<p:tab title="Archivos inactivos">
+
+						<p:dataTable id="dataTableArchivoInactivos" emptyMessage="No hay archivos inactivos en este momento"  reflow="true"
+							value="#{vtArtefactoViewDesarrollador.dataFiltroArchivoInactivo}"
+							var="vtArchivo" paginator="true" rows="2">
+							<p:column filterBy="#{vtArchivo.archCodigo}"
+								sortBy="#{vtArchivo.archCodigo}">
+								<f:facet name="header">
+									<h:outputText value="Código" />
+								</f:facet>
+								<h:outputText value="#{vtArchivo.archCodigo}" />
+							</p:column>
+
+							<p:column filterBy="#{vtArchivo.activo}"
+								sortBy="#{vtArchivo.activo}">
+								<f:facet name="header">
+									<h:outputText value="Activo" />
+								</f:facet>
+								<h:outputText value="#{vtArchivo.activo}" />
+							</p:column>
+
+							<p:column filterBy="#{vtArchivo.nombre}"
+								sortBy="#{vtArchivo.nombre}">
+								<f:facet name="header">
+									<h:outputText value="Nombre" />
+								</f:facet>
+								<h:outputText value="#{vtArchivo.nombre}" />
+							</p:column>
+							<p:column headerText="Descargar">
+								<div align="center">
+									<p:commandButton id="btnDescargar" icon="fa fa-cloud-download"
+										actionListener="#{vtArtefactoViewDesarrollador.fileDownloadView}"
+										update=":frm:msg,formularioDescarga" ajax="false">
+										<p:fileDownload value="#{vtArtefactoViewDesarrollador.archivos}" />
+										<f:attribute name="selectedVtAchivo" value="#{vtArchivo}" />
+
+									</p:commandButton>
+								</div>
+
+							</p:column>
+							<p:column headerText="Eliminar">
+								<div align="center">
+									<p:commandButton id="btnEliminar" icon="fa fa-retweet"
+										actionListener="#{vtArtefactoViewDesarrollador.deleteFileView}"
+										update=":frm:msg,formularioDescarga">
+										<p:ajax />
+										<f:attribute name="selectedVtAchivo" value="#{vtArchivo}" />
+									</p:commandButton>
+								</div>
+							</p:column>
+
+							<p:column headerText="Estado del archivo">
+								<div align="center">
+									<p:commandButton id="btnEstadoArchivoI" icon="fa fa-retweet"
+										actionListener="#{vtArtefactoViewDesarrollador.cambiarEstadoArchivo}"
+										update=":frm:msg,formularioDescarga">
+										<p:ajax />
+										<f:attribute name="selectedVtAchivo" value="#{vtArchivo}" />
+									</p:commandButton>
+								</div>
+							</p:column>
+						</p:dataTable>
+
+						<br></br>
+
+
+					</p:tab>
+
+				</p:accordionPanel>
+
+				<div align="center">
+					<p:commandButton id="btnExit" value="Salir"
+						action="#{vtArtefactoViewDesarrollador.cerrarDialogArchivos()}"
+						update=":descargarArchivos" />
+					<p:commandButton id="btnReSubir" icon="fa fa-upload" value="Subir"
+						type="button" onclick="PF('dlgArchivo').show();" update=":frm:msg" />
+				</div>
+			</h:form>
+		</p:dialog>
+
+
+		<p:dialog id="historialArtefactos" header="Historial del artefacto"
+			closable="false" rendered="true" modal="true" responsive=" true"
+			visible="#{vtArtefactoViewDesarrollador.showDialogHistorial}" width="1500"
+			height="500">
+			<h:form id="msgHistorial">
+
+				<p:growl id="menHistorial" />
+
+				<p:tab title="Historial">
+
+					<p:dataTable value="#{vtArtefactoViewDesarrollador.dataFiltroHistoriaArtefacto}"
+						var="vtHistoriaArtefacto" paginator="true" rows="5">
+
+						<p:column filterBy="#{vtHistoriaArtefacto.titulo}"
+							sortBy="#{vtHistoriaArtefacto.titulo}">
+							<f:facet name="header">
+								<h:outputText value="Título" />
+							</f:facet>
+							<h:outputText value="#{vtHistoriaArtefacto.titulo}" />
+						</p:column>
+
+						<p:column filterBy="#{vtHistoriaArtefacto.esfuerzoEstimado}"
+							sortBy="#{vtHistoriaArtefacto.esfuerzoEstimado}">
+							<f:facet name="header">
+								<h:outputText value="Esf. Estimado" />
+							</f:facet>
+							<h:outputText value="#{vtHistoriaArtefacto.esfuerzoEstimado}" />
+						</p:column>
+
+						<p:column filterBy="#{vtHistoriaArtefacto.esfuerzoReal}"
+							sortBy="#{vtHistoriaArtefacto.esfuerzoReal}">
+							<f:facet name="header">
+								<h:outputText value="Esf. Real" />
+							</f:facet>
+							<h:outputText value="#{vtHistoriaArtefacto.esfuerzoReal}" />
+						</p:column>
+
+						<p:column filterBy="#{vtHistoriaArtefacto.esfuerzoRestante}"
+							sortBy="#{vtHistoriaArtefacto.esfuerzoRestante}">
+							<f:facet name="header">
+								<h:outputText value="Esf. Restante" />
+							</f:facet>
+							<h:outputText value="#{vtHistoriaArtefacto.esfuerzoRestante}" />
+						</p:column>
+
+						<p:column filterBy="#{vtHistoriaArtefacto.origen}"
+							sortBy="#{vtHistoriaArtefacto.origen}">
+							<f:facet name="header">
+								<h:outputText value="Origen" />
+							</f:facet>
+							<h:outputText value="#{vtHistoriaArtefacto.origen}" />
+						</p:column>
+
+
+						<p:column filterBy="#{vtHistoriaArtefacto.fechaCreacion}"
+							sortBy="#{vtHistoriaArtefacto.fechaCreacion}">
+							<f:facet name="header">
+								<h:outputText value="Fecha creación" />
+							</f:facet>
+							<h:outputText value="#{vtHistoriaArtefacto.fechaCreacion}" />
+						</p:column>
+
+						<p:column filterBy="#{vtHistoriaArtefacto.fechaModificacion}"
+							sortBy="#{vtHistoriaArtefacto.fechaModificacion}">
+							<f:facet name="header">
+								<h:outputText value="Fecha modificación" />
+							</f:facet>
+							<h:outputText value="#{vtHistoriaArtefacto.fechaModificacion}" />
+						</p:column>
+
+						<p:column filterBy="#{vtHistoriaArtefacto.usuCreador}"
+							sortBy="#{vtHistoriaArtefacto.usuCreador}">
+							<f:facet name="header">
+								<h:outputText value="Usuario creador" />
+							</f:facet>
+							<h:outputText value="#{vtHistoriaArtefacto.usuCreador}" />
+						</p:column>
+
+						<p:column filterBy="#{vtHistoriaArtefacto.usuModificador}"
+							sortBy="#{vtHistoriaArtefacto.usuModificador}">
+							<f:facet name="header">
+								<h:outputText value="Usuario modificador" />
+							</f:facet>
+							<h:outputText value="#{vtHistoriaArtefacto.usuModificador}" />
+						</p:column>
+
+
+						<p:column headerText="Restablecer Versión">
+							<div align="center">
+								<p:commandButton id="btnRestablecer" icon="fa fa-history"
+									actionListener="#{vtArtefactoViewDesarrollador.restablecerArtefactoView}"
+									action="#{vtArtefactoViewDesarrollador.cerrarDialogHistoriaArtefacto()}"
+									update=":frm:pnlVtArtefacto,msgHistorial" ajax="false">
+									<f:attribute name="selectedVtHistoriaArtefacto"
+										value="#{vtHistoriaArtefacto}" />
+								</p:commandButton>
+							</div>
+						</p:column>
+					</p:dataTable>
+
+					<br></br>
+
+					<div align="center">
+						<p:commandButton id="btnSalir" value="Salir"
+							action="#{vtArtefactoViewDesarrollador.cerrarDialogHistoriaArtefacto()}"
+							update=":historialArtefactos" />
+					</div>
+				</p:tab>
+			</h:form>
+		</p:dialog>
+
+		<p:dialog id="dialogArte" header="Crear artefacto" rendered="true"
+			responsive="true" widgetVar="dlg" height="800" modal="true"
+			width="1000">
+			<h:form id="formDialogCrearArtefacto">
+				<p:growl id="growl" />
+				<h:panelGrid columns="2" id="panelGrid" rendered="true">
+					<h:panelGrid columns="2" id="artefactoIzq" rendered="true">
+
+						<h:outputText id="msgTitulo" value="Título" />
+						<p:inputText id="txtnombre" size="60" placeholder="Titulo"
+							binding="#{vtArtefactoViewDesarrollador.txtnombre}" />
+						<p:spacer />
+						<p:spacer />
+						<h:outputText id="msgDescripcion" value="Descripción" />
+						<p:inputTextarea id="txtAreaDescripcion" scrollHeight="30"
+							style="overflow:auto;" autoResize="false" rows="15" cols="60"
+							placeholder="Descripci&#243;n"
+							binding="#{vtArtefactoViewDesarrollador.txtdescripcion}" />
+					</h:panelGrid>
+
+					<h:panelGrid id="artefactoDe" columns="2">
+						<h:outputText id="msgActivo" value="Activo" />
+						<p:selectOneMenu id="somActivo" style="width:140px"
+							binding="#{vtArtefactoViewDesarrollador.somActivo}">
+							<f:selectItem itemValue="-1" itemLabel="Activo" />
+							<f:selectItems value="#{vtArtefactoViewDesarrollador.esActivoItems}" />
+						</p:selectOneMenu>
+						<h:outputText id="msgProridad" value="Prioridad" />
+						<p:selectOneMenu id="somPrioridades" style="width:140px"
+							binding="#{vtArtefactoViewDesarrollador.somPrioridades}">
+							<f:selectItem itemValue="-1" itemLabel="Prioridad" />
+							<f:selectItems value="#{vtArtefactoViewDesarrollador.esPrioridadItems}" />
+						</p:selectOneMenu>
+						<h:outputText id="msgEstado" value="Estado" />
+						<p:selectOneMenu id="somEstados" style="width:140px"
+							binding="#{vtArtefactoViewDesarrollador.somEstados}">
+							<f:selectItem itemValue="-1" itemLabel="Estado" />
+							<f:selectItems value="#{vtArtefactoViewDesarrollador.esEstadoItems}" />
+						</p:selectOneMenu>
+						<h:outputText id="msgEsfuerzoEstimado" value="Esfuerzo estimado" />
+						<p:inputText id="txtEsfuerzoEstimado"
+							placeholder="Esfuerzo estimado"
+							binding="#{vtArtefactoViewDesarrollador.txtEsfuerzoEstimado}" />
+
+						<h:outputText id="msgEsfuerzoRestante" value="EsfuerzoRestante" />
+						<p:inputText id="txtEsfuerzoRestante"
+							placeholder="Esfuerzo restante"
+							binding="#{vtArtefactoViewDesarrollador.txtEsfuerzoRestante}" />
+						<h:outputText id="msgPuntos" value="Puntos" />
+						<p:inputText id="txtPuntos" placeholder="Puntos"
+							binding="#{vtArtefactoViewDesarrollador.txtPuntos}" />
+						<h:outputText id="msgOrigen" value="Orígen" />
+						<p:inputText id="txtOrigen" placeholder="Origen"
+							binding="#{vtArtefactoViewDesarrollador.txtOrigen}" />
+					</h:panelGrid>
+
+				</h:panelGrid>
+				<div align="center">
+					<p:commandButton id="btnCrearS" icon="fa fa-save"
+						binding="#{vtArtefactoViewDesarrollador.btnCrearS}" title="crear"
+						action="#{vtArtefactoViewDesarrollador.crearArtefacto}"
+						update="formDialogCrearArtefacto,growl" />
+
+					<p:commandButton id="btnLimpiarS" icon="fa fa-eraser"
+						binding="#{vtArtefactoViewDesarrollador.btnLimpiarS}" title="Limpiar"
+						action="#{vtArtefactoViewDesarrollador.limpiar}"
+						update="formDialogCrearArtefacto" />
+
+					<p:commandButton id="btnSubir" icon="fa fa-upload" type="button"
+						onclick="PF('dlgArchivo').show();" />
+
+				</div>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>

@@ -56,4 +56,6 @@ public interface IVtSprintLogic {
     
     public List<VtSprintDTO> getDataVtSprintFiltro(Long codigoFiltro) throws Exception;
     public List<VtSprintDTO> getDataVtSprintFiltroI(Long codigoFiltro) throws Exception;
+    
+    public VtSprint consultarSprintUsuario(Long codigoEmpresa);
 }

@@ -599,4 +599,9 @@ public class VtSprintLogic implements IVtSprintLogic {
 
 		return list;
 	}
+
+	@Override
+	public VtSprint consultarSprintUsuario(Long codigoEmpresa) {
+		return vtSprintDAO.consultarSprintUsuario(codigoEmpresa);
+	}
 }

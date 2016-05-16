@@ -606,5 +606,7 @@ public interface IBusinessDelegatorView {
 			Long codigoUsuario, Long codigoArtefacto) throws Exception;
 	public List<VtArtefactoDTO> obtenerArtefactosAsignadosDTO(VtUsuario vtUsuario) throws Exception;
 	 public List<VtProyectoUsuario> consultarProyectoUsuarioPorUsuario(Long usuarioCodigo)throws Exception;
+	 
+	 public VtSprint consultarSprintUsuario(Long codigoEmpresa);
  
 }

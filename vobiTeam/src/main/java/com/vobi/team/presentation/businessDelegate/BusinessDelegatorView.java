@@ -1130,4 +1130,9 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return vtProyectoLogic.consultarProyectoUsuarioPorUsuario(usuarioCodigo);
 	}
 
+	@Override
+	public VtSprint consultarSprintUsuario(Long codigoEmpresa) {
+		return vtSprintLogic.consultarSprintUsuario(codigoEmpresa);
+	}
+
 }

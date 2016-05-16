@@ -11,7 +11,7 @@
         <many-to-one name="vtEstadoSprint" class="com.vobi.team.modelo.VtEstadoSprint" fetch="select">
             <column name="estspr_codigo" />
         </many-to-one>
-        <many-to-one name="vtPilaProducto" class="com.vobi.team.modelo.VtPilaProducto" fetch="select">
+        <many-to-one name="vtPilaProducto" class="com.vobi.team.modelo.VtPilaProducto" fetch="select" lazy="false">
             <column name="pila_codigo" not-null="true" />
         </many-to-one>
         <property name="nombre" type="java.lang.String">
@@ -47,7 +47,7 @@
         <property name="activo" type="java.lang.String">
             <column name="activo" length="1" not-null="true" />
         </property>
-        <set name="vtArtefactos" table="vt_artefacto" inverse="true" lazy="true" fetch="select">
+        <set name="vtArtefactos" table="vt_artefacto" inverse="true" lazy="false" fetch="select">
             <key>
                 <column name="spri_codigo" />
             </key>

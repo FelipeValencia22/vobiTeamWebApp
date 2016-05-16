@@ -117,7 +117,9 @@ public class VtSprintView implements Serializable {
 	private Panel pnlToogle;
 
 	private boolean showDialog;
-
+	
+	String empresaUsuario;
+	
 	Long pilaCodigo=null;
 
 	@ManagedProperty(value = "#{BusinessDelegatorView}")
@@ -326,15 +328,18 @@ public class VtSprintView implements Serializable {
 
 	public List<SelectItem> getLasEmpresasItems() {
 		try {
+			VtUsuario vtUsuario = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
+			
 			if(lasEmpresasItems==null){
 				List<VtEmpresa> listaEmpresas=businessDelegatorView.getVtEmpresa();
 				lasEmpresasItems=new ArrayList<SelectItem>();
 				for (VtEmpresa vtEmpresa: listaEmpresas) {
-					if(vtEmpresa.getActivo().equalsIgnoreCase("S")){
+					if(vtEmpresa.getActivo().equalsIgnoreCase("S") && vtEmpresa.getEmprCodigo().equals(vtUsuario.getVtEmpresa().getEmprCodigo()) ){
 						lasEmpresasItems.add(new SelectItem(vtEmpresa.getEmprCodigo(), vtEmpresa.getNombre()));
 					}
 				}
 			}
+			somEmpresas.setValue(vtUsuario.getVtEmpresa().getNombre());
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}
@@ -599,8 +604,19 @@ public class VtSprintView implements Serializable {
 		this.btnCrearSprintFiltrado = btnCrearSprintFiltrado;
 	}
 
+	
+	public String getEmpresaUsuario() {
+		return empresaUsuario;
+	}
+
+	public void setEmpresaUsuario(String empresaUsuario) {
+		this.empresaUsuario = empresaUsuario;
+	}
+
 	@PostConstruct
 	public void init() {
+		VtUsuario vtUsuario = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
+		setEmpresaUsuario(vtUsuario.getVtEmpresa().getNombre());
 		List<VtArtefacto> artefactosSource = new ArrayList<VtArtefacto>();
 		List<VtArtefacto> artefactosTarget = new ArrayList<VtArtefacto>();
 		vtArtefacto = new DualListModel<>(artefactosSource, artefactosTarget);

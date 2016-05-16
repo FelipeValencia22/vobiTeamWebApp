@@ -50,4 +50,12 @@ public class VtSprintDAO extends HibernateDaoImpl<VtSprint, Long>
     public static IVtSprintDAO getFromApplicationContext(ApplicationContext ctx) {
         return (IVtSprintDAO) ctx.getBean("VtSprintDAO");
     }
+
+	@Override
+	public VtSprint consultarSprintUsuario(Long codigoEmpresa) {
+		Query query = getSession().getNamedQuery("consultarSprintUsuario");
+		query.setParameter("codigoEmpresa", codigoEmpresa);
+		List<VtSprint> listaSprint=query.list();
+		return (VtSprint) listaSprint;
+	}
 }
