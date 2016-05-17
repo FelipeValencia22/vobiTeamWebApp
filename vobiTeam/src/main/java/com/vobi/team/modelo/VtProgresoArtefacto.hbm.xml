@@ -15,10 +15,10 @@
             <column name="esfuerzo_restante" not-null="true" />
         </property>
         <property name="esfuerzoReal" type="java.lang.Integer">
-            <column name="esfuerzo_real" not-null="true" />
+            <column name="esfuerzo_real" />
         </property>
         <property name="puntos" type="java.lang.Integer">
-            <column name="puntos" not-null="true" />
+            <column name="puntos" />
         </property>
         <property name="tiempoDedicado" type="java.lang.Integer">
             <column name="tiempo_dedicado" not-null="true" />

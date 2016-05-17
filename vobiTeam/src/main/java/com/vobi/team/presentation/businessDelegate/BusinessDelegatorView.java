@@ -1005,6 +1005,11 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	public List<VtArtefactoDTO> getDataVtArtefactoFiltro(Long codigoFiltro) throws Exception {
 		return vtArtefactoLogic.getDataVtArtefactoFiltro(codigoFiltro);
 	}
+	
+	@Override
+	public List<VtArtefactoDTO> getDataVtArtefactoFiltroDesarrollador(Long codigoFiltro, Long codigoUsuario) throws Exception {
+		return vtArtefactoLogic.getDataVtArtefactoFiltroDesarrollador(codigoFiltro, codigoUsuario);
+	}
 
 	@Override
 	public List<VtArtefactoDTO> getDataVtArtefactoActivo(Long codigoFiltro) throws Exception {
@@ -1014,6 +1019,11 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	@Override
 	public List<VtArtefactoDTO> getDataVtArtefactoFiltroI(Long codigoFiltro) throws Exception {
 		return vtArtefactoLogic.getDataVtArtefactoFiltroI(codigoFiltro);
+	}
+	
+	@Override
+	public List<VtArtefactoDTO> getDataVtArtefactoFiltroIDesarrollador(Long codigoFiltro, Long codigoUsuario) throws Exception {
+		return vtArtefactoLogic.getDataVtArtefactoFiltroIDesarrollador(codigoFiltro, codigoUsuario);
 	}
 
 	@Override
