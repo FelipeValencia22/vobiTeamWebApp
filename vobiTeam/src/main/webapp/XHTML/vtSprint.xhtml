@@ -33,19 +33,19 @@
 				<h:panelGrid columns="1">
 
 					<p:selectOneMenu id="somProyectos" style="width:400px"
-						binding="#{vtSprintView.somProyectos}">
+						binding="#{vtSprintViewDesarrollador.somProyectos}">
 						<p:ajax update="somPilaProducto" event="change"
-							listener="#{vtSprintView.filtrarProyecto}" />
+							listener="#{vtSprintViewDesarrollador.filtrarProyecto}" />
 						<f:selectItem itemValue="-1" itemLabel="Proyecto" />
-						<f:selectItems value="#{vtSprintView.losProyectosFiltro}" />
+						<f:selectItems value="#{vtSprintViewDesarrollador.losProyectosFiltro}" />
 					</p:selectOneMenu>
 
 					<p:selectOneMenu id="somPilaProducto" style="width:400px"
-						binding="#{vtSprintView.somPilaProducto}">
+						binding="#{vtSprintViewDesarrollador.somPilaProducto}">
 						<p:ajax update="pnlVtSprint, frm" event="change" 
-							listener="#{vtSprintView.filtrar}" />
+							listener="#{vtSprintViewDesarrollador.filtrar}" />
 						<f:selectItem itemValue="-1" itemLabel="Pila de Producto" />
-						<f:selectItems value="#{vtSprintView.lasPilasDeProductoFiltro}" />
+						<f:selectItems value="#{vtSprintViewDesarrollador.lasPilasDeProductoFiltro}" />
 					</p:selectOneMenu>
 					<br></br>
 
@@ -63,7 +63,7 @@
 
 					<p:panel id="panelDataTableVtSprintA">
 
-						<p:dataTable value="#{vtSprintView.dataFiltro}" var="vtSprint"
+						<p:dataTable value="#{vtSprintViewDesarrollador.dataFiltro}" var="vtSprint"
 							paginator="true" rows="5" emptyMessage="No hay artefactos activos en este momento" reflow="true">
 							<p:column filterBy="#{vtSprint.spriCodigo}"
 								sortBy="#{vtSprint.spriCodigo}">
@@ -125,7 +125,7 @@
 								<div align="center">
 									<p:commandButton id="btnEdit" icon="fa fa-edit"
 										update=":dialogVtSprint"
-										actionListener="#{vtSprintView.modificar}">
+										actionListener="#{vtSprintViewDesarrollador.modificar}">
 										<f:attribute name="selectedVtSprint" value="#{vtSprint}" />
 									</p:commandButton>
 									<p:tooltip id="toolTipFadeM" for="btnEdit" value="Modificar" />
@@ -137,7 +137,7 @@
 								<div align="center">
 									<p:commandButton id="btnEstado" icon="fa fa-retweet"
 										update="@([id$=frm],@([id$=growl]"
-										actionListener="#{vtSprintView.cambiarEstado}">
+										actionListener="#{vtSprintViewDesarrollador.cambiarEstado}">
 										<f:attribute name="selectedVtSprint" value="#{vtSprint}" />
 									</p:commandButton>
 									<p:tooltip id="toolTipFadeC" for="btnEstado"
@@ -148,8 +148,8 @@
 							<p:column headerText="Lista artefactos">
 								<div align="center">
 									<p:commandButton id="btnListadoArtefacto" icon="fa fa-list"
-										action="vtGestionArtefacto.xhtml" update="frm"
-										actionListener="#{vtSprintView.redireccionarAArtefactos}">
+										action="vtArtefacto.xhtml" update="frm"
+										actionListener="#{vtSprintViewDesarrollador.redireccionarAArtefactos}">
 										<f:attribute name="selectedVtSprint" value="#{vtSprint}" />
 									</p:commandButton>
 									<p:tooltip id="toolTipFadeL" for="btnListadoArtefacto"
@@ -166,7 +166,7 @@
 
 					<p:panel id="panelDataTableVtSprintI">
 
-						<p:dataTable value="#{vtSprintView.dataFiltroI}" var="vtSprint"
+						<p:dataTable value="#{vtSprintViewDesarrollador.dataFiltroI}" var="vtSprint"
 							paginator="true" rows="5" emptyMessage="No hay artefactos activos en este momento" reflow="true">
 							<p:column filterBy="#{vtSprint.spriCodigo}"
 								sortBy="#{vtSprint.spriCodigo}">
@@ -223,7 +223,7 @@
 								<div align="center">
 									<p:commandButton id="btnEditI" icon="fa fa-edit"
 										update=":dialogVtSprint"
-										actionListener="#{vtSprintView.modificar}">
+										actionListener="#{vtSprintViewDesarrollador.modificar}">
 										<f:attribute name="selectedVtSprint" value="#{vtSprint}" />
 									</p:commandButton>
 									<p:tooltip id="toolTipFadeMi" for="btnEditI" value="Modificar" />
@@ -234,7 +234,7 @@
 								<div align="center">
 									<p:commandButton id="btnEstadoI" icon="fa fa-retweet"
 										update="@([id$=frm],@([id$=growl]"
-										actionListener="#{vtSprintView.cambiarEstado}">
+										actionListener="#{vtSprintViewDesarrollador.cambiarEstado}">
 										<f:attribute name="selectedVtSprint" value="#{vtSprint}" />
 									</p:commandButton>
 									<p:tooltip id="toolTipFadeCi" for="btnEstadoI"
@@ -246,7 +246,7 @@
 								<div align="center">
 									<p:commandButton id="btnListadoArtefactoI" icon="fa fa-list"
 										action="vtGestionArtefacto.xhtml" update="frm"
-										actionListener="#{vtSprintView.redireccionarAArtefactos}">
+										actionListener="#{vtSprintViewDesarrollador.redireccionarAArtefactos}">
 										<f:attribute name="selectedVtSprint" value="#{vtSprint}" />
 									</p:commandButton>
 									<p:tooltip id="toolTipFadeLi" for="btnListadoArtefactoI"
@@ -264,7 +264,7 @@
 		</h:form>
 
 		<p:dialog id="dialogVtSprint" appendTo="@(body)" draggable="true"
-			closable="false" visible="#{vtSprintView.showDialog}"
+			closable="false" visible="#{vtSprintViewDesarrollador.showDialog}"
 			resizable="false" modal="true" width="500">
 
 			<h:form id="formDialog">
@@ -273,41 +273,41 @@
 
 					<h:outputText id="msgNombreM" value=" Nombre" />
 					<p:inputText id="txtNombre" disabled="true"
-						binding="#{vtSprintView.txtNombre}" style="width:215px" />
+						binding="#{vtSprintViewDesarrollador.txtNombre}" style="width:215px" />
 
 					<h:outputText id="msgObjetivoM" value=" Objetivo" />
 					<p:inputTextarea id="txtObjetivo" disabled="true" rows="10"
-						cols="33" binding="#{vtSprintView.txtObjetivo}" />
+						cols="33" binding="#{vtSprintViewDesarrollador.txtObjetivo}" />
 	
 					<h:outputText id="txtEsfuerzoM" value=" Esfuerzo" />
 					<p:inputText id="txtEsfuerzo" placeholder="Esfuerzo"
-						binding="#{vtSprintView.txtEsfuerzo}" style="width:215px">
+						binding="#{vtSprintViewDesarrollador.txtEsfuerzo}" style="width:215px">
 					</p:inputText>
 
 					<h:outputText id="msgFechaInicioMd" value=" FechaInicio" />
 					<p:calendar showOn="button" navigator="true" locale="en"
-						binding="#{vtSprintView.txtFechaInicioM}">
+						binding="#{vtSprintViewDesarrollador.txtFechaInicioM}">
 						<p:ajax event="dateSelect"
-							listener="#{vtSprintView.listener_txtFechaInicioM}" />
+							listener="#{vtSprintViewDesarrollador.listener_txtFechaInicioM}" />
 					</p:calendar>
 
 					<h:outputText id="msgFechaFinMd" value=" FechaFin" />
 					<p:calendar showOn="button" navigator="true" locale="en"
-						binding="#{vtSprintView.txtFechaFinM}">
+						binding="#{vtSprintViewDesarrollador.txtFechaFinM}">
 						<p:ajax event="dateSelect"
-							listener="#{vtSprintView.listener_txtFechaFinM}" />
+							listener="#{vtSprintViewDesarrollador.listener_txtFechaFinM}" />
 					</p:calendar>
 
 				</h:panelGrid>
 
 				<p:panel id="panelBotones">
 					<div align="center">
-						<p:commandButton id="btnSave" binding="#{vtSprintView.btnGuardar}"
-							value="Guardar" action="#{vtSprintView.action_save()}"
+						<p:commandButton id="btnSave" binding="#{vtSprintViewDesarrollador.btnGuardar}"
+							value="Guardar" action="#{vtSprintViewDesarrollador.action_save()}"
 							update="@([id$=growl], @([id$=Grafica], @([id$=pickList]" />
 
 						<p:commandButton id="btnExit" value="Salir"
-							action="#{vtSprintView.action_closeDialog()}"
+							action="#{vtSprintViewDesarrollador.action_closeDialog()}"
 							update="dialogVtSprint" />
 
 					</div>

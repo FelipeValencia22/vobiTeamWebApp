@@ -14,9 +14,6 @@ import org.primefaces.component.inputtextarea.InputTextarea;
 import org.primefaces.component.panel.Panel;
 import org.primefaces.component.picklist.PickList;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
-import org.primefaces.event.CloseEvent;
-import org.primefaces.event.ToggleEvent;
-import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
 import org.primefaces.model.chart.MeterGaugeChartModel;
 import org.slf4j.Logger;
@@ -32,7 +29,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -49,9 +45,9 @@ import javax.faces.model.SelectItem;
  */
 @ManagedBean
 @ViewScoped
-public class VtSprintView implements Serializable {
+public class VtSprintViewDesarrollador implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private static final Logger log = LoggerFactory.getLogger(VtSprintView.class);
+	private static final Logger log = LoggerFactory.getLogger(VtSprintViewDesarrollador.class);
 
 	private DualListModel<VtArtefacto> vtArtefacto;
 
@@ -125,18 +121,10 @@ public class VtSprintView implements Serializable {
 	@ManagedProperty(value = "#{BusinessDelegatorView}")
 	private IBusinessDelegatorView businessDelegatorView;
 
-	public VtSprintView() {
+	public VtSprintViewDesarrollador() {
 		super();
 	}
 	
-	@PostConstruct
-	public void init() {
-		List<VtArtefacto> artefactosSource = new ArrayList<VtArtefacto>();
-		List<VtArtefacto> artefactosTarget = new ArrayList<VtArtefacto>();
-		vtArtefacto = new DualListModel<>(artefactosSource, artefactosTarget);
-		iniciarMeterGaugeModels();
-	}
-
 	public InputText getTxtNombreCrear() {
 		return txtNombreCrear;
 	}
@@ -669,11 +657,7 @@ public class VtSprintView implements Serializable {
 			dataFiltroI=businessDelegatorView.getDataVtSprintFiltroI(pilaCodigo);
 			limpiar();
 			codigoSprint=vtSprint.getSpriCodigo();
-			//TODO:AQUI
-			pickList.setDisabled(false);
-			actualizarListaUsuarios();
-			createMeterGaugeModels();
-			calcularEsfuerzo();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			log.error(e.getMessage());
@@ -758,7 +742,6 @@ public class VtSprintView implements Serializable {
 			dataFiltro=businessDelegatorView.getDataVtSprintFiltro(pilaCodigo);
 			dataFiltroI=businessDelegatorView.getDataVtSprintFiltroI(pilaCodigo);
 
-			createMeterGaugeModels();
 			FacesUtils.addInfoMessage("El Sprint ha sido modificado con exito");
 
 
@@ -822,13 +805,19 @@ public class VtSprintView implements Serializable {
 		String proyectoS=somProyectos.getValue().toString().trim();
 		if(!proyectoS.equals("-1")){
 			try {
+				VtProyecto vtProyecto=null;
 				lasPilasDeProductoFiltro=null;
+
+
+				Long proyecto=Long.parseLong(proyectoS);
+				vtProyecto=businessDelegatorView.getVtProyecto(proyecto);	
+
 				try{
 					if(lasPilasDeProductoFiltro==null){
 						List<VtPilaProducto> listaPilasDeProducto=businessDelegatorView.getVtPilaProducto();
 						lasPilasDeProductoFiltro= new ArrayList<SelectItem>();
 						for (VtPilaProducto vtPilaProducto:listaPilasDeProducto){
-							if(vtPilaProducto.getActivo().equalsIgnoreCase("S")){
+							if(vtPilaProducto.getActivo().equalsIgnoreCase("S") && vtPilaProducto.getVtProyecto().getProyCodigo().equals(vtProyecto.getProyCodigo())){
 								lasPilasDeProductoFiltro.add(new SelectItem(vtPilaProducto.getPilaCodigo(), vtPilaProducto.getNombre()));
 							}
 
@@ -859,8 +848,6 @@ public class VtSprintView implements Serializable {
 				pilaCodigo=Long.valueOf(pila); 
 				dataFiltro=businessDelegatorView.getDataVtSprintFiltro(pilaCodigo);
 				dataFiltroI=businessDelegatorView.getDataVtSprintFiltroI(pilaCodigo);
-				pnlToogle.setVisible(true);
-				btnCrearS.setDisabled(false);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -956,153 +943,6 @@ public class VtSprintView implements Serializable {
 		}
 
 		return "";
-	}
-
-	public void onClose(CloseEvent event) {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Panel Closed", "Closed panel id:'" + event.getComponent().getId() + "'");
-		FacesContext.getCurrentInstance().addMessage(null, message);
-	}
-
-	public void onToggle(ToggleEvent event) {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, event.getComponent().getId() + " toggled", "Status:" + event.getVisibility().name());
-		FacesContext.getCurrentInstance().addMessage(null, message);
-	}
-
-	public void handleToggle(ToggleEvent event) {
-		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Toggled", "Visibility:" + event.getVisibility());
-		FacesContext.getCurrentInstance().addMessage(null, msg);
-	}
-
-	public void onTransfer(TransferEvent event) throws Exception {
-		try {
-			StringBuilder builder = new StringBuilder();
-			Long idSprint= codigoSprint;
-			VtSprint vtSprint = businessDelegatorView.getVtSprint(idSprint);
-			VtPilaProducto vtPilaProducto = businessDelegatorView.getVtPilaProducto(vtSprint.getVtPilaProducto().getPilaCodigo());
-			String mensaje="";
-			for (Object item : event.getItems()) {
-				VtArtefacto vtArtefacto =(VtArtefacto) item;
-
-				builder.append(((VtArtefacto) item).getTitulo()).append("<br />");
-				if (event.isAdd()) {
-					asignarArtefactoASprint(vtArtefacto, vtSprint, vtPilaProducto);
-					mensaje="Artefacto(s) asignado(s)";
-					calcularEsfuerzo();
-				}
-				if (event.isRemove()) {
-					removerArtefactoDelSprint(vtArtefacto, vtSprint, vtPilaProducto);
-					mensaje="Artefacto(s) retirado(s)";
-					calcularEsfuerzo();
-				}
-			}
-			FacesUtils.addInfoMessage(""+mensaje);
-		} catch (Exception e) {
-			FacesUtils.addErrorMessage("No se pudo realizar la transferencia");
-		}
-
-	}
-
-	public void asignarArtefactoASprint(VtArtefacto vtArtefacto,VtSprint vtSprint, VtPilaProducto vtPilaProducto) {
-		try {
-			VtUsuario vtUsuarioEnSession = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
-			vtArtefacto = (VtArtefacto) businessDelegatorView
-					.consultarArtefactosAsignadosASprintYPila(vtArtefacto.getArteCodigo(), vtPilaProducto.getPilaCodigo());
-			if (vtArtefacto != null) {
-				vtArtefacto.setVtSprint(vtSprint);
-				vtArtefacto.setUsuModificador(vtUsuarioEnSession.getUsuaCodigo());
-				vtArtefacto.setFechaModificacion(new Date());
-				vtArtefacto.setActivo("S");
-				businessDelegatorView.updateVtArtefacto(vtArtefacto);
-
-			}
-		} catch (Exception e) {
-			log.error(e.getMessage());
-		}
-	}
-
-	public void removerArtefactoDelSprint(VtArtefacto vtArtefacto,VtSprint vtSprint, VtPilaProducto vtPilaProducto){
-		try {
-			VtUsuario vtUsuarioEnSession = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
-			vtArtefacto = (VtArtefacto) businessDelegatorView
-					.consultarArtefactosAsignadosASprintYPila(vtArtefacto.getArteCodigo(), vtPilaProducto.getPilaCodigo());
-			vtArtefacto.setUsuModificador(vtUsuarioEnSession.getUsuaCodigo());
-			vtArtefacto.setFechaModificacion(new Date());
-			vtArtefacto.setActivo("N");
-			vtArtefacto.setVtSprint(null);
-			businessDelegatorView.updateVtArtefacto(vtArtefacto);
-		} catch (Exception e) {
-			log.error(e.getMessage());
-		}
-	}
-
-	@SuppressWarnings("serial")
-	private MeterGaugeChartModel initMeterGaugeModel() {
-		List<Number> intervals = new ArrayList<Number>(){
-			{
-				if(vtSprint==null){
-					add(100);
-					add(200);
-					add(300);
-				}else{
-					int valores=vtSprint.getCapacidadEstimada();
-					add(valores/2);
-					add(valores);
-					add(valores*2);
-				}
-			}};
-
-			return new MeterGaugeChartModel(140, intervals);
-	}
-
-	private void createMeterGaugeModels() {
-		try {
-			meterGaugeModel = initMeterGaugeModel();
-			meterGaugeModel.setTitle("Capacidad Sprint");
-			meterGaugeModel.setSeriesColors("66cc66,E7E658,cc6666");
-			meterGaugeModel.setGaugeLabel("Esfuerzo");
-			meterGaugeModel.setGaugeLabelPosition("bottom");
-			meterGaugeModel.setShowTickLabels(true);
-			meterGaugeModel.setLabelHeightAdjust(110);
-			meterGaugeModel.setIntervalOuterRadius(150);
-			meterGaugeModel.setValue(0);
-			calcularEsfuerzo();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	private void iniciarMeterGaugeModels() {
-		try {
-			meterGaugeModel = initMeterGaugeModel();
-			meterGaugeModel.setTitle("Capacidad Sprint");
-			meterGaugeModel.setSeriesColors("66cc66,E7E658,cc6666");
-			meterGaugeModel.setShowTickLabels(true);
-			meterGaugeModel.setLabelHeightAdjust(110);
-			meterGaugeModel.setIntervalOuterRadius(150);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void calcularEsfuerzo(){
-		double esfuerzo=0;
-		try {
-			List<VtArtefacto> listaArtefactos=businessDelegatorView.consultarTodosLosArtefactosAsignados();
-			for(VtArtefacto vtArtefacto: listaArtefactos){
-				if(vtArtefacto.getVtSprint().getSpriCodigo().equals(vtSprint.getSpriCodigo())){
-					log.info("Artefacto: "+vtArtefacto.getTitulo());
-					esfuerzo=esfuerzo+vtArtefacto.getEsfuerzoEstimado();
-				}
-			}
-			meterGaugeModel.setValue(esfuerzo);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	public void txtEsfuerzoListener(){
-
 	}
 
 	public SelectOneMenu getSomEstadosSprint() {

@@ -133,6 +133,28 @@ public class VtArtefactoViewDesarrollador implements Serializable {
 
 	@ManagedProperty(value = "#{BusinessDelegatorView}")
 	private IBusinessDelegatorView businessDelegatorView;
+	
+	@PostConstruct
+	public void vtArtefactoViewPostConstructor() {
+		try {
+
+			VtSprint vtSprint = (VtSprint) FacesUtils.getfromSession("vtSprint");
+			
+			if (vtSprint != null) {
+				dataFiltro = businessDelegatorView.getDataVtArtefactoFiltro(vtSprint.getSpriCodigo().longValue());
+				dataFiltroI = businessDelegatorView.getDataVtArtefactoFiltroI(vtSprint.getSpriCodigo().longValue());
+				FacesUtils.putinSession("vtSprint", null);
+			} else {
+				dataFiltro = null;
+				dataFiltroI = null;
+			}
+			vtSprint = null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error(e.getMessage());
+		}
+
+	}
 
 	public String crearArtefacto() {
 		String esfuerzoEstimado, esfuerzoRestante, puntos;
