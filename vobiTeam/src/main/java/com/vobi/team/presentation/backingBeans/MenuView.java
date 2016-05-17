@@ -208,7 +208,7 @@ public class MenuView {
 			sprintItem.setIcon("fa fa-calendar");
 			sprintItem.setId("sm_VtSprint");
 			model.addElement(sprintItem);
-
+			
 			DefaultMenuItem artefactosItem = new DefaultMenuItem("Artefacto");
 			artefactosItem.setOutcome("/XHTML/vtArtefacto.xhtml");
 			artefactosItem.setIcon("fa fa-files-o");
@@ -217,6 +217,7 @@ public class MenuView {
 			
 			
 			dataFiltro=((businessDelegatorView.obtenerArtefactosAsignadosDTO(vtUsuarioEnSession)));
+			numeroArtefactos = dataFiltro.size();
 			dataFiltroProyecto = businessDelegatorView.consultarProyectoUsuarioPorUsuario(vtUsuarioEnSession.getUsuaCodigo());
 		} catch (Exception e) {
 			log.error(e.getMessage());
@@ -235,6 +236,24 @@ public class MenuView {
 		dashboardItem.setId("sm_dashboard");
 		dashboardItem.setContainerStyleClass("layout-menubar-active");
 		model.addElement(dashboardItem);
+		
+		DefaultMenuItem proyectoItem = new DefaultMenuItem("Proyectos");
+		proyectoItem.setOutcome("/XHTML/vtProyecto.xhtml");
+		proyectoItem.setIcon("fa fa-folder-open");
+		proyectoItem.setId("sm_VtProyecto");
+		model.addElement(proyectoItem);
+		
+		DefaultMenuItem artefactosItem = new DefaultMenuItem("Artefacto");
+		artefactosItem.setOutcome("/XHTML/vtArtefacto.xhtml");
+		artefactosItem.setIcon("fa fa-files-o");
+		artefactosItem.setId("sm_VtArtefacto");
+		model.addElement(artefactosItem);
+		
+		DefaultMenuItem reportesItem = new DefaultMenuItem("Reportes-proyecto");
+		reportesItem.setOutcome("/XHTML/vtReportesPorProyecto.xhtml");
+		reportesItem.setIcon("fa fa-files-o");
+		reportesItem.setId("sm_VtReporteProyecto");
+		model.addElement(reportesItem);
 
 	}
 

@@ -58,7 +58,7 @@
 					<br></br>
 
 					<p:panel id="panelVtSprint" header="Crear Sprint" toggleable="true"
-						binding="#{vtSprintView.pnlToogle}" toggleSpeed="500" 
+						binding="#{vtSprintView.pnlToogle}" toggleSpeed="500"
 						closeSpeed="500" collapsed="true" widgetVar="panel"
 						style="width:1000px">
 
@@ -75,7 +75,12 @@
 								binding="#{vtSprintView.txtEsfuerzoCrear}" style="width:415px">
 							</p:inputText>
 
-						
+
+							<p:selectOneMenu id="somEstadosSprints" style="width:400px"
+								binding="#{vtSprintView.somEstadosSprint}">
+								<f:selectItem itemValue="-1" itemLabel="Estado del sprint" />
+								<f:selectItems value="#{vtSprintView.losEstadosSprintsItems}" />
+							</p:selectOneMenu>
 
 							<h:outputText id="msgFechaInicioC" value=" Fecha inicio" />
 							<p:calendar showOn="button" navigator="true" locale="en"
@@ -90,8 +95,8 @@
 								<p:ajax event="dateSelect"
 									listener="#{vtSprintView.listener_txtFechaFin}" />
 							</p:calendar>
-					
-							
+
+
 
 						</h:panelGrid>
 

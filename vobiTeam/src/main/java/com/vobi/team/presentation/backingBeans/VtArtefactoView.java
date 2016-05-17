@@ -690,11 +690,8 @@ public class VtArtefactoView implements Serializable {
 
 			businessDelegatorView.updateVtArtefacto(entity);
 
-			String sprint = somSprints.getValue().toString().trim();
-			Long codigoSprint = Long.valueOf(sprint);
-			VtSprint vtSprint = businessDelegatorView.getVtSprint(codigoSprint);
-			actualizarTiempos(entity, vtSprint);
-			entity.setVtSprint(vtSprint);
+			Long sprintCodigo = Long.valueOf(entity.getVtSprint().getSpriCodigo());
+			VtSprint vtSprint = businessDelegatorView.getVtSprint(sprintCodigo);
 			FacesUtils.addInfoMessage("El Artefacto se ha sido modificado con exito");
 			dataFiltro = businessDelegatorView.getDataVtArtefactoFiltro(vtSprint.getSpriCodigo());
 			dataFiltroI = businessDelegatorView.getDataVtArtefactoFiltroI((vtSprint.getSpriCodigo()));
