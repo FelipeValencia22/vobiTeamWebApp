@@ -231,11 +231,8 @@ public class VtProyectoUsuariosView implements Serializable {
 		this.losProyectosItems = losProyectosItems;
 	}
 
-	public void localeChanged(ValueChangeEvent e) throws Exception {
-		setProyectoSeleccionado(e.getNewValue().toString());
+	public void localeChanged() throws Exception {
 		actualizarListaUsuarios();
-		setShowDialog(true);
-
 	}
 
 	public boolean isShowDialog() {

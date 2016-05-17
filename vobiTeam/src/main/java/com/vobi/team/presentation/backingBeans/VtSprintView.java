@@ -128,6 +128,14 @@ public class VtSprintView implements Serializable {
 	public VtSprintView() {
 		super();
 	}
+	
+	@PostConstruct
+	public void init() {
+		List<VtArtefacto> artefactosSource = new ArrayList<VtArtefacto>();
+		List<VtArtefacto> artefactosTarget = new ArrayList<VtArtefacto>();
+		vtArtefacto = new DualListModel<>(artefactosSource, artefactosTarget);
+		iniciarMeterGaugeModels();
+	}
 
 	public InputText getTxtNombreCrear() {
 		return txtNombreCrear;
