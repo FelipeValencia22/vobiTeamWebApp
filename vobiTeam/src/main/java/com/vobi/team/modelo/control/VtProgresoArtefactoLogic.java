@@ -101,10 +101,6 @@ public class VtProgresoArtefactoLogic implements IVtProgresoArtefactoLogic {
                     "descripcion");
             }
 
-            if (entity.getEsfuerzoReal() == null) {
-                throw new ZMessManager().new EmptyFieldException("esfuerzoReal");
-            }
-
             if (entity.getEsfuerzoRestante() == null) {
                 throw new ZMessManager().new EmptyFieldException(
                     "esfuerzoRestante");
@@ -115,13 +111,6 @@ public class VtProgresoArtefactoLogic implements IVtProgresoArtefactoLogic {
                     "fechaCreacion");
             }
 
-            if (entity.getProartCodigo() == null) {
-                throw new ZMessManager().new EmptyFieldException("proartCodigo");
-            }
-
-            if (entity.getPuntos() == null) {
-                throw new ZMessManager().new EmptyFieldException("puntos");
-            }
 
             if (entity.getTiempoDedicado() == null) {
                 throw new ZMessManager().new EmptyFieldException(
@@ -135,10 +124,6 @@ public class VtProgresoArtefactoLogic implements IVtProgresoArtefactoLogic {
             if (entity.getVtArtefacto().getArteCodigo() == null) {
                 throw new ZMessManager().new EmptyFieldException(
                     "arteCodigo_VtArtefacto");
-            }
-
-            if (getVtProgresoArtefacto(entity.getProartCodigo()) != null) {
-                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
             }
 
             vtProgresoArtefactoDAO.save(entity);
