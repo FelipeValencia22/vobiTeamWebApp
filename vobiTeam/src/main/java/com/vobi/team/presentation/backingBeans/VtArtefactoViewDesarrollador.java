@@ -37,6 +37,7 @@ import com.vobi.team.modelo.VtEstado;
 import com.vobi.team.modelo.VtHistoriaArtefacto;
 import com.vobi.team.modelo.VtPilaProducto;
 import com.vobi.team.modelo.VtPrioridad;
+import com.vobi.team.modelo.VtProgresoArtefacto;
 import com.vobi.team.modelo.VtProyecto;
 import com.vobi.team.modelo.VtSprint;
 import com.vobi.team.modelo.VtTipoArtefacto;
@@ -44,6 +45,7 @@ import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.modelo.dto.VtArchivoDTO;
 import com.vobi.team.modelo.dto.VtArtefactoDTO;
 import com.vobi.team.modelo.dto.VtHistoriaArtefactoDTO;
+import com.vobi.team.modelo.dto.VtProgresoArtefactoDTO;
 import com.vobi.team.modelo.dto.VtSprintDTO;
 import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
 import com.vobi.team.utilities.FacesUtils;
@@ -56,6 +58,7 @@ public class VtArtefactoViewDesarrollador implements Serializable {
 
 	private SelectOneMenu somActivo;
 	private SelectOneMenu somEstados;
+	private SelectOneMenu somEstadosP;
 	private SelectOneMenu somPrioridades;
 	private SelectOneMenu somTiposDeArtefactos;
 	private SelectOneMenu somSprintsCrear;
@@ -71,12 +74,14 @@ public class VtArtefactoViewDesarrollador implements Serializable {
 	private SelectOneMenu somActivoCambio;
 	private SelectOneMenu somEstadosCambio;
 	private SelectOneMenu somPrioridadesCambio;
+	
 	private List<SelectItem> esUsuarioArtefactoItems;
 	private List<SelectItem> esPilaProductoItems;
 	private List<SelectItem> esActivoItems;
 	private List<SelectItem> esPrioridadItems;
 	private List<SelectItem> esTipoArtefactoItems;
 	private List<SelectItem> esEstadoItems;
+	private List<SelectItem> esEstadoItemsP;
 	private List<SelectItem> esSprintItems;
 	private List<SelectItem> lasEmpresasItems;
 	private List<SelectItem> losProyectosFiltro;
@@ -93,10 +98,12 @@ public class VtArtefactoViewDesarrollador implements Serializable {
 	private List<VtArchivoDTO> dataFiltroArchivoInactivo;
 	private List<VtHistoriaArtefactoDTO> dataFiltroHistoriaArtefacto;
 	private VtArtefactoDTO selectedVtArtefacto;
+	private VtProgresoArtefactoDTO selectedVtProgreso;
 	private VtHistoriaArtefactoDTO selectedVtHistoriaArtefacto;
 
 	private InputTextarea txtdescripcion;
 	private InputTextarea txtdescripcionCambio;
+	
 	private InputText txtnombre;
 	private InputText txtnombreCambio;
 	private InputText txtEsfuerzoEstimado;
@@ -109,27 +116,50 @@ public class VtArtefactoViewDesarrollador implements Serializable {
 	private InputText txtOrigenCambio;
 	private InputText txtPuntos;
 	private InputText txtPuntosCambio;
+	private InputText txtEsfuerzoEstimadoP;
+	private InputText txtEsfuerzoRestanteP;
+	private InputText txtEsfuerzoRealP;
+	private InputText txtTiempoDedicadoP;
+	private InputTextarea txtDescripcionP;
+	
 	private Calendar txtFechaFin;
 	private Calendar txtFechaInicio;
+	
 	private CommandButton btnCrearS;
 	private CommandButton btnCrear;
 	private CommandButton btnLimpiarS;
+	private CommandButton btnCrearP;
+	private CommandButton btnLimpiarP;
 	private CommandButton btnGuardar;
 	private CommandButton btnDescargar;
-	private Long spriCodigo = null;
 	private CommandButton btnLimpiar;
 	private CommandButton btnCrearArtefactoFiltrado;
 	private CommandButton btnFiltrar;
+	
+	private Long spriCodigo = null;
+	
 	private VtArtefacto entity;
+	
 	private VtArchivo archivoEntity;
+	
 	private VtArtefacto artefactoSubirArchivo;
+	
 	private boolean showDialog;
 	private boolean showDialogArchivos;
 	private boolean showDialogHistorial;
 	private boolean showDialogSubirArchivo;
+	private boolean showDialogProgreso;
 	private boolean restablecioVersion = false;
 
 	VtUsuario vtUsuario= null;
+
+	public VtProgresoArtefactoDTO getSelectedVtProgreso() {
+		return selectedVtProgreso;
+	}
+
+	public void setSelectedVtProgreso(VtProgresoArtefactoDTO selectedVtProgreso) {
+		this.selectedVtProgreso = selectedVtProgreso;
+	}
 
 	@ManagedProperty(value = "#{BusinessDelegatorView}")
 	private IBusinessDelegatorView businessDelegatorView;
@@ -141,8 +171,11 @@ public class VtArtefactoViewDesarrollador implements Serializable {
 			VtSprint vtSprint = (VtSprint) FacesUtils.getfromSession("vtSprint");
 			
 			if (vtSprint != null) {
-				dataFiltro = businessDelegatorView.getDataVtArtefactoFiltro(vtSprint.getSpriCodigo().longValue());
-				dataFiltroI = businessDelegatorView.getDataVtArtefactoFiltroI(vtSprint.getSpriCodigo().longValue());
+				
+				vtUsuario = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
+				
+				dataFiltro = businessDelegatorView.getDataVtArtefactoFiltroDesarrollador(vtSprint.getSpriCodigo().longValue(),vtUsuario.getUsuaCodigo());
+				dataFiltroI = businessDelegatorView.getDataVtArtefactoFiltroIDesarrollador(vtSprint.getSpriCodigo().longValue(),vtUsuario.getUsuaCodigo());
 				FacesUtils.putinSession("vtSprint", null);
 			} else {
 				dataFiltro = null;
@@ -154,6 +187,70 @@ public class VtArtefactoViewDesarrollador implements Serializable {
 			log.error(e.getMessage());
 		}
 
+	}
+	
+	public InputText getTxtEsfuerzoEstimadoP() {
+		return txtEsfuerzoEstimadoP;
+	}
+
+	public void setTxtEsfuerzoEstimadoP(InputText txtEsfuerzoEstimadoP) {
+		this.txtEsfuerzoEstimadoP = txtEsfuerzoEstimadoP;
+	}
+
+	public InputText getTxtEsfuerzoRestanteP() {
+		return txtEsfuerzoRestanteP;
+	}
+
+	public boolean isShowDialogProgreso() {
+		return showDialogProgreso;
+	}
+
+	public void setShowDialogProgreso(boolean showDialogProgreso) {
+		this.showDialogProgreso = showDialogProgreso;
+	}
+
+	public void setTxtEsfuerzoRestanteP(InputText txtEsfuerzoRestanteP) {
+		this.txtEsfuerzoRestanteP = txtEsfuerzoRestanteP;
+	}
+
+	public InputText getTxtEsfuerzoRealP() {
+		return txtEsfuerzoRealP;
+	}
+
+	public void setTxtEsfuerzoRealP(InputText txtEsfuerzoRealP) {
+		this.txtEsfuerzoRealP = txtEsfuerzoRealP;
+	}
+
+	public InputText getTxtTiempoDedicadoP() {
+		return txtTiempoDedicadoP;
+	}
+
+	public void setTxtTiempoDedicadoP(InputText txtTiempoDedicadoP) {
+		this.txtTiempoDedicadoP = txtTiempoDedicadoP;
+	}
+
+	public InputTextarea getTxtDescripcionP() {
+		return txtDescripcionP;
+	}
+
+	public void setTxtDescripcionP(InputTextarea txtDescripcionP) {
+		this.txtDescripcionP = txtDescripcionP;
+	}
+
+	public CommandButton getBtnCrearP() {
+		return btnCrearP;
+	}
+
+	public void setBtnCrearP(CommandButton btnCrearP) {
+		this.btnCrearP = btnCrearP;
+	}
+
+	public CommandButton getBtnLimpiarP() {
+		return btnLimpiarP;
+	}
+
+	public void setBtnLimpiarP(CommandButton btnLimpiarP) {
+		this.btnLimpiarP = btnLimpiarP;
 	}
 
 	public String crearArtefacto() {
@@ -358,9 +455,9 @@ public class VtArtefactoViewDesarrollador implements Serializable {
 			businessDelegatorView.saveVtHistoriaArtefacto(vtHistoriaArtefacto);
 
 			dataFiltro = businessDelegatorView
-					.getDataVtArtefactoFiltro(vtArtefacto.getVtSprint().getSpriCodigo().longValue());
+					.getDataVtArtefactoFiltroDesarrollador(vtArtefacto.getVtSprint().getSpriCodigo().longValue(),vtUsuario.getUsuaCodigo());
 			dataFiltroI = businessDelegatorView
-					.getDataVtArtefactoFiltroI(vtArtefacto.getVtSprint().getSpriCodigo().longValue());
+					.getDataVtArtefactoFiltroIDesarrollador(vtArtefacto.getVtSprint().getSpriCodigo().longValue(),vtUsuario.getUsuaCodigo());
 			FacesUtils.addInfoMessage("Se ha restablecido el artefacto a la versión elegida con éxito");
 
 			restablecioVersion = true;
@@ -390,8 +487,11 @@ public class VtArtefactoViewDesarrollador implements Serializable {
 			String sprint = somSprints.getValue().toString().trim();
 			spriCodigo = Long.valueOf(sprint);
 			VtSprint vtSprint = businessDelegatorView.getVtSprint(spriCodigo);
-			dataFiltro = businessDelegatorView.getDataVtArtefactoFiltro(vtSprint.getSpriCodigo().longValue());
-			dataFiltroI = businessDelegatorView.getDataVtArtefactoFiltroI(vtSprint.getSpriCodigo().longValue());
+			
+			vtUsuario = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
+			
+			dataFiltro = businessDelegatorView.getDataVtArtefactoFiltroDesarrollador(vtSprint.getSpriCodigo().longValue(),vtUsuario.getUsuaCodigo());
+			dataFiltroI = businessDelegatorView.getDataVtArtefactoFiltroIDesarrollador(vtSprint.getSpriCodigo().longValue(),vtUsuario.getUsuaCodigo());
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}
@@ -459,8 +559,19 @@ public class VtArtefactoViewDesarrollador implements Serializable {
 
 	public String cerrarDialogHistoriaArtefacto() {
 		setShowDialogHistorial(false);
-		restablecioVersion = false;
-		;
+		restablecioVersion = false;		
+		return "";
+	}
+	
+	public String cerrarDialogProgreso(){
+		setShowDialogProgreso(false);
+		return "";
+	}
+	
+	public String limpiarP(){
+		txtTiempoDedicadoP.resetValue();
+		txtDescripcionP.resetValue();
+		somEstadosP.resetValue();
 		return "";
 	}
 
@@ -490,6 +601,62 @@ public class VtArtefactoViewDesarrollador implements Serializable {
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}
+		return "";
+	}
+	
+	public String progresoArtefacto(ActionEvent evt) {
+		setShowDialogProgreso(true);
+		try {
+			selectedVtArtefacto = null;
+			selectedVtArtefacto = (VtArtefactoDTO) evt.getComponent().getAttributes().get("selectedVtArtefacto");
+			txtEsfuerzoEstimadoP.setValue(selectedVtArtefacto.getEsfuerzoEstimado());
+			txtEsfuerzoRestanteP.setValue(selectedVtArtefacto.getEsfuerzoRestante());
+			txtEsfuerzoRealP.setValue(selectedVtArtefacto.getEsfuerzoReal());
+			somEstadosP.setValue(selectedVtArtefacto.getEstado_Nombre());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error(e.getMessage());
+		}
+		return "";
+	}
+	
+	public String crearProgeso(){
+		vtUsuario = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
+		
+		VtProgresoArtefacto vtProgresoArtefacto= new VtProgresoArtefacto();
+		VtArtefacto vtArtefacto;
+		
+		try {
+			
+		vtArtefacto = businessDelegatorView.getVtArtefacto(selectedVtArtefacto.getArteCodigo());		
+		vtProgresoArtefacto.setVtArtefacto(vtArtefacto);
+		vtProgresoArtefacto.setActivo("S");
+		vtProgresoArtefacto.setDescripcion(txtDescripcionP.getValue().toString().trim());
+		Date fechaCreacion= new Date();
+		vtProgresoArtefacto.setFechaCreacion(fechaCreacion);
+		vtProgresoArtefacto.setPuntos(selectedVtArtefacto.getPuntos());
+		vtProgresoArtefacto.setUsuCreador(vtUsuario.getUsuaCodigo());
+		vtProgresoArtefacto.setTiempoDedicado(Integer.parseInt(txtTiempoDedicadoP.getValue().toString().trim()));
+		vtProgresoArtefacto.setEsfuerzoReal(0);
+		
+		int dedicado=Integer.parseInt(txtTiempoDedicadoP.getValue().toString().trim());
+		int esfuerzoRestante=selectedVtArtefacto.getEsfuerzoRestante();
+		
+		int esfuerzo=esfuerzoRestante-dedicado;
+		
+		vtProgresoArtefacto.setEsfuerzoRestante(esfuerzo);		
+		
+		businessDelegatorView.saveVtProgresoArtefacto(vtProgresoArtefacto);
+		FacesContext.getCurrentInstance().addMessage("", new FacesMessage("Se registro el progreso con exito"));
+		setShowDialogProgreso(false);
+		
+		
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			e.printStackTrace();
+		}
+		
 		return "";
 	}
 
@@ -697,8 +864,9 @@ public class VtArtefactoViewDesarrollador implements Serializable {
 			actualizarTiempos(entity, vtSprint);
 			entity.setVtSprint(vtSprint);
 			FacesUtils.addInfoMessage("El Artefacto se ha sido modificado con exito");
-			dataFiltro = businessDelegatorView.getDataVtArtefactoFiltro(vtSprint.getSpriCodigo());
-			dataFiltroI = businessDelegatorView.getDataVtArtefactoFiltroI((vtSprint.getSpriCodigo()));
+			
+			dataFiltro = businessDelegatorView.getDataVtArtefactoFiltroDesarrollador(vtSprint.getSpriCodigo(),vtUsuarioEnSession.getUsuaCodigo());
+			dataFiltroI = businessDelegatorView.getDataVtArtefactoFiltroIDesarrollador(vtSprint.getSpriCodigo().longValue(), vtUsuarioEnSession.getUsuaCodigo());
 			vtHistoriaArtefacto.setActivo(entity.getActivo());
 			vtHistoriaArtefacto.setEstaCodigo(entity.getVtEstado().getEstaCodigo());
 			vtHistoriaArtefacto.setTparCodigo(entity.getVtTipoArtefacto().getTparCodigo());
@@ -843,8 +1011,8 @@ public class VtArtefactoViewDesarrollador implements Serializable {
 			entity.setUsuModificador(vtUsuarioEnSession.getUsuaCodigo());
 
 			businessDelegatorView.updateVtArtefacto(entity);
-			dataFiltro = businessDelegatorView.getDataVtArtefactoFiltro(vtSprint.getSpriCodigo());
-			dataFiltroI = businessDelegatorView.getDataVtArtefactoFiltroI(vtSprint.getSpriCodigo());
+			dataFiltro = businessDelegatorView.getDataVtArtefactoFiltroDesarrollador(vtSprint.getSpriCodigo(),vtUsuario.getUsuaCodigo());
+			dataFiltroI = businessDelegatorView.getDataVtArtefactoFiltroIDesarrollador(vtSprint.getSpriCodigo(),vtUsuario.getUsuaCodigo());
 			vtHistoriaArtefacto.setActivo(entity.getActivo());
 			vtHistoriaArtefacto.setEstaCodigo(entity.getVtEstado().getEstaCodigo());
 			vtHistoriaArtefacto.setTparCodigo(entity.getVtTipoArtefacto().getTparCodigo());
@@ -1320,6 +1488,36 @@ public class VtArtefactoViewDesarrollador implements Serializable {
 
 	public void setEsTipoArtefactoItems(List<SelectItem> esTipoArtefactoItems) {
 		this.esTipoArtefactoItems = esTipoArtefactoItems;
+	}
+
+	public SelectOneMenu getSomEstadosP() {
+		return somEstadosP;
+	}
+
+	public void setSomEstadosP(SelectOneMenu somEstadosP) {
+		this.somEstadosP = somEstadosP;
+	}
+
+	public List<SelectItem> getEsEstadoItemsP() {
+		
+		try {
+			if (esEstadoItemsP == null) {
+				List<VtEstado> listaTiposEstado = businessDelegatorView.getVtEstado();
+				esEstadoItemsP = new ArrayList<SelectItem>();
+				for (VtEstado vtEstado : listaTiposEstado) {
+					esEstadoItemsP.add(new SelectItem(vtEstado.getEstaCodigo(), vtEstado.getNombre()));
+				}
+			}
+
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+		
+		return esEstadoItemsP;
+	}
+
+	public void setEsEstadoItemsP(List<SelectItem> esEstadoItemsP) {
+		this.esEstadoItemsP = esEstadoItemsP;
 	}
 
 	public List<SelectItem> getEsEstadoItems() {
