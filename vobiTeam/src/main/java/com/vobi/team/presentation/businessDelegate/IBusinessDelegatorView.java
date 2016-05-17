@@ -610,5 +610,7 @@ public interface IBusinessDelegatorView {
 	public VtSprint consultarSprintUsuario(Long codigoEmpresa);
 
 	public List<VtProyectoUsuario> consultarProyectoUsuario(Long codigoUsuario);
+	
+	public VtUsuarioRol consultarRolUsuario(Long codigoUsuario) throws Exception;
 
 }

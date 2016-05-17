@@ -5,9 +5,10 @@ import com.vobi.team.modelo.VtUsuarioRol;
 
 
 /**
-* Interface for   VtUsuarioRolDAO.
-*
-*/
+ * Interface for   VtUsuarioRolDAO.
+ *
+ */
 public interface IVtUsuarioRolDAO extends Dao<VtUsuarioRol, Long> {
-public VtUsuarioRol consultarRolUsuarioPorUsuarioYPorRol(Long usuarioId, Long rolId);
+	public VtUsuarioRol consultarRolUsuarioPorUsuarioYPorRol(Long usuarioId, Long rolId);
+	
 }

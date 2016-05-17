@@ -1140,4 +1140,9 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return vtProyectoUsuarioLogic.consultarProyectoUsuario(codigoUsuario);
 	}
 
+	@Override
+	public VtUsuarioRol consultarRolUsuario(Long codigoUsuario) throws Exception {
+		return vtUsuarioRolLogic.consultarRolUsuario(codigoUsuario);
+	}
+
 }

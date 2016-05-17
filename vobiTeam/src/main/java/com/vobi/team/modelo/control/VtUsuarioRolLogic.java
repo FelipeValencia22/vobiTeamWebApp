@@ -480,4 +480,10 @@ public class VtUsuarioRolLogic implements IVtUsuarioRolLogic {
 	public List<VtUsuarioRol> consultarRolUsuarioPorUsuario(Long usuarioId) throws Exception {		
 		return vtUsuarioRolDAO.consultarRolUsuarioPorUsuario(usuarioId);		
 	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public VtUsuarioRol consultarRolUsuario(Long codigoUsuario) throws Exception {		
+		return vtUsuarioRolDAO.consultarRolUsuario(codigoUsuario);		
+	}
 }

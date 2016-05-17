@@ -1,7 +1,12 @@
 package com.vobi.team.presentation.backingBeans;
 
+import com.vobi.team.modelo.VtUsuario;
+import com.vobi.team.modelo.VtUsuarioRol;
+import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
 import com.vobi.team.utilities.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,8 +24,11 @@ import javax.faces.bean.ViewScoped;
 public class LoginView {
     private String userId;
     private String password;
+    
     @ManagedProperty(value = "#{authenticationManager}")
     private AuthenticationManager authenticationManager = null;
+    	    
+	private static final Logger log = LoggerFactory.getLogger(VtArtefactoView.class);
 
     public AuthenticationManager getAuthenticationManager() {
         return authenticationManager;
@@ -62,7 +70,8 @@ public class LoginView {
 
             return "/login.xhtml";
         }
-
+              
         return "/XHTML/dashboard.xhtml";
+        
     }
 }

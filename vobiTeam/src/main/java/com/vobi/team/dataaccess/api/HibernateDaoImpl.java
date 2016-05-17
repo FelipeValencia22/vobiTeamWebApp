@@ -658,8 +658,6 @@ public class HibernateDaoImpl<T, PK extends Serializable> implements Dao<T, PK> 
 	
 	@Override
 	public VtArtefacto consultarArtefactosAsignadosASprintYPila(Long artecodigo,Long codigoPila) {	
-		
-		
 		Query query = getSession().getNamedQuery("artefactosPorPila");
 		query.setParameter("artecodigo", artecodigo);
 		query.setParameter("codigoPila", codigoPila);
@@ -696,5 +694,14 @@ public class HibernateDaoImpl<T, PK extends Serializable> implements Dao<T, PK> 
 		return (List<VtProyectoUsuario>) sessionFactory.getCurrentSession()
 				.getNamedQuery("consultarProyectoUsuario").setLong("codigoUsuario", codigoUsuario).list();
 	}
+	
+	@Override
+	public VtUsuarioRol consultarRolUsuario(Long codigoUsuario) {	
+		Query query = getSession().getNamedQuery("consultarRolUsuario");
+		query.setParameter("codigoUsuario", codigoUsuario);
+		VtUsuarioRol vtUsuarioRol = (VtUsuarioRol) query.uniqueResult();
+		return vtUsuarioRol;
+	}
+
 
 }

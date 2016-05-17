@@ -184,7 +184,10 @@ public class VtArtefactoView implements Serializable {
 			Long estadoArtefacto = Long.parseLong(estados);
 			VtEstado vtEstado = businessDelegatorView.getVtEstado(estadoArtefacto);
 			entity.setVtEstado(vtEstado);
-			entity.setVtSprint(null);
+			
+			Long idSprint=Long.parseLong(somSprints.getValue().toString().trim());
+			VtSprint vtSprint=businessDelegatorView.getVtSprint(idSprint);
+			entity.setVtSprint(vtSprint);
 
 			String tipoPri = somPrioridades.getValue().toString().trim();
 			Long tipoPrioridad = Long.parseLong(tipoPri);
