@@ -1,8 +1,4 @@
 package com.vobi.team.presentation.backingBeans;
-
-import com.vobi.team.modelo.VtUsuario;
-import com.vobi.team.modelo.VtUsuarioRol;
-import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
 import com.vobi.team.utilities.*;
 
 import org.slf4j.Logger;

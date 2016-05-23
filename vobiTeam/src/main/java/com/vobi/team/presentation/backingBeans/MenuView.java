@@ -244,7 +244,7 @@ public class MenuView {
 		model.addElement(proyectoItem);
 		
 		DefaultMenuItem artefactosItem = new DefaultMenuItem("Artefacto");
-		artefactosItem.setOutcome("/XHTML/vtArtefacto.xhtml");
+		artefactosItem.setOutcome("/XHTML/vtArtefactoCliente.xhtml");
 		artefactosItem.setIcon("fa fa-files-o");
 		artefactosItem.setId("sm_VtArtefacto");
 		model.addElement(artefactosItem);
