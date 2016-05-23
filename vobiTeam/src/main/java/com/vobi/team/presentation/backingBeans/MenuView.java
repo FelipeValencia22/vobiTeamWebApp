@@ -230,8 +230,8 @@ public class MenuView {
 
 	public void establecerPermisosCliente() {
 
-		DefaultMenuItem dashboardItem = new DefaultMenuItem("Dashboard");
-		dashboardItem.setOutcome("/XHTML/dashboard");
+		DefaultMenuItem dashboardItem = new DefaultMenuItem("Información cliente");
+		dashboardItem.setOutcome("/XHTML/informacionDesarrollador.xhtml");
 		dashboardItem.setIcon("icon-home-outline");
 		dashboardItem.setId("sm_dashboard");
 		dashboardItem.setContainerStyleClass("layout-menubar-active");
