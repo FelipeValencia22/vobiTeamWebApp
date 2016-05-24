@@ -8,7 +8,7 @@
             <column name="usuart_codigo" />
             <generator class="identity" />
         </id>
-        <many-to-one name="vtArtefacto" class="com.vobi.team.modelo.VtArtefacto" fetch="select">
+        <many-to-one name="vtArtefacto" class="com.vobi.team.modelo.VtArtefacto" fetch="select" lazy="false">
             <column name="arte_codigo" not-null="true" />
         </many-to-one>
         <many-to-one name="vtInteres" class="com.vobi.team.modelo.VtInteres" fetch="select">

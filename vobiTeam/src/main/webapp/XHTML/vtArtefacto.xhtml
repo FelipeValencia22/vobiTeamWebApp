@@ -33,7 +33,23 @@
 			<p:panel id="pnlListaSprint" header="ARTEFACTOS">
 				<h:panelGrid columns="1">
 
-					<p:selectOneMenu id="somSprints" style="width:300px"
+					<p:selectOneMenu id="somProyectos" style="width:400px"
+						binding="#{vtArtefactoViewDesarrollador.somProyectos}">
+						<p:ajax update="somPilaProducto" event="change"
+							listener="#{vtArtefactoViewDesarrollador.filtrarProyecto}" />
+						<f:selectItem itemValue="-1" itemLabel="Proyecto" />
+						<f:selectItems value="#{vtArtefactoViewDesarrollador.losProyectosFiltro}" />
+					</p:selectOneMenu>
+
+					<p:selectOneMenu id="somPilaProducto" style="width:400px"
+						binding="#{vtArtefactoViewDesarrollador.somPilaProducto}">
+						<p:ajax update="somSprints" event="change" 
+							listener="#{vtArtefactoViewDesarrollador.filtrarPila}" /> 
+						<f:selectItem itemValue="-1" itemLabel="Pila de Producto" />
+						<f:selectItems value="#{vtArtefactoViewDesarrollador.lasPilasDeProductoFiltro}" />
+					</p:selectOneMenu>
+					
+					<p:selectOneMenu id="somSprints" style="width:400px"
 						binding="#{vtArtefactoViewDesarrollador.somSprints}">
 						<p:ajax update="pnlVtArtefacto,frm" event="change"
 							listener="#{vtArtefactoViewDesarrollador.filtrar}" />
