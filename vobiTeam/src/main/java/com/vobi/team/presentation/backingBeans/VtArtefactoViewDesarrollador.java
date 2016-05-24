@@ -646,9 +646,12 @@ public class VtArtefactoViewDesarrollador implements Serializable {
 			int esfuerzo=esfuerzoRestante-dedicado;
 
 			vtProgresoArtefacto.setEsfuerzoRestante(esfuerzo);		
+			vtArtefacto.setEsfuerzoRestante(esfuerzo);
+			vtArtefacto.setFechaModificacion(fechaCreacion);
 
 			businessDelegatorView.saveVtProgresoArtefacto(vtProgresoArtefacto);
-			FacesContext.getCurrentInstance().addMessage("", new FacesMessage("Se registro el progreso con exito"));
+			businessDelegatorView.updateVtArtefacto(vtArtefacto);
+			FacesContext.getCurrentInstance().addMessage("", new FacesMessage("Se registró el progreso con exito"));
 			setShowDialogProgreso(false);
 
 
