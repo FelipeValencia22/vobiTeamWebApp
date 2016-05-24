@@ -2,6 +2,7 @@ package com.vobi.team.presentation.backingBeans;
 
 import com.vobi.team.modelo.*;
 import com.vobi.team.modelo.dto.VtArtefactoDTO;
+import com.vobi.team.modelo.dto.VtProyectoDTO;
 import com.vobi.team.modelo.dto.VtSprintDTO;
 import com.vobi.team.presentation.businessDelegate.*;
 import com.vobi.team.utilities.*;
@@ -135,6 +136,23 @@ public class VtSprintView implements Serializable {
 		List<VtArtefacto> artefactosTarget = new ArrayList<VtArtefacto>();
 		vtArtefacto = new DualListModel<>(artefactosSource, artefactosTarget);
 		iniciarMeterGaugeModels();
+		
+		try {
+			VtPilaProducto vtPilaProducto = (VtPilaProducto) FacesUtils.getfromSession("vtPilaProducto");
+			
+			if (vtPilaProducto != null) {
+				dataFiltro=businessDelegatorView.getDataVtSprintFiltro(vtPilaProducto.getPilaCodigo());
+				dataFiltroI=businessDelegatorView.getDataVtSprintFiltroI(vtPilaProducto.getPilaCodigo());
+				FacesUtils.putinSession("vtPilaProducto", null);
+			} else {
+				dataFiltro = null;
+				dataFiltroI = null;
+			}
+			vtPilaProducto = null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error(e.getMessage());
+		}
 	}
 
 	public InputText getTxtNombreCrear() {

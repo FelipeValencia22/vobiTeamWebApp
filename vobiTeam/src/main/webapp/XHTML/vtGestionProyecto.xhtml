@@ -28,7 +28,7 @@
 			<p:growl id="growl" />
 
 			<br></br>
-			
+
 			<p:panel id="pnlListaSprint" header="PROYECTOS">
 				<h:panelGrid columns="1">
 
@@ -39,21 +39,23 @@
 						<f:selectItem itemValue="-1" itemLabel="Empresa" />
 						<f:selectItems value="#{vtProyectoView.lasEmpresasItems}" />
 					</p:selectOneMenu>
-					 
-					 <br></br>
-					<p:commandButton id="btnCrear" value="Crear proyecto" type="button" binding="#{vtProyectoView.btnCrearP}"
-					onclick="PF('dlg').show();" disabled="true"/>
+
+					<br></br>
+					<p:commandButton id="btnCrear" value="Crear proyecto" type="button"
+						binding="#{vtProyectoView.btnCrearP}" onclick="PF('dlg').show();"
+						disabled="true" />
 					<br></br>
 
 
-					<p:accordionPanel id="accordionPanelVtProyecto" multiple="true" rendered="true"> 
+					<p:accordionPanel id="accordionPanelVtProyecto" multiple="true"
+						rendered="true">
 						<p:growl id="men" />
 
 						<p:tab title="Proyectos activos">
 							<p:panel id="panelDataTableVtProyecto">
 
-								<p:dataTable value="#{vtProyectoView.data}" var="vtProyecto" reflow="true"
-									paginator="true" rows="10">
+								<p:dataTable value="#{vtProyectoView.data}" var="vtProyecto"
+									reflow="true" paginator="true" rows="10">
 
 
 									<p:column filterBy="#{vtProyecto.proyCodigo}"
@@ -130,6 +132,17 @@
 												value="Cambiar estado" />
 										</div>
 									</p:column>
+									<p:column headerText="Lista pilas">
+										<div align="center">
+											<p:commandButton id="btnListadoPilaA" icon="fa fa-list"
+												action="vtGestionPilaProducto.xhtml" update="formDialog1"
+												actionListener="#{vtProyectoView.redireccionarAPilas}">
+												<f:attribute name="selectedVtProyecto" value="#{vtProyecto}" />
+											</p:commandButton>
+											<p:tooltip id="toolTipFadeLi" for="btnListadoPilaA"
+												value="Lista Pilas" />
+										</div>
+									</p:column>
 
 								</p:dataTable>
 							</p:panel>
@@ -139,8 +152,8 @@
 						<p:tab title="Proyectos inactivos">
 							<p:panel id="panelDataTableVtProyectoI">
 
-								<p:dataTable value="#{vtProyectoView.dataI}" var="vtProyecto" reflow="true"
-									paginator="true" rows="10">
+								<p:dataTable value="#{vtProyectoView.dataI}" var="vtProyecto"
+									reflow="true" paginator="true" rows="10">
 
 
 									<p:column filterBy="#{vtProyecto.proyCodigo}"
@@ -159,7 +172,7 @@
 										<h:outputText value="#{vtProyecto.nombre_VtEmpresa}" />
 									</p:column>
 
-								
+
 
 									<p:column filterBy="#{vtProyecto.publico}"
 										sortBy="#{vtProyecto.publico}">
@@ -216,6 +229,18 @@
 												value="Cambiar estado" />
 										</div>
 									</p:column>
+									
+										<p:column headerText="Lista pilas">
+										<div align="center">
+											<p:commandButton id="btnListadoPilaI" icon="fa fa-list"
+												action="vtGestionPilaProducto.xhtml" update="formDialog1"
+												actionListener="#{vtProyectoView.redireccionarAPilas}">
+												<f:attribute name="selectedVtProyecto" value="#{vtProyecto}" />
+											</p:commandButton>
+											<p:tooltip id="toolTipFadeLi" for="btnListadoPilaI"
+												value="Lista Pilas" />
+										</div>
+									</p:column>
 
 								</p:dataTable>
 							</p:panel>
@@ -241,8 +266,8 @@
 
 				<h:panelGrid columns="1">
 
-					<p:inputText id="txtNombre" placeholder="Nombre del proyecto" size="51"
-						binding="#{vtProyectoView.txtNombreC}" />
+					<p:inputText id="txtNombre" placeholder="Nombre del proyecto"
+						size="51" binding="#{vtProyectoView.txtNombreC}" />
 
 					<p:inputTextarea id="txtDescripcion" rows="10" cols="50"
 						placeholder="Descripci&#243;n" style="overflow:auto;"
@@ -289,7 +314,7 @@
 
 
 						<h:outputText id="msgActivo" value=" Activo" />
-						<p:selectOneMenu id="somActivoCambio"  style="width:120px"
+						<p:selectOneMenu id="somActivoCambio" style="width:120px"
 							binding="#{vtProyectoView.somActivoCambio}">
 							<f:selectItem itemValue="-1" itemLabel="Activo" />
 							<f:selectItems value="#{vtProyectoView.esActivoItems}" />

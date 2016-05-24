@@ -22,12 +22,14 @@ import org.slf4j.LoggerFactory;
 
 import com.vobi.team.modelo.VtEmpresa;
 import com.vobi.team.modelo.VtProyecto;
+import com.vobi.team.modelo.VtSprint;
 import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
 
 import com.vobi.team.utilities.FacesUtils;
 
 import com.vobi.team.modelo.dto.VtProyectoDTO;
+import com.vobi.team.modelo.dto.VtSprintDTO;
 
 @ManagedBean
 @ViewScoped
@@ -644,6 +646,24 @@ public class VtProyectoView implements Serializable{
 	public String action_closeDialog() {
 		setShowDialog(false);
 		action_clear();
+
+		return "";
+	}
+	
+	public String redireccionarAPilas(ActionEvent evt){
+		try {
+			selectedVtProyecto = (VtProyectoDTO) (evt.getComponent().getAttributes()
+					.get("selectedVtProyecto"));		
+			String proyecto = selectedVtProyecto.getProyCodigo().toString().trim();
+			Long idProyecto = Long.parseLong(proyecto);
+
+			VtProyecto vtProyecto = businessDelegatorView.getVtProyecto(idProyecto);
+			FacesUtils.putinSession("vtProyecto", vtProyecto);
+			selectedVtProyecto = null;
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			e.printStackTrace();
+		}
 
 		return "";
 	}

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -31,6 +32,7 @@ import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
 import com.vobi.team.utilities.FacesUtils;
 
 import com.vobi.team.modelo.dto.VtPilaProductoDTO;
+import com.vobi.team.modelo.dto.VtProyectoDTO;
 
 @ManagedBean 
 @ViewScoped
@@ -133,6 +135,25 @@ public class VtPilaProductoView implements Serializable {
 
 	public void setBtnCrearPdP(CommandButton btnCrearPdP) {
 		this.btnCrearPdP = btnCrearPdP;
+	}
+	@PostConstruct
+	public void vtArtefactoViewPostConstructor() {
+		try {
+			VtProyecto vtProyecto = (VtProyecto) FacesUtils.getfromSession("vtProyecto");
+			
+			if (vtProyecto != null) {
+				dataFiltro = businessDelegatorView.getDataVtPilaProductoNombreProyecto(vtProyecto.getProyCodigo());
+				FacesUtils.putinSession("vtProyecto", null);
+			} else {
+				dataFiltro = null;
+				dataFiltroI = null;
+			}
+			vtProyecto = null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error(e.getMessage());
+		}
+
 	}
 
 	public List<SelectItem> getLasEmpresasItemsFiltro() {
@@ -737,6 +758,25 @@ public class VtPilaProductoView implements Serializable {
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}
+		return "";
+	}
+	
+	
+	public String redireccionarASprint(ActionEvent evt){
+		try {
+			selectedVtPilaProducto = (VtPilaProductoDTO) (evt.getComponent().getAttributes()
+					.get("selectedVtPilaProducto"));		
+			String pilaProducto = selectedVtPilaProducto.getPilaCodigo().toString().trim();
+			Long idPilaProducto= Long.parseLong(pilaProducto);
+
+			VtPilaProducto vtPilaProducto = businessDelegatorView.getVtPilaProducto(idPilaProducto);
+			FacesUtils.putinSession("vtPilaProducto", vtPilaProducto);
+			selectedVtPilaProducto = null;
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			e.printStackTrace();
+		}
+
 		return "";
 	}
 }

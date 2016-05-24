@@ -211,6 +211,10 @@ public class VtSprintLogic implements IVtSprintLogic {
 			if (entity.getVtPilaProducto().getPilaCodigo() == null) {
 				throw new ZMessManager().new EmptyFieldException("pilaCodigo_VtPilaProducto");
 			}
+			if (entity.getVtEstadoSprint().getNombre().toString().trim().toUpperCase().equals("FINALIZADO")
+					|| entity.getVtEstadoSprint().getEstsprCodigo() == 350) {
+				
+			}
 
 			vtSprintDAO.update(entity);
 
@@ -260,8 +264,8 @@ public class VtSprintLogic implements IVtSprintLogic {
 
 				vtSprintDTO2.setNombreProyecto(vtSprintTmp.getVtPilaProducto().getVtProyecto().getNombre());
 
-				vtSprintDTO2.setCapacidadEstimada((vtSprintTmp.getCapacidadEstimada() != null)
-						? vtSprintTmp.getCapacidadEstimada() : null);
+				vtSprintDTO2.setCapacidadEstimada(
+						(vtSprintTmp.getCapacidadEstimada() != null) ? vtSprintTmp.getCapacidadEstimada() : null);
 				vtSprintDTO2.setCapacidadReal(
 						(vtSprintTmp.getCapacidadReal() != null) ? vtSprintTmp.getCapacidadReal() : null);
 

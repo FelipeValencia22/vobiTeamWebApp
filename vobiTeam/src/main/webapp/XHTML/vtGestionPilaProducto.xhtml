@@ -126,6 +126,18 @@
 									<p:tooltip id="toolTipFadeC" for="btnEstado" value="Cambiar estado" />
 								</div>
 							</p:column>
+							
+								<p:column headerText="Lista sprints">
+										<div align="center">
+											<p:commandButton id="btnListadoSprintA" icon="fa fa-list"
+												action="vtGestionSprint.xhtml" update="frm"
+												actionListener="#{vtPilaProductoView.redireccionarASprint}">
+												<f:attribute name="selectedVtPilaProducto" value="#{vtPilaProducto}" />
+											</p:commandButton>
+											<p:tooltip id="toolTipFadeLi" for="btnListadoSprintA"
+												value="Lista Sprints" />
+										</div>
+								</p:column>
 
 						</p:dataTable>
 					</p:panel>
@@ -196,6 +208,18 @@
 									<p:tooltip id="toolTipFadeCi" for="btnEstado" value="Cambiar estado" />
 								</div>
 							</p:column>
+							
+									<p:column headerText="Lista sprints">
+										<div align="center">
+											<p:commandButton id="btnListadoSprintI" icon="fa fa-list"
+												action="vtGestionSprint.xhtml" update="frm"
+												actionListener="#{vtPilaProductoView.redireccionarASprint}">
+												<f:attribute name="selectedVtPilaProducto" value="#{vtPilaProducto}" />
+											</p:commandButton>
+											<p:tooltip id="toolTipFadeLi" for="btnListadoSprintI"
+												value="Lista Sprints" />
+										</div>
+								</p:column>
 
 						</p:dataTable>
 					</p:panel>
