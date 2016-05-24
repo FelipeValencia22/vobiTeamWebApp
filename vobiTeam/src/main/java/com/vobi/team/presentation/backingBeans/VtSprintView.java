@@ -656,9 +656,9 @@ public class VtSprintView implements Serializable {
 
 			vtSprint.setNombre(txtNombreCrear.getValue().toString().trim());
 			vtSprint.setObjetivo(txtObjetivoCrear.getValue().toString().trim());
-//
-//			VtEstadoSprint vtEstadoSprint = businessDelegatorView.getVtEstadoSprint(Long.parseLong(somEstadosSprint.getValue().toString().trim()));
-//			vtSprint.setVtEstadoSprint(vtEstadoSprint);
+
+			VtEstadoSprint vtEstadoSprint = businessDelegatorView.getVtEstadoSprint(Long.parseLong(somEstadosSprint.getValue().toString().trim()));
+			vtSprint.setVtEstadoSprint(vtEstadoSprint);
 			
 			int esfuerzo=Integer.parseInt(txtEsfuerzoCrear.getValue().toString().trim());
 			vtSprint.setCapacidadEstimada(esfuerzo);

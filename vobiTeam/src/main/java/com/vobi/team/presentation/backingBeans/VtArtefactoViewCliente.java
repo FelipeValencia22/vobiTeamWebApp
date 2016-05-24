@@ -50,9 +50,9 @@ import com.vobi.team.utilities.FacesUtils;
 
 @ManagedBean
 @ViewScoped
-public class VtArtefactoView implements Serializable {
+public class VtArtefactoViewCliente implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private static final Logger log = LoggerFactory.getLogger(VtArtefactoView.class);
+	private static final Logger log = LoggerFactory.getLogger(VtArtefactoViewCliente.class);
 
 	private SelectOneMenu somActivo;
 	private SelectOneMenu somEstados;
@@ -137,7 +137,7 @@ public class VtArtefactoView implements Serializable {
 		try {
 
 			VtSprint vtSprint = (VtSprint) FacesUtils.getfromSession("vtSprint");
-			
+			filtrarEmpresa();
 			if (vtSprint != null) {
 				dataFiltro = businessDelegatorView.getDataVtArtefactoFiltro(vtSprint.getSpriCodigo().longValue());
 				dataFiltroI = businessDelegatorView.getDataVtArtefactoFiltroI(vtSprint.getSpriCodigo().longValue());
@@ -525,14 +525,10 @@ public class VtArtefactoView implements Serializable {
 
 	public String filtrarEmpresa() {
 		try {
-			VtEmpresa vtEmpresa = null;
+			VtUsuario vtUsuario = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
+			VtEmpresa vtEmpresa = businessDelegatorView.getVtEmpresa(vtUsuario.getVtEmpresa().getEmprCodigo());
 			losProyectosFiltro = null;
-			String empresaS = somEmpresas.getValue().toString().trim();
-			if (empresaS.isEmpty() || empresaS.equals("-1")) {
-			} else {
-				Long empresa = Long.parseLong(empresaS);
-				vtEmpresa = businessDelegatorView.getVtEmpresa(empresa);
-			}
+			
 			try {
 				if (losProyectosFiltro == null) {
 					List<VtProyecto> listaProyectos = businessDelegatorView.getVtProyecto();
@@ -879,6 +875,7 @@ public class VtArtefactoView implements Serializable {
 		return "";
 	}
 
+	
 	public InputTextarea getTxtdescripcion() {
 		return txtdescripcion;
 	}
