@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -109,10 +110,12 @@ public class VtSprintViewDesarrollador implements Serializable {
 
 	private VtSprintDTO selectedVtSprint;
 	private VtSprint entity;
+	VtSprint sprintSeleccionado;
 
 	private Panel pnlToogle;
 
 	private boolean showDialog;
+	private boolean showDialogProgreso;
 	
 	String empresaUsuario;
 	
@@ -139,6 +142,30 @@ public class VtSprintViewDesarrollador implements Serializable {
 
 	public void setPickList(PickList pickList) {
 		this.pickList = pickList;
+	}
+
+	public VtSprint getVtSprint() {
+		return vtSprint;
+	}
+
+	public void setVtSprint(VtSprint vtSprint) {
+		this.vtSprint = vtSprint;
+	}
+
+	public boolean isShowDialogProgreso() {
+		return showDialogProgreso;
+	}
+
+	public VtSprint getSprintSeleccionado() {
+		return sprintSeleccionado;
+	}
+
+	public void setSprintSeleccionado(VtSprint sprintSeleccionado) {
+		this.sprintSeleccionado = sprintSeleccionado;
+	}
+
+	public void setShowDialogProgreso(boolean showDialogProgreso) {
+		this.showDialogProgreso = showDialogProgreso;
 	}
 
 	public DualListModel<VtArtefacto> getVtArtefacto() {
@@ -613,7 +640,6 @@ public class VtSprintViewDesarrollador implements Serializable {
 		this.btnCrearSprintFiltrado = btnCrearSprintFiltrado;
 	}
 
-	
 	public String getEmpresaUsuario() {
 		return empresaUsuario;
 	}
@@ -668,6 +694,7 @@ public class VtSprintViewDesarrollador implements Serializable {
 	}
 
 	public String modificar(ActionEvent evt) {
+		//TODO:ShowDialog
 		selectedVtSprint = (VtSprintDTO) (evt.getComponent().getAttributes()
 				.get("selectedVtSprint"));
 
@@ -683,6 +710,19 @@ public class VtSprintViewDesarrollador implements Serializable {
 		btnGuardar.setDisabled(false);
 		setShowDialog(true);
 
+		return "";
+	}
+	
+	public String verProgreso(ActionEvent evt){
+		setShowDialogProgreso(true);
+		selectedVtSprint = (VtSprintDTO) (evt.getComponent().getAttributes()
+				.get("selectedVtSprint"));
+		try {
+			setSprintSeleccionado(businessDelegatorView.getVtSprint(selectedVtSprint.getSpriCodigo()));
+			createMeterGaugeModels();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return "";
 	}
 
@@ -713,6 +753,97 @@ public class VtSprintViewDesarrollador implements Serializable {
 		}
 
 		return "";
+	}
+	
+	@PostConstruct
+	public void init() {
+		iniciarMeterGaugeModels();
+	}
+	
+	@SuppressWarnings("serial")
+	private MeterGaugeChartModel initMeterGaugeModel() {
+		List<Number> intervals = new ArrayList<Number>(){
+			
+			VtSprint vtSprintS=getSprintSeleccionado();
+			double valores=0;
+			
+			{
+				if(vtSprintS==null){
+					add(100);
+					add(200);
+				}else{
+					try {
+						
+						
+						
+						VtUsuario vtUsuario = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
+						
+						List<VtUsuarioArtefacto> listUsuarioArtefacto=businessDelegatorView.getVtUsuarioArtefacto();
+						for(VtUsuarioArtefacto vtUsuarioArtefacto : listUsuarioArtefacto){
+							if(vtUsuarioArtefacto.getVtArtefacto().getVtSprint().getSpriCodigo().equals(vtSprintS.getSpriCodigo()) &&
+									(vtUsuarioArtefacto.getVtUsuario().getUsuaCodigo().equals(vtUsuario.getUsuaCodigo()))
+									){
+								valores=valores+vtUsuarioArtefacto.getVtArtefacto().getEsfuerzoEstimado();
+							}
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					add(valores);
+				}
+			}};
+
+			return new MeterGaugeChartModel(140, intervals);
+	}
+	
+	private void iniciarMeterGaugeModels() {
+		
+		meterGaugeModel = initMeterGaugeModel();
+		meterGaugeModel.setTitle("Progreso Sprint");
+		meterGaugeModel.setSeriesColors("66cc66,cc6666");
+		meterGaugeModel.setShowTickLabels(true);
+		meterGaugeModel.setLabelHeightAdjust(110);
+		meterGaugeModel.setIntervalOuterRadius(150);
+	}
+	
+	private void createMeterGaugeModels() {
+		meterGaugeModel = initMeterGaugeModel();
+		meterGaugeModel.setTitle("Progreso Sprint");
+		meterGaugeModel.setSeriesColors("66cc66,cc6666");
+		meterGaugeModel.setGaugeLabelPosition("bottom");
+		meterGaugeModel.setShowTickLabels(true);
+		meterGaugeModel.setLabelHeightAdjust(110);
+		meterGaugeModel.setIntervalOuterRadius(150);
+		meterGaugeModel.setValue(0);
+		calcularEsfuerzo();
+	}
+	
+	public void calcularEsfuerzo(){
+		double esfuerzo=0;
+		try {
+//			List<VtArtefacto> listaArtefactos=businessDelegatorView.consultarTodosLosArtefactosAsignados();
+//			for(VtArtefacto vtArtefacto: listaArtefactos){
+//				if(vtArtefacto.getVtSprint().getSpriCodigo().equals(vtSprint.getSpriCodigo())){
+//						log.info("Artefacto: "+vtArtefacto.getTitulo());
+//						esfuerzo=esfuerzo+vtArtefacto.getEsfuerzoEstimado();
+//					}
+//				}
+			VtSprint vtSprintS=getSprintSeleccionado();
+			VtUsuario vtUsuario = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
+			List<VtProgresoArtefacto> listaProgresoArtefacto=businessDelegatorView.getVtProgresoArtefacto();
+			for(VtProgresoArtefacto vtProgresoArtefacto : listaProgresoArtefacto){
+				if(vtProgresoArtefacto.getVtArtefacto().getVtSprint().getSpriCodigo().equals(vtSprintS.getSpriCodigo())
+						&&
+						(vtProgresoArtefacto.getUsuCreador().equals(vtUsuario.getUsuaCodigo()))
+						){
+					esfuerzo=esfuerzo+vtProgresoArtefacto.getTiempoDedicado();
+				}
+			}
+			meterGaugeModel.setValue(esfuerzo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	public String action_modify() {

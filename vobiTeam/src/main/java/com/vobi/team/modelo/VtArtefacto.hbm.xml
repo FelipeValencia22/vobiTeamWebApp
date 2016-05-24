@@ -65,19 +65,19 @@
             </key>
             <one-to-many class="com.vobi.team.modelo.VtArchivo" />
         </set>
-        <set name="vtHistoriaArtefactos" table="vt_historia_artefacto" inverse="true" lazy="true" fetch="select">
+        <set name="vtHistoriaArtefactos" table="vt_historia_artefacto" inverse="true" lazy="false" fetch="select">
             <key>
                 <column name="arte_codigo" not-null="true" />
             </key>
             <one-to-many class="com.vobi.team.modelo.VtHistoriaArtefacto" />
         </set>
-        <set name="vtProgresoArtefactos" table="vt_progreso_artefacto" inverse="true" lazy="true" fetch="select">
+        <set name="vtProgresoArtefactos" table="vt_progreso_artefacto" inverse="true" lazy="false" fetch="select">
             <key>
                 <column name="arte_codigo" />
             </key>
             <one-to-many class="com.vobi.team.modelo.VtProgresoArtefacto" />
         </set>
-        <set name="vtUsuarioArtefactos" table="vt_usuario_artefacto" inverse="true" lazy="true" fetch="select">
+        <set name="vtUsuarioArtefactos" table="vt_usuario_artefacto" inverse="true" lazy="false" fetch="select">
             <key>
                 <column name="arte_codigo" not-null="true" />
             </key>
