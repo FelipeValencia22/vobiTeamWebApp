@@ -809,6 +809,7 @@
 			visible="#{vtArtefactoViewDesarrollador.showDialogProgreso}"
 			width="1000">
 			<h:form id="formDialogCrearProgreso">
+			<p:growl id="msg" />
 			<p:panel id="pnlProgreso" header="Progreso artefacto">
 
 				<h:panelGrid columns="2" id="pnlGridProgreso" rendered="true">
@@ -852,7 +853,7 @@
 						binding="#{vtArtefactoViewDesarrollador.btnCrearP}"
 						title="Guardar progreso"
 						action="#{vtArtefactoViewDesarrollador.crearProgeso}"
-						update="formDialogCrearProgreso" /> 
+						update=":formDialogCrearProgreso:msg " /> 
 
 					<p:commandButton id="btnLimpiarProgreso" icon="fa fa-eraser"
 						binding="#{vtArtefactoViewDesarrollador.btnLimpiarP}"
