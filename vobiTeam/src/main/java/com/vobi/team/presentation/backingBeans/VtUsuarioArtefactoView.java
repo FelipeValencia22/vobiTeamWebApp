@@ -57,7 +57,7 @@ public class VtUsuarioArtefactoView implements Serializable {
 		}
 	}
 
-	public void asignarArtefactoAUsuario(VtUsuario vtUsuario, VtArtefacto vtArtefacto, VtInteres vtInteres) {
+	public void asignarArtefactoAUsuario(VtUsuario vtUsuario, VtArtefacto vtArtefacto, VtInteres vtInteres) throws Exception {
 
 		try {
 
@@ -76,30 +76,32 @@ public class VtUsuarioArtefactoView implements Serializable {
 				usuarioArtefacto.setVtUsuario(vtUsuario);
 
 				businessDelegatorView.saveVtUsuarioArtefacto(usuarioArtefacto);
+				FacesUtils.addInfoMessage("Artefacto asignado con éxito");
 			} else {
 				vtUsuarioArtefacto.setActivo("S");
 				vtUsuarioArtefacto.setFechaModificacion(new Date());
 				vtUsuarioArtefacto.setUsuModificador(vtUsuarioEnSession.getUsuaCodigo());
 				businessDelegatorView.updateVtUsuarioArtefacto(vtUsuarioArtefacto);
+				FacesUtils.addInfoMessage("Artefacto asignado con éxito");
 			}
 		} catch (Exception e) {
-
-			log.error(e.getMessage());
+			actualizarListaArtefactos();
+			FacesUtils.addErrorMessage(e.getMessage());
 		}
 	}
 
-	public void removerArtefactoDelUsuario(VtUsuario vtUsuario, VtArtefacto vtArtefacto, VtInteres vtInteres) {
+	public void removerArtefactoDelUsuario(VtUsuario vtUsuario, VtArtefacto vtArtefacto, VtInteres vtInteres) throws Exception {
 
 		try {
 			VtUsuarioArtefacto vtUsuarioArtefacto = businessDelegatorView.consultarUsuarioArtefactoPorUsuarioYArtefacto(
 					vtUsuario.getUsuaCodigo(), vtArtefacto.getArteCodigo());
 			if(vtUsuarioArtefacto!=null){
 				businessDelegatorView.deleteVtUsuarioArtefacto(vtUsuarioArtefacto);
+				FacesUtils.addInfoMessage("Artefacto des-asignado con éxito con éxito");
 			}
-			
-
 		} catch (Exception e) {
-			log.error(e.getMessage());
+			actualizarListaArtefactos();
+			FacesUtils.addErrorMessage(e.getMessage());
 		}
 	}
 
@@ -114,7 +116,7 @@ public class VtUsuarioArtefactoView implements Serializable {
 			vtArtefacto.setTarget(artefactosTarget);
 
 		} catch (Exception e) {
-			log.error(e.getMessage());
+			FacesUtils.addErrorMessage(e.getMessage());
 		}
 
 	}
@@ -127,24 +129,19 @@ public class VtUsuarioArtefactoView implements Serializable {
 			VtUsuario vtUsuario = businessDelegatorView.getVtUsuario(idUsuario);
 			VtInteres vtInteres = businessDelegatorView
 					.getVtInteres(Long.parseLong(somIntereses.getValue().toString().trim()));
-			String mensaje = null;
-
 			for (Object item : event.getItems()) {
 				VtArtefacto vtArtefacto = (VtArtefacto) item;
-
+				
 				builder.append(((VtArtefacto) item).getTitulo()).append("<br />");
 				if (event.isAdd()) {
 					asignarArtefactoAUsuario(vtUsuario, vtArtefacto, vtInteres);
-					mensaje = "Artefacto(s) asignado(s)";
 				}
 				if (event.isRemove()) {
 					removerArtefactoDelUsuario(vtUsuario, vtArtefacto, vtInteres);
-					mensaje = "Artefacto(s) retirados(s)";
 				}
 			}
-			FacesUtils.addInfoMessage(mensaje);
 		} catch (Exception e) {
-			FacesUtils.addErrorMessage("No se pudo realizar la transferencia");
+			FacesUtils.addErrorMessage(e.getMessage());
 		}
 
 	}
