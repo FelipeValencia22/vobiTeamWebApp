@@ -71,20 +71,12 @@ public class VtSprintLogic implements IVtSprintLogic {
 	}
 
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public void saveVtSprint(VtSprint entity) throws Exception {
+	public void saveVtSprint(VtSprint entity, String esfuerzoEstimado) throws Exception {
 		log.debug("saving VtSprint instance");
 
 		try {
 			if (entity == null) {
 				throw new Exception("La entidad es nula");
-			}
-
-			if (entity.getNombre().toString().equals("") || entity.getNombre().toString().isEmpty()) {
-				throw new Exception("El nombre es obligatorio");
-			}
-
-			if (entity.getObjetivo().toString().equals("") || entity.getObjetivo().toString().isEmpty()) {
-				throw new Exception("El objetivo es obligatorio");
 			}
 
 			if (entity.getActivo().toString().equals("") || entity.getActivo().toString().isEmpty()) {
@@ -95,22 +87,46 @@ public class VtSprintLogic implements IVtSprintLogic {
 				throw new Exception("Seleccionar la pila de productos");
 			}
 
-			if (entity.getFechaInicio().toString().equals("") || entity.getFechaInicio().toString().isEmpty()) {
-				throw new Exception("Seleccionar la fecha de inicio");
+			if (entity.getNombre().toString().equals("") || entity.getNombre().toString().isEmpty()) {
+				throw new Exception("El nombre es obligatorio");
 			}
 
-			if (entity.getFechaFin().toString().equals("") || entity.getFechaFin().toString().isEmpty()) {
-				throw new Exception("Seleccionar la fecha de fin");
+			if (entity.getObjetivo().toString().equals("") || entity.getObjetivo().toString().isEmpty()) {
+				throw new Exception("El objetivo es obligatorio");
 			}
 
-			if (entity.getFechaFin().before(entity.getFechaInicio())) {
-				throw new Exception("La fecha final no puede situarse antes de la fecha inicial");
+			if (esfuerzoEstimado.toString().trim().equals("") || esfuerzoEstimado == null) {
+				throw new Exception(
+						"El campo para la capacidad estimada no puede ser vacio, digite la capacidad estimada del sprint a crear.");
+			} else {
+				if ((Utilities.isNumeric(esfuerzoEstimado) == true)) {
+					entity.setCapacidadEstimada(Integer.parseInt(esfuerzoEstimado));
+				} else {
+					throw new Exception("El campo para la capacidad estimada " + "  no acepta cadenas de texto o "
+							+ "números negativos, solo se aceptan valores númericos positivos.");
+				}
 			}
 
-			if (entity.getCapacidadEstimada().toString().isEmpty()
-					|| entity.getCapacidadEstimada().toString().equals("")) {
-				throw new Exception("La fecha final no puede situarse antes de la fecha inicial");
+			if (entity.getVtEstadoSprint() == null) {
+				throw new Exception("Seleccione el estado del sprint a crear");
 			}
+
+			Date fechaActual = new Date();
+
+			if (entity.getFechaInicio() == null) {
+				throw new Exception("Seleccionar la fecha de inicio del sprint a crear");
+			}
+
+			if (entity.getFechaFin()==null) {
+				throw new Exception("Seleccionar la fecha de finalización del sprint a crear");
+			}else{
+				if (entity.getFechaFin().before(entity.getFechaInicio())) {
+					throw new Exception("La fecha final no puede situarse antes de la fecha inicial");
+				}
+
+			}
+
+		
 			VtUsuario vtUsuarioEnSession = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
 			entity.setUsuCreador(vtUsuarioEnSession.getUsuaCodigo());
 
@@ -213,7 +229,7 @@ public class VtSprintLogic implements IVtSprintLogic {
 			}
 			if (entity.getVtEstadoSprint().getNombre().toString().trim().toUpperCase().equals("FINALIZADO")
 					|| entity.getVtEstadoSprint().getEstsprCodigo() == 350) {
-				
+
 			}
 
 			vtSprintDAO.update(entity);

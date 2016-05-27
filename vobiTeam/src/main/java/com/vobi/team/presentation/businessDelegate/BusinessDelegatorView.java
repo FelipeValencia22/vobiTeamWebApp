@@ -731,8 +731,8 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return vtSprintLogic.getVtSprint();
 	}
 
-	public void saveVtSprint(VtSprint entity) throws Exception {
-		vtSprintLogic.saveVtSprint(entity);
+	public void saveVtSprint(VtSprint entity,String esfuerzoEstimado) throws Exception {
+		vtSprintLogic.saveVtSprint(entity,esfuerzoEstimado);
 	}
 
 	public void deleteVtSprint(VtSprint entity) throws Exception {

@@ -22,7 +22,7 @@ public interface IVtSprintLogic {
     /**
          * Save an new VtSprint entity
          */
-    public void saveVtSprint(VtSprint entity) throws Exception;
+    public void saveVtSprint(VtSprint entity,String esfuerzoEstimado) throws Exception;
 
     /**
          * Delete an existing VtSprint entity

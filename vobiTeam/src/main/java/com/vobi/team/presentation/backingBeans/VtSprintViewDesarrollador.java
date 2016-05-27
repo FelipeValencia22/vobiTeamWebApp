@@ -651,6 +651,7 @@ public class VtSprintViewDesarrollador implements Serializable {
 	// TODO: Metodos
 	public String crearSprint(){
 		log.info("Guardando..");
+		String capacidadEstimada;
 		try {
 			VtSprint vtSprint = new VtSprint();
 
@@ -674,10 +675,9 @@ public class VtSprintViewDesarrollador implements Serializable {
 //			VtEstadoSprint vtEstadoSprint = businessDelegatorView.getVtEstadoSprint(Long.parseLong(somEstadosSprint.getValue().toString().trim()));
 //			vtSprint.setVtEstadoSprint(vtEstadoSprint);
 			
-			int esfuerzo=Integer.parseInt(txtEsfuerzoCrear.getValue().toString().trim());
-			vtSprint.setCapacidadEstimada(esfuerzo);
+			capacidadEstimada=txtEsfuerzoCrear.getValue().toString().trim();
 
-			businessDelegatorView.saveVtSprint(vtSprint);
+			businessDelegatorView.saveVtSprint(vtSprint,capacidadEstimada);
 			FacesContext.getCurrentInstance().addMessage("", new FacesMessage("El sprint se creó con exito"));
 			dataFiltro=businessDelegatorView.getDataVtSprintFiltro(pilaCodigo);
 			dataFiltroI=businessDelegatorView.getDataVtSprintFiltroI(pilaCodigo);

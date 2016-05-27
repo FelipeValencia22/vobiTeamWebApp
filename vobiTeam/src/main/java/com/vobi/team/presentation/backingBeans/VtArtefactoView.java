@@ -127,25 +127,42 @@ public class VtArtefactoView implements Serializable {
 	private boolean showDialogArchivos;
 	private boolean showDialogHistorial;
 	private boolean showDialogSubirArchivo;
+	private Long codigoProyecto;
 	private boolean restablecioVersion = false;
+
 
 	@ManagedProperty(value = "#{BusinessDelegatorView}")
 	private IBusinessDelegatorView businessDelegatorView;
+	
+	public VtArtefactoView(){
+		super();
+		somEmpresas = new SelectOneMenu();
+		somProyectos = new SelectOneMenu();
+		somPilaProducto = new SelectOneMenu();
+		somSprints = new SelectOneMenu();
+	}
 
 	@PostConstruct
 	public void vtArtefactoViewPostConstructor() {
 		try {
 
-			VtSprint vtSprint = (VtSprint) FacesUtils.getfromSession("vtSprint");
+			VtSprint vtSprint = (VtSprint) FacesUtils.getfromSession("vtSprint");			
+			VtPilaProducto vtPilaProducto = businessDelegatorView.getVtPilaProducto(vtSprint.getVtPilaProducto().getPilaCodigo());
+			VtProyecto vtProyecto = businessDelegatorView.getVtProyecto(vtPilaProducto.getVtProyecto().getProyCodigo());
+			VtEmpresa vtEmpresa = businessDelegatorView.getVtEmpresa(vtProyecto.getVtEmpresa().getEmprCodigo());			
 			
 			if (vtSprint != null) {
+				somEmpresas.setValue(vtEmpresa.getEmprCodigo());
+				filtrarEmpresa();
+				somProyectos.setValue(vtProyecto.getProyCodigo());
+				filtrarProyecto();
+				somPilaProducto.setValue(vtPilaProducto.getPilaCodigo());
+				imprimirValue();
+				somSprints.setValue(vtSprint.getSpriCodigo());
 				dataFiltro = businessDelegatorView.getDataVtArtefactoFiltro(vtSprint.getSpriCodigo().longValue());
 				dataFiltroI = businessDelegatorView.getDataVtArtefactoFiltroI(vtSprint.getSpriCodigo().longValue());
 				FacesUtils.putinSession("vtSprint", null);
-			} else {
-				dataFiltro = null;
-				dataFiltroI = null;
-			}
+			} 
 			vtSprint = null;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1562,6 +1579,14 @@ public class VtArtefactoView implements Serializable {
 
 	public void setDataFiltroArchivoInactivo(List<VtArchivoDTO> dataFiltroArchivoInactivo) {
 		this.dataFiltroArchivoInactivo = dataFiltroArchivoInactivo;
+	}
+
+	public Long getCodigoProyecto() {
+		return codigoProyecto;
+	}
+
+	public void setCodigoProyecto(Long codigoProyecto) {
+		this.codigoProyecto = codigoProyecto;
 	}
 
 

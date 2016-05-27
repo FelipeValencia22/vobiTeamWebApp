@@ -33,11 +33,11 @@ import com.vobi.team.modelo.dto.VtSprintDTO;
 
 @ManagedBean
 @ViewScoped
-public class VtProyectoView implements Serializable{
+public class VtProyectoViewDesarrollador implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
-	private static final Logger log = LoggerFactory.getLogger(VtProyectoView.class);
+	private static final Logger log = LoggerFactory.getLogger(VtProyectoViewDesarrollador.class);
 
 	private InputText txtNombre;
 	private InputText txtNombreC;
@@ -76,7 +76,7 @@ public class VtProyectoView implements Serializable{
 		this.businessDelegatorView = businessDelegatorView;
 	}
 
-	public VtProyectoView() {
+	public VtProyectoViewDesarrollador() {
 		super();
 	}
 
@@ -360,6 +360,16 @@ public class VtProyectoView implements Serializable{
 	private InputText txtProyCodigo;
 
 	public List<VtProyectoDTO> getData() {
+		
+		try {
+			if (data == null) {
+				VtUsuario vtUsuarioEnSession =  (VtUsuario) FacesUtils.getfromSession("vtUsuario");
+				data=businessDelegatorView.getDataVtProyecto(vtUsuarioEnSession.getVtEmpresa().getEmprCodigo());
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		return data;
 	}
