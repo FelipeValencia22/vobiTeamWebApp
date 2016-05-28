@@ -134,14 +134,19 @@ public class VtSprintView implements Serializable {
 
 		try {
 			VtPilaProducto vtPilaProducto = (VtPilaProducto) FacesUtils.getfromSession("vtPilaProducto");
+			VtProyecto vtProyecto = vtPilaProducto.getVtProyecto();
+			VtEmpresa vtEmpresa = vtProyecto.getVtEmpresa();
 
 			if (vtPilaProducto != null) {
+				
+				somEmpresas.setValue(vtEmpresa.getEmprCodigo());
+				filtrarEmpresa();
+				somProyectos.setValue(vtProyecto.getProyCodigo());
+				filtrarProyecto();
+				somPilaProducto.setValue(vtPilaProducto.getPilaCodigo());
 				dataFiltro = businessDelegatorView.getDataVtSprintFiltro(vtPilaProducto.getPilaCodigo());
 				dataFiltroI = businessDelegatorView.getDataVtSprintFiltroI(vtPilaProducto.getPilaCodigo());
 				FacesUtils.putinSession("vtPilaProducto", null);
-			} else {
-				dataFiltro = null;
-				dataFiltroI = null;
 			}
 			vtPilaProducto = null;
 		} catch (Exception e) {

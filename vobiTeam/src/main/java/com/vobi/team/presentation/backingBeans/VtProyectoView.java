@@ -78,6 +78,7 @@ public class VtProyectoView implements Serializable{
 
 	public VtProyectoView() {
 		super();
+		somEmpresas = new SelectOneMenu();
 	}
 
 	public InputText getTxtNombreC() {

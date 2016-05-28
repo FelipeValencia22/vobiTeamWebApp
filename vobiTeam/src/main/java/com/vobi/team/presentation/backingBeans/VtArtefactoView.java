@@ -147,9 +147,9 @@ public class VtArtefactoView implements Serializable {
 		try {
 
 			VtSprint vtSprint = (VtSprint) FacesUtils.getfromSession("vtSprint");			
-			VtPilaProducto vtPilaProducto = businessDelegatorView.getVtPilaProducto(vtSprint.getVtPilaProducto().getPilaCodigo());
-			VtProyecto vtProyecto = businessDelegatorView.getVtProyecto(vtPilaProducto.getVtProyecto().getProyCodigo());
-			VtEmpresa vtEmpresa = businessDelegatorView.getVtEmpresa(vtProyecto.getVtEmpresa().getEmprCodigo());			
+			VtPilaProducto vtPilaProducto = vtSprint.getVtPilaProducto();
+			VtProyecto vtProyecto = vtPilaProducto.getVtProyecto();
+			VtEmpresa vtEmpresa = vtProyecto.getVtEmpresa();			
 			
 			if (vtSprint != null) {
 				somEmpresas.setValue(vtEmpresa.getEmprCodigo());

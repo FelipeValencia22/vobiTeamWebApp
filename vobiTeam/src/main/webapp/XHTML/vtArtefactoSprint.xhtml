@@ -77,7 +77,7 @@
 			<p:panel id="panelVArtefacto" header="Asignar artefactos">
 				<h:panelGrid columns="1" id="panelGrid">
 
-					<h:panelGrid id="ParteIzquierda" columns="6">
+					<h:panelGrid id="ParteIzquierda" columns="2">
 
 						<p:pickList id="pickList"
 							value="#{vtArtefactoSprintView.vtArtefacto}" var="artefacto"
@@ -107,16 +107,18 @@
 								<h:outputText value="#{artefacto.esfuerzoEstimado}" />
 							</p:column>
 						</p:pickList>
+								<p:chart type="metergauge"
+								model="#{vtArtefactoSprintView.meterGaugeModel}"
+								style="width:500px;height:350px" />
+						
 
 					</h:panelGrid>
+					
+					
 				</h:panelGrid>
-
-
 				<br></br>
 
-				<p:chart type="metergauge"
-					model="#{vtArtefactoSprintView.meterGaugeModel}"
-					style="width:500px;height:350px" />
+
 
 
 				<br></br>
