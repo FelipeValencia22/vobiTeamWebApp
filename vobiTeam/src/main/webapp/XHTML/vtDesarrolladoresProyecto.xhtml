@@ -32,8 +32,17 @@
 			<p:panel header="ASIGNAR DESARROLLADORES A PROYECTO">
 
 				<h:panelGrid columns="1">
+					
+					<p:selectOneMenu id="somEmpresas"
+						binding="#{vtProyectoUsuariosView.somEmpresas}" style="width:400px">
+						<p:ajax update="somProyectos" event="change"
+							listener="#{vtProyectoUsuariosView.localeChangedFiltro}" />
+						<f:selectItem itemValue="-1" itemLabel="Empresa" /> 
+						<f:selectItems value="#{vtProyectoUsuariosView.lasEmpresasItems}" />
+					</p:selectOneMenu>
+				
 					<p:selectOneMenu id="somProyectos"
-						binding="#{vtProyectoUsuariosView.somProyectos}">
+						binding="#{vtProyectoUsuariosView.somProyectos}" style="width:400px">
 						<p:ajax update="panelVtUsuario" event="change"
 							listener="#{vtProyectoUsuariosView.localeChanged}" />
 						<f:selectItem itemValue="-1" itemLabel="Proyecto" />
