@@ -649,7 +649,9 @@ public class VtProyectoView implements Serializable{
 			Long idProyecto = Long.parseLong(proyecto);
 
 			VtProyecto vtProyecto = businessDelegatorView.getVtProyecto(idProyecto);
+			VtEmpresa vtEmpresa = businessDelegatorView.getVtEmpresa(vtProyecto.getVtEmpresa().getEmprCodigo());
 			FacesUtils.putinSession("vtProyecto", vtProyecto);
+			FacesUtils.putinSession("vtEmpresa", vtEmpresa);
 			selectedVtProyecto = null;
 		} catch (Exception e) {
 			log.error(e.getMessage());

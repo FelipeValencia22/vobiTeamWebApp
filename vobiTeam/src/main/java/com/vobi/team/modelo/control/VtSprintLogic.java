@@ -227,10 +227,6 @@ public class VtSprintLogic implements IVtSprintLogic {
 			if (entity.getVtPilaProducto().getPilaCodigo() == null) {
 				throw new ZMessManager().new EmptyFieldException("pilaCodigo_VtPilaProducto");
 			}
-			if (entity.getVtEstadoSprint().getNombre().toString().trim().toUpperCase().equals("FINALIZADO")
-					|| entity.getVtEstadoSprint().getEstsprCodigo() == 350) {
-
-			}
 
 			vtSprintDAO.update(entity);
 

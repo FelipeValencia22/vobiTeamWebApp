@@ -123,6 +123,9 @@ public class VtSprintView implements Serializable {
 
 	public VtSprintView() {
 		super();
+		somEmpresas = new SelectOneMenu();
+		somProyectos = new SelectOneMenu();
+		somPilaProducto = new SelectOneMenu();
 	}
 
 	@PostConstruct
@@ -134,11 +137,11 @@ public class VtSprintView implements Serializable {
 
 		try {
 			VtPilaProducto vtPilaProducto = (VtPilaProducto) FacesUtils.getfromSession("vtPilaProducto");
-			VtProyecto vtProyecto = vtPilaProducto.getVtProyecto();
-			VtEmpresa vtEmpresa = vtProyecto.getVtEmpresa();
+			
 
 			if (vtPilaProducto != null) {
-				
+				VtProyecto vtProyecto = businessDelegatorView.getVtProyecto(vtPilaProducto.getVtProyecto().getProyCodigo());
+				VtEmpresa vtEmpresa = businessDelegatorView.getVtEmpresa(vtProyecto.getVtEmpresa().getEmprCodigo());
 				somEmpresas.setValue(vtEmpresa.getEmprCodigo());
 				filtrarEmpresa();
 				somProyectos.setValue(vtProyecto.getProyCodigo());

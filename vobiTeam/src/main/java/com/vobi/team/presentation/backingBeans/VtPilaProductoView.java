@@ -104,7 +104,7 @@ public class VtPilaProductoView implements Serializable {
 	public void vtArtefactoViewPostConstructor() {
 		try {
 			VtProyecto vtProyecto = (VtProyecto) FacesUtils.getfromSession("vtProyecto");
-			VtEmpresa vtEmpresa = businessDelegatorView.getVtEmpresa(vtProyecto.getVtEmpresa().getEmprCodigo());
+			VtEmpresa vtEmpresa = (VtEmpresa) FacesUtils.getfromSession("vtEmpresa");
 			
 			if (vtProyecto != null) {
 				somEmpresas.setValue(vtEmpresa.getEmprCodigo());
@@ -672,6 +672,8 @@ public class VtPilaProductoView implements Serializable {
 			}else{
 				Long empresa=Long.parseLong(empresaS);
 				vtEmpresa=businessDelegatorView.getVtEmpresa(empresa);
+				FacesUtils.putinSession("vtEmpresa", vtEmpresa);
+				//TODO:mejorar esto.
 			}
 
 			try{
