@@ -119,7 +119,12 @@
 	Select vtRol from VtUsuarioRol vtRol  where vtRol.vtUsuario.usuaCodigo=:codigoUsuario
 	   ]]>
 	</query>
-	
+
+	<query name="todosLosArtefactosDeUnUsuario">
+  <![CDATA[
+	Select vtArt from VtArtefacto as vtArt, VtUsuarioArtefacto as usuArt where vtArt.arteCodigo = usuArt.vtArtefacto.arteCodigo  and usuArt.vtUsuario.usuaCodigo =:usuCodigo
+	   ]]>
+	</query>
 
 
 </hibernate-mapping>

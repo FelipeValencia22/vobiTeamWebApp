@@ -1022,8 +1022,7 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 	public List<VtArtefactoDTO> obtenerArtefactosAsignadosDTO(VtUsuario vtUsuario) throws Exception {
 
 		try {
-			Long codigoProyecto = null;
-			List<VtArtefacto> artefactosAsignados = obtenerArtefactosAsignados(vtUsuario,codigoProyecto);
+			List<VtArtefacto> artefactosAsignados = vtArtefactoDAO.todosLosArtefactosDeUnUsuario(vtUsuario.getUsuaCodigo());
 
 			List<VtArtefactoDTO> vtArtefactoDTO = new ArrayList<VtArtefactoDTO>();
 

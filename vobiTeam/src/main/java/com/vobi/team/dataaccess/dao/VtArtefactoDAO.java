@@ -67,7 +67,14 @@ public class VtArtefactoDAO extends HibernateDaoImpl<VtArtefacto, Long>
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<VtArtefacto> consultarArtefactosPorProyecto(Long codigoProyecto) {
-		return sessionFactory.getCurrentSession()
+		return (List<VtArtefacto>)sessionFactory.getCurrentSession()
 				.getNamedQuery("consultarArtefactosPorProyecto").setLong("codigoProyecto", codigoProyecto).list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<VtArtefacto> todosLosArtefactosDeUnUsuario(Long usuCodigo) {
+		return ((List<VtArtefacto>)sessionFactory.getCurrentSession()
+				.getNamedQuery("todosLosArtefactosDeUnUsuario").setLong("usuCodigo", usuCodigo).list());
 	}
 }
