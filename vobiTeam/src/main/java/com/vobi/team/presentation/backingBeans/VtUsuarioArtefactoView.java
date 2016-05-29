@@ -18,10 +18,8 @@ import org.slf4j.LoggerFactory;
 import com.vobi.team.modelo.VtArtefacto;
 import com.vobi.team.modelo.VtInteres;
 import com.vobi.team.modelo.VtProyecto;
-import com.vobi.team.modelo.VtRol;
 import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.modelo.VtUsuarioArtefacto;
-import com.vobi.team.modelo.dto.VtArtefactoDTO;
 import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
 import com.vobi.team.utilities.FacesUtils;
 
@@ -53,7 +51,7 @@ public class VtUsuarioArtefactoView implements Serializable {
 			artefactosTarget = new ArrayList<VtArtefacto>();
 			vtArtefacto = new DualListModel<>(artefactosSource, artefactosTarget);
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(e.getMessage());
 		}
 	}
 
@@ -109,9 +107,10 @@ public class VtUsuarioArtefactoView implements Serializable {
 
 		try {
 			Long idUsuario = Long.parseLong(somUsuarios.getValue().toString().trim());
+			Long idProyecto = Long.parseLong(somProyectos.getValue().toString().trim());
 			VtUsuario vtUsuario = businessDelegatorView.getVtUsuario(idUsuario);
-			artefactosSource = businessDelegatorView.obtenerArtefactosNoAsignados(vtUsuario);
-			artefactosTarget = businessDelegatorView.obtenerArtefactosAsignados(vtUsuario);
+			artefactosSource = businessDelegatorView.obtenerArtefactosNoAsignados(vtUsuario,idProyecto);
+			artefactosTarget = businessDelegatorView.obtenerArtefactosAsignados(vtUsuario,idProyecto);
 			vtArtefacto.setSource(artefactosSource);
 			vtArtefacto.setTarget(artefactosTarget);
 

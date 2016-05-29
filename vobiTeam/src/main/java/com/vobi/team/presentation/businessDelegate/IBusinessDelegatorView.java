@@ -196,7 +196,6 @@ public interface IBusinessDelegatorView {
 			throws Exception;     
 
 
-	//
 	public List<VtEmpresa> getVtEmpresa() throws Exception;
 
 	public void saveVtEmpresa(VtEmpresa entity) throws Exception;
@@ -422,7 +421,7 @@ public interface IBusinessDelegatorView {
 
 	public List<VtSprint> getVtSprint() throws Exception;
 
-	public void saveVtSprint(VtSprint entity) throws Exception;
+	public void saveVtSprint(VtSprint entity,String esfuerzoEstimado) throws Exception;
 
 	public void deleteVtSprint(VtSprint entity) throws Exception;
 
@@ -602,9 +601,9 @@ public interface IBusinessDelegatorView {
 
 	public List<VtUsuarioRol> consultarRolUsuarioPorUsuario(Long usuarioId)throws Exception;
 
-	public List<VtArtefacto> obtenerArtefactosNoAsignados(VtUsuario vtUsuario) throws Exception;
+	public List<VtArtefacto> obtenerArtefactosNoAsignados(VtUsuario vtUsuario,Long codigoProyecto) throws Exception;
 
-	public List<VtArtefacto> obtenerArtefactosAsignados(VtUsuario vtUsuario) throws Exception;
+	public List<VtArtefacto> obtenerArtefactosAsignados(VtUsuario vtUsuario ,Long codigoProyecto) throws Exception;
 
 	public VtUsuarioArtefacto consultarUsuarioArtefactoPorUsuarioYArtefacto(
 			Long codigoUsuario, Long codigoArtefacto) throws Exception;

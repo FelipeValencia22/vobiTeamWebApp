@@ -82,6 +82,13 @@
   	Select artefactos from VtArtefacto artefactos where artefactos.vtSprint.spriCodigo=:codigoSprint
    ]]>
 	</query>
+	
+	<query name="consultarArtefactosPorProyecto">
+  <![CDATA[
+  	Select distinct artefactos from VtArtefacto artefactos, VtPilaProducto pilaProducto, VtProyecto proyecto
+  	where artefactos.vtPilaProducto.pilaCodigo =  pilaProducto.pilaCodigo and pilaProducto.vtProyecto.proyCodigo =  proyecto.proyCodigo and proyecto=:codigoProyecto
+   ]]>
+	</query>
 
 	<query name="consultarUsuarioArtefactoPorUsuario">
   <![CDATA[

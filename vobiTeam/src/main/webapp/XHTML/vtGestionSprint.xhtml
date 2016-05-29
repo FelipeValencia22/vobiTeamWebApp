@@ -50,7 +50,7 @@
 
 					<p:selectOneMenu id="somPilaProducto" style="width:400px"
 						binding="#{vtSprintView.somPilaProducto}">
-						<p:ajax update="pnlVtSprint, frm, panelVtSprint, btnCrearSc"
+						<p:ajax update="pnlVtSprint, frm, btnCrearSc"
 							event="change" listener="#{vtSprintView.filtrar}" />
 						<f:selectItem itemValue="-1" itemLabel="Pila de Producto" />
 						<f:selectItems value="#{vtSprintView.lasPilasDeProductoFiltro}" />

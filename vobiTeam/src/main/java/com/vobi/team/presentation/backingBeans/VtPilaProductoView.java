@@ -32,7 +32,6 @@ import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
 import com.vobi.team.utilities.FacesUtils;
 
 import com.vobi.team.modelo.dto.VtPilaProductoDTO;
-import com.vobi.team.modelo.dto.VtProyectoDTO;
 
 @ManagedBean 
 @ViewScoped
@@ -93,64 +92,29 @@ public class VtPilaProductoView implements Serializable {
 	@ManagedProperty(value = "#{BusinessDelegatorView}")
 	private IBusinessDelegatorView businessDelegatorView;
 
-	public IBusinessDelegatorView getBusinessDelegatorView() {
-		return businessDelegatorView;
-	}
 
-	public void setBusinessDelegatorView(IBusinessDelegatorView businessDelegatorView) {
-		this.businessDelegatorView = businessDelegatorView;
+	public VtPilaProductoView(){
+		super();
+		somEmpresas = new SelectOneMenu();
+		somProyectos = new SelectOneMenu();
 	}
-
-	public InputText getTxtNombre() {
-		return txtNombre;
-	}
-
-	public void setTxtNombre(InputText txtNombre) {
-		this.txtNombre = txtNombre;
-	}
-
-	public InputTextarea getTxtDescripcion() {
-		return txtDescripcion;
-	}
-
-	public void setTxtDescripcion(InputTextarea txtDescripcion) {
-		this.txtDescripcion = txtDescripcion;
-	}
-
-	public SelectOneMenu getSomActivoCrear() {
-		return somActivoCrear;
-	}
-
-	public void setSomActivoCrear(SelectOneMenu somActivoCrear) {
-		this.somActivoCrear = somActivoCrear;
-	}
-
-	public SelectOneMenu getSomProyectosCrear() {
-		return somProyectosCrear;
-	}
-
-	public CommandButton getBtnCrearPdP() {
-		return btnCrearPdP;
-	}
-
-	public void setBtnCrearPdP(CommandButton btnCrearPdP) {
-		this.btnCrearPdP = btnCrearPdP;
-	}
+	
+	
 	@PostConstruct
 	public void vtArtefactoViewPostConstructor() {
 		try {
 			VtProyecto vtProyecto = (VtProyecto) FacesUtils.getfromSession("vtProyecto");
+			VtEmpresa vtEmpresa = (VtEmpresa) FacesUtils.getfromSession("vtEmpresa");
 			
 			if (vtProyecto != null) {
+				somEmpresas.setValue(vtEmpresa.getEmprCodigo());
+				filtrarEmpresa();
+				somProyectos.setValue(vtProyecto.getProyCodigo());
 				dataFiltro = businessDelegatorView.getDataVtPilaProductoNombreProyecto(vtProyecto.getProyCodigo());
 				FacesUtils.putinSession("vtProyecto", null);
-			} else {
-				dataFiltro = null;
-				dataFiltroI = null;
-			}
+			} 
 			vtProyecto = null;
 		} catch (Exception e) {
-			e.printStackTrace();
 			log.error(e.getMessage());
 		}
 
@@ -708,6 +672,8 @@ public class VtPilaProductoView implements Serializable {
 			}else{
 				Long empresa=Long.parseLong(empresaS);
 				vtEmpresa=businessDelegatorView.getVtEmpresa(empresa);
+				FacesUtils.putinSession("vtEmpresa", vtEmpresa);
+				//TODO:mejorar esto.
 			}
 
 			try{
@@ -768,7 +734,6 @@ public class VtPilaProductoView implements Serializable {
 					.get("selectedVtPilaProducto"));		
 			String pilaProducto = selectedVtPilaProducto.getPilaCodigo().toString().trim();
 			Long idPilaProducto= Long.parseLong(pilaProducto);
-
 			VtPilaProducto vtPilaProducto = businessDelegatorView.getVtPilaProducto(idPilaProducto);
 			FacesUtils.putinSession("vtPilaProducto", vtPilaProducto);
 			selectedVtPilaProducto = null;
@@ -779,4 +744,50 @@ public class VtPilaProductoView implements Serializable {
 
 		return "";
 	}
+	
+	
+	public IBusinessDelegatorView getBusinessDelegatorView() {
+		return businessDelegatorView;
+	}
+
+	public void setBusinessDelegatorView(IBusinessDelegatorView businessDelegatorView) {
+		this.businessDelegatorView = businessDelegatorView;
+	}
+
+	public InputText getTxtNombre() {
+		return txtNombre;
+	}
+
+	public void setTxtNombre(InputText txtNombre) {
+		this.txtNombre = txtNombre;
+	}
+
+	public InputTextarea getTxtDescripcion() {
+		return txtDescripcion;
+	}
+
+	public void setTxtDescripcion(InputTextarea txtDescripcion) {
+		this.txtDescripcion = txtDescripcion;
+	}
+
+	public SelectOneMenu getSomActivoCrear() {
+		return somActivoCrear;
+	}
+
+	public void setSomActivoCrear(SelectOneMenu somActivoCrear) {
+		this.somActivoCrear = somActivoCrear;
+	}
+
+	public SelectOneMenu getSomProyectosCrear() {
+		return somProyectosCrear;
+	}
+
+	public CommandButton getBtnCrearPdP() {
+		return btnCrearPdP;
+	}
+
+	public void setBtnCrearPdP(CommandButton btnCrearPdP) {
+		this.btnCrearPdP = btnCrearPdP;
+	}
+	
 }

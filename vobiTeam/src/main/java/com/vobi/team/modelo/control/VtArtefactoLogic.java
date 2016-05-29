@@ -144,12 +144,6 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 
 			if (entity.getActivo() == null || entity.getActivo().toString().trim().equalsIgnoreCase("") == true) {
 				throw new Exception("Defina si el artefacto va a estar activo o inactivo");
-			} else {
-				if (entity.getActivo().toString().trim().equalsIgnoreCase("Si")) {
-					entity.setActivo("S");
-				} else {
-					entity.setActivo("N");
-				}
 			}
 
 			if (entity.getVtPrioridad() == null) {
@@ -979,8 +973,8 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 	}
 
 	@Transactional(readOnly = true)
-	public List<VtArtefacto> obtenerArtefactosNoAsignados(VtUsuario vtUsuario) throws Exception {
-		List<VtArtefacto> artefactosSources = getVtArtefacto();
+	public List<VtArtefacto> obtenerArtefactosNoAsignados(VtUsuario vtUsuario,Long codigoProyecto) throws Exception {
+		List<VtArtefacto> artefactosSources = vtArtefactoDAO.consultarArtefactosPorProyecto(codigoProyecto);
 		List<VtUsuarioArtefacto> usuarioArtefacto = vtUsuarioArtefactoDAO.findAll();
 
 		if (usuarioArtefacto != null) {
@@ -995,9 +989,9 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 	}
 
 	@Transactional(readOnly = true)
-	public List<VtArtefacto> obtenerArtefactosAsignados(VtUsuario vtUsuario) throws Exception {
+	public List<VtArtefacto> obtenerArtefactosAsignados(VtUsuario vtUsuario,Long codigoProyecto) throws Exception {
 
-		List<VtArtefacto> artefactosSources = getVtArtefacto();
+		List<VtArtefacto> artefactosSources = vtArtefactoDAO.consultarArtefactosPorProyecto(codigoProyecto);
 
 		List<VtUsuarioArtefacto> usuarioArtefacto = vtUsuarioArtefactoDAO
 				.consultarUsuarioArtefactoPorUsuario(vtUsuario.getUsuaCodigo());
@@ -1028,7 +1022,8 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 	public List<VtArtefactoDTO> obtenerArtefactosAsignadosDTO(VtUsuario vtUsuario) throws Exception {
 
 		try {
-			List<VtArtefacto> artefactosAsignados = obtenerArtefactosAsignados(vtUsuario);
+			Long codigoProyecto = null;
+			List<VtArtefacto> artefactosAsignados = obtenerArtefactosAsignados(vtUsuario,codigoProyecto);
 
 			List<VtArtefactoDTO> vtArtefactoDTO = new ArrayList<VtArtefactoDTO>();
 
