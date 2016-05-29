@@ -1110,13 +1110,13 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	}
 
 	@Override
-	public List<VtArtefacto> obtenerArtefactosNoAsignados(VtUsuario vtUsuario) throws Exception {
-		return vtArtefactoLogic.obtenerArtefactosNoAsignados(vtUsuario);
+	public List<VtArtefacto> obtenerArtefactosNoAsignados(VtUsuario vtUsuario,Long codigoProyecto) throws Exception {
+		return vtArtefactoLogic.obtenerArtefactosNoAsignados(vtUsuario,codigoProyecto);
 	}
 
 	@Override
-	public List<VtArtefacto> obtenerArtefactosAsignados(VtUsuario vtUsuario) throws Exception {
-		return vtArtefactoLogic.obtenerArtefactosAsignados(vtUsuario);
+	public List<VtArtefacto> obtenerArtefactosAsignados(VtUsuario vtUsuario,Long codigoProyecto) throws Exception {
+		return vtArtefactoLogic.obtenerArtefactosAsignados(vtUsuario, codigoProyecto);
 	}
 
 	@Override

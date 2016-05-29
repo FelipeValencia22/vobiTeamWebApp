@@ -111,8 +111,6 @@ public class VtSprintLogic implements IVtSprintLogic {
 				throw new Exception("Seleccione el estado del sprint a crear");
 			}
 
-			Date fechaActual = new Date();
-
 			if (entity.getFechaInicio() == null) {
 				throw new Exception("Seleccionar la fecha de inicio del sprint a crear");
 			}
@@ -129,13 +127,9 @@ public class VtSprintLogic implements IVtSprintLogic {
 		
 			VtUsuario vtUsuarioEnSession = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
 			entity.setUsuCreador(vtUsuarioEnSession.getUsuaCodigo());
-
 			vtSprintDAO.save(entity);
-			log.info("" + entity.getSpriCodigo());
-
 			log.debug("save VtSprint successful");
 		} catch (Exception e) {
-			log.error("save VtSprint failed", e);
 			throw e;
 		} finally {
 		}
@@ -232,7 +226,6 @@ public class VtSprintLogic implements IVtSprintLogic {
 
 			log.debug("update VtSprint successful");
 		} catch (Exception e) {
-			log.error("update VtSprint failed", e);
 			throw e;
 		} finally {
 		}

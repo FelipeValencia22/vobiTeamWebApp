@@ -71,12 +71,14 @@ public interface IVtArtefactoLogic {
 
 	public List<VtArtefacto> consultarTodosLosArtefactosAsignados() throws Exception;
 
-	public List<VtArtefacto> obtenerArtefactosNoAsignados(VtUsuario vtUsuario) throws Exception;
-
-	public List<VtArtefacto> obtenerArtefactosAsignados(VtUsuario vtUsuario) throws Exception;
 
 	public VtUsuarioArtefacto consultarUsuarioArtefactoPorUsuarioYArtefacto(Long codigoUsuario, Long codigoArtefacto)
 			throws Exception;
 
 	public List<VtArtefactoDTO> obtenerArtefactosAsignadosDTO(VtUsuario vtUsuario) throws Exception;
+
+	public List<VtArtefacto> obtenerArtefactosNoAsignados(VtUsuario vtUsuario, Long codigoProyecto) throws Exception;
+	
+
+	public List<VtArtefacto> obtenerArtefactosAsignados(VtUsuario vtUsuario,Long codigoProyecto) throws Exception;
 }

@@ -19,7 +19,7 @@
 			timeout="#{session.maxInactiveInterval * 1000}" />
 		<p:dialog modal="true" widgetVar="sessionTimeOutDialog"
 			header="La sesión ha expirado" draggable="false" closable="false">
-			<h:outputText value="The session is finished" />
+			<h:outputText value="La sesión esta terminada" />
 			<input id="confirmBackToLogin" type="button" value="Ingresar"
 				onclick="window.location='#{facesContext.externalContext.requestContextPath}/index.jsp';" />
 		</p:dialog>
@@ -800,7 +800,7 @@
 					<p:commandButton id="btnCrearS" icon="fa fa-save"
 						binding="#{vtArtefactoView.btnCrearS}" title="crear"
 						action="#{vtArtefactoView.crearArtefacto}"
-						update="formDialogCrearArtefacto,growl" />
+						update="formDialogCrearArtefacto,growl,:frm:pnlVtArtefacto" />
 
 					<p:commandButton id="btnLimpiarS" icon="fa fa-eraser"
 						binding="#{vtArtefactoView.btnLimpiarS}" title="Limpiar"

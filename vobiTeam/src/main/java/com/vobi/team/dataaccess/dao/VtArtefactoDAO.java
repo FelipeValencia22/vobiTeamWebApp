@@ -4,6 +4,7 @@ import com.vobi.team.dataaccess.api.HibernateDaoImpl;
 import com.vobi.team.modelo.VtArtefacto;
 import com.vobi.team.modelo.VtProyectoUsuario;
 import com.vobi.team.modelo.VtUsuarioArtefacto;
+import com.vobi.team.modelo.VtUsuarioRol;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
@@ -61,5 +62,12 @@ public class VtArtefactoDAO extends HibernateDaoImpl<VtArtefacto, Long>
 		query.setParameter("codigoArtefacto", codigoArtefacto);
 		VtUsuarioArtefacto vtUsuarioArtefacto = (VtUsuarioArtefacto) query.uniqueResult();
 		return vtUsuarioArtefacto;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<VtArtefacto> consultarArtefactosPorProyecto(Long codigoProyecto) {
+		return sessionFactory.getCurrentSession()
+				.getNamedQuery("consultarArtefactosPorProyecto").setLong("codigoProyecto", codigoProyecto).list();
 	}
 }
