@@ -137,10 +137,10 @@ public class VtSprintView implements Serializable {
 
 		try {
 			VtPilaProducto vtPilaProducto = (VtPilaProducto) FacesUtils.getfromSession("vtPilaProducto");
-			
 
 			if (vtPilaProducto != null) {
-				VtProyecto vtProyecto = businessDelegatorView.getVtProyecto(vtPilaProducto.getVtProyecto().getProyCodigo());
+				VtProyecto vtProyecto = businessDelegatorView
+						.getVtProyecto(vtPilaProducto.getVtProyecto().getProyCodigo());
 				VtEmpresa vtEmpresa = businessDelegatorView.getVtEmpresa(vtProyecto.getVtEmpresa().getEmprCodigo());
 				somEmpresas.setValue(vtEmpresa.getEmprCodigo());
 				filtrarEmpresa();
@@ -682,7 +682,7 @@ public class VtSprintView implements Serializable {
 
 			esfuerzoEstimado = txtEsfuerzoCrear.getValue().toString().trim();
 
-			businessDelegatorView.saveVtSprint(vtSprint,esfuerzoEstimado);
+			businessDelegatorView.saveVtSprint(vtSprint, esfuerzoEstimado);
 			FacesContext.getCurrentInstance().addMessage("", new FacesMessage("El sprint se creó con exito"));
 			dataFiltro = businessDelegatorView.getDataVtSprintFiltro(pilaCodigo);
 			dataFiltroI = businessDelegatorView.getDataVtSprintFiltroI(pilaCodigo);
@@ -694,9 +694,9 @@ public class VtSprintView implements Serializable {
 			createMeterGaugeModels();
 			calcularEsfuerzo();
 		} catch (Exception e) {
-			e.printStackTrace();
 			log.error(e.getMessage());
-			FacesContext.getCurrentInstance().addMessage("", new FacesMessage(e.getMessage()));
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!" + "\n" + e.getMessage(), "Contacto admin"));
 		}
 
 		return "";
@@ -832,31 +832,31 @@ public class VtSprintView implements Serializable {
 		return "";
 	}
 
-	public String filtrarProyecto(){
-		String proyectoS=somProyectos.getValue().toString().trim();
-		
-		if(!proyectoS.equals("-1")){
+	public String filtrarProyecto() {
+		String proyectoS = somProyectos.getValue().toString().trim();
+
+		if (!proyectoS.equals("-1")) {
 			try {
 				VtProyecto vtProyecto = businessDelegatorView.getVtProyecto(Long.parseLong(proyectoS));
-				lasPilasDeProductoFiltro=null;
-				try{
-					if(lasPilasDeProductoFiltro==null){
-						List<VtPilaProducto> listaPilasDeProducto=businessDelegatorView.getVtPilaProducto();
-						lasPilasDeProductoFiltro= new ArrayList<SelectItem>();
-						for (VtPilaProducto vtPilaProducto:listaPilasDeProducto){
-							if(vtPilaProducto.getActivo().equalsIgnoreCase("S") && vtPilaProducto.getVtProyecto().getProyCodigo().equals(vtProyecto.getProyCodigo())){
-								lasPilasDeProductoFiltro.add(new SelectItem(vtPilaProducto.getPilaCodigo(), vtPilaProducto.getNombre()));
+				lasPilasDeProductoFiltro = null;
+				try {
+					if (lasPilasDeProductoFiltro == null) {
+						List<VtPilaProducto> listaPilasDeProducto = businessDelegatorView.getVtPilaProducto();
+						lasPilasDeProductoFiltro = new ArrayList<SelectItem>();
+						for (VtPilaProducto vtPilaProducto : listaPilasDeProducto) {
+							if (vtPilaProducto.getActivo().equalsIgnoreCase("S") && vtPilaProducto.getVtProyecto()
+									.getProyCodigo().equals(vtProyecto.getProyCodigo())) {
+								lasPilasDeProductoFiltro.add(
+										new SelectItem(vtPilaProducto.getPilaCodigo(), vtPilaProducto.getNombre()));
 							}
 
 						}
 					}
 
-
-				}catch(Exception e) {
+				} catch (Exception e) {
 					log.error(e.getMessage());
-				
-				}
 
+				}
 
 			} catch (Exception e) {
 				log.error(e.getMessage());
@@ -1113,7 +1113,7 @@ public class VtSprintView implements Serializable {
 			}
 			meterGaugeModel.setValue(esfuerzo);
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("Falla al calcular el esfuerzo estimado", e);
 		}
 
 	}

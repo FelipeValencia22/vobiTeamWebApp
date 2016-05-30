@@ -346,7 +346,7 @@ public class VtArtefactoView implements Serializable {
 			vtArtefacto.setFechaCreacion(selectedVtHistoriaArtefacto.getFechaCreacion());
 			vtArtefacto.setFechaModificacion(selectedVtHistoriaArtefacto.getFechaModificacion());
 			vtArtefacto.setUsuCreador(selectedVtHistoriaArtefacto.getUsuCreador().longValue());
-			vtArtefacto.setUsuModificador(selectedVtHistoriaArtefacto.getUsuModificador().longValue());
+			vtArtefacto.setUsuModificador(vtArtefacto.getUsuModificador());
 			vtArtefacto.setOrigen(selectedVtHistoriaArtefacto.getOrigen());
 			vtArtefacto.setPuntos(selectedVtHistoriaArtefacto.getPuntos());
 			vtArtefacto.setTitulo(selectedVtHistoriaArtefacto.getTitulo());
