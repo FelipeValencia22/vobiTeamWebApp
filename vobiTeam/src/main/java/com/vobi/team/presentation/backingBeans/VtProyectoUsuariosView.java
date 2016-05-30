@@ -21,6 +21,7 @@ import org.primefaces.model.DualListModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.vobi.team.modelo.VtEmpresa;
 import com.vobi.team.modelo.VtProyecto;
 import com.vobi.team.modelo.VtProyectoUsuario;
 import com.vobi.team.modelo.VtUsuario;
@@ -38,7 +39,11 @@ public class VtProyectoUsuariosView implements Serializable {
 	private DualListModel<VtUsuario> vtUsuario;
 
 	private SelectOneMenu somProyectos;
+	private SelectOneMenu somEmpresas;
+
 	private List<SelectItem> losProyectosItems;
+	private List<SelectItem> lasEmpresasItems;
+
 	private CommandButton btnCrear;
 	private ValueChangeEvent somEmpresasEvent;
 	private String proyectoSeleccionado;
@@ -90,6 +95,46 @@ public class VtProyectoUsuariosView implements Serializable {
 
 	public void setProyectoSeleccionado(String proyectoSeleccionado) {
 		this.proyectoSeleccionado = proyectoSeleccionado;
+	}
+
+	public SelectOneMenu getSomEmpresas() {
+		return somEmpresas;
+	}
+
+	public void setSomEmpresas(SelectOneMenu somEmpresas) {
+		this.somEmpresas = somEmpresas;
+	}
+
+	public List<SelectItem> getLosProyectosItems() {
+		try {
+
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+		return losProyectosItems;
+	}
+
+	public void setLosProyectosItems(List<SelectItem> losProyectosItems) {
+		this.losProyectosItems = losProyectosItems;
+	}
+
+	public List<SelectItem> getLasEmpresasItems() {
+		try {
+			if(lasEmpresasItems==null){
+				List<VtEmpresa> listaEmpresas=businessDelegatorView.getVtEmpresa();
+				lasEmpresasItems=new ArrayList<SelectItem>();
+				for (VtEmpresa vtEmpresa: listaEmpresas) {
+					lasEmpresasItems.add(new SelectItem(vtEmpresa.getEmprCodigo(), vtEmpresa.getNombre()));
+				}
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+		return lasEmpresasItems;
+	}
+
+	public void setLasEmpresasItems(List<SelectItem> lasEmpresasItems) {
+		this.lasEmpresasItems = lasEmpresasItems;
 	}
 
 	@PostConstruct
@@ -146,7 +191,8 @@ public class VtProyectoUsuariosView implements Serializable {
 	}
 
 	public void actualizarListaUsuarios() throws Exception {
-
+		usuariosSource= null;
+		usuariosTarget= null;
 		try {
 			Long idProyecto = Long.parseLong(somProyectos.getValue().toString().trim());
 			VtProyecto vtProyecto = businessDelegatorView.getVtProyecto(idProyecto);
@@ -212,27 +258,21 @@ public class VtProyectoUsuariosView implements Serializable {
 		this.somProyectos = somProyectos;
 	}
 
-	public List<SelectItem> getLosProyectosItems() {
-		try {
-			if (losProyectosItems == null) {
-				List<VtProyecto> listaProyectos = businessDelegatorView.getVtProyecto();
-				losProyectosItems = new ArrayList<SelectItem>();
-				for (VtProyecto vtProyecto : listaProyectos) {
-					losProyectosItems.add(new SelectItem(vtProyecto.getProyCodigo(), vtProyecto.getNombre()));
-				}
-			}
-		} catch (Exception e) {
-			log.error(e.getMessage());
-		}
-		return losProyectosItems;
-	}
-
-	public void setLosProyectosItems(List<SelectItem> losProyectosItems) {
-		this.losProyectosItems = losProyectosItems;
-	}
-
 	public void localeChanged() throws Exception {
 		actualizarListaUsuarios();
+	}
+
+	public void localeChangedFiltro() throws Exception {
+		String empresaS = somEmpresas.getValue().toString().trim();
+		Long codigoFiltro = Long.valueOf(empresaS);
+		VtEmpresa vtEmpresaSeleccionada=businessDelegatorView.getVtEmpresa(codigoFiltro);
+		List<VtProyecto> listaProyectos = businessDelegatorView.getVtProyecto();
+		losProyectosItems = new ArrayList<SelectItem>();
+		for (VtProyecto vtProyecto : listaProyectos) {
+			if(vtProyecto.getVtEmpresa().getEmprCodigo().equals(vtEmpresaSeleccionada.getEmprCodigo())){
+				losProyectosItems.add(new SelectItem(vtProyecto.getProyCodigo(), vtProyecto.getNombre()));
+			}
+		}
 	}
 
 	public boolean isShowDialog() {

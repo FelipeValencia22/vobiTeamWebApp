@@ -789,6 +789,8 @@ public class VtSprintViewDesarrollador implements Serializable {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
+					int ochenta=(int) (valores*0.80);
+					add(ochenta);
 					add(valores);
 				}
 			}};
@@ -798,19 +800,20 @@ public class VtSprintViewDesarrollador implements Serializable {
 	
 	private void iniciarMeterGaugeModels() {
 		
-		meterGaugeModel = initMeterGaugeModel();
-		meterGaugeModel.setTitle("Progreso Sprint");
-		meterGaugeModel.setSeriesColors("66cc66,cc6666");
+		meterGaugeModel = initMeterGaugeModel();		
+		meterGaugeModel.setSeriesColors("cc6666,66cc66");
 		meterGaugeModel.setShowTickLabels(true);
 		meterGaugeModel.setLabelHeightAdjust(110);
 		meterGaugeModel.setIntervalOuterRadius(150);
+		meterGaugeModel.setTitle("Tu progreso en el Sprint");
 	}
 	
 	private void createMeterGaugeModels() {
+			
 		meterGaugeModel = initMeterGaugeModel();
-		meterGaugeModel.setTitle("Progreso Sprint");
-		meterGaugeModel.setSeriesColors("66cc66,cc6666");
+		meterGaugeModel.setSeriesColors("cc6666,66cc66");
 		meterGaugeModel.setGaugeLabelPosition("bottom");
+		meterGaugeModel.setTitle("Tu progreso en el Sprint");
 		meterGaugeModel.setShowTickLabels(true);
 		meterGaugeModel.setLabelHeightAdjust(110);
 		meterGaugeModel.setIntervalOuterRadius(150);
@@ -821,13 +824,6 @@ public class VtSprintViewDesarrollador implements Serializable {
 	public void calcularEsfuerzo(){
 		double esfuerzo=0;
 		try {
-//			List<VtArtefacto> listaArtefactos=businessDelegatorView.consultarTodosLosArtefactosAsignados();
-//			for(VtArtefacto vtArtefacto: listaArtefactos){
-//				if(vtArtefacto.getVtSprint().getSpriCodigo().equals(vtSprint.getSpriCodigo())){
-//						log.info("Artefacto: "+vtArtefacto.getTitulo());
-//						esfuerzo=esfuerzo+vtArtefacto.getEsfuerzoEstimado();
-//					}
-//				}
 			VtSprint vtSprintS=getSprintSeleccionado();
 			VtUsuario vtUsuario = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
 			List<VtProgresoArtefacto> listaProgresoArtefacto=businessDelegatorView.getVtProgresoArtefacto();

@@ -135,7 +135,8 @@ public class VtArtefactoViewDesarrollador implements Serializable {
 	private CommandButton btnLimpiar;
 	private CommandButton btnCrearArtefactoFiltrado;
 	private CommandButton btnFiltrar;
-
+	private CommandButton btnProgreso; 
+	
 	private Long spriCodigo = null;
 
 	private VtArtefacto entity;
@@ -251,6 +252,14 @@ public class VtArtefactoViewDesarrollador implements Serializable {
 
 	public void setBtnLimpiarP(CommandButton btnLimpiarP) {
 		this.btnLimpiarP = btnLimpiarP;
+	}
+
+	public CommandButton getBtnProgreso() {
+		return btnProgreso;
+	}
+
+	public void setBtnProgreso(CommandButton btnProgreso) {
+		this.btnProgreso = btnProgreso;
 	}
 
 	public String crearArtefacto() {
@@ -487,11 +496,16 @@ public class VtArtefactoViewDesarrollador implements Serializable {
 			String sprint = somSprints.getValue().toString().trim();
 			spriCodigo = Long.valueOf(sprint);
 			VtSprint vtSprint = businessDelegatorView.getVtSprint(spriCodigo);
+			
+			if(vtSprint.getVtEstadoSprint().getEstsprCodigo()==200){
+				btnProgreso.setDisabled(false);
+			}
 
 			vtUsuario = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
 
 			dataFiltro = businessDelegatorView.getDataVtArtefactoFiltroDesarrollador(vtSprint.getSpriCodigo().longValue(),vtUsuario.getUsuaCodigo());
 			dataFiltroI = businessDelegatorView.getDataVtArtefactoFiltroIDesarrollador(vtSprint.getSpriCodigo().longValue(),vtUsuario.getUsuaCodigo());
+			
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}
