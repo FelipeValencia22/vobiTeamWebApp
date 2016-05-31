@@ -40,6 +40,43 @@ public class VtArtefactoDTO implements Serializable {
     public String tpar_Nombre;
     public String estado_Nombre;
     public String prioridad_Nombre;
+    
+    
+    
+    private String tiempoConvertidoEstimado;
+    private String tiempoConvertidoRestante;
+    private String tiempoConvertidoPuntos;
+    private String tiempoConvertidoReal;
+    
+
+	public String convertirMinutosAHorasYMinutos(Integer numero){
+		try {
+			Integer horas = (numero)/60;
+			Integer minutos = (numero)%60;
+			String j = horas.toString()+minutos.toString();
+			
+			if(j.length()==3){
+				j = "0"+j;
+			}
+			if(j.length()==2){
+				j = "00"+j;
+			}
+			if(j.length()==1){
+				j = "000"+j;
+			}
+			if(j.equals("")){
+				j = "0000";
+			}
+			return j;
+		} catch (Exception e) {
+			return "0000";
+			
+		}
+		
+		
+
+	}
+	
 
     public String getActivo() {
         return activo;
@@ -71,6 +108,7 @@ public class VtArtefactoDTO implements Serializable {
 
     public void setEsfuerzoEstimado(Integer esfuerzoEstimado) {
         this.esfuerzoEstimado = esfuerzoEstimado;
+        tiempoConvertidoEstimado = convertirMinutosAHorasYMinutos(esfuerzoEstimado);
     }
 
     public Integer getEsfuerzoReal() {
@@ -79,6 +117,8 @@ public class VtArtefactoDTO implements Serializable {
 
     public void setEsfuerzoReal(Integer esfuerzoReal) {
         this.esfuerzoReal = esfuerzoReal;
+        tiempoConvertidoReal = convertirMinutosAHorasYMinutos(esfuerzoReal);
+        
     }
 
     public Integer getEsfuerzoRestante() {
@@ -87,6 +127,7 @@ public class VtArtefactoDTO implements Serializable {
 
     public void setEsfuerzoRestante(Integer esfuerzoRestante) {
         this.esfuerzoRestante = esfuerzoRestante;
+        tiempoConvertidoRestante = convertirMinutosAHorasYMinutos(esfuerzoRestante);
     }
 
     public Date getFechaCreacion() {
@@ -119,6 +160,7 @@ public class VtArtefactoDTO implements Serializable {
 
     public void setPuntos(Integer puntos) {
         this.puntos = puntos;
+        tiempoConvertidoPuntos =  convertirMinutosAHorasYMinutos(puntos);
     }
 
     public String getTitulo() {
@@ -208,5 +250,47 @@ public class VtArtefactoDTO implements Serializable {
 	public void setPrioridad_Nombre(String prioridad_Nombre) {
 		this.prioridad_Nombre = prioridad_Nombre;
 	}
+
+
+	public String getTiempoConvertidoEstimado() {
+		return tiempoConvertidoEstimado;
+	}
+
+
+	public void setTiempoConvertidoEstimado(String tiempoConvertidoEstimado) {
+		this.tiempoConvertidoEstimado = tiempoConvertidoEstimado;
+	}
+	public String getTiempoConvertidoRestante() {
+		return tiempoConvertidoRestante;
+	}
+
+
+	public void setTiempoConvertidoRestante(String tiempoConvertidoRestante) {
+		this.tiempoConvertidoRestante = tiempoConvertidoRestante;
+	}
+
+
+	public String getTiempoConvertidoPuntos() {
+		return tiempoConvertidoPuntos;
+	}
+
+
+	public void setTiempoConvertidoPuntos(String tiempoConvertidoPuntos) {
+		this.tiempoConvertidoPuntos = tiempoConvertidoPuntos;
+	}
+
+
+	public String getTiempoConvertidoReal() {
+		return tiempoConvertidoReal;
+	}
+
+
+	public void setTiempoConvertidoReal(String tiempoConvertidoReal) {
+		this.tiempoConvertidoReal = tiempoConvertidoReal;
+	}
+
+
+
+
     
 }

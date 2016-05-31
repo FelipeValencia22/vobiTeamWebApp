@@ -191,9 +191,7 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 				}
 
 			}
-			if (entity.getPuntos() != entity.getEsfuerzoEstimado()) {
-				throw new Exception("El esfuerzo estimado debe ser igual a los puntos.");
-			}
+		
 			if (entity.getOrigen().toString().trim().equals("") || entity.getOrigen() == null) {
 				throw new Exception("El campo para el origen no puede ser vacio, digite e"
 						+ "l origen del nuevo artefacto a crear.");

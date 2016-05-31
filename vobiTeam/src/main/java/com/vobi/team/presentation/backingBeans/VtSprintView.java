@@ -701,6 +701,7 @@ public class VtSprintView implements Serializable {
 
 		return "";
 	}
+	
 
 	public String modificar(ActionEvent evt) {
 		selectedVtSprint = (VtSprintDTO) (evt.getComponent().getAttributes().get("selectedVtSprint"));

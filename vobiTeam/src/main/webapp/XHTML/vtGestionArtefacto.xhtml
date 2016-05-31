@@ -88,8 +88,8 @@
 							scrollRows="70" scrollable="true" liveScroll="true"
 							scrollHeight="400" style="margin-bottom:0"
 							emptyMessage="No hay artefactos activos en este momento">
-							<p:column filterBy="#{vtArtefacto.arteCodigo}"  filterMatchMode="contains"
-								sortBy="#{vtArtefacto.arteCodigo}">
+							<p:column filterBy="#{vtArtefacto.arteCodigo}"
+								filterMatchMode="contains" sortBy="#{vtArtefacto.arteCodigo}">
 								<f:facet name="header">
 									<h:outputText value="Código" />
 								</f:facet>
@@ -209,47 +209,48 @@
 							scrollRows="70" scrollable="true" liveScroll="true"
 							scrollHeight="400" style="margin-bottom:0" widgetVar="artI"
 							emptyMessage="No hay artefactos activos en este momento">
-							<p:column filterBy="#{vtArtefacto.arteCodigo}" filterMatchMode="contains"
-								sortBy="#{vtArtefacto.arteCodigo}">
+							<p:column filterBy="#{vtArtefacto.arteCodigo}"
+								filterMatchMode="contains" sortBy="#{vtArtefacto.arteCodigo}">
 								<f:facet name="header">
 									<h:outputText value="Código" />
 								</f:facet>
 								<h:outputText value="#{vtArtefacto.arteCodigo}" />
 							</p:column>
 
-							<p:column filterBy="#{vtArtefacto.titulo}" filterMatchMode="contains" 
-								sortBy="#{vtArtefacto.titulo}">
+							<p:column filterBy="#{vtArtefacto.titulo}"
+								filterMatchMode="contains" sortBy="#{vtArtefacto.titulo}">
 								<f:facet name="header">
 									<h:outputText value="Titulo" />
 								</f:facet>
 								<h:outputText value="#{vtArtefacto.titulo}" />
 							</p:column>
 
-							<p:column filterBy="#{vtArtefacto.descripcion}" filterMatchMode="contains" 
-								sortBy="#{vtArtefacto.descripcion}">
+							<p:column filterBy="#{vtArtefacto.descripcion}"
+								filterMatchMode="contains" sortBy="#{vtArtefacto.descripcion}">
 								<f:facet name="header">
 									<h:outputText value="Descripción" />
 								</f:facet>
 								<h:outputText value="#{vtArtefacto.descripcion}" />
 							</p:column>
 
-							<p:column filterBy="#{vtArtefacto.tpar_Nombre}"   filterMatchMode="contains"
-								sortBy="#{vtArtefacto.tpar_Nombre}">
+							<p:column filterBy="#{vtArtefacto.tpar_Nombre}"
+								filterMatchMode="contains" sortBy="#{vtArtefacto.tpar_Nombre}">
 								<f:facet name="header">
-									<h:outputText value="Tipo artefacto" /> 
+									<h:outputText value="Tipo artefacto" />
 								</f:facet>
 								<h:outputText value="#{vtArtefacto.tpar_Nombre}" />
 							</p:column>
 
-							<p:column filterBy="#{vtArtefacto.estado_Nombre}" filterMatchMode="contains"
-								sortBy="#{vtArtefacto.estado_Nombre}">
+							<p:column filterBy="#{vtArtefacto.estado_Nombre}"
+								filterMatchMode="contains" sortBy="#{vtArtefacto.estado_Nombre}">
 								<f:facet name="header">
 									<h:outputText value="Estado" />
 								</f:facet>
 								<h:outputText value="#{vtArtefacto.estado_Nombre}" />
 							</p:column>
 
-							<p:column filterBy="#{vtArtefacto.prioridad_Nombre}" filterMatchMode="contains"
+							<p:column filterBy="#{vtArtefacto.prioridad_Nombre}"
+								filterMatchMode="contains"
 								sortBy="#{vtArtefacto.prioridad_Nombre}">
 								<f:facet name="header">
 									<h:outputText value="Prioridad" />
@@ -258,8 +259,8 @@
 							</p:column>
 
 
-							<p:column filterBy="#{vtArtefacto.activo}" filterMatchMode="contains"
-								sortBy="#{vtArtefacto.activo}">
+							<p:column filterBy="#{vtArtefacto.activo}"
+								filterMatchMode="contains" sortBy="#{vtArtefacto.activo}">
 								<f:facet name="header">
 									<h:outputText value="Activo" />
 								</f:facet>
@@ -383,28 +384,29 @@
 
 								<h:outputText id="msgEsfuerzoEstimadoCambio"
 									value="Esfuerzo Estimado" />
-								<p:inputText id="txtEsfuerzoEstimadoCambio" size="42"
-									placeholder="Esfuerzo estimado"
+								<p:inputMask id="txtEsfuerzoEstimadoCambio" size="42"
+									placeholder="Esfuerzo estimado" mask="99:99"
 									binding="#{vtArtefactoView.txtEsfuerzoEstimadoCambio}" />
 
 								<h:outputText id="msgEsfuerzoRealCambio" value="Esfuerzo real" />
-								<p:inputText id="txtEsfuerzoRealCambio" size="42"
+								<p:inputMask id="txtEsfuerzoRealCambio" size="42" mask="99:99"
 									placeholder="Esfuerzo real"
 									binding="#{vtArtefactoView.txtEsfuerzoRealCambio}" />
 
 								<h:outputText id="msgEsfuerzoRestanteCambio"
 									value="Esfuerzo restante" />
-								<p:inputText id="txtEsfuerzoRestanteCambio" size="42"
-									placeholder="Esfuerzo restante"
+								<p:inputMask id="txtEsfuerzoRestanteCambio" size="42"
+									placeholder="Esfuerzo restante" mask="99:99"
 									binding="#{vtArtefactoView.txtEsfuerzoRestanteCambio}" />
+
+
+								<h:outputText id="msgPuntosCambio" value="Puntos" />
+								<p:inputMask id="txtPuntosCambio" size="42" placeholder="Puntos"
+									mask="99:99" binding="#{vtArtefactoView.txtPuntosCambio}" />
 
 								<h:outputText id="msgOrigenCambio" value="Origen" />
 								<p:inputText id="txtOrigenCambio" size="42" placeholder="Origen"
 									binding="#{vtArtefactoView.txtOrigenCambio}" />
-
-								<h:outputText id="msgPuntosCambio" value="Puntos" />
-								<p:inputText id="txtPuntosCambio" size="42" placeholder="Puntos"
-									binding="#{vtArtefactoView.txtPuntosCambio}" />
 							</h:panelGrid>
 						</h:panelGrid>
 					</h:panelGrid>
@@ -466,15 +468,16 @@
 		<p:dialog id="descargarArchivos" header="Descargar archivos"
 			closable="false" rendered="true" modal="true" responsive=" true"
 			visible="#{vtArtefactoView.showDialogArchivos}"
-			widgetVar="dlgDescargar" width="1300" height="700" >
+			widgetVar="dlgDescargar" width="1300" height="700">
 			<h:form id="formularioDescarga">
 				<p:accordionPanel id="pnlVtArtefacto" multiple="true">
 					<p:growl id="menDos" />
 					<p:tab title="Archivos activos">
 
-						<p:dataTable id="dataTableArchivo" emptyMessage="No hay archivos activos en este momento" reflow="true"  
-							value="#{vtArtefactoView.dataFiltroArchivo}" var="vtArchivo"
-							paginator="true" rows="2">
+						<p:dataTable id="dataTableArchivo"
+							emptyMessage="No hay archivos activos en este momento"
+							reflow="true" value="#{vtArtefactoView.dataFiltroArchivo}"
+							var="vtArchivo" paginator="true" rows="2">
 							<p:column filterBy="#{vtArchivo.archCodigo}"
 								sortBy="#{vtArchivo.archCodigo}">
 								<f:facet name="header">
@@ -512,7 +515,7 @@
 							</p:column>
 							<p:column headerText="Eliminar">
 								<div align="center">
-									<p:commandButton id="btnEliminar" icon="icon-cancel-2"
+									<p:commandButton id="btnEliminar" icon="fa fa-times"
 										actionListener="#{vtArtefactoView.deleteFileView}"
 										update=":frm:msg,formularioDescarga">
 										<p:ajax />
@@ -541,7 +544,9 @@
 
 					<p:tab title="Archivos inactivos">
 
-						<p:dataTable id="dataTableArchivoInactivos" emptyMessage="No hay archivos inactivos en este momento"  reflow="true"
+						<p:dataTable id="dataTableArchivoInactivos"
+							emptyMessage="No hay archivos inactivos en este momento"
+							reflow="true"
 							value="#{vtArtefactoView.dataFiltroArchivoInactivo}"
 							var="vtArchivo" paginator="true" rows="2">
 							<p:column filterBy="#{vtArchivo.archCodigo}"
@@ -581,7 +586,7 @@
 							</p:column>
 							<p:column headerText="Eliminar">
 								<div align="center">
-									<p:commandButton id="btnEliminar" icon="fa fa-retweet"
+									<p:commandButton id="btnEliminar" icon="fa fa-times"
 										actionListener="#{vtArtefactoView.deleteFileView}"
 										update=":frm:msg,formularioDescarga">
 										<p:ajax />
@@ -779,16 +784,20 @@
 							<f:selectItems value="#{vtArtefactoView.esEstadoItems}" />
 						</p:selectOneMenu>
 						<h:outputText id="msgEsfuerzoEstimado" value="Esfuerzo estimado" />
-						<p:inputText id="txtEsfuerzoEstimado"
-							placeholder="Esfuerzo estimado"
-							binding="#{vtArtefactoView.txtEsfuerzoEstimado}" />
+						<p:inputMask id="txtEsfuerzoEstimado"
+							placeholder="Esfuerzo estimado" mask="99:99"
+							binding="#{vtArtefactoView.txtEsfuerzoEstimado}">
+							<p:ajax event="blur"
+								listener="#{vtArtefactoView.asignarDatosACampos}"
+								update="txtEsfuerzoRestante,txtPuntos" />
+						</p:inputMask>
 
 						<h:outputText id="msgEsfuerzoRestante" value="EsfuerzoRestante" />
-						<p:inputText id="txtEsfuerzoRestante"
-							placeholder="Esfuerzo restante"
+						<p:inputMask id="txtEsfuerzoRestante"
+							placeholder="Esfuerzo restante" mask="99:99"
 							binding="#{vtArtefactoView.txtEsfuerzoRestante}" />
 						<h:outputText id="msgPuntos" value="Puntos" />
-						<p:inputText id="txtPuntos" placeholder="Puntos"
+						<p:inputMask id="txtPuntos" placeholder="Puntos" mask="99:99"
 							binding="#{vtArtefactoView.txtPuntos}" />
 						<h:outputText id="msgOrigen" value="Orígen" />
 						<p:inputText id="txtOrigen" placeholder="Origen"

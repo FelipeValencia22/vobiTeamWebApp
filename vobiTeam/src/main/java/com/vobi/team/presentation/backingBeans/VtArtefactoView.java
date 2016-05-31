@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -21,6 +22,7 @@ import javax.faces.model.SelectItem;
 
 import org.primefaces.component.calendar.Calendar;
 import org.primefaces.component.commandbutton.CommandButton;
+import org.primefaces.component.inputmask.InputMask;
 import org.primefaces.component.inputtext.InputText;
 import org.primefaces.component.inputtextarea.InputTextarea;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
@@ -99,16 +101,17 @@ public class VtArtefactoView implements Serializable {
 	private InputTextarea txtdescripcionCambio;
 	private InputText txtnombre;
 	private InputText txtnombreCambio;
-	private InputText txtEsfuerzoEstimado;
-	private InputText txtEsfuerzoEstimadoCambio;
-	private InputText txtEsfuerzoRestante;
-	private InputText txtEsfuerzoRestanteCambio;
-	private InputText txtEsfuerzoReal;
-	private InputText txtEsfuerzoRealCambio;
+	private InputMask txtEsfuerzoEstimado;
+	private InputMask txtEsfuerzoEstimadoCambio;
+	private InputMask txtEsfuerzoRestante;
+	private InputMask txtEsfuerzoRestanteCambio;
+	private InputMask txtEsfuerzoReal;
+
+	private InputMask txtEsfuerzoRealCambio;
 	private InputText txtOrigen;
 	private InputText txtOrigenCambio;
-	private InputText txtPuntos;
-	private InputText txtPuntosCambio;
+	private InputMask txtPuntos;
+	private InputMask txtPuntosCambio;
 	private Calendar txtFechaFin;
 	private Calendar txtFechaInicio;
 	private CommandButton btnCrearS;
@@ -172,6 +175,7 @@ public class VtArtefactoView implements Serializable {
 
 	public String crearArtefacto() {
 		String esfuerzoEstimado, esfuerzoRestante, puntos;
+		String horas, minutos;
 		log.info("Creando artefacto");
 
 		try {
@@ -185,6 +189,18 @@ public class VtArtefactoView implements Serializable {
 			esfuerzoRestante = txtEsfuerzoRestante.getValue().toString().trim();
 			puntos = (txtPuntos.getValue().toString().trim());
 			entity.setOrigen(txtOrigen.getValue().toString().trim());
+
+			horas = esfuerzoEstimado.substring(0, 2);
+			minutos = esfuerzoEstimado.substring(3, 5);
+			esfuerzoEstimado = convertirHorasAMinutos(horas, minutos).toString().trim();
+
+			horas = esfuerzoRestante.substring(0, 2);
+			minutos = esfuerzoRestante.substring(3, 5);
+			esfuerzoRestante = convertirHorasAMinutos(horas, minutos).toString().trim();
+
+			horas = puntos.substring(0, 2);
+			minutos = puntos.substring(3, 5);
+			puntos = convertirHorasAMinutos(horas, minutos).toString().trim();
 
 			String pilasProducto = somPilaProducto.getValue().toString().trim();
 			Long idPilaProducto = Long.parseLong(pilasProducto);
@@ -250,6 +266,30 @@ public class VtArtefactoView implements Serializable {
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
 		return "";
+	}
+
+	public void asignarDatosACampos() {
+		String esfuerzo = txtEsfuerzoEstimado.getValue().toString().trim();
+		txtEsfuerzoRestante.setValue(esfuerzo);
+		txtPuntos.setValue(esfuerzo);
+	}
+
+	public Long convertirHorasAMinutos(String horas, String minutos) {
+		Long minutosTotales = 0L;
+		Long horasEsfuerzo = Long.parseLong(horas);
+		Long horasEsfuerzoEnMinutos = TimeUnit.HOURS.toMinutes(horasEsfuerzo);
+		Long minutosEsfuerzo = Long.parseLong(minutos);
+		minutosTotales = horasEsfuerzoEnMinutos + minutosEsfuerzo;
+		log.info(horas + ":" + minutos + " = " + minutosTotales + " minutos totales");
+		return minutosTotales;
+	}
+
+	public String convertirMinutosAHorasYMinutos(String tiempo) {
+		Integer horas = Integer.parseInt(tiempo) / 60;
+		Integer minutos = Integer.parseInt(tiempo) % 60;
+		String horasMinutos = horas.toString() + minutos.toString();
+		log.info("Valor retornado en horas y minutos " + horasMinutos);
+		return horasMinutos;
 	}
 
 	public String handleFileUpload(FileUploadEvent event) throws IOException {
@@ -495,15 +535,15 @@ public class VtArtefactoView implements Serializable {
 			txtdescripcionCambio.setDisabled(false);
 			txtnombreCambio.setValue(selectedVtArtefacto.getTitulo());
 			txtnombreCambio.setDisabled(false);
-			txtEsfuerzoEstimadoCambio.setValue(selectedVtArtefacto.getEsfuerzoEstimado());
+			txtEsfuerzoEstimadoCambio.setValue(selectedVtArtefacto.getTiempoConvertidoEstimado());
 			txtEsfuerzoEstimadoCambio.setDisabled(false);
-			txtEsfuerzoRealCambio.setValue(selectedVtArtefacto.getEsfuerzoReal());
+			txtEsfuerzoRealCambio.setValue(selectedVtArtefacto.getTiempoConvertidoReal());
 			txtEsfuerzoRealCambio.setDisabled(false);
-			txtEsfuerzoRestanteCambio.setValue(selectedVtArtefacto.getEsfuerzoRestante());
+			txtEsfuerzoRestanteCambio.setValue(selectedVtArtefacto.getTiempoConvertidoRestante());
 			txtEsfuerzoRestanteCambio.setDisabled(false);
 			txtOrigenCambio.setValue(selectedVtArtefacto.getOrigen());
 			txtOrigenCambio.setDisabled(false);
-			txtPuntosCambio.setValue(selectedVtArtefacto.getPuntos());
+			txtPuntosCambio.setValue(selectedVtArtefacto.getTiempoConvertidoPuntos());
 			txtPuntosCambio.setDisabled(false);
 			somTiposDeArtefactosCambio.setValue(selectedVtArtefacto.getTparCodigo_VtTipoArtefacto());
 			somEstadosCambio.setValue(selectedVtArtefacto.getEstaCodigo_VtEstado());
@@ -648,6 +688,8 @@ public class VtArtefactoView implements Serializable {
 	}
 
 	public String action_modify() {
+		String esfuerzoEstimado, esfuerzoRestante, puntos, esfuerzoReal;
+		String horas, minutos;
 		try {
 			VtHistoriaArtefacto vtHistoriaArtefacto = new VtHistoriaArtefacto();
 			if (entity == null) {
@@ -669,36 +711,54 @@ public class VtArtefactoView implements Serializable {
 			VtUsuario vtUsuarioEnSession = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
 			Date fechaModificacion = new Date();
 			entity.setFechaModificacion(fechaModificacion);
+			esfuerzoEstimado = txtEsfuerzoEstimadoCambio.getValue().toString().trim();
+			esfuerzoRestante = txtEsfuerzoRestanteCambio.getValue().toString().trim();
+			esfuerzoReal = txtEsfuerzoRealCambio.getValue().toString().trim();
+			puntos = txtPuntosCambio.getValue().toString().trim();
 
-			if (txtEsfuerzoEstimadoCambio.getValue() == null
-					|| txtEsfuerzoEstimadoCambio.getValue().toString().trim().equals("")) {
+			if (esfuerzoReal != null && !esfuerzoReal.equals("0000")) {
+				horas = esfuerzoReal.substring(0, 2);
+				minutos = esfuerzoReal.substring(3, 5);
+				esfuerzoReal = convertirHorasAMinutos(horas, minutos).toString();
+				entity.setEsfuerzoReal(Integer.parseInt(esfuerzoReal));
+			}
+			if (esfuerzoEstimado == null || esfuerzoEstimado.equals("")) {
 				throw new Exception("El campo para el esfuerzo estimado no puede estar vacio");
 			} else {
-				if ((Utilities.isNumeric(txtEsfuerzoEstimadoCambio.getValue().toString().trim()) == true)) {
-					entity.setEsfuerzoEstimado(
-							Integer.parseInt(txtEsfuerzoEstimadoCambio.getValue().toString().trim()));
+				horas = esfuerzoEstimado.substring(0, 2);
+				minutos = esfuerzoEstimado.substring(3, 5);
+				esfuerzoEstimado = convertirHorasAMinutos(horas, minutos).toString();
+				if ((Utilities.isNumeric(esfuerzoEstimado) == true)) {
+					entity.setEsfuerzoEstimado(Integer.parseInt(esfuerzoEstimado));
 				} else {
 					throw new Exception("El campo para el esfuerzo" + " estimado no acepta cadenas de texto o "
 							+ "números negativos, solo se aceptan valores númericos positivos.");
 				}
 			}
-			if (txtEsfuerzoRestanteCambio.getValue() == null
-					|| txtEsfuerzoRestanteCambio.getValue().toString().trim().equals("")) {
+			if (esfuerzoRestante == null || esfuerzoRestante.equals("")) {
 				throw new Exception("El campo para el esfuerzo restante no puede estar vacio");
 			} else {
-				if (Utilities.isNumeric(txtEsfuerzoRestanteCambio.getValue().toString().trim()) == true) {
-					entity.setEsfuerzoRestante(
-							Integer.parseInt(txtEsfuerzoRestanteCambio.getValue().toString().trim()));
+				horas = esfuerzoRestante.substring(0, 2);
+				minutos = esfuerzoRestante.substring(3, 5);
+				esfuerzoRestante = convertirHorasAMinutos(horas, minutos).toString();
+				if (Utilities.isNumeric(esfuerzoRestante) == true) {
+
+					entity.setEsfuerzoRestante(Integer.parseInt(esfuerzoRestante));
 				} else {
 					throw new Exception("El campo para el " + "esfuerzo restante no acepta cadenas "
 							+ "de texto o números negativos, solo se aceptan valores númericos positivos.");
 				}
 			}
-			if (txtPuntosCambio.getValue() == null || txtPuntosCambio.getValue().toString().trim().equals("")) {
+			if (puntos == null || puntos.equals("")) {
 				throw new Exception("El campo para los puntos no puede ser vacio");
 			} else {
-				if (Utilities.isNumeric(txtPuntosCambio.getValue().toString().trim()) == true) {
-					entity.setPuntos(Integer.parseInt(txtPuntosCambio.getValue().toString().trim()));
+				horas = puntos.substring(0, 2);
+				minutos = puntos.substring(3, 5);
+				puntos = convertirHorasAMinutos(horas, minutos).toString();
+				if (Utilities.isNumeric(puntos) == true) {
+
+					entity.setPuntos(Integer.parseInt(puntos));
+
 				} else {
 					throw new Exception("El campo para los puntos no acepta cadenas de texto"
 							+ " o números negativos, solo se aceptan valores numéricos positivos.");
@@ -859,10 +919,6 @@ public class VtArtefactoView implements Serializable {
 		return archivoEntity;
 	}
 
-	public InputText getTxtEsfuerzoRestante() {
-		return txtEsfuerzoRestante;
-	}
-
 	public CommandButton getBtnCrearArtefactoFiltrado() {
 		return btnCrearArtefactoFiltrado;
 	}
@@ -885,10 +941,6 @@ public class VtArtefactoView implements Serializable {
 
 	public void setLosSprintsFiltro(List<SelectItem> losSprintsFiltro) {
 		this.losSprintsFiltro = losSprintsFiltro;
-	}
-
-	public void setTxtEsfuerzoRestante(InputText txtEsfuerzoRestante) {
-		this.txtEsfuerzoRestante = txtEsfuerzoRestante;
 	}
 
 	public VtArchivoDTO getSelectedVtAchivo() {
@@ -915,36 +967,12 @@ public class VtArtefactoView implements Serializable {
 		this.dataFiltroHistoriaArtefacto = dataFiltroHistoriaArtefacto;
 	}
 
-	public InputText getTxtEsfuerzoRestanteCambio() {
-		return txtEsfuerzoRestanteCambio;
-	}
-
 	public List<VtArchivoDTO> getDataFiltroArchivo() {
 		return dataFiltroArchivo;
 	}
 
 	public void setDataFiltroArchivo(List<VtArchivoDTO> dataFiltroArchivo) {
 		this.dataFiltroArchivo = dataFiltroArchivo;
-	}
-
-	public void setTxtEsfuerzoRestanteCambio(InputText txtEsfuerzoRestanteCambio) {
-		this.txtEsfuerzoRestanteCambio = txtEsfuerzoRestanteCambio;
-	}
-
-	public InputText getTxtEsfuerzoReal() {
-		return txtEsfuerzoReal;
-	}
-
-	public void setTxtEsfuerzoReal(InputText txtEsfuerzoReal) {
-		this.txtEsfuerzoReal = txtEsfuerzoReal;
-	}
-
-	public InputText getTxtEsfuerzoRealCambio() {
-		return txtEsfuerzoRealCambio;
-	}
-
-	public void setTxtEsfuerzoRealCambio(InputText txtEsfuerzoRealCambio) {
-		this.txtEsfuerzoRealCambio = txtEsfuerzoRealCambio;
 	}
 
 	public InputText getTxtOrigen() {
@@ -983,22 +1011,6 @@ public class VtArtefactoView implements Serializable {
 		return selectedVtArtefacto;
 	}
 
-	public InputText getTxtPuntos() {
-		return txtPuntos;
-	}
-
-	public void setTxtPuntos(InputText txtPuntos) {
-		this.txtPuntos = txtPuntos;
-	}
-
-	public InputText getTxtPuntosCambio() {
-		return txtPuntosCambio;
-	}
-
-	public void setTxtPuntosCambio(InputText txtPuntosCambio) {
-		this.txtPuntosCambio = txtPuntosCambio;
-	}
-
 	public Long getSpriCodigo() {
 		return spriCodigo;
 	}
@@ -1029,20 +1041,68 @@ public class VtArtefactoView implements Serializable {
 		this.txtnombreCambio = txtnombreCambio;
 	}
 
-	public InputText getTxtEsfuerzoEstimadoCambio() {
-		return txtEsfuerzoEstimadoCambio;
-	}
-
-	public void setTxtEsfuerzoEstimadoCambio(InputText txtEsfuerzoEstimadoCambio) {
-		this.txtEsfuerzoEstimadoCambio = txtEsfuerzoEstimadoCambio;
-	}
-
 	public void setSpriCodigo(Long spriCodigo) {
 		this.spriCodigo = spriCodigo;
 	}
 
 	public CommandButton getBtnGuardar() {
 		return btnGuardar;
+	}
+
+	public InputMask getTxtEsfuerzoEstimadoCambio() {
+		return txtEsfuerzoEstimadoCambio;
+	}
+
+	public void setTxtEsfuerzoEstimadoCambio(InputMask txtEsfuerzoEstimadoCambio) {
+		this.txtEsfuerzoEstimadoCambio = txtEsfuerzoEstimadoCambio;
+	}
+
+	public InputMask getTxtEsfuerzoRestante() {
+		return txtEsfuerzoRestante;
+	}
+
+	public void setTxtEsfuerzoRestante(InputMask txtEsfuerzoRestante) {
+		this.txtEsfuerzoRestante = txtEsfuerzoRestante;
+	}
+
+	public InputMask getTxtEsfuerzoRestanteCambio() {
+		return txtEsfuerzoRestanteCambio;
+	}
+
+	public void setTxtEsfuerzoRestanteCambio(InputMask txtEsfuerzoRestanteCambio) {
+		this.txtEsfuerzoRestanteCambio = txtEsfuerzoRestanteCambio;
+	}
+
+	public InputMask getTxtEsfuerzoReal() {
+		return txtEsfuerzoReal;
+	}
+
+	public void setTxtEsfuerzoReal(InputMask txtEsfuerzoReal) {
+		this.txtEsfuerzoReal = txtEsfuerzoReal;
+	}
+
+	public InputMask getTxtEsfuerzoRealCambio() {
+		return txtEsfuerzoRealCambio;
+	}
+
+	public void setTxtEsfuerzoRealCambio(InputMask txtEsfuerzoRealCambio) {
+		this.txtEsfuerzoRealCambio = txtEsfuerzoRealCambio;
+	}
+
+	public InputMask getTxtPuntos() {
+		return txtPuntos;
+	}
+
+	public void setTxtPuntos(InputMask txtPuntos) {
+		this.txtPuntos = txtPuntos;
+	}
+
+	public InputMask getTxtPuntosCambio() {
+		return txtPuntosCambio;
+	}
+
+	public void setTxtPuntosCambio(InputMask txtPuntosCambio) {
+		this.txtPuntosCambio = txtPuntosCambio;
 	}
 
 	public void setBtnGuardar(CommandButton btnGuardar) {
@@ -1156,14 +1216,6 @@ public class VtArtefactoView implements Serializable {
 
 	public void setBtnFiltrar(CommandButton btnFiltrar) {
 		this.btnFiltrar = btnFiltrar;
-	}
-
-	public InputText getTxtEsfuerzoEstimado() {
-		return txtEsfuerzoEstimado;
-	}
-
-	public void setTxtEsfuerzoEstimado(InputText txtEsfuerzoEstimado) {
-		this.txtEsfuerzoEstimado = txtEsfuerzoEstimado;
 	}
 
 	public void setTxtdescripcion(InputTextarea txtdescripcion) {
@@ -1542,6 +1594,14 @@ public class VtArtefactoView implements Serializable {
 
 	public void setCodigoProyecto(Long codigoProyecto) {
 		this.codigoProyecto = codigoProyecto;
+	}
+
+	public InputMask getTxtEsfuerzoEstimado() {
+		return txtEsfuerzoEstimado;
+	}
+
+	public void setTxtEsfuerzoEstimado(InputMask txtEsfuerzoEstimado) {
+		this.txtEsfuerzoEstimado = txtEsfuerzoEstimado;
 	}
 
 }
