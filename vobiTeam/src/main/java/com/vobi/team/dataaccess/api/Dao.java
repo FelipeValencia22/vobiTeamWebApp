@@ -318,7 +318,7 @@ public interface Dao<T, PK extends Serializable> {
     
     public List<VtProyectoUsuario> consultarProyectoUsuarioPorProyecto(Long proyectoCodigo);
     
-    public List<VtArtefacto> consultarArtefactosSinAsignarASprint();
+    public List<VtArtefacto> consultarArtefactosSinAsignarASprint(Long codigoProyecto);
     public List<VtArtefacto> consultarArtefactosAsignadosASprint(Long codigoSprint);
     public VtArtefacto consultarArtefactosAsignadosASprintYPila(Long artecodigo,Long codigoPila);
     public List<VtUsuarioRol> consultarRolUsuarioPorUsuario(Long usuarioCodigo);

@@ -949,8 +949,8 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 	}
 
 	@Transactional(readOnly = true)
-	public List<VtArtefacto> consultarArtefactosSinAsignarASprint() throws Exception {
-		List<VtArtefacto> artefactosSoruce = vtArtefactoDAO.consultarArtefactosSinAsignarASprint();
+	public List<VtArtefacto> consultarArtefactosSinAsignarASprint(Long codigoProyecto) throws Exception {
+		List<VtArtefacto> artefactosSoruce = vtArtefactoDAO.consultarArtefactosSinAsignarASprint(codigoProyecto);
 		return artefactosSoruce;
 	}
 

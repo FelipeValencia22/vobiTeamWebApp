@@ -29,20 +29,29 @@
 
 			<br></br>
 
-			<p:panel header="ASIGNAR ROLES A USUARIOS">
+			<p:panel header="ASIGNAR ARTEFACTO (S) A USUARIO (S)">
 
 				<h:panelGrid columns="1">
 
 
-					<p:selectOneMenu id="somIntereses" style="width:300px"
+					<p:selectOneMenu id="somIntereses" style="width:400px"
 						binding="#{vtUsuarioArtefactoView.somIntereses}">
-						<p:ajax update="somProyectos" event="change"
+						<p:ajax update="somEmpresas" event="change"
 							listener="#{vtUsuarioArtefactoView.habilitarSelectOneMenu()}" />
 						<f:selectItem itemValue="-1" itemLabel="Interés" />
 						<f:selectItems value="#{vtUsuarioArtefactoView.losInteresesFiltro}" />
 					</p:selectOneMenu>
+					
+					<p:selectOneMenu id="somEmpresas" style="width:400px" 
+						binding="#{vtUsuarioArtefactoView.somEmpresas}">
+						<p:ajax update="somProyectos" event="change"
+							listener="#{vtUsuarioArtefactoView.filtrarEmpresa}" />
+						<f:selectItem itemValue="-1" itemLabel="Empresa" />
+						<f:selectItems value="#{vtUsuarioArtefactoView.lasEmpresasItems}" />
+					</p:selectOneMenu>
 
-					<p:selectOneMenu id="somProyectos" style="width:300px"
+
+					<p:selectOneMenu id="somProyectos" style="width:400px"
 						binding="#{vtUsuarioArtefactoView.somProyectos}">
 						<p:ajax update="somUsuarios" event="change"
 							listener="#{vtUsuarioArtefactoView.filtrarProyectoUsuario}" />
@@ -51,7 +60,7 @@
 							value="#{vtUsuarioArtefactoView.losProyectosFiltro}" />
 					</p:selectOneMenu>
 
-					<p:selectOneMenu id="somUsuarios" style="width:300px"
+					<p:selectOneMenu id="somUsuarios" style="width:400px"
 						binding="#{vtUsuarioArtefactoView.somUsuarios}">
 						<p:ajax update="panelVtArtefactoUsuario" event="change"
 							listener="#{vtUsuarioArtefactoView.localeChanged}" />

@@ -125,7 +125,7 @@ public class VtProyectoLogic implements IVtProyectoLogic {
 			vtPilaProducto.setActivo("S");
 			vtPilaProducto.setDescripcion("Pila de Producto. Proyecto: "+vtProyecto.getNombre());
 			vtPilaProducto.setFechaCreacion(vtProyecto.getFechaCreacion());
-			vtPilaProducto.setNombre("Pila de producto");
+			vtPilaProducto.setNombre("PilaProducto@"+vtProyecto.getNombre());
 			vtPilaProducto.setUsuCreador(1L);
 			vtPilaProducto.setVtProyecto(vtProyecto);
 

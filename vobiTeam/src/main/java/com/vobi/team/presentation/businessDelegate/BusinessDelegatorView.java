@@ -1064,8 +1064,8 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	}
 
 	@Override
-	public List<VtArtefacto> consultarArtefactosSinAsignarASprint() throws Exception {
-		return vtArtefactoLogic.consultarArtefactosSinAsignarASprint();
+	public List<VtArtefacto> consultarArtefactosSinAsignarASprint(Long codigoProyecto) throws Exception {
+		return vtArtefactoLogic.consultarArtefactosSinAsignarASprint(codigoProyecto);
 	}
 
 	@Override

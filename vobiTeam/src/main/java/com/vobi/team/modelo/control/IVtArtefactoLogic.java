@@ -63,7 +63,7 @@ public interface IVtArtefactoLogic {
 	public List<VtArtefactoDTO> getDataVtArtefactoFiltroI(Long codigoFiltro) throws Exception;
 	public List<VtArtefactoDTO> getDataVtArtefactoFiltroIDesarrollador(Long codigoFiltro , Long codigoUsuario) throws Exception;
 
-	public List<VtArtefacto> consultarArtefactosSinAsignarASprint() throws Exception;
+	public List<VtArtefacto> consultarArtefactosSinAsignarASprint(Long codigoProyecto) throws Exception;
 
 	public List<VtArtefacto> consultarArtefactosAsignadosASprint(Long codigoSprint) throws Exception;
 

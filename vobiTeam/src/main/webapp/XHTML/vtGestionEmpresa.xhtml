@@ -42,136 +42,135 @@
 
 					<p:tab title="Empresas activas ">
 
-							<p:dataTable id="dataTableVtEmpresa"
-								value="#{vtEmpresaView.data}" var="vtEmpresa" paginator="true"
-								rows="10">
+						<p:dataTable id="dataTableVtEmpresa" value="#{vtEmpresaView.data}"
+							var="vtEmpresa" paginator="true" rows="10">
 
-								<p:column filterBy="#{vtEmpresa.emprCodigo}"
-									sortBy="#{vtEmpresa.emprCodigo}">
-									<f:facet name="header">
-										<h:outputText value="Código empresa" />
-									</f:facet>
-									<h:outputText value="#{vtEmpresa.emprCodigo}" />
-								</p:column>
+							<p:column filterBy="#{vtEmpresa.emprCodigo}"
+								sortBy="#{vtEmpresa.emprCodigo}">
+								<f:facet name="header">
+									<h:outputText value="Código empresa" />
+								</f:facet>
+								<h:outputText value="#{vtEmpresa.emprCodigo}" />
+							</p:column>
 
-								<p:column filterBy="#{vtEmpresa.identificacion}"
-									sortBy="#{vtEmpresa.identificacion}">
-									<f:facet name="header">
-										<h:outputText value="ID Empresa" />
-									</f:facet>
-									<h:outputText value="#{vtEmpresa.identificacion}" />
-								</p:column>
+							<p:column filterBy="#{vtEmpresa.identificacion}"
+								sortBy="#{vtEmpresa.identificacion}">
+								<f:facet name="header">
+									<h:outputText value="ID Empresa" />
+								</f:facet>
+								<h:outputText value="#{vtEmpresa.identificacion}" />
+							</p:column>
 
-								<p:column filterBy="#{vtEmpresa.nombre}"
-									sortBy="#{vtEmpresa.nombre}">
-									<f:facet name="header">
-										<h:outputText value="Nombre empresa" />
-									</f:facet>
-									<h:outputText value="#{vtEmpresa.nombre}" />
-								</p:column>
-
-
-								<p:column filterBy="#{vtEmpresa.activo}"
-									sortBy="#{vtEmpresa.activo}">
-									<f:facet name="header">
-										<h:outputText value="Activa" />
-									</f:facet>
-									<h:outputText value="#{vtEmpresa.activo}" />
-								</p:column>
+							<p:column filterBy="#{vtEmpresa.nombre}"
+								sortBy="#{vtEmpresa.nombre}">
+								<f:facet name="header">
+									<h:outputText value="Nombre empresa" />
+								</f:facet>
+								<h:outputText value="#{vtEmpresa.nombre}" />
+							</p:column>
 
 
+							<p:column filterBy="#{vtEmpresa.activo}"
+								sortBy="#{vtEmpresa.activo}">
+								<f:facet name="header">
+									<h:outputText value="Activa" />
+								</f:facet>
+								<h:outputText value="#{vtEmpresa.activo}" />
+							</p:column>
 
-								<p:column headerText="Modificar">
-									<div align="center">
-										<p:commandButton id="btnEdit" icon="fa fa-edit"
-											update=":dialogVtEmpresa"
-											actionListener="#{vtEmpresaView.action_edit}">
-											<f:attribute name="selectedVtEmpresa" value="#{vtEmpresa}" />
-										</p:commandButton>
-										<p:tooltip id="toolTipFadeM" for="btnEdit" value="Modificar" />
-									</div>
-								</p:column>
 
-								<p:column headerText="Cambiar estado">
-									<div align="center">
-										<p:commandButton id="btnEstado" icon="fa fa-retweet"
-											update=":frm:panelDataTableVtEmpresa, :frm:growl"
-											actionListener="#{vtEmpresaView.cambiarEstado}">
-											<f:attribute name="selectedVtEmpresa" value="#{vtEmpresa}" />
-										</p:commandButton>
-										<p:tooltip id="toolTipFadeC" for="btnEstado"
-											value="Cambiar estado" />
-									</div>
-								</p:column>
 
-							</p:dataTable>
+							<p:column headerText="Modificar">
+								<div align="center">
+									<p:commandButton id="btnEdit" icon="fa fa-edit"
+										update=":dialogVtEmpresa"
+										actionListener="#{vtEmpresaView.action_edit}">
+										<f:attribute name="selectedVtEmpresa" value="#{vtEmpresa}" />
+									</p:commandButton>
+									<p:tooltip id="toolTipFadeM" for="btnEdit" value="Modificar" />
+								</div>
+							</p:column>
+
+							<p:column headerText="Cambiar estado">
+								<div align="center">
+									<p:commandButton id="btnEstado" icon="fa fa-retweet"
+										update=":frm:panelDataTableVtEmpresa, :frm:growl"
+										actionListener="#{vtEmpresaView.cambiarEstado}">
+										<f:attribute name="selectedVtEmpresa" value="#{vtEmpresa}" />
+									</p:commandButton>
+									<p:tooltip id="toolTipFadeC" for="btnEstado"
+										value="Cambiar estado" />
+								</div>
+							</p:column>
+
+						</p:dataTable>
 					</p:tab>
 
 					<br></br>
 
 					<p:tab title="Empresas inactivas ">
 
-							<p:dataTable id="dataTableVtEmpresaIn"
-								value="#{vtEmpresaView.dataI}" var="vtEmpresa" paginator="true"
-								rows="5">
+						<p:dataTable id="dataTableVtEmpresaIn"
+							value="#{vtEmpresaView.dataI}" var="vtEmpresa" paginator="true"
+							rows="5">
 
-								<p:column filterBy="#{vtEmpresa.emprCodigo}"
-									sortBy="#{vtEmpresa.emprCodigo}">
-									<f:facet name="header">
-										<h:outputText value="Código empresa" />
-									</f:facet>
-									<h:outputText value="#{vtEmpresa.emprCodigo}" />
-								</p:column>
+							<p:column filterBy="#{vtEmpresa.emprCodigo}"
+								sortBy="#{vtEmpresa.emprCodigo}">
+								<f:facet name="header">
+									<h:outputText value="Código empresa" />
+								</f:facet>
+								<h:outputText value="#{vtEmpresa.emprCodigo}" />
+							</p:column>
 
-								<p:column filterBy="#{vtEmpresa.identificacion}"
-									sortBy="#{vtEmpresa.identificacion}">
-									<f:facet name="header">
-										<h:outputText value="ID Empresa" />
-									</f:facet>
-									<h:outputText value="#{vtEmpresa.identificacion}" />
-								</p:column>
+							<p:column filterBy="#{vtEmpresa.identificacion}"
+								sortBy="#{vtEmpresa.identificacion}">
+								<f:facet name="header">
+									<h:outputText value="ID Empresa" />
+								</f:facet>
+								<h:outputText value="#{vtEmpresa.identificacion}" />
+							</p:column>
 
-								<p:column filterBy="#{vtEmpresa.activo}"
-									sortBy="#{vtEmpresa.activo}">
-									<f:facet name="header">
-										<h:outputText value="Activa" />
-									</f:facet>
-									<h:outputText value="#{vtEmpresa.activo}" />
-								</p:column>
+							<p:column filterBy="#{vtEmpresa.activo}"
+								sortBy="#{vtEmpresa.activo}">
+								<f:facet name="header">
+									<h:outputText value="Activa" />
+								</f:facet>
+								<h:outputText value="#{vtEmpresa.activo}" />
+							</p:column>
 
-								<p:column filterBy="#{vtEmpresa.nombre}"
-									sortBy="#{vtEmpresa.nombre}">
-									<f:facet name="header">
-										<h:outputText value="Nombre empresa" />
-									</f:facet>
-									<h:outputText value="#{vtEmpresa.nombre}" />
-								</p:column>
+							<p:column filterBy="#{vtEmpresa.nombre}"
+								sortBy="#{vtEmpresa.nombre}">
+								<f:facet name="header">
+									<h:outputText value="Nombre empresa" />
+								</f:facet>
+								<h:outputText value="#{vtEmpresa.nombre}" />
+							</p:column>
 
 
 
-								<p:column headerText="Modificar">
-									<div align="center">
-										<p:commandButton id="btnEdit" icon="fa fa-edit"
-											update=":dialogVtEmpresa"
-											actionListener="#{vtEmpresaView.action_edit}">
-											<f:attribute name="selectedVtEmpresa" value="#{vtEmpresa}" />
-										</p:commandButton>
-										<p:tooltip id="toolTipFadeMi" for="btnEdit" value="Modificar" />
-									</div>
-								</p:column>
+							<p:column headerText="Modificar">
+								<div align="center">
+									<p:commandButton id="btnEdit" icon="fa fa-edit"
+										update=":dialogVtEmpresa"
+										actionListener="#{vtEmpresaView.action_edit}">
+										<f:attribute name="selectedVtEmpresa" value="#{vtEmpresa}" />
+									</p:commandButton>
+									<p:tooltip id="toolTipFadeMi" for="btnEdit" value="Modificar" />
+								</div>
+							</p:column>
 
-								<p:column headerText="Cambiar estado">
-									<div align="center">
-										<p:commandButton id="btnEstado" icon="fa fa-retweet"
-											update=":frm:panelDataTableVtEmpresa, :frm:growl"
-											actionListener="#{vtEmpresaView.cambiarEstado}">
-											<f:attribute name="selectedVtEmpresa" value="#{vtEmpresa}" />
-										</p:commandButton>
-										<p:tooltip id="toolTipFadeCi" for="btnEstado"
-											value="Cambiar estado" />
-									</div>
-								</p:column>
-							</p:dataTable>
+							<p:column headerText="Cambiar estado">
+								<div align="center">
+									<p:commandButton id="btnEstado" icon="fa fa-retweet"
+										update=":frm:panelDataTableVtEmpresa, :frm:growl"
+										actionListener="#{vtEmpresaView.cambiarEstado}">
+										<f:attribute name="selectedVtEmpresa" value="#{vtEmpresa}" />
+									</p:commandButton>
+									<p:tooltip id="toolTipFadeCi" for="btnEstado"
+										value="Cambiar estado" />
+								</div>
+							</p:column>
+						</p:dataTable>
 					</p:tab>
 				</p:accordionPanel>
 			</p:panel>
@@ -183,27 +182,23 @@
 			<h:form id="formDialogCrear">
 				<h:panelGrid columns="1">
 
-					<p:inputTextarea id="txtIDCrear" rows="1" cols="30"
-						counter="display" maxlength="50" 
-						counterTemplate="{0} Caracteres restantes" style="width:400px" 
-						placeholder="Identificaci&#243;n o NIT"
+					<p:inputTextarea id="txtIDCrear" rows="1" cols="30" maxlength="50"
+						style="width:400px" placeholder="Identificaci&#243;n o NIT"
 						binding="#{vtEmpresaView.txtIDCrear}">
 						<p:ajax listener="#{vtEmpresaView.txtIdListener}"
 							update="formDialogCrear" />
 					</p:inputTextarea>
-					
+
 					<h:outputText id="display" />
 
 
 					<p:inputTextarea id="txtNombreCrear" rows="1" cols="30"
-						counter="display2" maxlength="50"
-						counterTemplate="{0} Caracteres restantes" placeholder="Nombre"
-						style="width:400px" binding="#{vtEmpresaView.txtNombreCrear}" />
+						maxlength="50" placeholder="Nombre" style="width:400px"
+						binding="#{vtEmpresaView.txtNombreCrear}" />
 				</h:panelGrid>
 				<h:outputText id="display2" />
 
-				<br>
-				</br>
+				<br> </br>
 
 				<p:commandButton id="btnCrear" icon="fa fa-save"
 					title="Crear empresa" binding="#{vtEmpresaView.btnCrear}"
@@ -214,7 +209,7 @@
 				<p:commandButton id="btnLimpiar" icon="fa fa-eraser" title="Limpiar"
 					binding="#{vtEmpresaView.btnLimpiar}"
 					action="#{vtEmpresaView.limpiar}" update="formDialogCrear" />
-					
+
 				<br></br>
 
 			</h:form>
