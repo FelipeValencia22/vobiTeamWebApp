@@ -312,7 +312,7 @@ public class VtArtefactoSprintView implements Serializable {
 			createMeterGaugeModels();
 			calcularEsfuerzo();
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("Error",e.getMessage());
 		}
 	}
 
