@@ -585,7 +585,7 @@ public interface IBusinessDelegatorView {
 	public List<VtHistoriaArtefactoDTO> getDataVtHistoriaArtefactoPorIdArtefacto(Long codigoArtefacto)
 			throws Exception;
 
-	public List<VtArtefacto> consultarArtefactosSinAsignarASprint()throws Exception;
+	public List<VtArtefacto> consultarArtefactosSinAsignarASprint(Long codigoProyecto)throws Exception;
 
 	public List<VtArtefacto> consultarArtefactosAsignadosASprint(Long codigoSprint)throws Exception;
 

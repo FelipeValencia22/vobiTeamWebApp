@@ -61,7 +61,7 @@
 
 	<query name="consultarArtefactosSinAsignarASprint">
   <![CDATA[
-  	Select artefactos from VtArtefacto artefactos where artefactos.vtSprint.spriCodigo is null
+  	Select artefactos from VtArtefacto artefactos where artefactos.vtSprint.spriCodigo is null and artefactos.vtSprint.vtPilaProducto.vtProyecto=:codigoProyecto 
    ]]>
 	</query>
 

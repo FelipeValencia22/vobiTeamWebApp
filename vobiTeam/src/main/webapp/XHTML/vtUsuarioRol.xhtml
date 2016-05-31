@@ -32,15 +32,24 @@
 			<p:panel header="ASIGNAR ROLES A USUARIOS">
 
 				<h:panelGrid columns="1">
-					<p:selectOneMenu id="somProyectos" style="width:300px"
+
+					<p:selectOneMenu id="somEmpresas" style="width:400px"
+						binding="#{vtUsuarioRolView.somEmpresas}">
+						<p:ajax update="somProyectos" event="change"
+							listener="#{vtUsuarioRolView.filtrarEmpresa}" /> 
+						<f:selectItem itemValue="-1" itemLabel="Empresa" /> 
+						<f:selectItems value="#{vtUsuarioRolView.lasEmpresasItems}" />
+					</p:selectOneMenu> 
+
+					<p:selectOneMenu id="somProyectos" style="width:400px"
 						binding="#{vtUsuarioRolView.somProyectos}">
-						<p:ajax  update="somUsuarios" event="change"
+						<p:ajax update="somUsuarios" event="change"
 							listener="#{vtUsuarioRolView.filtrarProyectoUsuario}" />
 						<f:selectItem itemValue="-1" itemLabel="Proyecto" />
 						<f:selectItems value="#{vtUsuarioRolView.losProyectosFiltro}" />
 					</p:selectOneMenu>
 
-					<p:selectOneMenu id="somUsuarios" style="width:300px"
+					<p:selectOneMenu id="somUsuarios" style="width:400px"
 						binding="#{vtUsuarioRolView.somUsuarios}">
 						<p:ajax update="panelVtRol"
 							listener="#{vtUsuarioRolView.localeChanged}" />
@@ -85,7 +94,7 @@
 
 					</h:panelGrid>
 
-					
+
 				</h:panelGrid>
 			</p:panel>
 

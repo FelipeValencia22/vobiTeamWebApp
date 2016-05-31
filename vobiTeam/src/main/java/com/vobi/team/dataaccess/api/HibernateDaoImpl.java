@@ -645,9 +645,9 @@ public class HibernateDaoImpl<T, PK extends Serializable> implements Dao<T, PK> 
 	}
 
 	@Override
-	public List<VtArtefacto> consultarArtefactosSinAsignarASprint() {
+	public List<VtArtefacto> consultarArtefactosSinAsignarASprint(Long codigoProyecto) {
 		return (List<VtArtefacto>) sessionFactory.getCurrentSession()
-				.getNamedQuery("consultarArtefactosSinAsignarASprint").list();
+				.getNamedQuery("consultarArtefactosSinAsignarASprint").setLong("codigoProyecto", codigoProyecto).list();
 	}
 
 	@Override

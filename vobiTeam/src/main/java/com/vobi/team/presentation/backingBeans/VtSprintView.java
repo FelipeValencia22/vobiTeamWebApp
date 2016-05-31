@@ -699,7 +699,7 @@ public class VtSprintView implements Serializable {
 
 		return "";
 	}
-	
+
 
 	public String modificar(ActionEvent evt) {
 		selectedVtSprint = (VtSprintDTO) (evt.getComponent().getAttributes().get("selectedVtSprint"));
@@ -888,7 +888,7 @@ public class VtSprintView implements Serializable {
 			Long idSprint = codigoSprint;
 			vtSprint = businessDelegatorView.getVtSprint(idSprint);
 
-			artefactosSource = businessDelegatorView.consultarArtefactosSinAsignarASprint();
+			artefactosSource = businessDelegatorView.consultarArtefactosSinAsignarASprint(vtSprint.getVtPilaProducto().getVtProyecto().getProyCodigo());
 			artefactosTarget = businessDelegatorView.consultarArtefactosAsignadosASprint(idSprint);
 
 			vtArtefacto.setSource(artefactosSource);
@@ -914,38 +914,54 @@ public class VtSprintView implements Serializable {
 			dataActivo = null;
 			dataActivo = businessDelegatorView.getDataVtArtefactoActivo(spriCodigo);
 
-			if (dataActivo == null) {
 
-				String cambioActivo = entity.getActivo().toString().trim();
-				if (cambioActivo.equalsIgnoreCase("S")) {
-					entity.setActivo("N");
-				} else {
-					entity.setActivo("S");
+
+			String cambioActivo = entity.getActivo().toString().trim();
+			if (cambioActivo.equalsIgnoreCase("S")) {
+				entity.setActivo("N");
+				List<VtArtefacto> listaArtefactos=businessDelegatorView.getVtArtefacto();
+				for(VtArtefacto vtArtefacto:listaArtefactos){
+					if(vtArtefacto.getVtEstado().getEstaCodigo()!=6 
+							&&  vtArtefacto.getVtSprint()!=null){
+						if(vtArtefacto.getVtSprint().getSpriCodigo().equals(entity.getSpriCodigo())){
+							VtEstado vtEstado=businessDelegatorView.getVtEstado(1L);
+							vtArtefacto.setVtEstado(vtEstado);
+							vtArtefacto.setVtSprint(null);
+							Date fechaModificacion = new Date();
+							vtArtefacto.setFechaModificacion(fechaModificacion);
+							VtUsuario vtUsuarioEnSession = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
+							entity.setUsuModificador(vtUsuarioEnSession.getUsuaCodigo());
+							vtArtefacto.setUsuModificador(vtUsuarioEnSession.getUsuaCodigo());
+							businessDelegatorView.updateVtArtefacto(vtArtefacto);
+						}
+					}
 				}
-
-				Date fechaModificacion = new Date();
-				entity.setFechaModificacion(fechaModificacion);
-
-				VtUsuario vtUsuarioEnSession = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
-				entity.setUsuModificador(vtUsuarioEnSession.getUsuaCodigo());
-
-				businessDelegatorView.updateVtSprint(entity);
-
-				FacesContext.getCurrentInstance().addMessage("",
-						new FacesMessage("El sprint de producto se modificó con exito"));
-
-				dataFiltro = businessDelegatorView.getDataVtSprintFiltro(pilaCodigo);
-				dataFiltroI = businessDelegatorView.getDataVtSprintFiltroI(pilaCodigo);
-
-				selectedVtSprint = null;
-				entity = null;
-
 			} else {
-				FacesUtils.addInfoMessage("No se puede cambiar el estado porque tiene artefactos activos");
+				entity.setActivo("S");
 			}
+
+			Date fechaModificacion = new Date();
+			entity.setFechaModificacion(fechaModificacion);
+
+			VtUsuario vtUsuarioEnSession = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
+			entity.setUsuModificador(vtUsuarioEnSession.getUsuaCodigo());
+
+			businessDelegatorView.updateVtSprint(entity);
+
+			FacesContext.getCurrentInstance().addMessage("",
+					new FacesMessage("El sprint de producto se modificó con exito"));
+
+			dataFiltro = businessDelegatorView.getDataVtSprintFiltro(pilaCodigo);
+			dataFiltroI = businessDelegatorView.getDataVtSprintFiltroI(pilaCodigo);
+
+			selectedVtSprint = null;
+			entity = null;
+
+
 		} catch (Exception e) {
 			data = null;
 			log.error(e.toString());
+			e.printStackTrace();
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
 
@@ -1136,7 +1152,7 @@ public class VtSprintView implements Serializable {
 				losEstadosSprintsItems = new ArrayList<SelectItem>();
 				for (VtEstadoSprint vtEstadoSprint : listaEstadosSprint) {
 					losEstadosSprintsItems
-							.add(new SelectItem(vtEstadoSprint.getEstsprCodigo(), vtEstadoSprint.getNombre()));
+					.add(new SelectItem(vtEstadoSprint.getEstsprCodigo(), vtEstadoSprint.getNombre()));
 				}
 
 			}

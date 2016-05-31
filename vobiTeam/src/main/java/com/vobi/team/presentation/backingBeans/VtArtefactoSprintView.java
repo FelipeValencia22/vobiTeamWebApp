@@ -277,7 +277,7 @@ public class VtArtefactoSprintView implements Serializable {
 			Long idSprint = Long.parseLong(somSprints.getValue().toString().trim());
 			vtSprint = businessDelegatorView.getVtSprint(idSprint);
 			
-			artefactosSource = businessDelegatorView.consultarArtefactosSinAsignarASprint();
+			artefactosSource = businessDelegatorView.consultarArtefactosSinAsignarASprint(vtSprint.getVtPilaProducto().getVtProyecto().getProyCodigo());
 			artefactosTarget = businessDelegatorView.consultarArtefactosAsignadosASprint(idSprint);
 
 			vtArtefacto.setSource(artefactosSource);
