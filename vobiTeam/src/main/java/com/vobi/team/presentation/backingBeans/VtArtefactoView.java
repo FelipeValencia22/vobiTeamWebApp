@@ -690,6 +690,7 @@ public class VtArtefactoView implements Serializable {
 	public String action_modify() {
 		String esfuerzoEstimado, esfuerzoRestante, puntos, esfuerzoReal;
 		String horas, minutos;
+		entity = null;
 		try {
 			VtHistoriaArtefacto vtHistoriaArtefacto = new VtHistoriaArtefacto();
 			if (entity == null) {
@@ -810,6 +811,7 @@ public class VtArtefactoView implements Serializable {
 			businessDelegatorView.saveVtHistoriaArtefacto(vtHistoriaArtefacto);
 
 			vtHistoriaArtefacto = null;
+			entity = null;
 
 		} catch (Exception e) {
 			data = null;
