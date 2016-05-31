@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Zathura Code Generator http://zathuracode.org/ www.zathuracode.org
@@ -115,6 +116,7 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public void saveVtArtefacto(VtArtefacto entity, String esfuerzoEstimado, String esfuerzoRestantes, String puntos)
 			throws Exception {
+		String horas, minutos;
 
 		try {
 
@@ -158,6 +160,9 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 				throw new Exception(
 						"El campo para el esfuerzo estimado no puede ser vacio, digite el esfuerzo estimado del artefacto a crear.");
 			} else {
+				horas = esfuerzoEstimado.substring(0, 2);
+				minutos = esfuerzoEstimado.substring(3, 5);
+				esfuerzoEstimado = convertirHorasAMinutos(horas, minutos).toString().trim();
 				if ((Utilities.isNumeric(esfuerzoEstimado) == true)) {
 					entity.setEsfuerzoEstimado(Integer.parseInt(esfuerzoEstimado));
 				} else {
@@ -170,6 +175,11 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 				throw new Exception("El campo para el esf" + "uerzo restante no p"
 						+ "uede ser vacio, digite el esfuerzo restante del artefacto a crear.");
 			} else {
+				
+				horas = esfuerzoRestantes.substring(0, 2);
+				minutos = esfuerzoRestantes.substring(3, 5);
+				esfuerzoRestantes = convertirHorasAMinutos(horas, minutos).toString().trim();
+				
 				if (Utilities.isNumeric(esfuerzoRestantes) == true) {
 					entity.setEsfuerzoRestante(Integer.parseInt(esfuerzoRestantes));
 				} else {
@@ -183,6 +193,11 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 				throw new Exception(
 						"El campo para los puntos no puede ser vacio, digite los puntos del artefacto a crear.");
 			} else {
+				
+				horas = puntos.substring(0, 2);
+				minutos = puntos.substring(3, 5);
+				puntos = convertirHorasAMinutos(horas, minutos).toString().trim();
+				
 				if (Utilities.isNumeric(puntos) == true) {
 					entity.setPuntos(Integer.parseInt(puntos));
 				} else {
@@ -215,6 +230,17 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 		} finally {
 		}
 	}
+	
+	@Transactional(readOnly = true)
+	public Long convertirHorasAMinutos(String horas, String minutos) {
+		Long minutosTotales = 0L;
+		Long horasEsfuerzo = Long.parseLong(horas);
+		Long horasEsfuerzoEnMinutos = TimeUnit.HOURS.toMinutes(horasEsfuerzo);
+		Long minutosEsfuerzo = Long.parseLong(minutos);
+		minutosTotales = horasEsfuerzoEnMinutos + minutosEsfuerzo;
+		return minutosTotales;
+	}
+
 
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public void deleteVtArtefacto(VtArtefacto entity) throws Exception {
@@ -303,10 +329,6 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 			if (entity.getVtEstado() == null) {
 				throw new Exception("Seleccione el estado que va a tener el nuevo artefacto a crear.");
 			}
-			if (entity.getFechaModificacion() == null) {
-				throw new Exception("La fecha de creación es obligatoria");
-			}
-
 			if (entity.getUsuCreador() == null) {
 				throw new Exception("El usuario es obligatorio");
 			}

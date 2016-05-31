@@ -175,7 +175,6 @@ public class VtArtefactoView implements Serializable {
 
 	public String crearArtefacto() {
 		String esfuerzoEstimado, esfuerzoRestante, puntos;
-		String horas, minutos;
 		log.info("Creando artefacto");
 
 		try {
@@ -190,17 +189,7 @@ public class VtArtefactoView implements Serializable {
 			puntos = (txtPuntos.getValue().toString().trim());
 			entity.setOrigen(txtOrigen.getValue().toString().trim());
 
-			horas = esfuerzoEstimado.substring(0, 2);
-			minutos = esfuerzoEstimado.substring(3, 5);
-			esfuerzoEstimado = convertirHorasAMinutos(horas, minutos).toString().trim();
 
-			horas = esfuerzoRestante.substring(0, 2);
-			minutos = esfuerzoRestante.substring(3, 5);
-			esfuerzoRestante = convertirHorasAMinutos(horas, minutos).toString().trim();
-
-			horas = puntos.substring(0, 2);
-			minutos = puntos.substring(3, 5);
-			puntos = convertirHorasAMinutos(horas, minutos).toString().trim();
 
 			String pilasProducto = somPilaProducto.getValue().toString().trim();
 			Long idPilaProducto = Long.parseLong(pilasProducto);
@@ -252,7 +241,8 @@ public class VtArtefactoView implements Serializable {
 			vtHistoriaArtefacto.setFechaModificacion(entity.getFechaModificacion());
 			vtHistoriaArtefacto.setOrigen(entity.getOrigen());
 			vtHistoriaArtefacto.setDescripcion(entity.getDescripcion());
-			vtHistoriaArtefacto.setPuntos(Integer.parseInt(puntos));
+			vtHistoriaArtefacto.setPuntos(entity.getPuntos());
+			vtHistoriaArtefacto.setEsfuerzoRestante(entity.getEsfuerzoRestante());
 			vtHistoriaArtefacto.setTitulo(entity.getTitulo());
 			vtHistoriaArtefacto.setUsuCreador(entity.getUsuCreador());
 			vtHistoriaArtefacto.setUsuModificador(entity.getUsuModificador());
@@ -280,7 +270,6 @@ public class VtArtefactoView implements Serializable {
 		Long horasEsfuerzoEnMinutos = TimeUnit.HOURS.toMinutes(horasEsfuerzo);
 		Long minutosEsfuerzo = Long.parseLong(minutos);
 		minutosTotales = horasEsfuerzoEnMinutos + minutosEsfuerzo;
-		log.info(horas + ":" + minutos + " = " + minutosTotales + " minutos totales");
 		return minutosTotales;
 	}
 
