@@ -141,7 +141,7 @@ public class VtSprintView implements Serializable {
 			if (vtPilaProducto != null) {
 				VtProyecto vtProyecto = businessDelegatorView
 						.getVtProyecto(vtPilaProducto.getVtProyecto().getProyCodigo());
-				VtEmpresa vtEmpresa = businessDelegatorView.getVtEmpresa(vtProyecto.getVtEmpresa().getEmprCodigo());
+				VtEmpresa vtEmpresa = vtProyecto.getVtEmpresa();
 				somEmpresas.setValue(vtEmpresa.getEmprCodigo());
 				filtrarEmpresa();
 				somProyectos.setValue(vtProyecto.getProyCodigo());
@@ -372,7 +372,6 @@ public class VtSprintView implements Serializable {
 
 	public List<SelectItem> getLasEmpresasItems() {
 		try {
-			VtUsuario vtUsuario = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
 
 			if (lasEmpresasItems == null) {
 				List<VtEmpresa> listaEmpresas = businessDelegatorView.getVtEmpresa();
@@ -383,7 +382,6 @@ public class VtSprintView implements Serializable {
 					}
 				}
 			}
-			somEmpresas.setValue(vtUsuario.getVtEmpresa().getNombre());
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}
