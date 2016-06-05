@@ -21,6 +21,7 @@ import com.vobi.team.modelo.VtInteres;
 import com.vobi.team.modelo.VtProyecto;
 import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.modelo.VtUsuarioArtefacto;
+import com.vobi.team.modelo.VtUsuarioRol;
 import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
 import com.vobi.team.utilities.FacesUtils;
 
@@ -28,25 +29,25 @@ import com.vobi.team.utilities.FacesUtils;
 @ViewScoped
 public class VtUsuarioArtefactoView implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	private static final Logger log = LoggerFactory.getLogger(VtUsuarioArtefactoView.class);
-	
+
 	private DualListModel<VtArtefacto> vtArtefacto;
-	
+
 	private SelectOneMenu somUsuarios;
 	private SelectOneMenu somProyectos;
 	private SelectOneMenu somIntereses;
 	private SelectOneMenu somEmpresas;
-	
+
 	private List<SelectItem> losUsuariosItems;
-	
+
 	private String usuarioSeleccionado;
-	
+
 	private List<SelectItem> losUsuariosFiltro;
 	private List<SelectItem> losProyectosFiltro;
 	private List<SelectItem> losInteresesFiltro;
 	private List<SelectItem> lasEmpresasItems;
-	
+
 	List<VtArtefacto> artefactosSource;
 	List<VtArtefacto> artefactosTarget;
 
@@ -65,7 +66,8 @@ public class VtUsuarioArtefactoView implements Serializable {
 		}
 	}
 
-	public void asignarArtefactoAUsuario(VtUsuario vtUsuario, VtArtefacto vtArtefacto, VtInteres vtInteres) throws Exception {
+	public void asignarArtefactoAUsuario(VtUsuario vtUsuario, VtArtefacto vtArtefacto, VtInteres vtInteres)
+			throws Exception {
 
 		try {
 
@@ -99,12 +101,13 @@ public class VtUsuarioArtefactoView implements Serializable {
 		}
 	}
 
-	public void removerArtefactoDelUsuario(VtUsuario vtUsuario, VtArtefacto vtArtefacto, VtInteres vtInteres) throws Exception {
+	public void removerArtefactoDelUsuario(VtUsuario vtUsuario, VtArtefacto vtArtefacto, VtInteres vtInteres)
+			throws Exception {
 
 		try {
 			VtUsuarioArtefacto vtUsuarioArtefacto = businessDelegatorView.consultarUsuarioArtefactoPorUsuarioYArtefacto(
 					vtUsuario.getUsuaCodigo(), vtArtefacto.getArteCodigo());
-			if(vtUsuarioArtefacto!=null){
+			if (vtUsuarioArtefacto != null) {
 				businessDelegatorView.deleteVtUsuarioArtefacto(vtUsuarioArtefacto);
 				FacesUtils.addInfoMessage("Artefacto des-asignado con éxito con éxito");
 			}
@@ -120,8 +123,8 @@ public class VtUsuarioArtefactoView implements Serializable {
 			Long idUsuario = Long.parseLong(somUsuarios.getValue().toString().trim());
 			Long idProyecto = Long.parseLong(somProyectos.getValue().toString().trim());
 			VtUsuario vtUsuario = businessDelegatorView.getVtUsuario(idUsuario);
-			artefactosSource = businessDelegatorView.obtenerArtefactosNoAsignados(vtUsuario,idProyecto);
-			artefactosTarget = businessDelegatorView.obtenerArtefactosAsignados(vtUsuario,idProyecto);
+			artefactosSource = businessDelegatorView.obtenerArtefactosNoAsignados(vtUsuario, idProyecto);
+			artefactosTarget = businessDelegatorView.obtenerArtefactosAsignados(vtUsuario, idProyecto);
 			vtArtefacto.setSource(artefactosSource);
 			vtArtefacto.setTarget(artefactosTarget);
 
@@ -141,7 +144,7 @@ public class VtUsuarioArtefactoView implements Serializable {
 					.getVtInteres(Long.parseLong(somIntereses.getValue().toString().trim()));
 			for (Object item : event.getItems()) {
 				VtArtefacto vtArtefacto = (VtArtefacto) item;
-				
+
 				builder.append(((VtArtefacto) item).getTitulo()).append("<br />");
 				if (event.isAdd()) {
 					asignarArtefactoAUsuario(vtUsuario, vtArtefacto, vtInteres);
@@ -158,14 +161,14 @@ public class VtUsuarioArtefactoView implements Serializable {
 	}
 
 	public void localeChanged() throws Exception {
-		
+
 		try {
 			setUsuarioSeleccionado(somUsuarios.getValue().toString().trim());
 			actualizarListaArtefactos();
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}
-		
+
 	}
 
 	public void habilitarSelectOneMenu() {
@@ -232,11 +235,16 @@ public class VtUsuarioArtefactoView implements Serializable {
 
 				if (losUsuariosFiltro == null) {
 					List<VtUsuario> listaUsuarios = businessDelegatorView.obtenerUsuariosAsignados(vtProyecto);
+					List<VtUsuarioRol> listaRoles = new ArrayList<VtUsuarioRol>();
 					losUsuariosFiltro = new ArrayList<SelectItem>();
 
 					for (VtUsuario vtUsuario : listaUsuarios) {
-						if (vtUsuario.getActivo().equals("S")) {
-							losUsuariosFiltro.add(new SelectItem(vtUsuario.getUsuaCodigo(), vtUsuario.getLogin()));
+						listaRoles = businessDelegatorView.consultarRolUsuarioPorUsuario(vtUsuario.getUsuaCodigo());
+						for (VtUsuarioRol vtUsuarioRol : listaRoles) {
+							if (vtUsuario.getActivo().equals("S") && vtUsuarioRol.getVtRol().getRolNombre()
+									.toUpperCase().toString().trim().equals("DESARROLLADOR")) {
+								losUsuariosFiltro.add(new SelectItem(vtUsuario.getUsuaCodigo(), vtUsuario.getLogin()));
+							}
 						}
 
 					}
@@ -364,7 +372,7 @@ public class VtUsuarioArtefactoView implements Serializable {
 	public void setLasEmpresasItems(List<SelectItem> lasEmpresasItems) {
 		this.lasEmpresasItems = lasEmpresasItems;
 	}
-	
+
 	public String filtrarEmpresa() {
 		try {
 			VtEmpresa vtEmpresa = null;
