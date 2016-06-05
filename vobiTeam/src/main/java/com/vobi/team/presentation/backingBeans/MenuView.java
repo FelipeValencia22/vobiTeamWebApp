@@ -248,12 +248,6 @@ public class MenuView {
 		artefactosItem.setIcon("fa fa-files-o");
 		artefactosItem.setId("sm_VtArtefacto");
 		model.addElement(artefactosItem);
-		
-		DefaultMenuItem reportesItem = new DefaultMenuItem("Reportes-proyecto");
-		reportesItem.setOutcome("/XHTML/vtReportesPorProyecto.xhtml");
-		reportesItem.setIcon("fa fa-files-o");
-		reportesItem.setId("sm_VtReporteProyecto");
-		model.addElement(reportesItem);
 
 	}
 

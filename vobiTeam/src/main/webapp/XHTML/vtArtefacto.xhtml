@@ -376,28 +376,30 @@
 
 								<h:outputText id="msgEsfuerzoEstimadoCambio"
 									value="Esfuerzo Estimado" />
-								<p:inputText id="txtEsfuerzoEstimadoCambio" size="42"
-									placeholder="Esfuerzo estimado"
+								<p:inputMask id="txtEsfuerzoEstimadoCambio" size="42"
+									placeholder="Esfuerzo estimado" mask="99:99"
 									binding="#{vtArtefactoViewDesarrollador.txtEsfuerzoEstimadoCambio}" />
 
 								<h:outputText id="msgEsfuerzoRealCambio" value="Esfuerzo real" />
-								<p:inputText id="txtEsfuerzoRealCambio" size="42"
-									placeholder="Esfuerzo real"
+								<p:inputMask id="txtEsfuerzoRealCambio" size="42"
+									placeholder="Esfuerzo real" mask="99:99"
 									binding="#{vtArtefactoViewDesarrollador.txtEsfuerzoRealCambio}" />
 
 								<h:outputText id="msgEsfuerzoRestanteCambio"
 									value="Esfuerzo restante" />
-								<p:inputText id="txtEsfuerzoRestanteCambio" size="42"
-									placeholder="Esfuerzo restante"
+								<p:inputMask id="txtEsfuerzoRestanteCambio" size="42"
+									placeholder="Esfuerzo restante" mask="99:99"
 									binding="#{vtArtefactoViewDesarrollador.txtEsfuerzoRestanteCambio}" />
+
+								<h:outputText id="msgPuntosCambio" value="Puntos" />
+								<p:inputMask id="txtPuntosCambio" size="42" placeholder="Puntos"
+									mask="99:99"
+									binding="#{vtArtefactoViewDesarrollador.txtPuntosCambio}" />
+
 
 								<h:outputText id="msgOrigenCambio" value="Origen" />
 								<p:inputText id="txtOrigenCambio" size="42" placeholder="Origen"
 									binding="#{vtArtefactoViewDesarrollador.txtOrigenCambio}" />
-
-								<h:outputText id="msgPuntosCambio" value="Puntos" />
-								<p:inputText id="txtPuntosCambio" size="42" placeholder="Puntos"
-									binding="#{vtArtefactoViewDesarrollador.txtPuntosCambio}" />
 							</h:panelGrid>
 						</h:panelGrid>
 					</h:panelGrid>
@@ -729,7 +731,7 @@
 		</p:dialog>
 
 		<p:dialog id="dialogArte" header="Crear artefacto" rendered="true"
-			responsive="true" widgetVar="dlg" height="400" modal="true"
+			responsive="true" widgetVar="dlg" height="500" modal="true"
 			width="1000">
 			<h:form id="formDialogCrearArtefacto">
 				<p:growl id="growl" />
@@ -771,16 +773,20 @@
 								value="#{vtArtefactoViewDesarrollador.esEstadoItems}" />
 						</p:selectOneMenu>
 						<h:outputText id="msgEsfuerzoEstimado" value="Esfuerzo estimado" />
-						<p:inputText id="txtEsfuerzoEstimado"
-							placeholder="Esfuerzo estimado"
-							binding="#{vtArtefactoViewDesarrollador.txtEsfuerzoEstimado}" />
+						<p:inputMask id="txtEsfuerzoEstimado"
+							placeholder="Esfuerzo estimado" mask="99:99"
+							binding="#{vtArtefactoViewDesarrollador.txtEsfuerzoEstimado}">
+							<p:ajax event="blur"
+								listener="#{vtArtefactoViewDesarrollador.asignarDatosACampos}"
+								update="txtEsfuerzoRestante,txtPuntos" />
+						</p:inputMask>
 
 						<h:outputText id="msgEsfuerzoRestante" value="EsfuerzoRestante" />
-						<p:inputText id="txtEsfuerzoRestante"
-							placeholder="Esfuerzo restante"
+						<p:inputMask id="txtEsfuerzoRestante"
+							placeholder="Esfuerzo restante" mask="99:99"
 							binding="#{vtArtefactoViewDesarrollador.txtEsfuerzoRestante}" />
 						<h:outputText id="msgPuntos" value="Puntos" />
-						<p:inputText id="txtPuntos" placeholder="Puntos"
+						<p:inputMask id="txtPuntos" placeholder="Puntos" mask="99:99"
 							binding="#{vtArtefactoViewDesarrollador.txtPuntos}" />
 						<h:outputText id="msgOrigen" value="Orígen" />
 						<p:inputText id="txtOrigen" placeholder="Origen"

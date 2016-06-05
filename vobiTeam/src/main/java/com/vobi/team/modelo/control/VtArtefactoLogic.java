@@ -337,7 +337,6 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 
 			log.debug("update VtArtefacto successful");
 		} catch (Exception e) {
-			log.error("update VtArtefacto failed", e);
 			throw e;
 		} finally {
 		}

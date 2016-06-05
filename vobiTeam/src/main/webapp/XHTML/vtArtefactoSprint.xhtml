@@ -104,24 +104,18 @@
 								<h:outputText value="#{artefacto.titulo}" />
 							</p:column>
 						</p:pickList>
+						
+						<p:chart type="metergauge"
+						model="#{vtArtefactoSprintView.meterGaugeModel}"
+						style="width:500px;height:350px" />
 
 					</h:panelGrid>
+						
 				</h:panelGrid>
 
-
-				<br></br>
-
-				<p:chart type="metergauge"
-					model="#{vtArtefactoSprintView.meterGaugeModel}"
-					style="width:500px;height:350px" />
-
-
-				<br></br>
-
-
 			</p:panel>
-
-
+		
+						
 
 		</h:form>
 

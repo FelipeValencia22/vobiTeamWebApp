@@ -166,9 +166,9 @@ public class VtArtefactoViewCliente implements Serializable {
 			entity.setTitulo(txtnombre.getValue().toString().trim());
 			Date fechaCreacion = new Date();
 			entity.setFechaCreacion(fechaCreacion);
-			esfuerzoEstimado = "1";
-			esfuerzoRestante = "1";
-			puntos = "1";
+			esfuerzoEstimado = "00:00";
+			esfuerzoRestante = "00:00";
+			puntos = "00:00";
 			entity.setOrigen(vtUsuario.getNombre());
 
 			String pilasProducto = somPilaProducto.getValue().toString().trim();
@@ -220,7 +220,7 @@ public class VtArtefactoViewCliente implements Serializable {
 			vtHistoriaArtefacto.setFechaModificacion(entity.getFechaModificacion());
 			vtHistoriaArtefacto.setOrigen(entity.getOrigen());
 			vtHistoriaArtefacto.setDescripcion(entity.getDescripcion());
-			vtHistoriaArtefacto.setPuntos(Integer.parseInt(puntos));
+			vtHistoriaArtefacto.setPuntos(entity.getEsfuerzoEstimado());
 			vtHistoriaArtefacto.setTitulo(entity.getTitulo());
 			vtHistoriaArtefacto.setUsuCreador(entity.getUsuCreador());
 			vtHistoriaArtefacto.setUsuModificador(entity.getUsuModificador());
