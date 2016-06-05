@@ -113,6 +113,7 @@ public class VtSprintView implements Serializable {
 	private Panel pnlToogle;
 
 	private boolean showDialog;
+	private boolean usoPostConstructor = false;
 
 	String empresaUsuario;
 
@@ -126,6 +127,9 @@ public class VtSprintView implements Serializable {
 		somEmpresas = new SelectOneMenu();
 		somProyectos = new SelectOneMenu();
 		somPilaProducto = new SelectOneMenu();
+		pnlToogle =  new Panel();
+		btnCrearS = new CommandButton();
+		btnCrearS.setDisabled(true);
 	}
 
 	@PostConstruct
@@ -134,6 +138,7 @@ public class VtSprintView implements Serializable {
 		List<VtArtefacto> artefactosTarget = new ArrayList<VtArtefacto>();
 		vtArtefacto = new DualListModel<>(artefactosSource, artefactosTarget);
 		iniciarMeterGaugeModels();
+		usoPostConstructor = true;
 
 		try {
 			VtPilaProducto vtPilaProducto = (VtPilaProducto) FacesUtils.getfromSession("vtPilaProducto");
@@ -147,10 +152,12 @@ public class VtSprintView implements Serializable {
 				somProyectos.setValue(vtProyecto.getProyCodigo());
 				filtrarProyecto();
 				somPilaProducto.setValue(vtPilaProducto.getPilaCodigo());
+				filtrar();
 				dataFiltro = businessDelegatorView.getDataVtSprintFiltro(vtPilaProducto.getPilaCodigo());
 				dataFiltroI = businessDelegatorView.getDataVtSprintFiltroI(vtPilaProducto.getPilaCodigo());
 				FacesUtils.putinSession("vtPilaProducto", null);
 			}
+			usoPostConstructor = false;
 			vtPilaProducto = null;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -725,6 +732,8 @@ public class VtSprintView implements Serializable {
 		txtNombreCrear.resetValue();
 		txtObjetivoCrear.resetValue();
 		txtFechaFin.setValue(null);
+		txtEsfuerzoCrear.resetValue();
+		somEstadosSprint.setValue("-1");
 		txtFechaInicio.setValue(null);
 		txtEsfuerzoCrear.resetValue();
 		btnCrearS.setDisabled(true);
@@ -801,8 +810,18 @@ public class VtSprintView implements Serializable {
 		try {
 			VtEmpresa vtEmpresa = null;
 			losProyectosFiltro = null;
+			lasPilasDeProductoFiltro = null;
 			String empresaS = somEmpresas.getValue().toString().trim();
-
+				
+			if(!usoPostConstructor){
+				somProyectos.setValue("-1");	
+				somPilaProducto.setValue("-1");
+				dataFiltro = null;
+				dataFiltroI = null;
+				btnCrearS.setDisabled(true);	
+			}
+	
+			
 			Long empresa = Long.parseLong(empresaS);
 			vtEmpresa = businessDelegatorView.getVtEmpresa(empresa);
 
@@ -838,6 +857,14 @@ public class VtSprintView implements Serializable {
 			try {
 				VtProyecto vtProyecto = businessDelegatorView.getVtProyecto(Long.parseLong(proyectoS));
 				lasPilasDeProductoFiltro = null;
+				
+				if(!usoPostConstructor){
+					somPilaProducto.setValue("-1");
+					dataFiltro = null;
+					dataFiltroI = null;
+					btnCrearS.setDisabled(true);
+				}
+			
 				try {
 					if (lasPilasDeProductoFiltro == null) {
 						List<VtPilaProducto> listaPilasDeProducto = businessDelegatorView.getVtPilaProducto();
@@ -861,23 +888,37 @@ public class VtSprintView implements Serializable {
 				log.error(e.getMessage());
 
 			}
+		}else{
+			if(!usoPostConstructor){
+				somPilaProducto.setValue("-1");
+				dataFiltro = null;
+				dataFiltroI = null;
+				btnCrearS.setDisabled(true);
+			}
 		}
+		
+		
 
 		return "";
 	}
 
 	public String filtrar() {
+		
 		String pila = somPilaProducto.getValue().toString().trim();
 		if (!pila.equals("-1")) {
 			try {
 				pilaCodigo = Long.valueOf(pila);
 				dataFiltro = businessDelegatorView.getDataVtSprintFiltro(pilaCodigo);
 				dataFiltroI = businessDelegatorView.getDataVtSprintFiltroI(pilaCodigo);
-				pnlToogle.setVisible(true);
 				btnCrearS.setDisabled(false);
+				pnlToogle.setVisible(true);				
 			} catch (Exception e) {
-				e.printStackTrace();
+				log.error("Error al filtrar" ,e);
 			}
+		}else{
+			dataFiltro = null;
+			dataFiltroI = null;
+			btnCrearS.setDisabled(true);
 		}
 		return "";
 	}
@@ -1165,6 +1206,14 @@ public class VtSprintView implements Serializable {
 
 	public void setLosEstadosSprintsItems(List<SelectItem> losEstadosSprintsItems) {
 		this.losEstadosSprintsItems = losEstadosSprintsItems;
+	}
+
+	public boolean isUsoPostConstructor() {
+		return usoPostConstructor;
+	}
+
+	public void setUsoPostConstructor(boolean usoPostConstructor) {
+		this.usoPostConstructor = usoPostConstructor;
 	}
 
 }

@@ -34,25 +34,25 @@
 
 					<p:selectOneMenu id="somEmpresas" style="width:300px"
 						binding="#{vtArtefactoView.somEmpresas}">
-						<p:ajax update="somProyectos" event="change"
+						<p:ajax update="somProyectos,somPilaProducto,somSprints,pnlVtArtefacto,filtredBottomCreated" event="change"
 							listener="#{vtArtefactoView.filtrarEmpresa}" />
-						<f:selectItem itemValue="-1" itemLabel="Empresa" />
+						<f:selectItem itemValue="-1" itemLabel="Seleccionar la empresa" />
 						<f:selectItems value="#{vtArtefactoView.lasEmpresasItems}" />
 					</p:selectOneMenu>
 
 					<p:selectOneMenu id="somProyectos" style="width:300px"
 						binding="#{vtArtefactoView.somProyectos}">
-						<p:ajax update="somPilaProducto" event="change"
+						<p:ajax update="somPilaProducto,somSprints,pnlVtArtefacto,filtredBottomCreated" event="change"
 							listener="#{vtArtefactoView.filtrarProyecto}" />
-						<f:selectItem itemValue="-1" itemLabel="Proyecto" />
+						<f:selectItem itemValue="-1" itemLabel="Seleccionar el proyecto" />
 						<f:selectItems value="#{vtArtefactoView.losProyectosFiltro}" />
 					</p:selectOneMenu>
 
 					<p:selectOneMenu id="somPilaProducto" style="width:300px"
 						binding="#{vtArtefactoView.somPilaProducto}">
-						<p:ajax update="somSprints" event="change"
+						<p:ajax update="somSprints,pnlVtArtefacto,filtredBottomCreated" event="change"
 							listener="#{vtArtefactoView.imprimirValue}" />
-						<f:selectItem itemValue="-1" itemLabel="Pila de Producto" />
+						<f:selectItem itemValue="-1" itemLabel="Seleccionar la pila de Producto" />
 						<f:selectItems value="#{vtArtefactoView.lasPilasDeProductoFiltro}" />
 					</p:selectOneMenu>
 
@@ -60,16 +60,16 @@
 						binding="#{vtArtefactoView.somSprints}">
 						<p:ajax update="pnlVtArtefacto,frm" event="change"
 							listener="#{vtArtefactoView.filtrar}" />
-						<f:selectItem itemValue="-1" itemLabel="Sprint" />
+						<f:selectItem itemValue="-1" itemLabel="Seleccionar el sprint" />
 						<f:selectItems value="#{vtArtefactoView.losSprintsFiltro}" />
 					</p:selectOneMenu>
 
 					<br></br>
 
-					<p:commandButton value="Crear artefacto" type="button"
+					<p:commandButton id="filtredBottomCreated" value="Crear artefacto" type="button"
 						onclick="PF('dlg').show();" update="pnlListArtefacto"
 						binding="#{vtArtefactoView.btnCrearArtefactoFiltrado}"
-						disabled="true" />
+					 />
 
 					<br></br>
 
@@ -208,7 +208,7 @@
 							var="vtArtefacto" paginator="true" rows="7" reflow="true"
 							scrollRows="70" scrollable="true" liveScroll="true"
 							scrollHeight="400" style="margin-bottom:0" widgetVar="artI"
-							emptyMessage="No hay artefactos activos en este momento">
+							emptyMessage="No hay artefactos inactivos en este momento">
 							<p:column filterBy="#{vtArtefacto.arteCodigo}"
 								filterMatchMode="contains" sortBy="#{vtArtefacto.arteCodigo}">
 								<f:facet name="header">

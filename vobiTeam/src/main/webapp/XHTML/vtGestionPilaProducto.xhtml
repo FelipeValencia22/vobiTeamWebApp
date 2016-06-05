@@ -25,40 +25,43 @@
 
 		<h:form id="frm">
 
-		<p:growl/>
-				
+			<p:growl />
+
 			<br></br>
-				
+
 			<p:panel id="pnlFiltrar" header="PILA DE PRODUCTO">
 				<h:panelGrid columns="1">
 
-					<p:selectOneMenu id="somEmpresas"  style="width:400px"
-						binding="#{vtPilaProductoView.somEmpresas}"> 
-						<p:ajax update="somProyectos" event="change"
-								listener="#{vtPilaProductoView.filtrarEmpresa}" />
+					<p:selectOneMenu id="somEmpresas" style="width:400px"
+						binding="#{vtPilaProductoView.somEmpresas}">
+						<p:ajax update="somProyectos,pnVtPilaProducto,btnCrearPdP"
+							event="change" listener="#{vtPilaProductoView.filtrarEmpresa}" />
 						<f:selectItem itemValue="-1" itemLabel="Empresa" />
-						<f:selectItems value="#{vtPilaProductoView.lasEmpresasItemsFiltro}" />
-					</p:selectOneMenu> 
+						<f:selectItems
+							value="#{vtPilaProductoView.lasEmpresasItemsFiltro}" />
+					</p:selectOneMenu>
 
-					<p:selectOneMenu id="somProyectos"  style="width:400px"
+					<p:selectOneMenu id="somProyectos" style="width:400px"
 						binding="#{vtPilaProductoView.somProyectos}">
 						<p:ajax update="pnVtPilaProducto, btnCrearPdP" event="change"
-								listener="#{vtPilaProductoView.filtrar}" />
+							listener="#{vtPilaProductoView.filtrar}" />
 						<f:selectItem itemValue="-1" itemLabel="Proyecto" />
 						<f:selectItems value="#{vtPilaProductoView.losProyectosFiltro}" />
 					</p:selectOneMenu>
-					
-					<br></br> 
-					
-					<p:commandButton id="btnCrearPdP" value="Crear pila de producto" type="button" disabled="true"
-					binding="#{vtPilaProductoView.btnCrearPdP}" onclick="PF('dlg').show();" />
-					
+
+					<br></br>
+
+					<p:commandButton id="btnCrearPdP" value="Crear pila de producto"
+						type="button"
+						binding="#{vtPilaProductoView.btnCrearPdP}"
+						onclick="PF('dlg').show();" />
+
 					<br></br>
 
 				</h:panelGrid>
 
 			</p:panel>
-			
+
 			<br></br>
 
 			<p:accordionPanel id="pnVtPilaProducto" multiple="true">
@@ -67,7 +70,8 @@
 				<p:tab title="Pilas de producto activas">
 
 					<p:panel id="panelDataTableVtPilaProducto">
-						<p:dataTable id="dataTableListaA" emptyMessage="No hay pilas de producto activas en este momento"
+						<p:dataTable id="dataTableListaA"
+							emptyMessage="No hay pilas de producto activas en este momento"
 							value="#{vtPilaProductoView.dataFiltro}" var="vtPilaProducto"
 							paginator="true" rows="5">
 
@@ -86,7 +90,7 @@
 								</f:facet>
 								<h:outputText value="#{vtPilaProducto.nombre}" />
 							</p:column>
-												
+
 							<p:column filterBy="#{vtPilaProducto.descripcion}"
 								sortBy="#{vtPilaProducto.descripcion}">
 								<f:facet name="header">
@@ -94,7 +98,7 @@
 								</f:facet>
 								<h:outputText value="#{vtPilaProducto.descripcion}" />
 							</p:column>
-							
+
 							<p:column filterBy="#{vtPilaProducto.activo}"
 								sortBy="#{vtPilaProducto.activo}">
 								<f:facet name="header">
@@ -123,21 +127,23 @@
 										<f:attribute name="selectedVtPilaProducto"
 											value="#{vtPilaProducto}" />
 									</p:commandButton>
-									<p:tooltip id="toolTipFadeC" for="btnEstado" value="Cambiar estado" />
+									<p:tooltip id="toolTipFadeC" for="btnEstado"
+										value="Cambiar estado" />
 								</div>
 							</p:column>
-							
-								<p:column headerText="Lista sprints">
-										<div align="center">
-											<p:commandButton id="btnListadoSprintA" icon="fa fa-list"
-												action="vtGestionSprint.xhtml" update="frm"
-												actionListener="#{vtPilaProductoView.redireccionarASprint}">
-												<f:attribute name="selectedVtPilaProducto" value="#{vtPilaProducto}" />
-											</p:commandButton>
-											<p:tooltip id="toolTipFadeLi" for="btnListadoSprintA"
-												value="Lista Sprints" />
-										</div>
-								</p:column>
+
+							<p:column headerText="Lista sprints">
+								<div align="center">
+									<p:commandButton id="btnListadoSprintA" icon="fa fa-list"
+										action="vtGestionSprint.xhtml" update="frm"
+										actionListener="#{vtPilaProductoView.redireccionarASprint}">
+										<f:attribute name="selectedVtPilaProducto"
+											value="#{vtPilaProducto}" />
+									</p:commandButton>
+									<p:tooltip id="toolTipFadeLi" for="btnListadoSprintA"
+										value="Lista Sprints" />
+								</div>
+							</p:column>
 
 						</p:dataTable>
 					</p:panel>
@@ -147,7 +153,8 @@
 				<p:tab title="Pilas de producto inactivas">
 
 					<p:panel id="panelDataTableVtPilaProductoI">
-						<p:dataTable id="dataTableListaI" emptyMessage="No hay pilas de producto inactivas en este momento"
+						<p:dataTable id="dataTableListaI"
+							emptyMessage="No hay pilas de producto inactivas en este momento"
 							value="#{vtPilaProductoView.dataFiltroI}" var="vtPilaProducto"
 							paginator="true" rows="5">
 
@@ -158,7 +165,7 @@
 								</f:facet>
 								<h:outputText value="#{vtPilaProducto.pilaCodigo}" />
 							</p:column>
-							
+
 							<p:column filterBy="#{vtPilaProducto.nombre}"
 								sortBy="#{vtPilaProducto.nombre}">
 								<f:facet name="header">
@@ -183,7 +190,7 @@
 								<h:outputText value="#{vtPilaProducto.activo}" />
 							</p:column>
 
-							
+
 
 							<p:column headerText="Modificar">
 								<div align="center">
@@ -205,21 +212,23 @@
 										<f:attribute name="selectedVtPilaProducto"
 											value="#{vtPilaProducto}" />
 									</p:commandButton>
-									<p:tooltip id="toolTipFadeCi" for="btnEstado" value="Cambiar estado" />
+									<p:tooltip id="toolTipFadeCi" for="btnEstado"
+										value="Cambiar estado" />
 								</div>
 							</p:column>
-							
-									<p:column headerText="Lista sprints">
-										<div align="center">
-											<p:commandButton id="btnListadoSprintI" icon="fa fa-list"
-												action="vtGestionSprint.xhtml" update="frm"
-												actionListener="#{vtPilaProductoView.redireccionarASprint}">
-												<f:attribute name="selectedVtPilaProducto" value="#{vtPilaProducto}" />
-											</p:commandButton>
-											<p:tooltip id="toolTipFadeLi" for="btnListadoSprintI"
-												value="Lista Sprints" />
-										</div>
-								</p:column>
+
+							<p:column headerText="Lista sprints">
+								<div align="center">
+									<p:commandButton id="btnListadoSprintI" icon="fa fa-list"
+										action="vtGestionSprint.xhtml" update="frm"
+										actionListener="#{vtPilaProductoView.redireccionarASprint}">
+										<f:attribute name="selectedVtPilaProducto"
+											value="#{vtPilaProducto}" />
+									</p:commandButton>
+									<p:tooltip id="toolTipFadeLi" for="btnListadoSprintI"
+										value="Lista Sprints" />
+								</div>
+							</p:column>
 
 						</p:dataTable>
 					</p:panel>
@@ -239,16 +248,17 @@
 				<p:growl id="msg" />
 
 				<h:panelGrid columns="1">
-				
-						<p:inputText id="txtNombreCrear" placeholder="Nombre"  style="width:400px"
-						binding="#{vtPilaProductoView.txtNombreCrear}" />
 
-					<p:inputTextarea id="txtDescripcionCrear" rows="10" cols="64"
-						placeholder="Descripci&#243;n"
+					<p:inputText id="txtNombreCrear" placeholder="Nombre"
+						style="width:400px" binding="#{vtPilaProductoView.txtNombreCrear}" />
+
+					<p:inputTextarea id="txtDescripcionCrear" rows="10" cols="60"
+						placeholder="Descripci&#243;n" style="overflow:auto;"
+						autoResize="false"
 						binding="#{vtPilaProductoView.txtDescripcionCrear}" />
 
 
-					<p:selectOneMenu id="somActivoCrear"  style="width:200px"
+					<p:selectOneMenu id="somActivoCrear" style="width:200px"
 						binding="#{vtPilaProductoView.somActivoCrear}">
 						<f:selectItem itemValue="-1" itemLabel="Activo" />
 						<f:selectItems value="#{vtPilaProductoView.esActivoItems}" />
@@ -287,14 +297,14 @@
 					<h:panelGrid columns="2" id="panelGrid">
 
 						<h:outputText id="msgActivo" value=" Activo" />
-						<p:selectOneMenu id="somActivoCambio"
+						<p:selectOneMenu id="somActivoCambio" style="width:140px"
 							binding="#{vtPilaProductoView.somActivoCambio}">
 							<f:selectItem itemValue="-1" itemLabel="Activo" />
 							<f:selectItems value="#{vtPilaProductoView.esActivoItems}" />
 						</p:selectOneMenu>
 
 						<h:outputText id="msgProyecto" value="Proyecto" />
-						<p:selectOneMenu id="somProyectoCambio"
+						<p:selectOneMenu id="somProyectoCambio" style="width:140px"
 							binding="#{vtPilaProductoView.somProyectoCambio}">
 							<f:selectItem itemValue="-1" itemLabel="Proyectos" />
 							<f:selectItems value="#{vtPilaProductoView.losProyectosItems}" />
@@ -306,6 +316,7 @@
 
 						<h:outputText id="msgDescripcion" value=" Descripcion" />
 						<p:inputTextarea id="txtDescripcion" disabled="true"
+							style="overflow:auto;" autoResize="false"
 							binding="#{vtPilaProductoView.txtDescripcion}" />
 
 					</h:panelGrid>

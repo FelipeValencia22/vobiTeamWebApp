@@ -34,25 +34,25 @@
 
 					<p:selectOneMenu id="somEmpresas" style="width:400px"
 						binding="#{vtSprintView.somEmpresas}">
-						<p:ajax update="somProyectos" event="change"
+						<p:ajax update="somProyectos,somPilaProducto,pnlVtSprint,panelVtSprint,btnCrearSc" event="change"
 							listener="#{vtSprintView.filtrarEmpresa}" />
-						<f:selectItem itemValue="-1" itemLabel="Empresa" />
+						<f:selectItem itemValue="-1" itemLabel="Seleccionar la empresa" />
 						<f:selectItems value="#{vtSprintView.lasEmpresasItems}" />
 					</p:selectOneMenu>
 
 					<p:selectOneMenu id="somProyectos" style="width:400px"
 						binding="#{vtSprintView.somProyectos}">
-						<p:ajax update="somPilaProducto" event="change"
+						<p:ajax update="somPilaProducto,panelVtSprint,pnlVtSprint,btnCrearSc" event="change"
 							listener="#{vtSprintView.filtrarProyecto}" />
-						<f:selectItem itemValue="-1" itemLabel="Proyecto" />
+						<f:selectItem itemValue="-1" itemLabel="Seleccionar el proyecto" />
 						<f:selectItems value="#{vtSprintView.losProyectosFiltro}" />
 					</p:selectOneMenu>
 
 					<p:selectOneMenu id="somPilaProducto" style="width:400px"
 						binding="#{vtSprintView.somPilaProducto}">
-						<p:ajax update="pnlVtSprint, frm, btnCrearSc"
-							event="change" listener="#{vtSprintView.filtrar}" />
-						<f:selectItem itemValue="-1" itemLabel="Pila de Producto" />
+						<p:ajax update="pnlVtSprint, frm, btnCrearSc" event="change"
+							listener="#{vtSprintView.filtrar}" />
+						<f:selectItem itemValue="-1" itemLabel="Seleccionar la pila de Producto" />
 						<f:selectItems value="#{vtSprintView.lasPilasDeProductoFiltro}" />
 					</p:selectOneMenu>
 					<br></br>
@@ -69,9 +69,11 @@
 
 
 							<p:inputTextarea id="txtObjetivoCrearC" placeholder="Objetivo"
-								rows="10" cols="66" binding="#{vtSprintView.txtObjetivoCrear}" />
+								style="overflow:auto;" autoResize="false" rows="10" cols="66"
+								binding="#{vtSprintView.txtObjetivoCrear}" />
 
-							<p:inputText id="txtEsfuerzoCrear" placeholder="Capacidad estimada en Horas"
+							<p:inputText id="txtEsfuerzoCrear"
+								placeholder="Capacidad estimada en Horas"
 								binding="#{vtSprintView.txtEsfuerzoCrear}" style="width:415px">
 							</p:inputText>
 
@@ -105,7 +107,7 @@
 						<p:commandButton id="btnCrearSc"
 							binding="#{vtSprintView.btnCrearS}" icon="fa fa-save"
 							title="Crear" action="#{vtSprintView.crearSprint}"
-							disabled="true" update="frm, pickList" />
+						    update="frm, pickList" />
 
 						<p:commandButton id="btnLimpiarSc"
 							binding="#{vtSprintView.btnLimpiarS}" icon="fa fa-eraser"
@@ -384,7 +386,8 @@
 
 					<h:outputText id="msgObjetivoM" value=" Objetivo" />
 					<p:inputTextarea id="txtObjetivo" disabled="true" rows="10"
-						cols="33" binding="#{vtSprintView.txtObjetivo}" />
+						style="overflow:auto;" autoResize="false" cols="33"
+						binding="#{vtSprintView.txtObjetivo}" />
 
 					<h:outputText id="txtEsfuerzoM" value=" Esfuerzo" />
 					<p:inputText id="txtEsfuerzo" placeholder="Esfuerzo"

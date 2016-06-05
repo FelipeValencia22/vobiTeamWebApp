@@ -39,7 +39,7 @@
 					<p:growl id="men" />
 
 					<p:tab title="Usuarios activos ">
-						<p:dataTable id="dataTableVtUsuarioActivos"
+						<p:dataTable id="dataTableVtUsuarioActivos" emptyMessage="No hay usuarios activos en este momento"
 							value="#{vtUsuarioView.data}" var="vtUsuario" paginator="true"
 							rows="10">
 
@@ -110,7 +110,7 @@
 					</p:tab>
 					<br></br>
 					<p:tab title="Usuarios inactivos ">
-						<p:dataTable id="dataTableVtUsuarioInactivos"
+						<p:dataTable id="dataTableVtUsuarioInactivos" emptyMessage="No hay usuarios inactivos en este momento"
 							value="#{vtUsuarioView.dataI}" var="vtUsuario" paginator="true"
 							rows="10">
 

@@ -21,11 +21,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.vobi.team.modelo.VtEmpresa;
+import com.vobi.team.modelo.VtSprint;
 import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
 import com.vobi.team.utilities.FacesUtils;
 
 import com.vobi.team.modelo.dto.VtEmpresaDTO;
+import com.vobi.team.modelo.dto.VtSprintDTO;
 
 @ManagedBean
 @ViewScoped
@@ -291,6 +293,21 @@ public class VtEmpresaView implements Serializable{
 
 			btnCrear.setDisabled(true);
 		}
+	}
+	
+	public String redireccionarAProyectos(ActionEvent evt) {
+		try {
+			selectedVtEmpresa = (VtEmpresaDTO) (evt.getComponent().getAttributes().get("selectedVtEmpresa"));			
+			String empresa = selectedVtEmpresa.getEmprCodigo().toString().trim();
+			Long idEmpresa = Long.parseLong(empresa);			
+			VtEmpresa vtEmpresa = businessDelegatorView.getVtEmpresa(idEmpresa);
+			FacesUtils.putinSession("vtEmpresa", vtEmpresa);
+			selectedVtEmpresa = null;
+		} catch (Exception e) {
+			log.error("Error al redireccionar a proyectos ",e);
+		}
+
+		return "";
 	}
 
 	public String action_edit(ActionEvent evt) {

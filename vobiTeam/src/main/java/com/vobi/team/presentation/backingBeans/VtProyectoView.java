@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -62,8 +63,39 @@ public class VtProyectoView implements Serializable{
 	private CommandButton btnModificar;
 	private CommandButton btnLimpiar;
 	private CommandButton btnCrearP;
+	private boolean usoPostConstructor = false;
+	String stringActivo;	
+	VtEmpresa vtEmpresasTotales;
+	
+	public VtProyectoView() {
+		super();
+		somEmpresasFiltro = new SelectOneMenu();
+		somEmpresasFiltro.setValue("-1");
+		btnCrearP = new CommandButton();
+		btnCrearP.setDisabled(true);
+		vtEmpresasTotales = new VtEmpresa();
+	}
 
-	String stringActivo;
+	
+	@PostConstruct
+	public void vtArtefactoViewPostConstructor() {
+		try {
+			
+			VtEmpresa vtEmpresasTotales = (VtEmpresa) FacesUtils.getfromSession("vtEmpresa");
+			setUsoPostConstructor(true);			
+			if (vtEmpresasTotales != null) {				
+				somEmpresasFiltro.setValue(vtEmpresasTotales.getEmprCodigo());
+				filtrarEmpresa();
+				
+			} 
+			FacesUtils.putinSession("vtEmpresa", null);
+			setUsoPostConstructor(false);
+			vtEmpresasTotales = null;
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+
+	}
 
 	@ManagedProperty(value = "#{BusinessDelegatorView}")
 	private IBusinessDelegatorView businessDelegatorView;
@@ -76,10 +108,6 @@ public class VtProyectoView implements Serializable{
 		this.businessDelegatorView = businessDelegatorView;
 	}
 
-	public VtProyectoView() {
-		super();
-		somEmpresas = new SelectOneMenu();
-	}
 
 	public InputText getTxtNombreC() {
 		return txtNombreC;
@@ -582,12 +610,22 @@ public class VtProyectoView implements Serializable{
 	}
 	
 	public String filtrarEmpresa() {
+		btnCrearP.setDisabled(false);
 		try {
+			
 			String empresaS = somEmpresasFiltro.getValue().toString().trim();
-			Long codigoFiltro = Long.valueOf(empresaS);
-			data=businessDelegatorView.getDataVtProyecto(codigoFiltro);
-			dataI=businessDelegatorView.getDataVtProyectoInactivo(codigoFiltro);
-			btnCrearP.setDisabled(false);
+			
+			if(empresaS.equals("-1")){
+				btnCrearP.setDisabled(true);
+				data = null;
+				dataI = null;
+			}else{
+				Long codigoFiltro = Long.valueOf(empresaS);
+				data=businessDelegatorView.getDataVtProyecto(codigoFiltro);
+				dataI=businessDelegatorView.getDataVtProyectoInactivo(codigoFiltro);
+				btnCrearP.setDisabled(false);
+			}
+			
 			
 		} catch (Exception e) {
 			log.error(e.getMessage());
@@ -659,6 +697,14 @@ public class VtProyectoView implements Serializable{
 		}
 
 		return "";
+	}
+
+	public boolean isUsoPostConstructor() {
+		return usoPostConstructor;
+	}
+
+	public void setUsoPostConstructor(boolean usoPostConstructor) {
+		this.usoPostConstructor = usoPostConstructor;
 	}
 
 }

@@ -132,6 +132,7 @@ public class VtArtefactoView implements Serializable {
 	private boolean showDialogSubirArchivo;
 	private Long codigoProyecto;
 	private boolean restablecioVersion = false;
+	private boolean usoPostConstructor = false;
 
 	@ManagedProperty(value = "#{BusinessDelegatorView}")
 	private IBusinessDelegatorView businessDelegatorView;
@@ -142,12 +143,14 @@ public class VtArtefactoView implements Serializable {
 		somProyectos = new SelectOneMenu();
 		somPilaProducto = new SelectOneMenu();
 		somSprints = new SelectOneMenu();
+		btnCrearArtefactoFiltrado = new CommandButton();
+		btnCrearArtefactoFiltrado.setDisabled(true);
 	}
 
 	@PostConstruct
 	public void vtArtefactoViewPostConstructor() {
 		try {
-
+			usoPostConstructor = true;
 			VtSprint vtSprint = (VtSprint) FacesUtils.getfromSession("vtSprint");
 
 			if (vtSprint != null) {
@@ -161,10 +164,12 @@ public class VtArtefactoView implements Serializable {
 				somPilaProducto.setValue(vtPilaProducto.getPilaCodigo());
 				imprimirValue();
 				somSprints.setValue(vtSprint.getSpriCodigo());
+				filtrar();			
 				dataFiltro = businessDelegatorView.getDataVtArtefactoFiltro(vtSprint.getSpriCodigo().longValue());
 				dataFiltroI = businessDelegatorView.getDataVtArtefactoFiltroI(vtSprint.getSpriCodigo().longValue());
 				FacesUtils.putinSession("vtSprint", null);
 			}
+			usoPostConstructor = false;
 			vtSprint = null;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -188,8 +193,6 @@ public class VtArtefactoView implements Serializable {
 			esfuerzoRestante = txtEsfuerzoRestante.getValue().toString().trim();
 			puntos = (txtPuntos.getValue().toString().trim());
 			entity.setOrigen(txtOrigen.getValue().toString().trim());
-
-
 
 			String pilasProducto = somPilaProducto.getValue().toString().trim();
 			Long idPilaProducto = Long.parseLong(pilasProducto);
@@ -436,13 +439,21 @@ public class VtArtefactoView implements Serializable {
 	}
 
 	public String filtrar() {
-		btnCrearArtefactoFiltrado.setDisabled(false);
+
 		try {
+			btnCrearArtefactoFiltrado.setDisabled(false);
 			String sprint = somSprints.getValue().toString().trim();
-			spriCodigo = Long.valueOf(sprint);
-			VtSprint vtSprint = businessDelegatorView.getVtSprint(spriCodigo);
-			dataFiltro = businessDelegatorView.getDataVtArtefactoFiltro(vtSprint.getSpriCodigo().longValue());
-			dataFiltroI = businessDelegatorView.getDataVtArtefactoFiltroI(vtSprint.getSpriCodigo().longValue());
+			if(sprint.equals("-1")){
+				btnCrearArtefactoFiltrado.setDisabled(true);
+				dataFiltro = null;
+				dataFiltroI = null;
+			}else{
+				spriCodigo = Long.valueOf(sprint);
+				VtSprint vtSprint = businessDelegatorView.getVtSprint(spriCodigo);
+				dataFiltro = businessDelegatorView.getDataVtArtefactoFiltro(vtSprint.getSpriCodigo().longValue());
+				dataFiltroI = businessDelegatorView.getDataVtArtefactoFiltroI(vtSprint.getSpriCodigo().longValue());
+			}
+
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}
@@ -579,7 +590,18 @@ public class VtArtefactoView implements Serializable {
 		try {
 			VtEmpresa vtEmpresa = null;
 			losProyectosFiltro = null;
+			lasPilasDeProductoFiltro = null;
+			losSprintsFiltro = null;
 			String empresaS = somEmpresas.getValue().toString().trim();
+			if (!usoPostConstructor) {
+				somProyectos.setValue("-1");
+				somPilaProducto.setValue("-1");
+				somSprints.setValue("-1");
+				dataFiltro = null;
+				dataFiltroI = null;
+				btnCrearArtefactoFiltrado.setDisabled(true);
+			}
+
 			if (empresaS.isEmpty() || empresaS.equals("-1")) {
 			} else {
 				Long empresa = Long.parseLong(empresaS);
@@ -609,7 +631,16 @@ public class VtArtefactoView implements Serializable {
 		try {
 			VtProyecto vtProyecto = null;
 			lasPilasDeProductoFiltro = null;
+			losSprintsFiltro = null;
 			String proyectoS = somProyectos.getValue().toString().trim();
+
+			if (!usoPostConstructor) {
+				somPilaProducto.setValue("-1");
+				somSprints.setValue("-1");
+				dataFiltro = null;
+				dataFiltroI = null;
+				btnCrearArtefactoFiltrado.setDisabled(true);
+			}
 
 			if (proyectoS.isEmpty() || proyectoS.equals("-1")) {
 			} else {
@@ -645,8 +676,15 @@ public class VtArtefactoView implements Serializable {
 		try {
 			VtPilaProducto vtPilaProducto = null;
 			dataSprint = null;
-			losSprintsFiltro = null;
 			String pila = somPilaProducto.getValue().toString();
+			losSprintsFiltro = null;
+			if (!usoPostConstructor) {
+				dataFiltro = null;
+				dataFiltroI = null;
+				somSprints.setValue("-1");
+				btnCrearArtefactoFiltrado.setDisabled(true);
+			}
+
 			if (pila.isEmpty() || pila.equals("-1")) {
 			} else {
 				Long idPila = Long.parseLong(pila);
@@ -706,13 +744,13 @@ public class VtArtefactoView implements Serializable {
 			esfuerzoReal = txtEsfuerzoRealCambio.getValue().toString().trim();
 			puntos = txtPuntosCambio.getValue().toString().trim();
 
-			if (esfuerzoReal.equals("")==false) {
+			if (esfuerzoReal.equals("") == false) {
 				horas = esfuerzoReal.substring(0, 2);
 				minutos = esfuerzoReal.substring(3, 5);
 				esfuerzoReal = convertirHorasAMinutos(horas, minutos).toString();
 				entity.setEsfuerzoReal(Integer.parseInt(esfuerzoReal));
 			}
-			if (esfuerzoEstimado == null || esfuerzoEstimado.equals("") ) {
+			if (esfuerzoEstimado == null || esfuerzoEstimado.equals("")) {
 				throw new Exception("El campo para el esfuerzo estimado no puede estar vacio");
 			} else {
 				horas = esfuerzoEstimado.substring(0, 2);
@@ -1593,6 +1631,14 @@ public class VtArtefactoView implements Serializable {
 
 	public void setTxtEsfuerzoEstimado(InputMask txtEsfuerzoEstimado) {
 		this.txtEsfuerzoEstimado = txtEsfuerzoEstimado;
+	}
+
+	public boolean isUsoPostConstructor() {
+		return usoPostConstructor;
+	}
+
+	public void setUsoPostConstructor(boolean usoPostConstructor) {
+		this.usoPostConstructor = usoPostConstructor;
 	}
 
 }
