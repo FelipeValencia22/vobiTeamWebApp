@@ -54,7 +54,7 @@
 						<p:tab title="Proyectos activos">
 							<p:panel id="panelDataTableVtProyecto">
 
-								<p:dataTable value="#{vtProyectoView.data}" var="vtProyecto"
+								<p:dataTable value="#{vtProyectoView.data}" var="vtProyecto" emptyMessage="No hay proyectos activos en este momento"
 									reflow="true" paginator="true" rows="10">
 
 
@@ -152,7 +152,7 @@
 						<p:tab title="Proyectos inactivos">
 							<p:panel id="panelDataTableVtProyectoI">
 
-								<p:dataTable value="#{vtProyectoView.dataI}" var="vtProyecto"
+								<p:dataTable value="#{vtProyectoView.dataI}" var="vtProyecto" emptyMessage="No hay proyectos inactivos en este momento"
 									reflow="true" paginator="true" rows="10">
 
 
