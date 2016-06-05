@@ -43,7 +43,9 @@
 					<p:tab title="Empresas activas ">
 
 						<p:dataTable id="dataTableVtEmpresa" value="#{vtEmpresaView.data}"
-							var="vtEmpresa" paginator="true" rows="10">
+							emptyMessage="No hay empresas activas en este momento"
+							var="vtEmpresa"
+							paginator="true" rows="10">
 
 							<p:column filterBy="#{vtEmpresa.emprCodigo}"
 								sortBy="#{vtEmpresa.emprCodigo}">
@@ -111,6 +113,7 @@
 					<p:tab title="Empresas inactivas ">
 
 						<p:dataTable id="dataTableVtEmpresaIn"
+							emptyMessage="No hay empresas inactivas en este momento"
 							value="#{vtEmpresaView.dataI}" var="vtEmpresa" paginator="true"
 							rows="5">
 

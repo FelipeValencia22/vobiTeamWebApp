@@ -67,7 +67,7 @@
 				<p:tab title="Pilas de producto activas">
 
 					<p:panel id="panelDataTableVtPilaProducto">
-						<p:dataTable id="dataTableListaA"
+						<p:dataTable id="dataTableListaA" emptyMessage="No hay pilas de producto activas en este momento"
 							value="#{vtPilaProductoView.dataFiltro}" var="vtPilaProducto"
 							paginator="true" rows="5">
 
@@ -147,7 +147,7 @@
 				<p:tab title="Pilas de producto inactivas">
 
 					<p:panel id="panelDataTableVtPilaProductoI">
-						<p:dataTable id="dataTableListaI"
+						<p:dataTable id="dataTableListaI" emptyMessage="No hay pilas de producto inactivas en este momento"
 							value="#{vtPilaProductoView.dataFiltroI}" var="vtPilaProducto"
 							paginator="true" rows="5">
 
