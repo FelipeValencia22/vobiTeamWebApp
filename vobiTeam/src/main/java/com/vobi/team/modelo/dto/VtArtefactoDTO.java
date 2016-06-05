@@ -65,11 +65,11 @@ public class VtArtefactoDTO implements Serializable {
 				j = "000"+j;
 			}
 			if(j.equals("")){
-				j = "0000";
+				j = "";
 			}
 			return j;
 		} catch (Exception e) {
-			return "0000";
+			return "";
 			
 		}
 		

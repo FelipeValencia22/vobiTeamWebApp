@@ -706,13 +706,13 @@ public class VtArtefactoView implements Serializable {
 			esfuerzoReal = txtEsfuerzoRealCambio.getValue().toString().trim();
 			puntos = txtPuntosCambio.getValue().toString().trim();
 
-			if (esfuerzoReal != null && !esfuerzoReal.equals("0000")) {
+			if (esfuerzoReal.equals("")==false) {
 				horas = esfuerzoReal.substring(0, 2);
 				minutos = esfuerzoReal.substring(3, 5);
 				esfuerzoReal = convertirHorasAMinutos(horas, minutos).toString();
 				entity.setEsfuerzoReal(Integer.parseInt(esfuerzoReal));
 			}
-			if (esfuerzoEstimado == null || esfuerzoEstimado.equals("")) {
+			if (esfuerzoEstimado == null || esfuerzoEstimado.equals("") ) {
 				throw new Exception("El campo para el esfuerzo estimado no puede estar vacio");
 			} else {
 				horas = esfuerzoEstimado.substring(0, 2);
