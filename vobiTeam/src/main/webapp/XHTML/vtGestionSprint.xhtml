@@ -64,16 +64,16 @@
 
 						<h:panelGrid columns="1" id="panelGrid">
 
-							<p:inputText id="txtNombreCrearC" placeholder="Nombre"
+							<p:inputText id="txtNombreCrearC" placeholder="Nombre" maxlength="50"
 								binding="#{vtSprintView.txtNombreCrear}" style="width:415px" />
 
 
 							<p:inputTextarea id="txtObjetivoCrearC" placeholder="Objetivo"
 								style="overflow:auto;" autoResize="false" rows="10" cols="66"
-								binding="#{vtSprintView.txtObjetivoCrear}" />
+								binding="#{vtSprintView.txtObjetivoCrear}" maxlength="1500" />
 
 							<p:inputText id="txtEsfuerzoCrear"
-								placeholder="Capacidad estimada en Horas"
+								placeholder="Capacidad estimada en Horas" maxlength="3"
 								binding="#{vtSprintView.txtEsfuerzoCrear}" style="width:415px">
 							</p:inputText>
 
@@ -381,16 +381,16 @@
 				<h:panelGrid columns="2" id="panelGrid">
 
 					<h:outputText id="msgNombreM" value=" Nombre" />
-					<p:inputText id="txtNombre" disabled="true"
+					<p:inputText id="txtNombre" disabled="true" maxlength="50"
 						binding="#{vtSprintView.txtNombre}" style="width:215px" />
 
 					<h:outputText id="msgObjetivoM" value=" Objetivo" />
 					<p:inputTextarea id="txtObjetivo" disabled="true" rows="10"
-						style="overflow:auto;" autoResize="false" cols="33"
+						style="overflow:auto;" autoResize="false" cols="33" maxlength="1500"
 						binding="#{vtSprintView.txtObjetivo}" />
 
 					<h:outputText id="txtEsfuerzoM" value=" Esfuerzo" />
-					<p:inputText id="txtEsfuerzo" placeholder="Esfuerzo"
+					<p:inputText id="txtEsfuerzo" placeholder="Esfuerzo" maxlength="3"
 						binding="#{vtSprintView.txtEsfuerzo}" style="width:215px">
 					</p:inputText>
 

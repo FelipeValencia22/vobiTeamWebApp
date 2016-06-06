@@ -196,9 +196,9 @@
 			<h:form id="formDialogCrear">
 				<h:panelGrid columns="1">
 
-					<p:inputTextarea id="txtIDCrear" rows="1" cols="30" maxlength="50"
+					<p:inputTextarea id="txtIDCrear" rows="1" cols="30" 
 						style="width:400px" placeholder="Identificaci&#243;n o NIT"
-						binding="#{vtEmpresaView.txtIDCrear}">
+						binding="#{vtEmpresaView.txtIDCrear}" maxlength="1500">
 						<p:ajax listener="#{vtEmpresaView.txtIdListener}"
 							update="formDialogCrear" />
 					</p:inputTextarea>
@@ -208,7 +208,7 @@
 
 					<p:inputTextarea id="txtNombreCrear" rows="1" cols="30"
 						style="overflow:auto;" autoResize="false" maxlength="50"
-						placeholder="Nombre" style="width:400px"
+						placeholder="Nombre" 
 						binding="#{vtEmpresaView.txtNombreCrear}" />
 				</h:panelGrid>
 				<h:outputText id="display2" />
@@ -248,7 +248,7 @@
 
 						<h:outputText id="msgNombre" value=" Nombre" />
 						<p:inputTextarea id="txtNombre" cols="15" style="overflow:auto;"
-							autoResize="false" binding="#{vtEmpresaView.txtNombre}" />
+							autoResize="false" binding="#{vtEmpresaView.txtNombre}"  maxlength="1500"/>
 
 					</h:panelGrid>
 				</p:panel>

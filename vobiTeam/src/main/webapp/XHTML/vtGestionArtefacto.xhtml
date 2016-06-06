@@ -356,12 +356,12 @@
 
 								<h:outputText id="msgTituloCambio" value="Titulo" />
 								<p:inputText id="txtnombre" placeholder="Titulo" size="42"
-									binding="#{vtArtefactoView.txtnombreCambio}" />
+									binding="#{vtArtefactoView.txtnombreCambio}"  maxlength="50"/>
 
 								<h:outputText id="msgDescripciónCambio" value="Descripción" />
 								<p:inputTextarea id="txtAreaDescripcionCambio"
 									style="overflow:auto;" autoResize="false" rows="10" cols="40"
-									placeholder="Descripci&#243;n"
+									placeholder="Descripci&#243;n" maxlength="1500"
 									binding="#{vtArtefactoView.txtdescripcionCambio}" />
 								<h:outputText id="msgPriordadCambio" value="Prioridad" />
 								<p:selectOneMenu id="somPrioridadesCambio" style="width:160px"
@@ -404,7 +404,7 @@
 								<p:inputMask id="txtPuntosCambio" size="42" placeholder="Puntos"
 									mask="99:99" binding="#{vtArtefactoView.txtPuntosCambio}" />
 
-								<h:outputText id="msgOrigenCambio" value="Origen" />
+								<h:outputText id="msgOrigenCambio" value="Origen" maxlength="50"/>
 								<p:inputText id="txtOrigenCambio" size="42" placeholder="Origen"
 									binding="#{vtArtefactoView.txtOrigenCambio}" />
 							</h:panelGrid>
@@ -753,13 +753,13 @@
 
 						<h:outputText id="msgTitulo" value="Título" />
 						<p:inputText id="txtnombre" size="60" placeholder="Titulo"
-							binding="#{vtArtefactoView.txtnombre}" />
+							binding="#{vtArtefactoView.txtnombre}" maxlength="50"/>
 						<p:spacer />
 						<p:spacer />
 						<h:outputText id="msgDescripcion" value="Descripción" />
 						<p:inputTextarea id="txtAreaDescripcion" scrollHeight="30"
 							style="overflow:auto;" autoResize="false" rows="15" cols="60"
-							placeholder="Descripci&#243;n"
+							placeholder="Descripci&#243;n" maxlength="1500"
 							binding="#{vtArtefactoView.txtdescripcion}" />
 					</h:panelGrid>
 
@@ -800,7 +800,7 @@
 							binding="#{vtArtefactoView.txtPuntos}" />
 						<h:outputText id="msgOrigen" value="Orígen" />
 						<p:inputText id="txtOrigen" placeholder="Origen"
-							binding="#{vtArtefactoView.txtOrigen}" />
+							binding="#{vtArtefactoView.txtOrigen}" maxlength="50"/>
 					</h:panelGrid>
 
 				</h:panelGrid>

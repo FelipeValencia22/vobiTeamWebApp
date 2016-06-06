@@ -267,10 +267,10 @@
 				<h:panelGrid columns="1">
 
 					<p:inputText id="txtNombre" placeholder="Nombre del proyecto"
-						size="51" binding="#{vtProyectoView.txtNombreC}" />
+						size="51"  maxlength="50" binding="#{vtProyectoView.txtNombreC}" />
 
 					<p:inputTextarea id="txtDescripcion" rows="10" cols="50"
-						placeholder="Descripci&#243;n" style="overflow:auto;"
+						placeholder="Descripci&#243;n" style="overflow:auto;"  maxlength="1500"
 						autoResize="false" binding="#{vtProyectoView.txtDescripcionC}" />
 
 					<p:selectOneMenu id="somPublico" style="width:140px"
@@ -336,10 +336,10 @@
 
 						<h:outputText id="msgNombre" value=" Nombre" />
 						<p:inputText id="txtNombre" disabled="true" size="51"
-							binding="#{vtProyectoView.txtNombre}" />
+							binding="#{vtProyectoView.txtNombre}"   maxlength="50"/>
 
 						<h:outputText id="msgDescripcion" value=" Descripcion" />
-						<p:inputTextarea id="txtDescripcion" disabled="true"
+						<p:inputTextarea id="txtDescripcion" disabled="true"  maxlength="1500"
 							style="overflow:auto;" autoResize="false" rows="5" cols="50"
 							binding="#{vtProyectoView.txtDescripcion}" />
 

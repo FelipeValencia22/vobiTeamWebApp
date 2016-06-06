@@ -249,12 +249,12 @@
 
 				<h:panelGrid columns="1">
 
-					<p:inputText id="txtNombreCrear" placeholder="Nombre"
+					<p:inputText id="txtNombreCrear" placeholder="Nombre"  maxlength="50"
 						style="width:400px" binding="#{vtPilaProductoView.txtNombreCrear}" />
 
 					<p:inputTextarea id="txtDescripcionCrear" rows="10" cols="60"
 						placeholder="Descripci&#243;n" style="overflow:auto;"
-						autoResize="false"
+						autoResize="false"  maxlength="1500"
 						binding="#{vtPilaProductoView.txtDescripcionCrear}" />
 
 
@@ -311,12 +311,12 @@
 						</p:selectOneMenu>
 
 						<h:outputText id="msgNombre" value=" Nombre" />
-						<p:inputText id="txtNombre" disabled="true"
+						<p:inputText id="txtNombre" disabled="true"  maxlength="50"
 							binding="#{vtPilaProductoView.txtNombre}" />
 
 						<h:outputText id="msgDescripcion" value=" Descripcion" />
 						<p:inputTextarea id="txtDescripcion" disabled="true"
-							style="overflow:auto;" autoResize="false"
+							style="overflow:auto;" autoResize="false"  maxlength="1500"
 							binding="#{vtPilaProductoView.txtDescripcion}" />
 
 					</h:panelGrid>
