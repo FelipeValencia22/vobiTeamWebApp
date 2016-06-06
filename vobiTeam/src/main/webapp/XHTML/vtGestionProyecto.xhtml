@@ -36,7 +36,7 @@
 						binding="#{vtProyectoView.somEmpresasFiltro}">
 						<p:ajax update="formDialog1,btnCrear,accordionPanelVtProyecto" event="change"
 							listener="#{vtProyectoView.filtrarEmpresa}" />
-						<f:selectItem itemValue="-1" itemLabel="Seleccionar la empresa" />
+						<f:selectItem itemValue="-1" itemLabel="-Seleccionar la empresa-" />
 						<f:selectItems value="#{vtProyectoView.lasEmpresasItems}" />
 					</p:selectOneMenu>
 

@@ -35,17 +35,17 @@
 
 					<p:selectOneMenu id="somEmpresas" style="width:400px"
 						binding="#{vtUsuarioRolView.somEmpresas}">
-						<p:ajax update="somProyectos" event="change"
+						<p:ajax update="somProyectos,somUsuarios,panelVtRol" event="change"
 							listener="#{vtUsuarioRolView.filtrarEmpresa}" /> 
-						<f:selectItem itemValue="-1" itemLabel="Empresa" /> 
+						<f:selectItem itemValue="-1" itemLabel="-Seleccionar la empresa-" /> 
 						<f:selectItems value="#{vtUsuarioRolView.lasEmpresasItems}" />
 					</p:selectOneMenu> 
 
 					<p:selectOneMenu id="somProyectos" style="width:400px"
 						binding="#{vtUsuarioRolView.somProyectos}">
-						<p:ajax update="somUsuarios" event="change"
+						<p:ajax update="somUsuarios,panelVtRol" event="change"
 							listener="#{vtUsuarioRolView.filtrarProyectoUsuario}" />
-						<f:selectItem itemValue="-1" itemLabel="Proyecto" />
+						<f:selectItem itemValue="-1" itemLabel="-Seleccionar el proyecto-" />
 						<f:selectItems value="#{vtUsuarioRolView.losProyectosFiltro}" />
 					</p:selectOneMenu>
 
@@ -53,7 +53,7 @@
 						binding="#{vtUsuarioRolView.somUsuarios}">
 						<p:ajax update="panelVtRol"
 							listener="#{vtUsuarioRolView.localeChanged}" />
-						<f:selectItem itemValue="-1" itemLabel="Usuario" />
+						<f:selectItem itemValue="-1" itemLabel="-Seleccionar el usuario-" />
 						<f:selectItems value="#{vtUsuarioRolView.losUsuariosFiltro}" />
 					</p:selectOneMenu>
 

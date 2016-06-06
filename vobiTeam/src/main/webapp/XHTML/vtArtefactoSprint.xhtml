@@ -34,25 +34,25 @@
 
 					<p:selectOneMenu id="somEmpresas" style="width:300px"
 						binding="#{vtArtefactoSprintView.somEmpresas}">
-						<p:ajax update="somProyectos" event="change"
+						<p:ajax update="somProyectos,somPilaProducto,somSprints,:formDialog1:panelVArtefacto" event="change"
 							listener="#{vtArtefactoSprintView.filtrarEmpresa}" />
-						<f:selectItem itemValue="-1" itemLabel="Empresa" />
+						<f:selectItem itemValue="-1" itemLabel="-Seleccionar la empresa-" />
 						<f:selectItems value="#{vtArtefactoSprintView.lasEmpresasItems}" />
 					</p:selectOneMenu>
 
 					<p:selectOneMenu id="somProyectos" style="width:300px"
 						binding="#{vtArtefactoSprintView.somProyectos}">
-						<p:ajax update="somPilaProducto" event="change"
+						<p:ajax update="somPilaProducto,somSprints,:formDialog1:panelVArtefacto" event="change"
 							listener="#{vtArtefactoSprintView.filtrarProyecto}" />
-						<f:selectItem itemValue="-1" itemLabel="Proyecto" />
+						<f:selectItem itemValue="-1" itemLabel="-Seleccionar el proyecto-" />
 						<f:selectItems value="#{vtArtefactoSprintView.losProyectosFiltro}" />
 					</p:selectOneMenu>
 
 					<p:selectOneMenu id="somPilaProducto" style="width:300px"
 						binding="#{vtArtefactoSprintView.somPilaProducto}">
-						<p:ajax update="somSprints" event="change"
+						<p:ajax update="somSprints,:formDialog1:panelVArtefacto" event="change"
 							listener="#{vtArtefactoSprintView.filtrarPila}" />
-						<f:selectItem itemValue="-1" itemLabel="Pila de Producto" />
+						<f:selectItem itemValue="-1" itemLabel="-Seleccionar la pila de Producto-" />
 						<f:selectItems
 							value="#{vtArtefactoSprintView.lasPilasDeProductoFiltro}" />
 					</p:selectOneMenu>
@@ -63,7 +63,7 @@
 							binding="#{vtArtefactoSprintView.somSprints}">
 							<p:ajax update="panelVArtefacto" event="change"
 								listener="#{vtArtefactoSprintView.localeChanged}" />
-							<f:selectItem itemValue="-1" itemLabel="Sprint" />
+							<f:selectItem itemValue="-1" itemLabel="-Seleccionar el sprint-" />
 							<f:selectItems value="#{vtArtefactoSprintView.losSprintsItems}" />
 						</p:selectOneMenu>
 
@@ -91,8 +91,8 @@
 							showCheckbox="true" responsive="true" showSourceFilter="true"
 							showTargetFilter="true" filterMatchMode="contains"
 							converter="usuarioPickListConverter">
-							<f:facet name="sourceCaption">Artefactos disponibles / Esfuerzo</f:facet>
-							<f:facet name="targetCaption">Artefactos asignados / Esfuerzo</f:facet>
+							<f:facet name="sourceCaption">Artefactos disponibles / Esfuerzo Minutos</f:facet>
+							<f:facet name="targetCaption">Artefactos asignados / Esfuerzo Minutos</f:facet>
 							<p:ajax event="transfer"
 								listener="#{vtArtefactoSprintView.onTransfer}"
 								update="formDialog1,pickList" />
@@ -102,6 +102,9 @@
 							</p:column>
 							<p:column style="width:90%;">
 								<h:outputText value="#{artefacto.titulo}" />
+							</p:column>
+							<p:column style="width:90%;">
+								<h:outputText value="#{artefacto.esfuerzoEstimado}" />
 							</p:column>
 						</p:pickList>
 						

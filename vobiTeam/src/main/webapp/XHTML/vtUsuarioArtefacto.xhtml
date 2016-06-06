@@ -35,27 +35,27 @@
 
 
 					<p:selectOneMenu id="somIntereses" style="width:400px"
-						binding="#{vtUsuarioArtefactoView.somIntereses}">
-						<p:ajax update="somEmpresas" event="change"
+						binding="#{vtUsuarioArtefactoView.somIntereses}" immediate="true" >
+						<p:ajax update="somEmpresas,somProyectos,somUsuarios,panelVtArtefactoUsuario" event="change"
 							listener="#{vtUsuarioArtefactoView.habilitarSelectOneMenu()}" />
-						<f:selectItem itemValue="-1" itemLabel="Interés" />
+						<f:selectItem itemValue="-1" itemLabel="-Seleccionar el interés-" />
 						<f:selectItems value="#{vtUsuarioArtefactoView.losInteresesFiltro}" />
 					</p:selectOneMenu>
 					
 					<p:selectOneMenu id="somEmpresas" style="width:400px" 
 						binding="#{vtUsuarioArtefactoView.somEmpresas}">
-						<p:ajax update="somProyectos" event="change"
+						<p:ajax update="somProyectos,somUsuarios,panelVtArtefactoUsuario" event="change"
 							listener="#{vtUsuarioArtefactoView.filtrarEmpresa}" />
-						<f:selectItem itemValue="-1" itemLabel="Empresa" />
+						<f:selectItem itemValue="-1" itemLabel="-Seleccionar la empresa-" />
 						<f:selectItems value="#{vtUsuarioArtefactoView.lasEmpresasItems}" />
 					</p:selectOneMenu>
 
 
 					<p:selectOneMenu id="somProyectos" style="width:400px"
 						binding="#{vtUsuarioArtefactoView.somProyectos}">
-						<p:ajax update="somUsuarios" event="change"
+						<p:ajax update="somUsuarios,panelVtArtefactoUsuario" event="change"
 							listener="#{vtUsuarioArtefactoView.filtrarProyectoUsuario}" />
-						<f:selectItem itemValue="-1" itemLabel="Proyecto" />
+						<f:selectItem itemValue="-1" itemLabel="-Seleccionar el Proyecto-" />
 						<f:selectItems
 							value="#{vtUsuarioArtefactoView.losProyectosFiltro}" />
 					</p:selectOneMenu>
@@ -64,7 +64,7 @@
 						binding="#{vtUsuarioArtefactoView.somUsuarios}">
 						<p:ajax update="panelVtArtefactoUsuario" event="change"
 							listener="#{vtUsuarioArtefactoView.localeChanged}" />
-						<f:selectItem itemValue="-1" itemLabel="Usuario" />
+						<f:selectItem itemValue="-1" itemLabel="-Seleccionar el usuario-" />
 						<f:selectItems value="#{vtUsuarioArtefactoView.losUsuariosFiltro}" />
 					</p:selectOneMenu>
 
@@ -73,7 +73,7 @@
 
 			</p:panel>
 
-			<p:panel id="panelVtArtefactoUsuario" header="Asignar artefactos">
+			<p:panel id="panelVtArtefactoUsuario" header="ASIGNAR ARTEFACTO(S) A DESARROLLADOR(ES)">
 				<h:panelGrid columns="2" id="panelGrid">
 
 					<h:panelGrid id="ParteIzquierda" columns="6">

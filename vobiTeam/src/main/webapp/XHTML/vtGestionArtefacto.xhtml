@@ -36,7 +36,7 @@
 						binding="#{vtArtefactoView.somEmpresas}">
 						<p:ajax update="somProyectos,somPilaProducto,somSprints,pnlVtArtefacto,filtredBottomCreated" event="change"
 							listener="#{vtArtefactoView.filtrarEmpresa}" />
-						<f:selectItem itemValue="-1" itemLabel="Seleccionar la empresa" />
+						<f:selectItem itemValue="-1" itemLabel="-Seleccionar la empresa-" />
 						<f:selectItems value="#{vtArtefactoView.lasEmpresasItems}" />
 					</p:selectOneMenu>
 
@@ -44,7 +44,7 @@
 						binding="#{vtArtefactoView.somProyectos}">
 						<p:ajax update="somPilaProducto,somSprints,pnlVtArtefacto,filtredBottomCreated" event="change"
 							listener="#{vtArtefactoView.filtrarProyecto}" />
-						<f:selectItem itemValue="-1" itemLabel="Seleccionar el proyecto" />
+						<f:selectItem itemValue="-1" itemLabel="-Seleccionar el proyecto-" />
 						<f:selectItems value="#{vtArtefactoView.losProyectosFiltro}" />
 					</p:selectOneMenu>
 
@@ -52,7 +52,7 @@
 						binding="#{vtArtefactoView.somPilaProducto}">
 						<p:ajax update="somSprints,pnlVtArtefacto,filtredBottomCreated" event="change"
 							listener="#{vtArtefactoView.imprimirValue}" />
-						<f:selectItem itemValue="-1" itemLabel="Seleccionar la pila de Producto" />
+						<f:selectItem itemValue="-1" itemLabel="-Seleccionar la pila de Producto-" />
 						<f:selectItems value="#{vtArtefactoView.lasPilasDeProductoFiltro}" />
 					</p:selectOneMenu>
 
@@ -60,7 +60,7 @@
 						binding="#{vtArtefactoView.somSprints}">
 						<p:ajax update="pnlVtArtefacto,frm" event="change"
 							listener="#{vtArtefactoView.filtrar}" />
-						<f:selectItem itemValue="-1" itemLabel="Seleccionar el sprint" />
+						<f:selectItem itemValue="-1" itemLabel="-Seleccionar el sprint-" />
 						<f:selectItems value="#{vtArtefactoView.losSprintsFiltro}" />
 					</p:selectOneMenu>
 

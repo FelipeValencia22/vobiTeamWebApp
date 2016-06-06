@@ -53,6 +53,16 @@ public class VtUsuarioArtefactoView implements Serializable {
 
 	@ManagedProperty(value = "#{BusinessDelegatorView}")
 	private IBusinessDelegatorView businessDelegatorView;
+	
+	public VtUsuarioArtefactoView() {
+		somIntereses = new SelectOneMenu();
+		somEmpresas = new SelectOneMenu();
+		somEmpresas.setDisabled(true);
+		somProyectos = new SelectOneMenu();
+		somProyectos.setDisabled(true);
+		somUsuarios = new SelectOneMenu();
+		somUsuarios.setDisabled(true);
+	}
 
 	@PostConstruct
 	public void init() {
@@ -172,6 +182,19 @@ public class VtUsuarioArtefactoView implements Serializable {
 	}
 
 	public void habilitarSelectOneMenu() {
+		if(somIntereses.getValue().toString().trim().equals("-1")){
+			somEmpresas.setValue("-1");
+			somProyectos.setValue("-1");
+			somUsuarios.setValue("-1");
+			somEmpresas.setDisabled(true);	
+			somProyectos.setDisabled(true);			
+			somUsuarios.setDisabled(true);
+			
+			artefactosSource = new ArrayList<VtArtefacto>();
+			artefactosTarget = new ArrayList<VtArtefacto>();
+			vtArtefacto = new DualListModel<>(artefactosSource, artefactosTarget);
+		}
+		somEmpresas.setDisabled(false);
 		somProyectos.setDisabled(false);
 		somUsuarios.setDisabled(false);
 	}
@@ -223,6 +246,10 @@ public class VtUsuarioArtefactoView implements Serializable {
 		try {
 			VtProyecto vtProyecto = null;
 			losUsuariosFiltro = null;
+			somUsuarios.setValue("-1");
+			artefactosSource = new ArrayList<VtArtefacto>();
+			artefactosTarget = new ArrayList<VtArtefacto>();
+			vtArtefacto = new DualListModel<>(artefactosSource, artefactosTarget);
 			String proyectoS = somProyectos.getValue().toString().trim();
 
 			if (proyectoS.isEmpty() || proyectoS.equals("-1")) {
@@ -377,6 +404,11 @@ public class VtUsuarioArtefactoView implements Serializable {
 		try {
 			VtEmpresa vtEmpresa = null;
 			losProyectosFiltro = null;
+			somProyectos.setValue("-1");
+			somUsuarios.setValue("-1");
+			artefactosSource = new ArrayList<VtArtefacto>();
+			artefactosTarget = new ArrayList<VtArtefacto>();
+			vtArtefacto = new DualListModel<>(artefactosSource, artefactosTarget);
 			String empresaS = somEmpresas.getValue().toString().trim();
 			if (empresaS.isEmpty() || empresaS.equals("-1")) {
 			} else {

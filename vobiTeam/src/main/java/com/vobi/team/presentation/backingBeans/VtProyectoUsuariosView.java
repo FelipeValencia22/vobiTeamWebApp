@@ -120,10 +120,10 @@ public class VtProyectoUsuariosView implements Serializable {
 
 	public List<SelectItem> getLasEmpresasItems() {
 		try {
-			if(lasEmpresasItems==null){
-				List<VtEmpresa> listaEmpresas=businessDelegatorView.getVtEmpresa();
-				lasEmpresasItems=new ArrayList<SelectItem>();
-				for (VtEmpresa vtEmpresa: listaEmpresas) {
+			if (lasEmpresasItems == null) {
+				List<VtEmpresa> listaEmpresas = businessDelegatorView.getVtEmpresa();
+				lasEmpresasItems = new ArrayList<SelectItem>();
+				for (VtEmpresa vtEmpresa : listaEmpresas) {
 					lasEmpresasItems.add(new SelectItem(vtEmpresa.getEmprCodigo(), vtEmpresa.getNombre()));
 				}
 			}
@@ -191,8 +191,8 @@ public class VtProyectoUsuariosView implements Serializable {
 	}
 
 	public void actualizarListaUsuarios() throws Exception {
-		usuariosSource= null;
-		usuariosTarget= null;
+		usuariosSource = null;
+		usuariosTarget = null;
 		try {
 			Long idProyecto = Long.parseLong(somProyectos.getValue().toString().trim());
 			VtProyecto vtProyecto = businessDelegatorView.getVtProyecto(idProyecto);
@@ -259,20 +259,31 @@ public class VtProyectoUsuariosView implements Serializable {
 	}
 
 	public void localeChanged() throws Exception {
+		usuariosSource = new ArrayList<VtUsuario>();
+		usuariosTarget = new ArrayList<VtUsuario>();
+		vtUsuario = new DualListModel<>(usuariosSource, usuariosTarget);
 		actualizarListaUsuarios();
 	}
 
 	public void localeChangedFiltro() throws Exception {
 		String empresaS = somEmpresas.getValue().toString().trim();
 		Long codigoFiltro = Long.valueOf(empresaS);
-		VtEmpresa vtEmpresaSeleccionada=businessDelegatorView.getVtEmpresa(codigoFiltro);
-		List<VtProyecto> listaProyectos = businessDelegatorView.getVtProyecto();
-		losProyectosItems = new ArrayList<SelectItem>();
-		for (VtProyecto vtProyecto : listaProyectos) {
-			if(vtProyecto.getVtEmpresa().getEmprCodigo().equals(vtEmpresaSeleccionada.getEmprCodigo())){
-				losProyectosItems.add(new SelectItem(vtProyecto.getProyCodigo(), vtProyecto.getNombre()));
+		if(empresaS.equals("-1")){
+			somProyectos.setValue("-1");
+			usuariosSource = new ArrayList<VtUsuario>();
+			usuariosTarget = new ArrayList<VtUsuario>();
+			vtUsuario = new DualListModel<>(usuariosSource, usuariosTarget);	
+		}else{
+			VtEmpresa vtEmpresaSeleccionada = businessDelegatorView.getVtEmpresa(codigoFiltro);
+			List<VtProyecto> listaProyectos = businessDelegatorView.getVtProyecto();
+			losProyectosItems = new ArrayList<SelectItem>();
+			for (VtProyecto vtProyecto : listaProyectos) {
+				if (vtProyecto.getVtEmpresa().getEmprCodigo().equals(vtEmpresaSeleccionada.getEmprCodigo())) {
+					losProyectosItems.add(new SelectItem(vtProyecto.getProyCodigo(), vtProyecto.getNombre()));
+				}
 			}
 		}
+	
 	}
 
 	public boolean isShowDialog() {

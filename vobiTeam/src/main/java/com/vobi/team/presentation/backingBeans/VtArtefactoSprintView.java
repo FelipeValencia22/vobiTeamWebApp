@@ -28,26 +28,26 @@ import com.vobi.team.modelo.dto.VtSprintDTO;
 import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
 import com.vobi.team.utilities.FacesUtils;
 
-
 @ManagedBean
 @ViewScoped
 public class VtArtefactoSprintView implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 	private static final Logger log = LoggerFactory.getLogger(VtArtefactoSprintView.class);
-	
-	VtSprint vtSprint=null;
-	
+
+	VtSprint vtSprint = null;
+
 	private DualListModel<VtArtefacto> vtArtefacto;
 	private List<SelectItem> losSprintsItems;
+
 	private List<VtArtefacto> artefactosSource;
 	private List<VtArtefacto> artefactosTarget;
-	
+
 	private SelectOneMenu somSprints;
 	private SelectOneMenu somPilaProducto;
 	private SelectOneMenu somEmpresas;
-	private SelectOneMenu somProyectos;	
-	
+	private SelectOneMenu somProyectos;
+
 	private List<SelectItem> lasEmpresasItems;
 	private List<SelectItem> losProyectosFiltro;
 	private List<SelectItem> lasPilasDeProductoFiltro;
@@ -57,11 +57,16 @@ public class VtArtefactoSprintView implements Serializable {
 	private String sprintSeleccionado;
 
 	private boolean showDialog;
-	
+
 	private List<VtSprintDTO> dataSprint;
 
 	@ManagedProperty(value = "#{BusinessDelegatorView}")
 	private IBusinessDelegatorView businessDelegatorView;
+
+	public VtArtefactoSprintView() {
+		losSprintsItems = new ArrayList<SelectItem>();
+		losSprintsItems.clear();
+	}
 
 	public MeterGaugeChartModel getMeterGaugeModel() {
 		return meterGaugeModel;
@@ -89,6 +94,10 @@ public class VtArtefactoSprintView implements Serializable {
 
 	public void setArtefactosSource(List<VtArtefacto> artefactosSource) {
 		this.artefactosSource = artefactosSource;
+	}
+
+	public List<SelectItem> getLosSprintsItems() {
+		return losSprintsItems;
 	}
 
 	public List<VtArtefacto> getArtefactosTarget() {
@@ -183,7 +192,7 @@ public class VtArtefactoSprintView implements Serializable {
 	public void setLasPilasDeProductoFiltro(List<SelectItem> lasPilasDeProductoFiltro) {
 		this.lasPilasDeProductoFiltro = lasPilasDeProductoFiltro;
 	}
-	
+
 	public DualListModel<VtArtefacto> getVtArtefacto() {
 		return vtArtefacto;
 	}
@@ -208,12 +217,11 @@ public class VtArtefactoSprintView implements Serializable {
 		iniciarMeterGaugeModels();
 	}
 
-
-	public void asignarArtefactoASprint(VtArtefacto vtArtefacto,VtSprint vtSprint, VtPilaProducto vtPilaProducto) {
+	public void asignarArtefactoASprint(VtArtefacto vtArtefacto, VtSprint vtSprint, VtPilaProducto vtPilaProducto) {
 		try {
 			VtUsuario vtUsuarioEnSession = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
-			vtArtefacto = (VtArtefacto) businessDelegatorView
-					.consultarArtefactosAsignadosASprintYPila(vtArtefacto.getArteCodigo(), vtPilaProducto.getPilaCodigo());
+			vtArtefacto = (VtArtefacto) businessDelegatorView.consultarArtefactosAsignadosASprintYPila(
+					vtArtefacto.getArteCodigo(), vtPilaProducto.getPilaCodigo());
 			if (vtArtefacto != null) {
 				vtArtefacto.setVtSprint(vtSprint);
 				vtArtefacto.setUsuModificador(vtUsuarioEnSession.getUsuaCodigo());
@@ -227,11 +235,11 @@ public class VtArtefactoSprintView implements Serializable {
 		}
 	}
 
-	public void removerArtefactoDelSprint(VtArtefacto vtArtefacto,VtSprint vtSprint, VtPilaProducto vtPilaProducto){
+	public void removerArtefactoDelSprint(VtArtefacto vtArtefacto, VtSprint vtSprint, VtPilaProducto vtPilaProducto) {
 		try {
 			VtUsuario vtUsuarioEnSession = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
-			vtArtefacto = (VtArtefacto) businessDelegatorView
-					.consultarArtefactosAsignadosASprintYPila(vtArtefacto.getArteCodigo(), vtPilaProducto.getPilaCodigo());
+			vtArtefacto = (VtArtefacto) businessDelegatorView.consultarArtefactosAsignadosASprintYPila(
+					vtArtefacto.getArteCodigo(), vtPilaProducto.getPilaCodigo());
 			vtArtefacto.setUsuModificador(vtUsuarioEnSession.getUsuaCodigo());
 			vtArtefacto.setFechaModificacion(new Date());
 			vtArtefacto.setActivo("N");
@@ -245,39 +253,42 @@ public class VtArtefactoSprintView implements Serializable {
 	public void onTransfer(TransferEvent event) throws Exception {
 		try {
 			StringBuilder builder = new StringBuilder();
-			Long idSprint= Long.parseLong(somSprints.getValue().toString().trim());
+			Long idSprint = Long.parseLong(somSprints.getValue().toString().trim());
 			VtSprint vtSprint = businessDelegatorView.getVtSprint(idSprint);
-			VtPilaProducto vtPilaProducto = businessDelegatorView.getVtPilaProducto(vtSprint.getVtPilaProducto().getPilaCodigo());
-			String mensaje="";
+			VtPilaProducto vtPilaProducto = businessDelegatorView
+					.getVtPilaProducto(vtSprint.getVtPilaProducto().getPilaCodigo());
+			String mensaje = "";
 			for (Object item : event.getItems()) {
-				VtArtefacto vtArtefacto =(VtArtefacto) item;
+				VtArtefacto vtArtefacto = (VtArtefacto) item;
 
 				builder.append(((VtArtefacto) item).getTitulo()).append("<br />");
 				if (event.isAdd()) {
 					asignarArtefactoASprint(vtArtefacto, vtSprint, vtPilaProducto);
-					mensaje="Artefacto(s) asignado(s)";
+					mensaje = "Artefacto(s) asignado(s)";
 					calcularEsfuerzo();
 				}
 				if (event.isRemove()) {
 					removerArtefactoDelSprint(vtArtefacto, vtSprint, vtPilaProducto);
-					mensaje="Artefacto(s) retirado(s)";
+					mensaje = "Artefacto(s) retirado(s)";
 					calcularEsfuerzo();
 				}
 			}
-			FacesUtils.addInfoMessage(""+mensaje);
+			FacesUtils.addInfoMessage("" + mensaje);
 		} catch (Exception e) {
+			actualizarListaUsuarios();
 			FacesUtils.addErrorMessage("No se pudo realizar la transferencia");
 		}
 
 	}
-	
+
 	public void actualizarListaUsuarios() throws Exception {
 
 		try {
 			Long idSprint = Long.parseLong(somSprints.getValue().toString().trim());
 			vtSprint = businessDelegatorView.getVtSprint(idSprint);
-			
-			artefactosSource = businessDelegatorView.consultarArtefactosSinAsignarASprint(vtSprint.getVtPilaProducto().getVtProyecto().getProyCodigo());
+
+			artefactosSource = businessDelegatorView
+					.consultarArtefactosSinAsignarASprint(vtSprint.getVtPilaProducto().getVtProyecto().getProyCodigo());
 			artefactosTarget = businessDelegatorView.consultarArtefactosAsignadosASprint(idSprint);
 
 			vtArtefacto.setSource(artefactosSource);
@@ -289,30 +300,19 @@ public class VtArtefactoSprintView implements Serializable {
 
 	}
 
-	public List<SelectItem> getLosSprintsItems() {
-
-		try {
-			if (losSprintsItems == null) {
-				List<VtSprint> listaSprint = businessDelegatorView.getVtSprint();
-				losSprintsItems = new ArrayList<SelectItem>();				
-				for (VtSprint vtSprint : listaSprint) {
-					losSprintsItems.add(new SelectItem(vtSprint.getSpriCodigo(), vtSprint.getNombre()));
-				}
-			}
-		} catch (Exception e) {
-			log.error(e.getMessage());
-		}
-		return losSprintsItems;
-	}
-
 	public void localeChanged() throws Exception {
 		try {
 			setSprintSeleccionado(somSprints.getValue().toString().trim());
+			if (getSprintSeleccionado().equals("-1")) {
+				artefactosSource = new ArrayList<VtArtefacto>();
+				artefactosTarget = new ArrayList<VtArtefacto>();
+				vtArtefacto = new DualListModel<>(artefactosSource, artefactosTarget);
+			}
 			actualizarListaUsuarios();
 			createMeterGaugeModels();
 			calcularEsfuerzo();
 		} catch (Exception e) {
-			log.error("Error",e.getMessage());
+			log.error("Error", e.getMessage());
 		}
 	}
 
@@ -324,21 +324,22 @@ public class VtArtefactoSprintView implements Serializable {
 
 	@SuppressWarnings("serial")
 	private MeterGaugeChartModel initMeterGaugeModel() {
-		List<Number> intervals = new ArrayList<Number>(){
+		List<Number> intervals = new ArrayList<Number>() {
 			{
-				if(vtSprint==null){
+				if (vtSprint == null) {
 					add(100);
 					add(200);
 					add(300);
-				}else{
-					int valores=vtSprint.getCapacidadEstimada();
-					add(valores/2);
+				} else {
+					int valores = vtSprint.getCapacidadEstimada();
+					add(valores / 2);
 					add(valores);
-					add(valores*2);
+					add(valores * 2);
 				}
-			}};
+			}
+		};
 
-			return new MeterGaugeChartModel(140, intervals);
+		return new MeterGaugeChartModel(140, intervals);
 	}
 
 	private void createMeterGaugeModels() {
@@ -361,38 +362,49 @@ public class VtArtefactoSprintView implements Serializable {
 		meterGaugeModel.setShowTickLabels(true);
 		meterGaugeModel.setLabelHeightAdjust(110);
 		meterGaugeModel.setIntervalOuterRadius(150);
+		meterGaugeModel.setValue(0);
 	}
-	
 
 	public String convertirMinutosAHorasYMinutos(double esfuerzo) {
-		double tiempoHoras = esfuerzo/60;
-		String timeHour = ""+tiempoHoras;		
+		double tiempoHoras = esfuerzo / 60;
+		String timeHour = "" + tiempoHoras;
 		return timeHour;
 	}
 
-	public void calcularEsfuerzo(){
-		double esfuerzo=0;
-		double totalEsf =0;
+	public void calcularEsfuerzo() {
+		double esfuerzo = 0;
+		double totalEsf = 0;
 		try {
-			List<VtArtefacto> listaArtefactos=businessDelegatorView.consultarTodosLosArtefactosAsignados();
-			for(VtArtefacto vtArtefacto: listaArtefactos){
-				if(vtArtefacto.getVtSprint().getSpriCodigo().equals(vtSprint.getSpriCodigo())){
-						log.info("Artefacto: "+vtArtefacto.getTitulo());
-						esfuerzo=esfuerzo+vtArtefacto.getEsfuerzoEstimado();
-					}
-				}
+			List<VtArtefacto> listaArtefactos = businessDelegatorView
+					.consultarArtefactosAsignadosASprint(Long.parseLong(somSprints.getValue().toString().trim()));
+			for (VtArtefacto vtArtefacto : listaArtefactos) {
+					log.info("Artefacto: " + vtArtefacto.getTitulo());
+					esfuerzo = esfuerzo + vtArtefacto.getEsfuerzoEstimado();
+			}
+			log.info("Suma total de todos las esfuerzos estimados de los artefactos del sprint en minutos" + esfuerzo);
 			totalEsf = Double.parseDouble(convertirMinutosAHorasYMinutos(esfuerzo));
+			log.info("Suma total de todos las esfuerzos estimados de los artefactos del sprint en horas " + totalEsf);
 			meterGaugeModel.setValue(totalEsf);
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("Error ", e);
 		}
 
 	}
-	
+
 	public String filtrarEmpresa() {
 		try {
+
 			VtEmpresa vtEmpresa = null;
 			losProyectosFiltro = null;
+			lasPilasDeProductoFiltro = null;
+			losSprintsItems = null;
+			somProyectos.setValue("-1");
+			somPilaProducto.setValue("-1");
+			somSprints.setValue("-1");
+			artefactosSource = new ArrayList<VtArtefacto>();
+			artefactosTarget = new ArrayList<VtArtefacto>();
+			vtArtefacto = new DualListModel<>(artefactosSource, artefactosTarget);
+			meterGaugeModel.setValue(0);
 			String empresaS = somEmpresas.getValue().toString().trim();
 			if (empresaS.isEmpty() || empresaS.equals("-1")) {
 			} else {
@@ -418,11 +430,17 @@ public class VtArtefactoSprintView implements Serializable {
 		}
 		return "";
 	}
-	
+
 	public String filtrarProyecto() {
 		try {
 			VtProyecto vtProyecto = null;
 			lasPilasDeProductoFiltro = null;
+			somPilaProducto.setValue("-1");
+			somSprints.setValue("-1");
+			artefactosSource = new ArrayList<VtArtefacto>();
+			artefactosTarget = new ArrayList<VtArtefacto>();
+			vtArtefacto = new DualListModel<>(artefactosSource, artefactosTarget);
+			meterGaugeModel.setValue(0);
 			String proyectoS = somProyectos.getValue().toString().trim();
 
 			if (proyectoS.isEmpty() || proyectoS.equals("-1")) {
@@ -453,9 +471,15 @@ public class VtArtefactoSprintView implements Serializable {
 
 		return "";
 	}
-	
-	public String filtrarPila() {
 
+	public String filtrarPila() {
+		somSprints.setValue("-1");
+		artefactosSource = new ArrayList<VtArtefacto>();
+		artefactosTarget = new ArrayList<VtArtefacto>();
+		vtArtefacto = new DualListModel<>(artefactosSource, artefactosTarget);
+		dataSprint = null;
+		losSprintsItems = null;
+		meterGaugeModel.setValue(0);
 		try {
 			VtPilaProducto vtPilaProducto = null;
 			String pila = somPilaProducto.getValue().toString();
@@ -467,11 +491,15 @@ public class VtArtefactoSprintView implements Serializable {
 
 			try {
 
-				dataSprint = businessDelegatorView.getDataVtSprintFiltro(vtPilaProducto.getPilaCodigo());
-				losSprintsItems= new ArrayList<SelectItem>();
-				for (VtSprintDTO vtSprintDTO : dataSprint) {
-					losSprintsItems.add(new SelectItem(vtSprintDTO.getSpriCodigo(), vtSprintDTO.getNombre()));
+				if (dataSprint == null) {
+					dataSprint = businessDelegatorView.getDataVtSprintFiltro(vtPilaProducto.getPilaCodigo());
+					losSprintsItems = new ArrayList<SelectItem>();
+					for (VtSprintDTO vtSprintDTO : dataSprint) {
+						if (vtSprintDTO.getPilaCodigo_VtPilaProducto().equals(vtPilaProducto.getPilaCodigo())) {
+							losSprintsItems.add(new SelectItem(vtSprintDTO.getSpriCodigo(), vtSprintDTO.getNombre()));
+						}
 
+					}
 				}
 
 			} catch (Exception e) {

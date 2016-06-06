@@ -138,7 +138,10 @@ public class VtUsuarioRolView implements Serializable {
 			VtProyecto vtProyecto = null;
 			losUsuariosFiltro = null;
 			String proyectoS = somProyectos.getValue().toString().trim();
-
+			somUsuarios.setValue("-1");
+			rolesSource = new ArrayList<VtRol>();
+			rolesTarget = new ArrayList<VtRol>();
+			vtRol = new DualListModel<>(rolesSource, rolesTarget);
 			if (proyectoS.isEmpty() || proyectoS.equals("-1")) {
 			} else {
 				vtProyecto = businessDelegatorView
@@ -219,6 +222,11 @@ public class VtUsuarioRolView implements Serializable {
 
 	public void localeChanged() throws Exception {
 		setUsuarioSeleccionado(somUsuarios.getValue().toString().trim());
+		if(getUsuarioSeleccionado().equals("-1")){
+			rolesSource = new ArrayList<VtRol>();
+			rolesTarget = new ArrayList<VtRol>();
+			vtRol = new DualListModel<>(rolesSource, rolesTarget);
+		}
 		actualizarListaRoles();
 	}
 
@@ -328,6 +336,11 @@ public class VtUsuarioRolView implements Serializable {
 			VtEmpresa vtEmpresa = null;
 			losProyectosFiltro = null;
 			String empresaS = somEmpresas.getValue().toString().trim();
+			somProyectos.setValue("-1");
+			somUsuarios.setValue("-1");
+			rolesSource = new ArrayList<VtRol>();
+			rolesTarget = new ArrayList<VtRol>();
+			vtRol = new DualListModel<>(rolesSource, rolesTarget);
 			if (empresaS.isEmpty() || empresaS.equals("-1")) {
 			} else {
 				Long empresa = Long.parseLong(empresaS);
