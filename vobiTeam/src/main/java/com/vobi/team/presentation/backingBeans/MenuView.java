@@ -131,7 +131,7 @@ public class MenuView {
 		proyectoItem.setId("sm_VtProyecto");
 		model.addElement(proyectoItem);
 
-		DefaultMenuItem desarrolladorProyectoItem = new DefaultMenuItem("Desarrolladores-Proyecto");
+		DefaultMenuItem desarrolladorProyectoItem = new DefaultMenuItem("Usuarios-Proyecto");
 		desarrolladorProyectoItem.setOutcome("/XHTML/vtDesarrolladoresProyecto.xhtml");
 		desarrolladorProyectoItem.setIcon("fa fa-folder-open");
 		desarrolladorProyectoItem.setId("sm_VtDesarrolladoresProyecto");

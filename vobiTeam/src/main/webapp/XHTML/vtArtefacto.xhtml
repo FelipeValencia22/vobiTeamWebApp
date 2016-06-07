@@ -822,12 +822,12 @@
 		</p:dialog>
 
 		<p:dialog id="dialogProgreso" rendered="true" responsive="true"
-			height="400" modal="true" closable="false" widgetVar="dlgProgreso"
-			dynamic="true"
+			height="400" modal="true" closable="true" widgetVar="dlgProgreso"
+			dynamic="true" header="Progreso artefacto"
 			visible="#{vtArtefactoViewDesarrollador.showDialogProgreso}"
 			width="1000">
 			<h:form id="formDialogCrearProgreso">
-				<p:panel id="pnlProgreso" header="Progreso artefacto">
+				<p:panel id="pnlProgreso" >
 
 					<h:panelGrid columns="2" id="pnlGridProgreso" rendered="true">
 

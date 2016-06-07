@@ -187,7 +187,7 @@ public class VtArtefactoViewCliente implements Serializable {
 			}
 			
 
-			String estados = "100";
+			String estados = "5";
 			Long estadoArtefacto = Long.parseLong(estados);
 			VtEstado vtEstado = businessDelegatorView.getVtEstado(estadoArtefacto);
 			entity.setVtEstado(vtEstado);

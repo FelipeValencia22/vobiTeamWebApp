@@ -706,13 +706,21 @@ public class VtArtefactoViewDesarrollador implements Serializable {
 
 			vtProgresoArtefacto.setEsfuerzoRestante(esfuerzo);		
 			vtArtefacto.setEsfuerzoRestante(esfuerzo);
-			vtArtefacto.setFechaModificacion(fechaCreacion);
+			vtArtefacto.setFechaModificacion(fechaCreacion); 
 
 			businessDelegatorView.saveVtProgresoArtefacto(vtProgresoArtefacto);
 			businessDelegatorView.updateVtArtefacto(vtArtefacto);
 			FacesContext.getCurrentInstance().addMessage("", new FacesMessage("Se registró el progreso con exito"));
 			setShowDialogProgreso(false);
 			limpiarProgreso();
+			
+			VtSprint vtSprint = businessDelegatorView.getVtSprint(Long.parseLong(somSprints.getValue().toString().trim()));
+
+			vtUsuario = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
+			
+			dataFiltro = businessDelegatorView.getDataVtArtefactoFiltroDesarrollador(vtSprint.getSpriCodigo().longValue(),vtUsuario.getUsuaCodigo());
+			dataFiltroI = businessDelegatorView.getDataVtArtefactoFiltroIDesarrollador(vtSprint.getSpriCodigo().longValue(),vtUsuario.getUsuaCodigo());
+			
 
 		} catch (Exception e) {
 			log.error(e.getMessage());
