@@ -90,33 +90,6 @@
 										<h:outputText value="#{vtProyecto.descripcion}" />
 									</p:column>
 
-
-
-
-									<p:column headerText="Modificar">
-										<div align="center">
-											<p:commandButton id="btnEdit" icon="fa fa-edit"
-												update=":dialogVtProyecto"
-												actionListener="#{vtProyectoViewDesarrollador.action_edit}">
-												<f:attribute name="selectedVtProyecto" value="#{vtProyecto}" />
-											</p:commandButton>
-											<p:tooltip id="toolTipFadeM" for="btnEdit" value="Modificar" />
-										</div>
-									</p:column>
-
-
-									<p:column headerText="Cambiar estado">
-										<div align="center">
-											<p:commandButton id="btnEstado" icon="fa fa-retweet"
-												update=":formDialog1:accordionPanelVtProyecto, :formDialog1:growl"
-												actionListener="#{vtProyectoViewDesarrollador.cambiarEstado}">
-												<f:attribute name="selectedVtProyecto" value="#{vtProyecto}" />
-											</p:commandButton>
-											<p:tooltip id="toolTipFadeC" for="btnEstado"
-												value="Cambiar estado" />
-										</div>
-									</p:column>
-
 								</p:dataTable>
 							</p:panel>
 						</p:tab>
@@ -177,31 +150,6 @@
 										<h:outputText value="#{vtProyecto.descripcion}" />
 									</p:column>
 
-
-
-
-									<p:column headerText="Modificar">
-										<div align="center">
-											<p:commandButton id="btnEdit" icon="fa fa-edit"
-												update=":dialogVtProyecto"
-												actionListener="#{vtProyectoViewDesarrollador.action_edit}">
-												<f:attribute name="selectedVtProyecto" value="#{vtProyecto}" />
-											</p:commandButton>
-											<p:tooltip id="toolTipFadeMi" for="btnEdit" value="Modificar" />
-										</div>
-									</p:column>
-
-									<p:column headerText="Cambiar estado">
-										<div align="center">
-											<p:commandButton id="btnEstado" icon="fa fa-retweet"
-												update=":formDialog1:accordionPanelVtProyecto, :formDialog1:growl"
-												actionListener="#{vtProyectoViewDesarrollador.cambiarEstado}">
-												<f:attribute name="selectedVtProyecto" value="#{vtProyecto}" />
-											</p:commandButton>
-											<p:tooltip id="toolTipFadeCi" for="btnEstado"
-												value="Cambiar estado" />
-										</div>
-									</p:column>
 
 								</p:dataTable>
 							</p:panel>

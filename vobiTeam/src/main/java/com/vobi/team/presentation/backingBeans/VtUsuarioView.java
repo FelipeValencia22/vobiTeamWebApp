@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -264,6 +266,27 @@ public class VtUsuarioView implements Serializable{
 	public void setEsActivoItems(List<SelectItem> esActivoItems) {
 		this.esActivoItems = esActivoItems;
 	}
+	
+	private static final String PATTERN_EMAIL = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
+	/**
+	 * Validate given email with regular expression.
+	 * 
+	 * @param email
+	 *            email for validation
+	 * @return true valid email, otherwise false
+	 */
+	public static boolean validateEmail(String email) {
+
+		// Compiles the given regular expression into a pattern.
+		Pattern pattern = Pattern.compile(PATTERN_EMAIL);
+
+		// Match the given input against this pattern
+		Matcher matcher = pattern.matcher(email);
+		return matcher.matches();
+
+	}
 
 	public String crearUsuario() throws Exception{
 		log.info("Creando usuario");
@@ -298,6 +321,7 @@ public class VtUsuarioView implements Serializable{
 					FacesContext.getCurrentInstance().addMessage("", new FacesMessage("El usuario se guardo con exito"));
 					data = businessDelegatorView.getDataVtUsuario();
 				} catch (Exception e) {
+					log.error(e.toString());
 					FacesContext.getCurrentInstance().addMessage("", new FacesMessage(e.getMessage()));
 				}
 

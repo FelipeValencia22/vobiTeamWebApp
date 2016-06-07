@@ -201,25 +201,22 @@
 						</p:selectOneMenu>
 
 						<p:inputText id="txtEmailC" placeholder="Email"  style="width:400px"
-							binding="#{vtUsuarioView.txtLoginC}">
+							binding="#{vtUsuarioView.txtLoginC}" maxlength="100">
 							<p:ajax listener="#{vtUsuarioView.txtLoginListener}"
 								update="@([id$=txtNombreUC]), @([id$=txtClaveC]), @([id$=txtClaveCR]), @([id$=btnCrearU]), @([id$=btnLimpiar]) " />
 						</p:inputText>
 
 						<p:inputText id="txtNombreUC" placeholder="Nombre"  style="width:400px"
-							binding="#{vtUsuarioView.txtNombreC}" />
+							binding="#{vtUsuarioView.txtNombreC}" maxlength="150" />
 
 						<p:password id="txtClaveC" placeholder="Contrase&#241;a"  style="width:400px"
-							binding="#{vtUsuarioView.txtClaveC}" />
+							binding="#{vtUsuarioView.txtClaveC}" maxlength="100"/>
 
 						<p:password id="txtClaveCR" placeholder="Repetir contrase&#241;a"  style="width:400px"
-							binding="#{vtUsuarioView.txtClaveRC}" /> 
+							binding="#{vtUsuarioView.txtClaveRC}" maxlength="100" /> 
 
 
 					</h:panelGrid>
-
-
-					<br></br>
 
 					<p:commandButton id="btnCrearU" icon="fa fa-save" title="Crear"
 						binding="#{vtUsuarioView.btnCrearU}" disabled="true"
