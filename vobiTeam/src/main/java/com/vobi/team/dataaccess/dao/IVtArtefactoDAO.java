@@ -16,4 +16,5 @@ public interface IVtArtefactoDAO extends Dao<VtArtefacto, Long> {
 	 public VtUsuarioArtefacto consultarUsuarioArtefactoPorUsuarioYArtefacto(Long codigoUsuario, Long codigoArtefacto);
 	 public List<VtArtefacto> consultarArtefactosPorProyecto(Long codigoProyecto);
 	 public List<VtArtefacto> todosLosArtefactosDeUnUsuario(Long usuCodigo);
+	 public List<VtArtefacto> consultarTodosLosArtefactosDeUnaPila(Long codigoPila);
 }

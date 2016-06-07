@@ -79,6 +79,11 @@ public interface IVtArtefactoLogic {
 
 	public List<VtArtefacto> obtenerArtefactosNoAsignados(VtUsuario vtUsuario, Long codigoProyecto) throws Exception;
 	
+	 public List<VtArtefacto> consultarTodosLosArtefactosDeUnaPila(Long codigoPila)throws Exception;
+	
 
 	public List<VtArtefacto> obtenerArtefactosAsignados(VtUsuario vtUsuario,Long codigoProyecto) throws Exception;
+	
+	public List<VtArtefactoDTO> getDataVtArtefactoPilaFiltroA(Long codigoFiltro) throws Exception;
+	public List<VtArtefactoDTO> getDataVtArtefactoPilaFiltroI(Long codigoFiltro) throws Exception;
 }

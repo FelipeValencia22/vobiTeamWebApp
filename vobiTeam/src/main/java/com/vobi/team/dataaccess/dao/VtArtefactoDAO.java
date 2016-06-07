@@ -77,4 +77,11 @@ public class VtArtefactoDAO extends HibernateDaoImpl<VtArtefacto, Long>
 		return ((List<VtArtefacto>)sessionFactory.getCurrentSession()
 				.getNamedQuery("todosLosArtefactosDeUnUsuario").setLong("usuCodigo", usuCodigo).list());
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<VtArtefacto> consultarTodosLosArtefactosDeUnaPila(Long codigoPila) {
+		return ((List<VtArtefacto>)sessionFactory.getCurrentSession()
+				.getNamedQuery("consultarTodosLosArtefactosDeUnaPila").setLong("codigoPila", codigoPila).list());
+	}
 }

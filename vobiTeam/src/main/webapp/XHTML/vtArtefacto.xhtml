@@ -35,7 +35,7 @@
 
 					<p:selectOneMenu id="somProyectos" style="width:400px"
 						binding="#{vtArtefactoViewDesarrollador.somProyectos}">
-						<p:ajax update="somPilaProducto" event="change"
+						<p:ajax update="somPilaProducto,somSprints,pnlVtArtefacto" event="change"
 							listener="#{vtArtefactoViewDesarrollador.filtrarProyecto}" />
 						<f:selectItem itemValue="-1" itemLabel="-Seleccionar el proyecto-" />
 						<f:selectItems
@@ -44,7 +44,7 @@
 
 					<p:selectOneMenu id="somPilaProducto" style="width:400px"
 						binding="#{vtArtefactoViewDesarrollador.somPilaProducto}">
-						<p:ajax update="somSprints" event="change"
+						<p:ajax update="somSprints,pnlVtArtefacto" event="change"
 							listener="#{vtArtefactoViewDesarrollador.filtrarPila}" />
 						<f:selectItem itemValue="-1"
 							itemLabel="-Seleccionar la pila de Producto-" />
@@ -134,29 +134,6 @@
 								<h:outputText value="#{vtArtefacto.prioridad_Nombre}" />
 							</p:column>
 
-							<p:column headerText="Modificar">
-								<div align="center">
-									<p:commandButton id="btnEdit" icon="fa fa-edit"
-										update=":dialogVtArtefacto"
-										actionListener="#{vtArtefactoViewDesarrollador.modificar}">
-										<f:attribute name="selectedVtArtefacto" value="#{vtArtefacto}" />
-									</p:commandButton>
-									<p:tooltip id="toolTipFadeM" for="btnEdit" value="Modificar" />
-								</div>
-							</p:column>
-
-							<p:column headerText="Cambiar estado">
-								<div align="center">
-									<p:commandButton id="btnEstado" icon="fa fa-retweet"
-										update=":frm:pnlVtArtefacto, :frm:msg"
-										actionListener="#{vtArtefactoViewDesarrollador.cambiarEstado}">
-										<f:attribute name="selectedVtArtefacto" value="#{vtArtefacto}" />
-									</p:commandButton>
-									<p:tooltip id="toolTipFadeC" for="btnEstado"
-										value="Cambiar estado" />
-								</div>
-							</p:column>
-
 							<p:column headerText="Mostrar archivos">
 								<div align="center">
 									<p:commandButton id="btnDescargar" icon="fa fa-list-alt"
@@ -205,9 +182,9 @@
 
 					<p:panel id="panelDataTableVtArtefactoI">
 						<p:dataTable value="#{vtArtefactoViewDesarrollador.dataFiltroI}"
-							var="vtArtefacto" paginator="true" rows="4" reflow="true"
+							var="vtArtefacto" paginator="true" rows="10" reflow="true"
 							scrollRows="20" scrollable="true" liveScroll="true"
-							scrollHeight="150" style="margin-bottom:0" widgetVar="artI"
+							scrollHeight="250" style="height:400px" widgetVar="artI"
 							emptyMessage="No hay artefactos activos en este momento">
 							<p:column filterBy="#{vtArtefacto.arteCodigo}"
 								filterMatchMode="contains" sortBy="#{vtArtefacto.arteCodigo}">
@@ -256,29 +233,6 @@
 									<h:outputText value="Prioridad" />
 								</f:facet>
 								<h:outputText value="#{vtArtefacto.prioridad_Nombre}" />
-							</p:column>
-
-							<p:column headerText="Modificar">
-								<div align="center">
-									<p:commandButton id="btnEdit" icon="fa fa-edit"
-										update=":dialogVtArtefacto"
-										actionListener="#{vtArtefactoViewDesarrollador.modificar}">
-										<f:attribute name="selectedVtArtefacto" value="#{vtArtefacto}" />
-									</p:commandButton>
-									<p:tooltip id="toolTipFadeM" for="btnEdit" value="Modificar" />
-								</div>
-							</p:column>
-
-							<p:column headerText="Cambiar estado">
-								<div align="center">
-									<p:commandButton id="btnEstado" icon="fa fa-retweet"
-										update=":frm:pnlVtArtefacto, :frm:msg"
-										actionListener="#{vtArtefactoViewDesarrollador.cambiarEstado}">
-										<f:attribute name="selectedVtArtefacto" value="#{vtArtefacto}" />
-									</p:commandButton>
-									<p:tooltip id="toolTipFadeC" for="btnEstado"
-										value="Cambiar estado" />
-								</div>
 							</p:column>
 
 							<p:column headerText="Mostrar archivos">

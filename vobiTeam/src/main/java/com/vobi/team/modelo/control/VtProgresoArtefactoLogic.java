@@ -125,6 +125,14 @@ public class VtProgresoArtefactoLogic implements IVtProgresoArtefactoLogic {
                 throw new ZMessManager().new EmptyFieldException(
                     "arteCodigo_VtArtefacto");
             }
+            
+            if(entity.getVtArtefacto().getVtEstado().equals(null)){
+            	throw new Exception("Seleccionar el estado");
+            }
+            
+            if(entity.getTiempoDedicado().toString().trim().isEmpty() || entity.getTiempoDedicado().toString().trim().equals("")){
+            	throw new Exception("Indicar el tiempo dedicado");
+            }
 
             vtProgresoArtefactoDAO.save(entity);
 

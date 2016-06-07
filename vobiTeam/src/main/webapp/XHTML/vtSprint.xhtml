@@ -34,9 +34,9 @@
 
 					<p:selectOneMenu id="somProyectos" style="width:400px"
 						binding="#{vtSprintViewDesarrollador.somProyectos}">
-						<p:ajax update="somPilaProducto" event="change"
+						<p:ajax update="somPilaProducto, pnlVtSprint" event="change"
 							listener="#{vtSprintViewDesarrollador.filtrarProyecto}" />
-						<f:selectItem itemValue="-1" itemLabel="Proyecto" />
+						<f:selectItem itemValue="-1" itemLabel="-Seleccionar proyecto-" />
 						<f:selectItems
 							value="#{vtSprintViewDesarrollador.losProyectosFiltro}" />
 					</p:selectOneMenu>
@@ -45,7 +45,7 @@
 						binding="#{vtSprintViewDesarrollador.somPilaProducto}">
 						<p:ajax update="pnlVtSprint, frm" event="change"
 							listener="#{vtSprintViewDesarrollador.filtrar}" />
-						<f:selectItem itemValue="-1" itemLabel="Pila de Producto" />
+						<f:selectItem itemValue="-1" itemLabel="-Seleccionar pila de producto-" />
 						<f:selectItems
 							value="#{vtSprintViewDesarrollador.lasPilasDeProductoFiltro}" />
 					</p:selectOneMenu>
@@ -125,30 +125,6 @@
 								<h:outputText value="#{vtSprint.objetivo}" />
 							</p:column>
 
-							<p:column headerText="Modificar">
-								<div align="center">
-									<p:commandButton id="btnEdit" icon="fa fa-edit"
-										update=":dialogVtSprint"
-										actionListener="#{vtSprintViewDesarrollador.modificar}">
-										<f:attribute name="selectedVtSprint" value="#{vtSprint}" />
-									</p:commandButton>
-									<p:tooltip id="toolTipFadeM" for="btnEdit" value="Modificar" />
-								</div>
-							</p:column>
-
-
-							<p:column headerText="Cambiar estado">
-								<div align="center">
-									<p:commandButton id="btnEstado" icon="fa fa-retweet"
-										update="@([id$=frm],@([id$=growl]"
-										actionListener="#{vtSprintViewDesarrollador.cambiarEstado}">
-										<f:attribute name="selectedVtSprint" value="#{vtSprint}" />
-									</p:commandButton>
-									<p:tooltip id="toolTipFadeC" for="btnEstado"
-										value="Cambiar estado" />
-								</div>
-							</p:column>
-
 							<p:column headerText="Progreso">
 								<div align="center">
 									<p:commandButton id="btnProgreso" icon="fa fa-tasks"
@@ -157,7 +133,7 @@
 										<f:attribute name="selectedVtSprint" value="#{vtSprint}" />
 									</p:commandButton>
 									<p:tooltip id="toolTipFadePr" for="btnProgreso"
-										value="Lista artefactos" />
+										value="Progreso" />
 								</div>
 							</p:column>
 
@@ -234,32 +210,6 @@
 									<h:outputText value="Objetivo" />
 								</f:facet>
 								<h:outputText value="#{vtSprint.objetivo}" />
-							</p:column>
-
-
-
-
-							<p:column headerText="Modificar">
-								<div align="center">
-									<p:commandButton id="btnEditI" icon="fa fa-edit"
-										update=":dialogVtSprint"
-										actionListener="#{vtSprintViewDesarrollador.modificar}">
-										<f:attribute name="selectedVtSprint" value="#{vtSprint}" />
-									</p:commandButton>
-									<p:tooltip id="toolTipFadeMi" for="btnEditI" value="Modificar" />
-								</div>
-							</p:column>
-
-							<p:column headerText="Cambiar estado">
-								<div align="center">
-									<p:commandButton id="btnEstadoI" icon="fa fa-retweet"
-										update="@([id$=frm],@([id$=growl]"
-										actionListener="#{vtSprintViewDesarrollador.cambiarEstado}">
-										<f:attribute name="selectedVtSprint" value="#{vtSprint}" />
-									</p:commandButton>
-									<p:tooltip id="toolTipFadeCi" for="btnEstadoI"
-										value="Cambiar estado" />
-								</div>
 							</p:column>
 
 							<p:column headerText="Lista artefactos">

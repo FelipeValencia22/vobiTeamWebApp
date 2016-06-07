@@ -713,6 +713,19 @@ public class VtSprintViewDesarrollador implements Serializable {
 		return "";
 	}
 	
+	private void createMeterGaugeModels() {
+		
+		meterGaugeModel = initMeterGaugeModel();
+		meterGaugeModel.setSeriesColors("cc6666,66cc66");
+		meterGaugeModel.setGaugeLabelPosition("bottom");
+		meterGaugeModel.setTitle("Tu progreso en el Sprint");
+		meterGaugeModel.setShowTickLabels(true);
+		meterGaugeModel.setLabelHeightAdjust(110);
+		meterGaugeModel.setIntervalOuterRadius(150);
+		meterGaugeModel.setValue(0);
+		calcularEsfuerzo();
+	}
+	
 	public String verProgreso(ActionEvent evt){
 		setShowDialogProgreso(true);
 		selectedVtSprint = (VtSprintDTO) (evt.getComponent().getAttributes()
@@ -808,18 +821,7 @@ public class VtSprintViewDesarrollador implements Serializable {
 		meterGaugeModel.setTitle("Tu progreso en el Sprint");
 	}
 	
-	private void createMeterGaugeModels() {
-			
-		meterGaugeModel = initMeterGaugeModel();
-		meterGaugeModel.setSeriesColors("cc6666,66cc66");
-		meterGaugeModel.setGaugeLabelPosition("bottom");
-		meterGaugeModel.setTitle("Tu progreso en el Sprint");
-		meterGaugeModel.setShowTickLabels(true);
-		meterGaugeModel.setLabelHeightAdjust(110);
-		meterGaugeModel.setIntervalOuterRadius(150);
-		meterGaugeModel.setValue(0);
-		calcularEsfuerzo();
-	}
+	
 	
 	public void calcularEsfuerzo(){
 		double esfuerzo=0;
@@ -932,6 +934,9 @@ public class VtSprintViewDesarrollador implements Serializable {
 		String proyectoS=somProyectos.getValue().toString().trim();
 		if(!proyectoS.equals("-1")){
 			try {
+				somPilaProducto.resetValue();
+				dataFiltro=null;
+				dataFiltroI=null;
 				VtProyecto vtProyecto=null;
 				lasPilasDeProductoFiltro=null;
 
@@ -978,6 +983,9 @@ public class VtSprintViewDesarrollador implements Serializable {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		}else{
+			dataFiltro=null;
+			dataFiltroI=null;
 		}
 		return "";
 	}

@@ -76,6 +76,12 @@
   	Select artefactos from VtArtefacto artefactos where artefactos.arteCodigo=:artecodigo  and artefactos.vtPilaProducto.pilaCodigo=:codigoPila
    ]]>
 	</query>
+	
+		<query name="consultarTodosLosArtefactosDeUnaPila">
+  <![CDATA[
+  	Select artefactos from VtArtefacto artefactos, VtPilaProducto vtPilaProducto where artefactos.vtPilaProducto.pilaCodigo = vtPilaProducto.pilaCodigo and  vtPilaProducto.pilaCodigo=:codigoPila
+   ]]>
+	</query>
 
 	<query name="consultarArtefactosAsignadosASprint">
   <![CDATA[
@@ -131,6 +137,7 @@
 	Select vtArt from VtArtefacto as vtArt, VtUsuarioArtefacto as usuArt where vtArt.arteCodigo = usuArt.vtArtefacto.arteCodigo  and usuArt.vtUsuario.usuaCodigo =:usuCodigo
 	   ]]>
 	</query>
+	
 
 
 </hibernate-mapping>

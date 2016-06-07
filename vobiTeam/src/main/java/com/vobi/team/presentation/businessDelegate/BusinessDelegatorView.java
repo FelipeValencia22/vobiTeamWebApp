@@ -1160,5 +1160,20 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	public VtUsuario guardarUsuario(String login) throws Exception {
 		return null;
 	}
+	
+	public List<VtArtefacto> consultarTodosLosArtefactosDeUnaPila(Long codigoPila)throws Exception{
+		return vtArtefactoLogic.consultarTodosLosArtefactosDeUnaPila(codigoPila) ;
+	}
+
+	@Override
+	public List<VtArtefactoDTO> getDataVtArtefactoPilaFiltroA(Long codigoFiltro) throws Exception {
+		return vtArtefactoLogic.getDataVtArtefactoPilaFiltroA(codigoFiltro);
+	}
+
+	@Override
+	public List<VtArtefactoDTO> getDataVtArtefactoPilaFiltroI(Long codigoFiltro) throws Exception {
+		// TODO Auto-generated method stub
+		return vtArtefactoLogic.getDataVtArtefactoPilaFiltroI(codigoFiltro);
+	}
 
 }

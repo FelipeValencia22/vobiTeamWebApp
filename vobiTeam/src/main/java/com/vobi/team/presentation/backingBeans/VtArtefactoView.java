@@ -691,6 +691,7 @@ public class VtArtefactoView implements Serializable {
 			VtPilaProducto vtPilaProducto = null;
 			dataSprint = null;
 			String pila = somPilaProducto.getValue().toString();
+		
 			losSprintsFiltro = null;
 			if (!usoPostConstructor) {
 				dataFiltro = null;
@@ -702,6 +703,9 @@ public class VtArtefactoView implements Serializable {
 			} else {
 				Long idPila = Long.parseLong(pila);
 				vtPilaProducto = businessDelegatorView.getVtPilaProducto(idPila);
+				log.info("El código de la pila es : " +vtPilaProducto.getPilaCodigo() );
+				dataFiltro = businessDelegatorView.getDataVtArtefactoPilaFiltroA(vtPilaProducto.getPilaCodigo());
+				dataFiltroI = businessDelegatorView.getDataVtArtefactoPilaFiltroI(vtPilaProducto.getPilaCodigo());
 			}
 
 			try {

@@ -617,5 +617,10 @@ public interface IBusinessDelegatorView {
 	public VtUsuarioRol consultarRolUsuario(Long codigoUsuario) throws Exception;
 	
 	public String recuperarContraseña(String login)throws Exception;
+	
+	public List<VtArtefacto> consultarTodosLosArtefactosDeUnaPila(Long codigoPila)throws Exception;
+	
+	public List<VtArtefactoDTO> getDataVtArtefactoPilaFiltroA(Long codigoFiltro) throws Exception;
+	public List<VtArtefactoDTO> getDataVtArtefactoPilaFiltroI(Long codigoFiltro) throws Exception;
 
 }

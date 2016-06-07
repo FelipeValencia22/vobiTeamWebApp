@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 
 import com.vobi.team.modelo.VtEmpresa;
 import com.vobi.team.modelo.VtProyecto;
+import com.vobi.team.modelo.VtProyectoUsuario;
 import com.vobi.team.modelo.VtSprint;
 import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
@@ -281,55 +282,7 @@ public class VtProyectoViewDesarrollador implements Serializable{
 		this.somEmpresasCambio = somEmpresasCambio;
 	}
 
-	/// CREAR PROYECTO Y LIMPIAR PANTALLA
-	public String crearProyecto() throws Exception{
-		log.info("Creando proyecto");
-
-		VtProyecto vtProyecto= new VtProyecto();
-
-		vtProyecto.setDescripcion(txtDescripcionC.getValue().toString().trim());
-		Date fechaCreacion = new Date();
-		vtProyecto.setFechaCreacion(fechaCreacion);
-		vtProyecto.setNombre(txtNombreC.getValue().toString().trim());
-
-		String publico=somPublico.getValue().toString().trim();
-		if(publico.equals("Público")){
-			vtProyecto.setPublico("S");
-		}else{
-			vtProyecto.setPublico("N");
-		}
-
-		String activo=somActivo.getValue().toString().trim();
-		if(activo.equals("Si")){
-			vtProyecto.setActivo("S");
-		}else{
-			vtProyecto.setActivo("N");
-		}
-
-		VtUsuario vtUsuario =  (VtUsuario) FacesUtils.getfromSession("vtUsuario");
-		vtProyecto.setUsuCreador(vtUsuario.getUsuaCodigo());
-
-		String empresaS=somEmpresasFiltro.getValue().toString().trim();
-		if(empresaS.isEmpty() || empresaS.equals("-1")){
-		}else{
-			Long empresa=Long.parseLong(empresaS);
-			VtEmpresa vtEmpresa=businessDelegatorView.getVtEmpresa(empresa);
-			vtProyecto.setVtEmpresa(vtEmpresa);
-		}
-
-		try {
-			businessDelegatorView.saveVtProyecto(vtProyecto);
-			limpiar();
-			FacesContext.getCurrentInstance().addMessage("", new FacesMessage("El proyecto se creo con exito"));
-			Long codigoFiltro = Long.valueOf(empresaS);
-			data = businessDelegatorView.getDataVtProyecto(codigoFiltro);
-			dataI = businessDelegatorView.getDataVtProyectoInactivo(codigoFiltro);
-		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage("", new FacesMessage(e.getMessage()));
-		}
-
-		return "";
-	}
+	
 
 	public String limpiar(){
 		log.info("Limpiando campos de texto");
@@ -349,7 +302,7 @@ public class VtProyectoViewDesarrollador implements Serializable{
 
 	private CommandButton btnSave;
 
-	private List<VtProyectoDTO> data;
+	private List<VtProyectoUsuario> data;
 
 	private List<VtProyectoDTO> dataI;
 
@@ -359,12 +312,13 @@ public class VtProyectoViewDesarrollador implements Serializable{
 
 	private InputText txtProyCodigo;
 
-	public List<VtProyectoDTO> getData() {
+	public List<VtProyectoUsuario> getData() {
 		
 		try {
 			if (data == null) {
 				VtUsuario vtUsuarioEnSession =  (VtUsuario) FacesUtils.getfromSession("vtUsuario");
-				data=businessDelegatorView.getDataVtProyecto(vtUsuarioEnSession.getVtEmpresa().getEmprCodigo());
+				data=businessDelegatorView.consultarProyectoUsuarioPorUsuario(vtUsuarioEnSession.getUsuaCodigo());
+				
 				
 			}
 		} catch (Exception e) {
@@ -391,8 +345,8 @@ public class VtProyectoViewDesarrollador implements Serializable{
 		return dataI;
 	}
 
-	public void setData(List<VtProyectoDTO> vtProyectoDTO) {
-		this.data = vtProyectoDTO;
+	public void setData(List<VtProyectoUsuario> vtProyectoUsuario) {
+		this.data = vtProyectoUsuario;
 	}
 
 	public VtProyectoDTO getSelectedVtProyecto() {
@@ -427,245 +381,5 @@ public class VtProyectoViewDesarrollador implements Serializable{
 		this.btnSave = btnSave;
 	}
 
-	public String action_edit(ActionEvent evt) {
-		selectedVtProyecto = (VtProyectoDTO) (evt.getComponent().getAttributes()
-				.get("selectedVtProyecto"));
-
-		txtDescripcion.setValue(selectedVtProyecto.getDescripcion());
-		txtDescripcion.setDisabled(false);
-		txtNombre.setValue(selectedVtProyecto.getNombre());
-		txtNombre.setDisabled(false);
-		somActivoCambio.setValue(selectedVtProyecto.getActivo());
-		somActivoCambio.setDisabled(false);
-		somPublicoCambio.setValue(selectedVtProyecto.getPublico());
-		somPublicoCambio.setDisabled(false);
-		btnSave.setDisabled(false);
-		setShowDialog(true);
-
-		return "";
-	}
-
-	public void listener_txtId() {
-		try {
-			Long proyCodigo = FacesUtils.checkLong(txtProyCodigo);
-			entity = (proyCodigo != null)
-					? businessDelegatorView.getVtProyecto(proyCodigo) : null;
-		} catch (Exception e) {
-			entity = null;
-		}
-
-		if (entity == null) {
-			txtActivo.setDisabled(false);
-			txtDescripcion.setDisabled(false);
-			txtNombre.setDisabled(false);
-			txtPublico.setDisabled(false);
-			txtProyCodigo.setDisabled(false);
-			btnSave.setDisabled(false);
-		} else {
-			txtActivo.setValue(entity.getActivo());
-			txtActivo.setDisabled(false);
-			txtDescripcion.setValue(entity.getDescripcion());
-			txtDescripcion.setDisabled(false);
-			txtNombre.setValue(entity.getNombre());
-			txtNombre.setDisabled(false);
-			txtPublico.setValue(entity.getPublico());
-			txtPublico.setDisabled(false);
-			txtEmpresa.setValue(entity.getVtEmpresa().getEmprCodigo());
-			txtEmpresa.setDisabled(false);
-			txtProyCodigo.setValue(entity.getProyCodigo());
-			txtProyCodigo.setDisabled(true);
-			btnSave.setDisabled(false);
-		}
-	}
-
-	public String action_save() {
-		try {
-			if ((selectedVtProyecto == null) && (entity == null)) {
-
-			} else {
-				action_modify();
-			}
-
-			data = null;
-		} catch (Exception e) {
-			FacesUtils.addErrorMessage(e.getMessage());
-		}
-
-		return "";
-	}
-
-	public String action_modify() {
-		try {
-			if (entity == null) {
-				Long proyCodigo = new Long(selectedVtProyecto.getProyCodigo());
-				entity = businessDelegatorView.getVtProyecto(proyCodigo);
-			}
-
-			String activo = somActivoCambio.getValue().toString().trim();
-			if (activo.equalsIgnoreCase("Si")) {
-				entity.setActivo("S");
-			} else {
-				if(activo.equals("-1")){
-					entity.setActivo(entity.getActivo());
-				}
-				else{
-					entity.setActivo("N");
-				}
-			}
-
-			String publico = somPublicoCambio.getValue().toString().trim();
-			if (publico.equalsIgnoreCase("Público")) {
-				entity.setPublico("S");
-			}
-			if (publico.equalsIgnoreCase("Privado")) {
-				entity.setPublico("N");
-			}
-			if (publico.equalsIgnoreCase("-1")) {
-				entity.setPublico(entity.getPublico());
-			}
-
-			entity.setDescripcion(FacesUtils.checkString(txtDescripcion));
-			entity.setNombre(FacesUtils.checkString(txtNombre));
-			Date fechaModificacion = new Date();
-			entity.setFechaModificacion(fechaModificacion);
-			VtUsuario vtUsuarioEnSession =  (VtUsuario) FacesUtils.getfromSession("vtUsuario");
-			entity.setUsuModificador(vtUsuarioEnSession.getUsuaCodigo());
-			
-			Long codigoFiltro=entity.getVtEmpresa().getEmprCodigo();
-
-			businessDelegatorView.updateVtProyecto(entity);
-			FacesUtils.addInfoMessage("El proyecto ha sido modificado con exito");
-			
-	
-			data = businessDelegatorView.getDataVtProyecto(codigoFiltro);
-			dataI = businessDelegatorView.getDataVtProyectoInactivo(codigoFiltro);
-		} catch (Exception e) {
-			data = null;
-			FacesUtils.addErrorMessage(e.getMessage());
-		}
-
-		return "";
-	}
-
-	public String cambiarEstado(ActionEvent evt){
-		log.info("Cambiando estado..");
-		selectedVtProyecto = (VtProyectoDTO) (evt.getComponent().getAttributes()
-				.get("selectedVtProyecto"));
-
-		try {
-			if (entity == null) {
-				Long proyCodigo = new Long(selectedVtProyecto.getProyCodigo());
-				entity = businessDelegatorView.getVtProyecto(proyCodigo);
-			}
-			
-			String cambioActivo=entity.getActivo().toString().trim();
-			if (cambioActivo.equalsIgnoreCase("S")) {
-				entity.setActivo("N");
-			}else{
-				entity.setActivo("S");
-			}			
-			
-			Date fechaModificacion= new Date();
-			entity.setFechaModificacion(fechaModificacion);
-
-			VtUsuario vtUsuarioEnSession =  (VtUsuario) FacesUtils.getfromSession("vtUsuario");
-			entity.setUsuModificador(vtUsuarioEnSession.getUsuaCodigo());
-			
-			Long codigoFiltro=entity.getVtEmpresa().getEmprCodigo();
-			
-			businessDelegatorView.updateVtProyecto(entity);
-			FacesUtils.addInfoMessage("El proyecto ha sido modificado con exito");
-		
-			data = businessDelegatorView.getDataVtProyecto(codigoFiltro);
-			dataI = businessDelegatorView.getDataVtProyectoInactivo(codigoFiltro);
-			
-			selectedVtProyecto=null;
-			entity=null;
-			
-		} catch (Exception e) {
-			data = null;
-			FacesUtils.addErrorMessage(e.getMessage());
-		}
-
-		return "";
-	}
-	
-	public String filtrarEmpresa() {
-		try {
-			String empresaS = somEmpresasFiltro.getValue().toString().trim();
-			Long codigoFiltro = Long.valueOf(empresaS);
-			data=businessDelegatorView.getDataVtProyecto(codigoFiltro);
-			dataI=businessDelegatorView.getDataVtProyectoInactivo(codigoFiltro);
-			btnCrearP.setDisabled(false);
-			
-		} catch (Exception e) {
-			log.error(e.getMessage());
-		}
-		return "";
-	}
-
-	public String action_clear() {
-		entity = null;
-		selectedVtProyecto = null;
-
-		if (txtActivo != null) {
-			txtActivo.setValue(null);
-			txtActivo.setDisabled(true);
-		}
-
-		if (txtDescripcion != null) {
-			txtDescripcion.setValue(null);
-			txtDescripcion.setDisabled(true);
-		}
-
-		if (txtNombre != null) {
-			txtNombre.setValue(null);
-			txtNombre.setDisabled(true);
-		}
-
-		if (txtPublico != null) {
-			txtPublico.setValue(null);
-			txtPublico.setDisabled(true);
-		}
-
-
-
-		if (txtProyCodigo != null) {
-			txtProyCodigo.setValue(null);
-			txtProyCodigo.setDisabled(false);
-		}
-
-		if (btnSave != null) {
-			btnSave.setDisabled(true);
-		}
-
-
-		return "";
-	}
-
-	public String action_closeDialog() {
-		setShowDialog(false);
-		action_clear();
-
-		return "";
-	}
-	
-	public String redireccionarAPilas(ActionEvent evt){
-		try {
-			selectedVtProyecto = (VtProyectoDTO) (evt.getComponent().getAttributes()
-					.get("selectedVtProyecto"));		
-			String proyecto = selectedVtProyecto.getProyCodigo().toString().trim();
-			Long idProyecto = Long.parseLong(proyecto);
-
-			VtProyecto vtProyecto = businessDelegatorView.getVtProyecto(idProyecto);
-			FacesUtils.putinSession("vtProyecto", vtProyecto);
-			selectedVtProyecto = null;
-		} catch (Exception e) {
-			log.error(e.getMessage());
-			e.printStackTrace();
-		}
-
-		return "";
-	}
 
 }
