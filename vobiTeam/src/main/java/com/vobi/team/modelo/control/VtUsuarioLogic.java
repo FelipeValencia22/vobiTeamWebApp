@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import org.springframework.transaction.annotation.Propagation;
@@ -162,7 +163,7 @@ public class VtUsuarioLogic implements IVtUsuarioLogic {
 		} finally {
 		}
 	}
-	
+	@Async
 	public void enviarMensajeAlCorreo(String from, String to, String subject, String body) throws Exception {
 		beanFactory = new ClassPathXmlApplicationContext("/applicationContext.xml");
 		IEnvioMensajePorEmail enviarMensajePorEmail = (IEnvioMensajePorEmail) beanFactory

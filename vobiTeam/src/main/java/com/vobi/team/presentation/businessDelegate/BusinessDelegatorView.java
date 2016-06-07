@@ -1176,4 +1176,10 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return vtArtefactoLogic.getDataVtArtefactoPilaFiltroI(codigoFiltro);
 	}
 
+	@Override
+	public void enviarMensajeAlCorreo(String from, String to, String subject, String body) throws Exception {
+		vtUsuarioLogic.enviarMensajeAlCorreo(from, to, subject, body);
+		
+	}
+
 }

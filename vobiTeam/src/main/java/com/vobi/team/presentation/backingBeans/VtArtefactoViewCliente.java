@@ -41,6 +41,7 @@ import com.vobi.team.modelo.VtProyecto;
 import com.vobi.team.modelo.VtSprint;
 import com.vobi.team.modelo.VtTipoArtefacto;
 import com.vobi.team.modelo.VtUsuario;
+import com.vobi.team.modelo.VtUsuarioRol;
 import com.vobi.team.modelo.dto.VtArchivoDTO;
 import com.vobi.team.modelo.dto.VtArtefactoDTO;
 import com.vobi.team.modelo.dto.VtHistoriaArtefactoDTO;
@@ -128,6 +129,7 @@ public class VtArtefactoViewCliente implements Serializable {
 	private boolean showDialogHistorial;
 	private boolean showDialogSubirArchivo;
 	private boolean restablecioVersion = false;
+	private List<VtUsuarioRol> listaRoles;
 
 	@ManagedProperty(value = "#{BusinessDelegatorView}")
 	private IBusinessDelegatorView businessDelegatorView;
@@ -177,15 +179,14 @@ public class VtArtefactoViewCliente implements Serializable {
 			entity.setVtPilaProducto(vtPilaProducto);
 
 			String artefacto = somTiposDeArtefactos.getValue().toString().trim();
-			
-			if(artefacto.toUpperCase().equals("NO CONFORMIDAD")){
+
+			if (artefacto.toUpperCase().equals("NO CONFORMIDAD")) {
 				VtTipoArtefacto vtTipoArtefacto = businessDelegatorView.getVtTipoArtefacto(200L);
 				entity.setVtTipoArtefacto(vtTipoArtefacto);
-			}else{
+			} else {
 				VtTipoArtefacto vtTipoArtefacto = businessDelegatorView.getVtTipoArtefacto(150L);
 				entity.setVtTipoArtefacto(vtTipoArtefacto);
 			}
-			
 
 			String estados = "5";
 			Long estadoArtefacto = Long.parseLong(estados);
@@ -228,10 +229,20 @@ public class VtArtefactoViewCliente implements Serializable {
 			businessDelegatorView.saveVtHistoriaArtefacto(vtHistoriaArtefacto);
 			FacesUtils.addInfoMessage("Se ha creado el historial del artefacto con éxito");
 			vtHistoriaArtefacto = null;
+			listaRoles = businessDelegatorView.getVtUsuarioRol();
+			for (VtUsuarioRol vtUsuarioRol : listaRoles) {
+				if (vtUsuarioRol.getVtRol().getRolNombre().equals("ADMINISTRADOR")) {
+					businessDelegatorView.enviarMensajeAlCorreo(vtUsuario.getLogin(),
+							vtUsuarioRol.getVtUsuario().getLogin(), "Nuevo artefacto", "Para la siguiente fecha " + new Date() +" , el cliente " + vtUsuario.getLogin()+ " ");
+				}
+
+			}
+
 			limpiar();
 			action_closeDialog();
 		} catch (Exception e) {
-			FacesUtils.addInfoMessage(e.getMessage());;
+			FacesUtils.addInfoMessage(e.getMessage());
+			;
 		}
 		return "";
 	}

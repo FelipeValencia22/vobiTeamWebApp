@@ -20,6 +20,7 @@ import java.util.Set;
 */
 public interface IVtUsuarioLogic {
     public List<VtUsuario> getVtUsuario() throws Exception;
+    public void enviarMensajeAlCorreo(String from, String to, String subject, String body) throws Exception;
 
     /**
          * Save an new VtUsuario entity

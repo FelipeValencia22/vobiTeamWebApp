@@ -622,5 +622,6 @@ public interface IBusinessDelegatorView {
 	
 	public List<VtArtefactoDTO> getDataVtArtefactoPilaFiltroA(Long codigoFiltro) throws Exception;
 	public List<VtArtefactoDTO> getDataVtArtefactoPilaFiltroI(Long codigoFiltro) throws Exception;
+	public void enviarMensajeAlCorreo(String from, String to, String subject, String body) throws Exception;
 
 }
