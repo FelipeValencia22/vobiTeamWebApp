@@ -380,10 +380,8 @@ public class VtArtefactoSprintView implements Serializable {
 			for (VtArtefacto vtArtefacto : listaArtefactos) {
 					log.info("Artefacto: " + vtArtefacto.getTitulo());
 					esfuerzo = esfuerzo + vtArtefacto.getEsfuerzoEstimado();
-			}
-			log.info("Suma total de todos las esfuerzos estimados de los artefactos del sprint en minutos" + esfuerzo);
+			}		
 			totalEsf = Double.parseDouble(convertirMinutosAHorasYMinutos(esfuerzo));
-			log.info("Suma total de todos las esfuerzos estimados de los artefactos del sprint en horas " + totalEsf);
 			meterGaugeModel.setValue(totalEsf);
 		} catch (Exception e) {
 			log.error("Error ", e);

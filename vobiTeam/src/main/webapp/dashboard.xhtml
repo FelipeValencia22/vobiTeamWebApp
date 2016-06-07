@@ -1,306 +1,295 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui"
-                template="/WEB-INF/template.xhtml">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+ 
+	<ui:define name="content">
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+			onsuccess="PF('statusDialog').hide()" />
+		<p:dialog modal="true" widgetVar="statusDialog" header="Loading"
+			draggable="false" closable="false">
+			<p:graphicImage
+				value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+		</p:dialog>
 
-    <ui:define name="head">
-        <script type="text/javascript">
-            function skinChart() {
-                this.cfg.shadow = false;
-                this.cfg.seriesColors = ['#dae8ef', '#27aae1'];
-                this.cfg.grid = {
-                    background: '#f3f5f7',
-                    borderColor: '#e5ebf0',
-                    gridLineColor: '#e5ebf0',
-                    shadow: false
-                };
-                this.cfg.axesDefaults = {
-                    rendererOptions: {
-                        textColor: '#9fadb5'
-                    }
-                };
-                this.cfg.seriesDefaults = {
-                    shadow: false,
-                    markerOptions: {
-                        shadow: false
-                    }
-                }
-            }
+		<!-- Expired session -->
+		<p:idleMonitor onactive="PF('sessionTimeOutDialog').show();"
+			timeout="#{session.maxInactiveInterval * 1000}" />
+		<p:dialog modal="true" widgetVar="sessionTimeOutDialog"
+			header="Expired session" draggable="false" closable="false">
+			<h:outputText value="The session is finished" />
+			<input id="confirmBackToLogin" type="button" value="Sign in"
+				onclick="window.location='#{facesContext.externalContext.requestContextPath}/index.jsp';" />
+		</p:dialog>
 
-            function skinPie() {
-                this.cfg.seriesColors = ['#dae8ef', '#27aae1', '#33ccff', '#9fadb5'];
-                this.cfg.grid = {
-                    background: '#ffffff',
-                    borderColor: '#eaeaea',
-                    gridLineColor: '#e5ebf0',
-                    shadow: false,
-                    borderWidth: 0
-                };
-                this.cfg.seriesDefaults.shadow = false;
-            }
-        </script>
-        <style type="text/css">
-            .jqplot-target, .jqplot-axis {
-                color: #9fadb5;
-            }
-        </style>
-    </ui:define>
+		<h:form id="frm">
 
-    <ui:define name="content">
-        <div class="Container100">
-            <div class="ContainerIndent">
-                <div class="EmptyBox20"></div>
+			<p:growl id="growl" />
 
-                <div class="Container25 Responsive">
-                    <div class="ContainerIndent">
-                        <p:panel style="min-height: 300px;">
-                            <i class="icon-user-2 Fs50 Fleft Wid25 hardblue TexAlCenter"></i>
-                            <div class="Fs24 Fright MarTop10 leaden Wid70"><span class="hardblue">Walter White</span>, Welcome</div>
-                            <div class="Fs12 Fright leaden Wid70">You have <span class="red">3 unread messages</span> and <span class="red"> 32 tasks</span> !</div>
-                            <div class="EmptyBox10"></div>
-                            <p:separator styleClass="Wid100"></p:separator>
-                            <div class="EmptyBox10"></div>
-                            <div class="Fs16 Fright">
-                                <a href="#" class="DispInlBlock Fleft Fs16 MarRight20"><i class="icon-briefcase hardblue"> Tasks (32)</i></a>
-                                <a href="#" class="DispInlBlock Fleft Fs16 MarRight20"><i class="icon-bell-alt hardblue"> Messages (3)</i></a>
-                                <a href="#" class="DispInlBlock Fleft Fs16 MarRight20"><i class="icon-cog-alt hardblue"> Settings</i></a>
-                            </div>
-                            <div class="EmptyBox10"></div>
-                            <p:separator styleClass="Wid100"></p:separator>
-                            <div class="EmptyBox10"></div>
-                            <i class="icon-key softgray MarRight10 Fs14 Fright"> Your Last Login - 18.08.2014, 18:30</i>
-                            <div class="EmptyBox10"></div>
-                            <p:separator styleClass="Wid100"></p:separator>
+			<p:panel id="pnlUsuarios" header="USUARIOS">
+				<br></br>
+				<p:commandButton value="Crear Usuario" type="button"
+					onclick="PF('dlg').show();" />
+				<br></br>
+				<br></br>
 
-                        </p:panel>
-                    </div>
-                </div>
+				<p:accordionPanel id="panelDataTableVtUsuario" header="Usuarios"
+					multiple="true">
+					<p:growl id="men" />
 
-                <div class="Container25 Responsive">
-                    <div class="ContainerIndent">
-                        <p:panel style="min-height: 300px;">
-                            <div class="Container">
-                                <i class=" icon-data-science-inv Fs50 Fleft Wid25 orange TexAlCenter"></i>
-                                <div class="Fs24 Fright MarTop10 leaden Wid70">Visitors Report</div>
-                                <div class="Fs12 Fright leaden Wid70">Today <span class="red">2.280</span> visitors,<span class="red">15%</span> higher than last week</div>
-                                <div class="EmptyBox10"></div>
-                                <p:separator styleClass="Wid100"></p:separator>
-                                <div class="EmptyBox10"></div>
-                                <div class="Fs12 Fright leaden Wid50 TexAlCenter Responsive">Overall Visits<br/><span class="Fs24 orange">13.760</span></div>
-                                <div class="Fs12 Fright leaden Wid50 TexAlCenter Responsive">Today's Visits<br/><span class="Fs24 red">2.280</span></div>
-                                <div class="Fs12 Fright leaden Wid100 TexAlCenter">Online Visitors<br/><span class="Fs24 hardblue">134</span></div>
-                                <div class="EmptyBox10"></div>
-                                <p:separator styleClass="Wid100"></p:separator>
-                                <a href="#" class="DispInlBlock Fs14 Fright MarRight10"><i class="icon-doc-1 orange"> Get Full Report</i></a>
-                            </div>
-                        </p:panel>
-                    </div>
-                </div>
+					<p:tab title="Usuarios activos ">
+						<p:dataTable id="dataTableVtUsuarioActivos" emptyMessage="No hay usuarios activos en este momento"
+							value="#{vtUsuarioView.data}" var="vtUsuario" paginator="true"
+							rows="10">
 
-                <div class="Container25 Responsive">
-                    <div class="ContainerIndent">
-                        <p:panel style="min-height: 300px;">
-                            <div class="Container">
-                                <i class="icon-rocket Fs50 Fleft Wid25 red TexAlCenter"></i>
-                                <div class="Fs24 Fright MarTop10 leaden Wid70">Sales Report</div>
-                                <div class="Fs18 Fright leaden Wid70">Totally <span class="red">$ 132.875,45</span></div>
-                                <div class="EmptyBox10"></div>
-                                <p:separator styleClass="Wid100"></p:separator>
-                                <div class="EmptyBox10"></div>
-                                <div class="Fs12 Fright leaden Wid50 TexAlCenter Responsive">4th Quarter<br/><span class="Fs20 orange">--</span></div>
-                                <div class="Fs12 Fright leaden Wid50 TexAlCenter Responsive">3rd Quarter<br/><span class="Fs20 orange">$13.760</span></div>
-                                <div class="Fs12 Fright leaden Wid50 TexAlCenter Responsive">2nd Quarter<br/><span class="Fs20 red">$23.567</span></div>
-                                <div class="Fs12 Fright leaden Wid50 TexAlCenter Responsive">1st Quarter<br/><span class="Fs20 hardblue">$2.370</span></div>
-                                <div class="EmptyBox10"></div>
-                                <p:separator styleClass="Wid100"></p:separator>
-                                <a href="#" class="DispInlBlock Fs14 Fright MarRight10"><i class="icon-doc-1 orange"> Get Full Report</i></a>
-                            </div>
-                        </p:panel>
-                    </div>
-                </div>
+							<p:column filterBy="#{vtUsuario.usuaCodigo}"
+								sortBy="#{vtUsuario.usuaCodigo}">
+								<f:facet name="header">
+									<h:outputText value="C&#243;digo Usuario" />
+								</f:facet>
+								<h:outputText value="#{vtUsuario.usuaCodigo}" />
+							</p:column>
 
-                <div class="Container25 Responsive">
-                    <div class="ContainerIndent">
-                        <p:panel style="min-height:300px">
-                            <div class="Fs24 MarTop10 leaden Wid100 TexAlCenter">Customer Report</div>
-                            <p:chart type="pie" model="#{chartView.pieModel}" style="height:200px" responsive="true"/>
-                        </p:panel>
-                    </div>
-                </div>
+							<p:column filterBy="#{vtUsuario.login}"
+								sortBy="#{vtUsuario.login}">
+								<f:facet name="header">
+									<h:outputText value="Login" />
+								</f:facet>
+								<h:outputText value="#{vtUsuario.login}" />
+							</p:column>
 
-                <div class="EmptyBox10"></div>
-            </div>
-        </div>
+							<p:column filterBy="#{vtUsuario.nombre}"
+								sortBy="#{vtUsuario.nombre}">
+								<f:facet name="header">
+									<h:outputText value="Nombre usuario" />
+								</f:facet>
+								<h:outputText value="#{vtUsuario.nombre}" />
+							</p:column>
 
-        <div class="Container100 BorBotLeaden ui-fluid">
-            <div class="ContainerIndent">
-                <div class="EmptyBox10"></div>
+							<p:column filterBy="#{vtUsuario.nombre_VtEmpresa}"
+								sortBy="#{vtUsuario.nombre_VtEmpresa}">
+								<f:facet name="header">
+									<h:outputText value="Nombre empresa" />
+								</f:facet>
+								<h:outputText value="#{vtUsuario.nombre_VtEmpresa}" />
+							</p:column>
 
-                <div class="Container50 Responsive50">
-                    <div class="ContainerIndent">
-                        <p:panel style="min-height:400px;">
-                            <div class="Container100 Responsive Fs20">
-                                <i class="icon-chart-bar"></i> Visits Chart
-                            </div>
-                            <div class="Container100">
-                                <p:chart type="line" model="#{chartView.lineModel}" style="height:300px;margin-top:10px" responsive="true"/>
-                            </div>
-                        </p:panel>
-                    </div>
-                </div>
+							<p:column filterBy="#{vtUsuario.activo}"
+								sortBy="#{vtUsuario.activo}">
+								<f:facet name="header">
+									<h:outputText value="Activo" />
+								</f:facet>
+								<h:outputText value="#{vtUsuario.activo}" />
+							</p:column>
 
-                <div class="Container50 Responsive50">
-                    <div class="ContainerIndent">
-                        <p:panel style="min-height:400px;">
-                            <div class="Container">
-                                <div class="Container50 Responsive Fs20">
-                                    <i class="icon-doc-text"></i> Cars Sales Ranks
-                                </div>
-                                <div class="Container50 Responsive Fs12">
-                                    <p:selectCheckboxMenu label="Filter With Country" filter="true" filterMatchMode="startsWith" styleClass="Fright">
-                                        <f:selectItem itemLabel="Brazil" itemValue="1" />
-                                        <f:selectItem itemLabel="Germany" itemValue="2" />
-                                        <f:selectItem itemLabel="United States" itemValue="3" />
-                                        <f:selectItem itemLabel="India" itemValue="3" />
-                                        <f:selectItem itemLabel="Mexico" itemValue="3" />
-                                        <f:selectItem itemLabel="Italy" itemValue="3" />
-                                        <f:selectItem itemLabel="France" itemValue="3" />
-                                        <f:selectItem itemLabel="Spain" itemValue="3" />
-                                        <f:selectItem itemLabel="Colombia" itemValue="3" />
-                                        <f:selectItem itemLabel="Turkey" itemValue="3" />
-                                    </p:selectCheckboxMenu>
-                                </div>
-                                <div class="EmptyBox10"></div>
-                                <div class="Container100">
-                                    <h:form id="form">
-                                        <p:dataTable id="singleDT" var="car" value="#{carsView.cars}"
-                                                     rows="5" paginator="true" pageLinks="5" reflow="true">
+							<p:column headerText="Modificar">
+								<div align="center">
+									<p:commandButton id="btnEdit" icon="fa fa-edit"
+										update=":dialogVtUsuario"
+										actionListener="#{vtUsuarioView.action_edit}">
+										<f:attribute name="selectedVtUsuario" value="#{vtUsuario}" />
+									</p:commandButton>
+									<p:tooltip id="toolTipFadeM" for="btnEdit" value="Modificar" />
+								</div>
+							</p:column>
 
-                                            <p:column headerText="Id" sortBy="#{car.id}">
-                                                <h:outputText value="#{car.id}" />
-                                            </p:column>
-                                            <p:column headerText="Year" sortBy="#{car.year}">
-                                                <h:outputText value="#{car.year}" />
-                                            </p:column>
-                                            <p:column headerText="Brand" sortBy="#{car.brand}">
-                                                <h:outputText value="#{car.brand}" />
-                                            </p:column>
-                                            <p:column headerText="Color" sortBy="#{car.color}">
-                                                <h:outputText value="#{car.color}" />
-                                            </p:column>
-                                        </p:dataTable>
-                                    </h:form>
-                                </div>
-                            </div>
-                        </p:panel>
-                    </div>
-                </div>
 
-                <div class="EmptyBox20"></div>
-            </div>
-        </div>
+							<p:column headerText="Cambiar estado">
+								<div align="center">
+									<p:commandButton id="btnEstado" icon="fa fa-retweet"
+										update=":frm:panelDataTableVtUsuario, :frm:growl"
+										actionListener="#{vtUsuarioView.cambiarEstado}">
+										<f:attribute name="selectedVtUsuario" value="#{vtUsuario}" />
+									</p:commandButton>
+									<p:tooltip id="toolTipFadeC" for="btnEstado" value="Cambiar estado" />
+								</div>
+							</p:column>
 
-        <div class="Container100 leaden-back BorBotLeaden">
-            <div class="ContainerIndent">
-                <div class="EmptyBox10"></div>
+						</p:dataTable>
+					</p:tab>
+					<br></br>
+					<p:tab title="Usuarios inactivos ">
+						<p:dataTable id="dataTableVtUsuarioInactivos" emptyMessage="No hay usuarios inactivos en este momento"
+							value="#{vtUsuarioView.dataI}" var="vtUsuario" paginator="true"
+							rows="10">
 
-                <div class="Container20 Responsive">
-                    <div class="ContainerIndent">
-                        <p:panel>
-                            <div class="Wid100 TexAlCenter">
-                                <div class="ContainerIndent">
-                                    <p:graphicImage name="images/audi.jpg" library="demo" styleClass="Wid100"/>
-                                    <div class="EmptyBox10"></div>
-                                    <span class="Fs20 DispBlock hardblue">Audi A8<br/><span class="Fs12 softgray">Sales Chart - Group At By Color</span></span>
-                                </div>
-                            </div>
-                        </p:panel>
-                    </div>
-                </div>
+							<p:column filterBy="#{vtUsuario.usuaCodigo}"
+								sortBy="#{vtUsuario.usuaCodigo}">
+								<f:facet name="header">
+									<h:outputText value="C&#243;digo Usuario" />
+								</f:facet>
+								<h:outputText value="#{vtUsuario.usuaCodigo}" />
+							</p:column>
 
-                <div class="Container20 Responsive">
-                    <div class="ContainerIndent">
-                        <p:panel>
-                            <div class="Wid100 TexAlCenter">
-                                <div class="ContainerIndent">
-                                    <p:graphicImage name="images/bmw.jpg" library="demo" styleClass="Wid100"/>
-                                    <div class="EmptyBox10"></div>
-                                    <span class="Fs20 DispBlock hardblue">BMW i8 <br/><span class="Fs12 softgray">Sales Chart - Group At By Color</span></span>
-                                </div>
-                            </div>
-                        </p:panel>
-                    </div>
-                </div>
+							<p:column filterBy="#{vtUsuario.activo}"
+								sortBy="#{vtUsuario.activo}">
+								<f:facet name="header">
+									<h:outputText value="Activo" />
+								</f:facet>
+								<h:outputText value="#{vtUsuario.activo}" />
+							</p:column>
 
-                <div class="Container20 Responsive">
-                    <div class="ContainerIndent">
-                        <p:panel>
-                            <div class="Wid100 TexAlCenter">
-                                <div class="ContainerIndent">
-                                    <p:graphicImage name="images/aston.jpg" library="demo" styleClass="Wid100"/>
-                                    <div class="EmptyBox10"></div>
-                                    <span class="Fs20 DispBlock hardblue">Aston Martin DB9 <br/><span class="Fs12 softgray">Sales Chart - Group At By Color</span></span>
-                                </div>
-                            </div>
-                        </p:panel>
-                    </div>
-                </div>
 
-                <div class="Container40 Responsive100 ui-fluid">
-                    <div class="ContainerIndent">
-                        <p:panel>
-                            <div class="Container100 Fs20">
-                                <i class="icon-chart-bar"></i> Bugatti Veyron Specs
-                            </div>
-                            <div class="EmptyBox10"></div>
-                            <p:accordionPanel multiple="false">
-                                <p:tab title="Engine Power ( HP )">
-                                    <h:outputText
-                                        value="Francis Ford Coppola's legendary continuation and sequel to his landmark 1972 film, The_Godfather, parallels the young Vito Corleone's rise with his son Michael's spiritual fall, deepening The_Godfather's depiction of the dark side of the American dream.
-                                        In the early 1900s, the child Vito flees his Sicilian village for America after the local Mafia kills his family. Vito struggles to make a living, legally or illegally, for his wife and growing brood in Little Italy,
-                                        killing the local Black Hand Fanucci after he demands his customary cut of the tyro's business. With Fanucci gone, Vito's communal stature grows." />
-                                </p:tab>
-                                <p:tab title="Transmission">
-                                    <h:outputText value="Francis Ford Coppola's legendary. Francis Ford Coppola's legendary continuation and sequel to his landmark 1972 film, The_Godfather, parallels the young Vito Corleone's rise with his son Michael's spiritual fall, deepening The_Godfather's depiction of the dark side of the American dream.
-                                                  In the early 1900s, the child Vito flees his Sicilian village for America after the local Mafia kills his family. Vito struggles to make a living, legally or illegally, for his wife and growing brood in Little Italy,
-                                                  killing the local Black Hand Fanucci after he demands his customary cut of the tyro's business. With Fanucci gone, Vito's communal stature grows." />
-                                </p:tab>
-                                <p:tab title="0-100">
-                                    <h:outputText value="After a break of more than 15 years. Francis Ford Coppola's legendary continuation and sequel to his landmark 1972 film, The_Godfather, parallels the young Vito Corleone's rise with his son Michael's spiritual fall, deepening The_Godfather's depiction of the dark side of the American dream.
-                                                  In the early 1900s, the child Vito flees his Sicilian village for America after the local Mafia kills his family. Vito struggles to make a living, legally or illegally, for his wife and growing brood in Little Italy,
-                                                  killing the local Black Hand Fanucci after he demands his customary cut of the tyro's business. With Fanucci gone, Vito's communal stature grows." />
-                                </p:tab>
-                                <p:tab title="Wheels">
-                                    <h:outputText value="After a break of more than 15 years. Francis Ford Coppola's legendary continuation and sequel to his landmark 1972 film, The_Godfather, parallels the young Vito Corleone's rise with his son Michael's spiritual fall, deepening The_Godfather's depiction of the dark side of the American dream.
-                                                  In the early 1900s, the child Vito flees his Sicilian village for America after the local Mafia kills his family. Vito struggles to make a living, legally or illegally, for his wife and growing brood in Little Italy,
-                                                  killing the local Black Hand Fanucci after he demands his customary cut of the tyro's business. With Fanucci gone, Vito's communal stature grows." />
-                                </p:tab>
-                                <p:tab title="Cruise Control">
-                                    <h:outputText value="After a break of more than 15 years. Francis Ford Coppola's legendary continuation and sequel to his landmark 1972 film, The_Godfather, parallels the young Vito Corleone's rise with his son Michael's spiritual fall, deepening The_Godfather's depiction of the dark side of the American dream.
-                                                  In the early 1900s, the child Vito flees his Sicilian village for America after the local Mafia kills his family. Vito struggles to make a living, legally or illegally, for his wife and growing brood in Little Italy,
-                                                  killing the local Black Hand Fanucci after he demands his customary cut of the tyro's business. With Fanucci gone, Vito's communal stature grows." />
-                                </p:tab>
-                                <p:tab title="Parking Sensors And Auto Parking System">
-                                    <h:outputText value="After a break of more than 15 years. Francis Ford Coppola's legendary continuation and sequel to his landmark 1972 film, The_Godfather, parallels the young Vito Corleone's rise with his son Michael's spiritual fall, deepening The_Godfather's depiction of the dark side of the American dream.
-                                                  In the early 1900s, the child Vito flees his Sicilian village for America after the local Mafia kills his family. Vito struggles to make a living, legally or illegally, for his wife and growing brood in Little Italy,
-                                                  killing the local Black Hand Fanucci after he demands his customary cut of the tyro's business. With Fanucci gone, Vito's communal stature grows." />
+							<p:column filterBy="#{vtUsuario.login}"
+								sortBy="#{vtUsuario.login}">
+								<f:facet name="header">
+									<h:outputText value="Login" />
+								</f:facet>
+								<h:outputText value="#{vtUsuario.login}" />
+							</p:column>
 
-                                </p:tab>
-                                <p:tab title="Other Specs">
-                                    <h:outputText value="After a break of more than 15 years. Francis Ford Coppola's legendary continuation and sequel to his landmark 1972 film, The_Godfather, parallels the young Vito Corleone's rise with his son Michael's spiritual fall, deepening The_Godfather's depiction of the dark side of the American dream.
-                                                  In the early 1900s, the child Vito flees his Sicilian village for America after the local Mafia kills his family. Vito struggles to make a living, legally or illegally, for his wife and growing brood in Little Italy,
-                                                  killing the local Black Hand Fanucci after he demands his customary cut of the tyro's business. With Fanucci gone, Vito's communal stature grows." />
-                                </p:tab>
-                            </p:accordionPanel>
-                        </p:panel>
-                    </div>
-                </div>
+							<p:column filterBy="#{vtUsuario.nombre}"
+								sortBy="#{vtUsuario.nombre}">
+								<f:facet name="header">
+									<h:outputText value="Nombre usuario" />
+								</f:facet>
+								<h:outputText value="#{vtUsuario.nombre}" />
+							</p:column>
 
-                <div class="EmptyBox10"></div>
-            </div>
-        </div>
-    </ui:define>
+							<p:column filterBy="#{vtUsuario.nombre_VtEmpresa}"
+								sortBy="#{vtUsuario.nombre_VtEmpresa}">
+								<f:facet name="header">
+									<h:outputText value="Nombre empresa" />
+								</f:facet>
+								<h:outputText value="#{vtUsuario.nombre_VtEmpresa}" />
+							</p:column>
 
+							<p:column headerText="Modificar">
+								<div align="center">
+									<p:commandButton id="btnEdit" icon="fa fa-edit"
+										update=":dialogVtUsuario"
+										actionListener="#{vtUsuarioView.action_edit}">
+										<f:attribute name="selectedVtUsuario" value="#{vtUsuario}" />
+									</p:commandButton>
+									<p:tooltip id="toolTipFadeMi" for="btnEdit" value="Modificar" />
+								</div>
+							</p:column>
+
+
+							<p:column headerText="Cambiar estado">
+								<div align="center">
+									<p:commandButton id="btnEstado" icon="fa fa-retweet"
+										update=":frm:panelDataTableVtUsuario, :frm:growl"
+										actionListener="#{vtUsuarioView.cambiarEstado}">
+										<f:attribute name="selectedVtUsuario" value="#{vtUsuario}" />
+									</p:commandButton>
+									<p:tooltip id="toolTipFadeCi" for="btnEstado" value="Cambiar estado" />
+								</div>
+							</p:column>
+										
+						</p:dataTable>
+					</p:tab>
+
+				</p:accordionPanel>
+
+			</p:panel>
+
+
+		</h:form>
+
+		<p:dialog header="Crear usuario" appendTo="@(body)" draggable="true"
+			widgetVar="dlg" resizable="false" modal="true" width="500">
+			<h:form id="formDialogCrear">
+				<p:messages id="msg" />
+					<h:panelGrid id="pnlUsuariosCrear" columns="1">
+
+						<p:selectOneMenu id="somEmpresas"  style="width:400px"
+							binding="#{vtUsuarioView.somEmpresas}">
+							<f:selectItem itemValue="-1" itemLabel="Seleccionar empresa" />
+							<f:selectItems value="#{vtUsuarioView.lasEmpresasItems}" />
+						</p:selectOneMenu>
+
+						<p:inputText id="txtEmailC" placeholder="Email"  style="width:400px"
+							binding="#{vtUsuarioView.txtLoginC}" maxlength="100">
+							<p:ajax listener="#{vtUsuarioView.txtLoginListener}"
+								update="@([id$=txtNombreUC]), @([id$=txtClaveC]), @([id$=txtClaveCR]), @([id$=btnCrearU]), @([id$=btnLimpiar]) " />
+						</p:inputText>
+
+						<p:inputText id="txtNombreUC" placeholder="Nombre"  style="width:400px"
+							binding="#{vtUsuarioView.txtNombreC}" maxlength="150" />
+
+						<p:password id="txtClaveC" placeholder="Contrase&#241;a"  style="width:400px"
+							binding="#{vtUsuarioView.txtClaveC}" maxlength="100"/>
+
+						<p:password id="txtClaveCR" placeholder="Repetir contrase&#241;a"  style="width:400px"
+							binding="#{vtUsuarioView.txtClaveRC}" maxlength="100" /> 
+
+
+					</h:panelGrid>
+
+					<p:commandButton id="btnCrearU" icon="fa fa-save" title="Crear"
+						binding="#{vtUsuarioView.btnCrearU}" disabled="true"
+						action="#{vtUsuarioView.crearUsuario}"
+						update="@([id$=frm]), @([id$=pnlUsuariosCrear]),@([id$=growl]), @([id$=dataTableVtUsuarioActivos])" />
+
+
+					<p:commandButton id="btnLimpiar" icon="fa fa-eraser"
+						title="Limpiar" action="#{vtUsuarioView.limpiar}"
+						update="pnlUsuariosCrear" />
+	
+			</h:form>
+		</p:dialog>
+
+
+		<p:dialog id="dialogVtUsuario" appendTo="@(body)" draggable="true"
+			closable="false" visible="#{vtUsuarioView.showDialog}"
+			resizable="false" modal="true" width="500">
+			<h:form id="formDialogEdit">
+				<p:messages id="msg" />
+				<p:panel id="panelVtUsuario" header="Modificar usuario">
+					<h:panelGrid columns="2" id="panelGrid">
+
+						<h:outputText id="msgActivo" value=" Activo" />
+						<p:selectOneMenu id="somActivo"
+							binding="#{vtUsuarioView.somActivo}">
+							<f:selectItem itemValue="-1" itemLabel="Activo" />
+							<f:selectItems value="#{vtUsuarioView.esActivoItems}" />
+						</p:selectOneMenu>
+
+						<h:outputText id="msgSomEmpresa" value=" Empresa" />
+						<p:selectOneMenu id="somEmpresasCambio"
+							binding="#{vtUsuarioView.somEmpresasCambio}">
+							<f:selectItem itemValue="-1" itemLabel="Seleccionar empresa" />
+							<f:selectItems value="#{vtUsuarioView.lasEmpresasItems}" />
+						</p:selectOneMenu>
+
+						<h:outputText id="msgLogin" value=" Login" />
+						<p:inputText id="txtLogin" disabled="true"
+							binding="#{vtUsuarioView.txtLogin}" />
+
+						<h:outputText id="msgNombre" value=" Nombre" />
+						<p:inputText id="txtNombre" disabled="true"
+							binding="#{vtUsuarioView.txtNombre}" />
+
+						<h:outputText id="msgClave" value="Contrase&#241;a" />
+						<p:password id="txtClave" placeholder="Contrase&#241;a"
+							binding="#{vtUsuarioView.txtClave}" />
+
+						<h:outputText id="msgClaveR" value="Repetir contrase&#241;a" />
+						<p:password id="txtClaveR" placeholder="Repetir contrase&#241;a"
+							binding="#{vtUsuarioView.txtClaveR}" />
+
+
+
+
+					</h:panelGrid>
+				</p:panel>
+				<p:panel id="panelBotones">
+					<div align="center">
+						<p:commandButton id="btnSave" binding="#{vtUsuarioView.btnCrear}"
+							value="Guardar" action="#{vtUsuarioView.action_save}"
+							update="dialogVtUsuario :frm:panelDataTableVtUsuario" />
+
+						<p:commandButton id="btnExit" value="Salir"
+							action="#{vtUsuarioView.action_closeDialog()}"
+							update=":dialogVtUsuario" />
+					</div>
+				</p:panel>
+			</h:form>
+		</p:dialog>
+
+	</ui:define>
 </ui:composition>
+
+

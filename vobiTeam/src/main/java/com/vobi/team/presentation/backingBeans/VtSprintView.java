@@ -1152,13 +1152,21 @@ public class VtSprintView implements Serializable {
 			meterGaugeModel.setShowTickLabels(true);
 			meterGaugeModel.setLabelHeightAdjust(110);
 			meterGaugeModel.setIntervalOuterRadius(150);
+			meterGaugeModel.setValue(0);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	
+	public String convertirMinutosAHorasYMinutos(double esfuerzo) {
+		double tiempoHoras = esfuerzo / 60;
+		String timeHour = "" + tiempoHoras;
+		return timeHour;
+	}
 
 	public void calcularEsfuerzo() {
 		double esfuerzo = 0;
+		double totalEsf = 0;
 		try {
 			List<VtArtefacto> listaArtefactos = businessDelegatorView.consultarTodosLosArtefactosAsignados();
 			for (VtArtefacto vtArtefacto : listaArtefactos) {
@@ -1167,7 +1175,8 @@ public class VtSprintView implements Serializable {
 					esfuerzo = esfuerzo + vtArtefacto.getEsfuerzoEstimado();
 				}
 			}
-			meterGaugeModel.setValue(esfuerzo);
+			totalEsf = Double.parseDouble(convertirMinutosAHorasYMinutos(esfuerzo));
+			meterGaugeModel.setValue(totalEsf);
 		} catch (Exception e) {
 			log.error("Falla al calcular el esfuerzo estimado", e);
 		}
