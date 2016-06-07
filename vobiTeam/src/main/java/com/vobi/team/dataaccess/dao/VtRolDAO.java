@@ -49,4 +49,10 @@ public class VtRolDAO extends HibernateDaoImpl<VtRol, Long> implements IVtRolDAO
     public static IVtRolDAO getFromApplicationContext(ApplicationContext ctx) {
         return (IVtRolDAO) ctx.getBean("VtRolDAO");
     }
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<VtRol> consultarRolesActivos() {
+		return (List<VtRol>) sessionFactory.getCurrentSession().getNamedQuery("consultarRolesActivos").list();
+	}
 }

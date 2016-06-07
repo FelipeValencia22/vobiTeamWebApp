@@ -37,6 +37,7 @@ import com.vobi.team.modelo.VtArtefacto;
 import com.vobi.team.modelo.VtEmpresa;
 import com.vobi.team.modelo.VtEstado;
 import com.vobi.team.modelo.VtHistoriaArtefacto;
+import com.vobi.team.modelo.VtInteres;
 import com.vobi.team.modelo.VtPilaProducto;
 import com.vobi.team.modelo.VtPrioridad;
 import com.vobi.team.modelo.VtProgresoArtefacto;
@@ -44,6 +45,7 @@ import com.vobi.team.modelo.VtProyecto;
 import com.vobi.team.modelo.VtSprint;
 import com.vobi.team.modelo.VtTipoArtefacto;
 import com.vobi.team.modelo.VtUsuario;
+import com.vobi.team.modelo.VtUsuarioArtefacto;
 import com.vobi.team.modelo.dto.VtArchivoDTO;
 import com.vobi.team.modelo.dto.VtArtefactoDTO;
 import com.vobi.team.modelo.dto.VtHistoriaArtefactoDTO;
@@ -320,6 +322,16 @@ public class VtArtefactoViewDesarrollador implements Serializable {
 			}
 			businessDelegatorView.saveVtArtefacto(entity, esfuerzoEstimado, esfuerzoRestante, puntos);
 			FacesUtils.addInfoMessage("Se ha creado el artefacto con éxito");
+			
+			VtUsuarioArtefacto vtUsuarioArtefacto = new VtUsuarioArtefacto();
+			vtUsuarioArtefacto.setActivo("S");
+			vtUsuarioArtefacto.setFechaCreacion(new Date());
+			vtUsuarioArtefacto.setUsuCreador(vtUsuario.getUsuaCodigo());
+			vtUsuarioArtefacto.setVtArtefacto(entity);
+			vtUsuarioArtefacto.setVtUsuario(vtUsuario);
+			
+			VtInteres vtInteres = businessDelegatorView.getVtInteres(200L);
+			vtUsuarioArtefacto.setVtInteres(vtInteres);
 
 			VtHistoriaArtefacto vtHistoriaArtefacto = new VtHistoriaArtefacto();
 			vtHistoriaArtefacto.setActivo(entity.getActivo());

@@ -38,6 +38,8 @@ public class VtUsuarioView implements Serializable{
 	private static final Logger log = LoggerFactory.getLogger(VtUsuarioView.class);
 
 	private InputText txtLogin;
+	private InputText txtRecuperarPass;
+
 	private InputText txtNombre;
 	private InputText txtLoginC;
 	private InputText txtNombreC;
@@ -67,12 +69,25 @@ public class VtUsuarioView implements Serializable{
 	
 	@PostConstruct
 	public void ini(){
-		vtUsuarioEnSession = ((VtUsuario) FacesUtils.getfromSession("vtUsuario"));
+		try {
+			vtUsuarioEnSession = ((VtUsuario) FacesUtils.getfromSession("vtUsuario"));
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+		
 	}
 
 	public IBusinessDelegatorView getBusinessDelegatorView() {
 		return businessDelegatorView;
 	}
+	public InputText getTxtRecuperarPass() {
+		return txtRecuperarPass;
+	}
+
+	public void setTxtRecuperarPass(InputText txtRecuperarPass) {
+		this.txtRecuperarPass = txtRecuperarPass;
+	}
+
 
 	public void setBusinessDelegatorView(IBusinessDelegatorView businessDelegatorView) {
 		this.businessDelegatorView = businessDelegatorView;
@@ -320,6 +335,19 @@ public class VtUsuarioView implements Serializable{
 		somEmpresas.setValue("-1");
 
 		btnCrear.setDisabled(true);
+		return "";
+	}
+	
+	public String recuperarPassword(){
+		try {
+			log.info("Entro a recuperar contraseña");
+			businessDelegatorView.recuperarContraseña(txtRecuperarPass.getValue().toString().trim());
+			FacesUtils.addInfoMessage("Se ha resteblecido la contraseña, revisar el correo electrónico");
+		} catch (Exception e) {
+			FacesUtils.addErrorMessage(e.getMessage());
+			log.error(e.getMessage());
+		}
+		
 		return "";
 	}
 

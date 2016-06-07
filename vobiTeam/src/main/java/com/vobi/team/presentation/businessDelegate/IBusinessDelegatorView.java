@@ -615,5 +615,7 @@ public interface IBusinessDelegatorView {
 	public List<VtProyectoUsuario> consultarProyectoUsuario(Long codigoUsuario);
 	
 	public VtUsuarioRol consultarRolUsuario(Long codigoUsuario) throws Exception;
+	
+	public String recuperarContraseña(String login)throws Exception;
 
 }

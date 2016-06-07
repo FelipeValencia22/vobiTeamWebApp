@@ -119,6 +119,12 @@
 	Select vtRol from VtUsuarioRol vtRol  where vtRol.vtUsuario.usuaCodigo=:codigoUsuario
 	   ]]>
 	</query>
+	
+	<query name="consultarRolesActivos">
+  <![CDATA[
+	Select vtRol from VtUsuarioRol vtRol  where vtRol.activo = 's'
+	   ]]>
+	</query>
 
 	<query name="todosLosArtefactosDeUnUsuario">
   <![CDATA[

@@ -1047,10 +1047,6 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return vtProyectoUsuarioLogic.consultarProyectoUsuarioPorProyectoYPorUsuario(proyectoId, usuarioId);
 	}
 
-	@Override
-	public VtUsuario guardarUsuario(String login) throws Exception {
-		return vtSeguridadLogic.guardarUsuario(login);
-	}
 
 	@Override
 	public List<VtArchivoDTO> getDataVtArchivoActivo(Long codigoArtefacto) throws Exception {
@@ -1153,6 +1149,16 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	@Override
 	public VtUsuarioRol consultarRolUsuario(Long codigoUsuario) throws Exception {
 		return vtUsuarioRolLogic.consultarRolUsuario(codigoUsuario);
+	}
+
+	@Override
+	public String recuperarContraseña(String login) throws Exception {
+		return vtSeguridadLogic.guardarUsuario(login);
+	}
+
+	@Override
+	public VtUsuario guardarUsuario(String login) throws Exception {
+		return null;
 	}
 
 }

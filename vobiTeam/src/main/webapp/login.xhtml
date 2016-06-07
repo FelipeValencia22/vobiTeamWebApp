@@ -51,9 +51,9 @@
 
                 <div class="Container90 Fnone MarAuto DispNone TexAlCenter TabContent OvHidden" id="TAB2">
                     <div class="EmptyBox50"></div>
-                    <p:inputText  placeholder="Su direccion de Email" styleClass="Container80 Fnone MarAuto Fs18"/>
+                    <p:inputText id="txtRecuperarContraseña" binding="#{vtUsuarioView.txtRecuperarPass}" placeholder="Su direccion de Email" styleClass="Container80 Fnone MarAuto Fs18"/>
                     <div class="EmptyBox20"></div>
-                    <p:button  value="Enviar" styleClass="Fs16"></p:button>
+                     <p:commandButton styleClass="Fs16" value="Enviar"  action="#{vtUsuarioView.recuperarPassword}" update="msgGrowl"/>
                     <div class="EmptyBox50"></div>
                 </div>
             </div>
