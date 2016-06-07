@@ -46,7 +46,8 @@
 						binding="#{vtArtefactoViewDesarrollador.somPilaProducto}">
 						<p:ajax update="somSprints" event="change"
 							listener="#{vtArtefactoViewDesarrollador.filtrarPila}" />
-						<f:selectItem itemValue="-1" itemLabel="-Seleccionar la pila de Producto-" />
+						<f:selectItem itemValue="-1"
+							itemLabel="-Seleccionar la pila de Producto-" />
 						<f:selectItems
 							value="#{vtArtefactoViewDesarrollador.lasPilasDeProductoFiltro}" />
 					</p:selectOneMenu>
@@ -183,7 +184,7 @@
 							<p:column headerText="Progreso">
 								<div align="center">
 									<p:commandButton id="btnProgreso" icon="fa fa-code"
-										update=":dialogProgreso" disabled="true"
+										update=":dialogProgreso"
 										binding="#{vtArtefactoViewDesarrollador.btnProgreso}"
 										actionListener="#{vtArtefactoViewDesarrollador.progresoArtefacto}">
 										<f:attribute name="selectedVtArtefacto" value="#{vtArtefacto}" />
@@ -740,17 +741,20 @@
 
 						<h:outputText id="msgTitulo" value="Título" />
 						<p:inputText id="txtnombre" size="60" placeholder="Titulo"
-							binding="#{vtArtefactoViewDesarrollador.txtnombre}" />
+							binding="#{vtArtefactoViewDesarrollador.txtnombre}"
+							maxlength="60" />
 						<p:spacer />
 						<p:spacer />
+
 						<h:outputText id="msgDescripcion" value="Descripción" />
 						<p:inputTextarea id="txtAreaDescripcion" scrollHeight="30"
 							style="overflow:auto;" autoResize="false" rows="15" cols="60"
-							placeholder="Descripci&#243;n"
+							placeholder="Descripci&#243;n" maxlength="1000"
 							binding="#{vtArtefactoViewDesarrollador.txtdescripcion}" />
 					</h:panelGrid>
 
 					<h:panelGrid id="artefactoDe" columns="2">
+					
 						<h:outputText id="msgActivo" value="Activo" />
 						<p:selectOneMenu id="somActivo" style="width:140px"
 							binding="#{vtArtefactoViewDesarrollador.somActivo}">
@@ -758,6 +762,7 @@
 							<f:selectItems
 								value="#{vtArtefactoViewDesarrollador.esActivoItems}" />
 						</p:selectOneMenu>
+						
 						<h:outputText id="msgProridad" value="Prioridad" />
 						<p:selectOneMenu id="somPrioridades" style="width:140px"
 							binding="#{vtArtefactoViewDesarrollador.somPrioridades}">
@@ -765,6 +770,7 @@
 							<f:selectItems
 								value="#{vtArtefactoViewDesarrollador.esPrioridadItems}" />
 						</p:selectOneMenu>
+						
 						<h:outputText id="msgEstado" value="Estado" />
 						<p:selectOneMenu id="somEstados" style="width:140px"
 							binding="#{vtArtefactoViewDesarrollador.somEstados}">
@@ -772,6 +778,7 @@
 							<f:selectItems
 								value="#{vtArtefactoViewDesarrollador.esEstadoItems}" />
 						</p:selectOneMenu>
+						
 						<h:outputText id="msgEsfuerzoEstimado" value="Esfuerzo estimado" />
 						<p:inputMask id="txtEsfuerzoEstimado"
 							placeholder="Esfuerzo estimado" mask="99:99"
@@ -785,11 +792,13 @@
 						<p:inputMask id="txtEsfuerzoRestante"
 							placeholder="Esfuerzo restante" mask="99:99"
 							binding="#{vtArtefactoViewDesarrollador.txtEsfuerzoRestante}" />
+							
 						<h:outputText id="msgPuntos" value="Puntos" />
 						<p:inputMask id="txtPuntos" placeholder="Puntos" mask="99:99"
 							binding="#{vtArtefactoViewDesarrollador.txtPuntos}" />
+							
 						<h:outputText id="msgOrigen" value="Orígen" />
-						<p:inputText id="txtOrigen" placeholder="Origen"
+						<p:inputText id="txtOrigen" placeholder="Origen" maxlength="60"
 							binding="#{vtArtefactoViewDesarrollador.txtOrigen}" />
 					</h:panelGrid>
 
@@ -818,7 +827,6 @@
 			visible="#{vtArtefactoViewDesarrollador.showDialogProgreso}"
 			width="1000">
 			<h:form id="formDialogCrearProgreso">
-				<p:growl id="msg" />
 				<p:panel id="pnlProgreso" header="Progreso artefacto">
 
 					<h:panelGrid columns="2" id="pnlGridProgreso" rendered="true">
@@ -847,7 +855,7 @@
 						</p:selectOneMenu>
 
 						<h:outputText id="msgTiempoDedicado" value="Tiempo dedicado" />
-						<p:inputText id="txtTiempoDedicadoP" size="60"
+						<p:inputText id="txtTiempoDedicadoP" size="60" maxlength="3"
 							binding="#{vtArtefactoViewDesarrollador.txtTiempoDedicadoP}" />
 
 						<h:outputText id="msgDescripcionP" value="Descripci&#243;n" />
@@ -863,7 +871,8 @@
 						binding="#{vtArtefactoViewDesarrollador.btnCrearP}"
 						title="Guardar progreso"
 						action="#{vtArtefactoViewDesarrollador.crearProgeso}"
-						update=":formDialogCrearProgreso:msg " />
+						update="@([id$=pnlListaSprint],@([id$=msg],@([id$=pnlVtArtefacto]">
+					</p:commandButton>
 
 					<p:commandButton id="btnLimpiarProgreso" icon="fa fa-eraser"
 						binding="#{vtArtefactoViewDesarrollador.btnLimpiarP}"

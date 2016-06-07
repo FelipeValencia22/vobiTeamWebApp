@@ -293,16 +293,16 @@
 
 					<h:outputText id="msgNombreM" value=" Nombre" />
 					<p:inputText id="txtNombre" disabled="true"
-						binding="#{vtSprintViewDesarrollador.txtNombre}"
+						binding="#{vtSprintViewDesarrollador.txtNombre}" maxlength="60"
 						style="width:215px" />
 
 					<h:outputText id="msgObjetivoM" value=" Objetivo" />
-					<p:inputTextarea id="txtObjetivo" disabled="true" rows="10"
+					<p:inputTextarea id="txtObjetivo" disabled="true" rows="10" maxlength="1000"
 						cols="33" binding="#{vtSprintViewDesarrollador.txtObjetivo}" />
 
 					<h:outputText id="txtEsfuerzoM" value=" Esfuerzo" />
 					<p:inputText id="txtEsfuerzo" placeholder="Esfuerzo"
-						binding="#{vtSprintViewDesarrollador.txtEsfuerzo}"
+						binding="#{vtSprintViewDesarrollador.txtEsfuerzo}" 
 						style="width:215px">
 					</p:inputText>
 
@@ -339,7 +339,6 @@
 			</h:form>
 
 		</p:dialog>
-
 
 		<p:dialog id="dialogProgreso" appendTo="@(body)" draggable="true"
 			closable="true"	visible="#{vtSprintViewDesarrollador.showDialogProgreso}"

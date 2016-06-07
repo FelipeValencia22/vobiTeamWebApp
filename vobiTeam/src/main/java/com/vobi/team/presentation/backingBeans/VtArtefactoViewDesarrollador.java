@@ -345,7 +345,7 @@ public class VtArtefactoViewDesarrollador implements Serializable {
 			vtHistoriaArtefacto.setFechaModificacion(entity.getFechaModificacion());
 			vtHistoriaArtefacto.setOrigen(entity.getOrigen());
 			vtHistoriaArtefacto.setDescripcion(entity.getDescripcion());
-			vtHistoriaArtefacto.setPuntos(Integer.parseInt(puntos));
+			vtHistoriaArtefacto.setPuntos(entity.getPuntos());
 			vtHistoriaArtefacto.setTitulo(entity.getTitulo());
 			vtHistoriaArtefacto.setUsuCreador(entity.getUsuCreador());
 			vtHistoriaArtefacto.setUsuModificador(entity.getUsuModificador());
@@ -356,6 +356,7 @@ public class VtArtefactoViewDesarrollador implements Serializable {
 			limpiar();
 			action_closeDialog();
 		} catch (Exception e) {
+			e.printStackTrace();
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
 		return "";
@@ -510,13 +511,12 @@ public class VtArtefactoViewDesarrollador implements Serializable {
 	}
 
 	public String limpiar() {
-		somActivo.setValue("-1");
 		txtdescripcion.resetValue();
 		txtEsfuerzoEstimado.resetValue();
 		txtnombre.resetValue();
-		somEstados.setValue("-1");
-		somPrioridades.setValue("-1");
-		somTiposDeArtefactos.setValue("-1");
+		somActivo.resetValue();
+		somEstados.resetValue();
+		somPrioridades.resetValue();
 		txtEsfuerzoRestante.resetValue();
 		txtPuntos.resetValue();
 		txtOrigen.resetValue();
@@ -527,10 +527,6 @@ public class VtArtefactoViewDesarrollador implements Serializable {
 		btnCrearArtefactoFiltrado.setDisabled(false);
 		try {
 			VtSprint vtSprint = businessDelegatorView.getVtSprint(Long.parseLong(somSprints.getValue().toString().trim()));
-			
-//			if(vtSprint.getVtEstadoSprint().getEstsprCodigo()==200){
-//				btnProgreso.setDisabled(false);
-//			}
 
 			vtUsuario = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
 
@@ -666,6 +662,18 @@ public class VtArtefactoViewDesarrollador implements Serializable {
 		}
 		return "";
 	}
+	
+	public String limpiarProgreso(){
+		
+		txtEsfuerzoEstimadoP.resetValue();
+		txtEsfuerzoRestanteP.resetValue();
+		txtEsfuerzoRealP.resetValue();
+		somEstadosP.resetValue();
+		txtTiempoDedicadoP.resetValue();
+		txtDescripcionP.resetValue();
+		
+		return "";
+	}
 
 	public String crearProgeso(){
 		vtUsuario = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
@@ -690,6 +698,11 @@ public class VtArtefactoViewDesarrollador implements Serializable {
 			int esfuerzoRestante=selectedVtArtefacto.getEsfuerzoRestante();
 
 			int esfuerzo=esfuerzoRestante-dedicado;
+			double esfuerzoD=esfuerzoRestante-dedicado;
+			
+			if(esfuerzoD<0){
+				vtArtefacto.setEsfuerzoReal((int) (vtArtefacto.getEsfuerzoEstimado()+(esfuerzoD*-1)));
+			}
 
 			vtProgresoArtefacto.setEsfuerzoRestante(esfuerzo);		
 			vtArtefacto.setEsfuerzoRestante(esfuerzo);
@@ -699,13 +712,18 @@ public class VtArtefactoViewDesarrollador implements Serializable {
 			businessDelegatorView.updateVtArtefacto(vtArtefacto);
 			FacesContext.getCurrentInstance().addMessage("", new FacesMessage("Se registró el progreso con exito"));
 			setShowDialogProgreso(false);
-
+			limpiarProgreso();
 
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
 		}
 
+		return "";
+	}
+	
+	public String actualizarCampos(){
+		txtEsfuerzoRealP.setValue(txtEsfuerzoRealP.getValue().toString().trim());
 		return "";
 	}
 
