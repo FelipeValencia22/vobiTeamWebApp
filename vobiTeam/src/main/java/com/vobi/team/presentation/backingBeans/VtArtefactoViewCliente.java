@@ -233,7 +233,9 @@ public class VtArtefactoViewCliente implements Serializable {
 			for (VtUsuarioRol vtUsuarioRol : listaRoles) {
 				if (vtUsuarioRol.getVtRol().getRolNombre().equals("ADMINISTRADOR")) {
 					businessDelegatorView.enviarMensajeAlCorreo(vtUsuario.getLogin(),
-							vtUsuarioRol.getVtUsuario().getLogin(), "Nuevo artefacto", "Para la siguiente fecha " + new Date() +" , el cliente " + vtUsuario.getLogin()+ " ");
+							vtUsuarioRol.getVtUsuario().getLogin(), "Nuevo artefacto",
+							"Para la siguiente fecha " + new Date() + " , el cliente " + vtUsuario.getLogin()
+									+ " ha notificado un control de cambio o no conformidad. Por favor revisar los nuevos artefactos.");
 				}
 
 			}
