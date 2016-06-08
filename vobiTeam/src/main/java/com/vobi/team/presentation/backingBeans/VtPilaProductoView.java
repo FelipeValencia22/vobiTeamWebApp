@@ -657,14 +657,17 @@ public class VtPilaProductoView implements Serializable {
 			entity.setUsuModificador(vtUsuarioEnSession.getUsuaCodigo());
 			
 			businessDelegatorView.updateVtPilaProducto(entity);
+			
+			if(entity.getActivo().equals("S")){
+				FacesContext.getCurrentInstance().addMessage("", new FacesMessage("Ok,!La pila de producto se ha activado con éxito!"));
+			}else if(entity.getActivo().equals("N")){
+				FacesContext.getCurrentInstance().addMessage("", new FacesMessage("Ok,!La pila de producto se ha inactivado con éxito!"));
+			}
 
 			String nombreProyecto=somProyectos.getValue().toString().trim();
 			long codigoFiltro= Long.parseLong(nombreProyecto);
 			dataFiltro=businessDelegatorView.getDataVtPilaProductoNombreProyecto(codigoFiltro);
-			dataFiltroI=businessDelegatorView.getDataVtPilaProductoNombreProyectoI(codigoFiltro);
-
-			FacesContext.getCurrentInstance().addMessage("", new FacesMessage("La pila de producto se modificó con exito"));
-			
+			dataFiltroI=businessDelegatorView.getDataVtPilaProductoNombreProyectoI(codigoFiltro);			
 			selectedVtPilaProducto=null;
 			entity=null;
 			

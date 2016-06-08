@@ -229,19 +229,6 @@
 												value="Cambiar estado" />
 										</div>
 									</p:column>
-									
-										<p:column headerText="Lista pilas">
-										<div align="center">
-											<p:commandButton id="btnListadoPilaI" icon="fa fa-list"
-												action="vtGestionPilaProducto.xhtml" update="formDialog1"
-												actionListener="#{vtProyectoView.redireccionarAPilas}">
-												<f:attribute name="selectedVtProyecto" value="#{vtProyecto}" />
-											</p:commandButton>
-											<p:tooltip id="toolTipFadeLi" for="btnListadoPilaI"
-												value="Lista Pilas" />
-										</div>
-									</p:column>
-
 								</p:dataTable>
 							</p:panel>
 						</p:tab>

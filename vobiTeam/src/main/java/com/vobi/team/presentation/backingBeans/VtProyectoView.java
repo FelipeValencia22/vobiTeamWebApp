@@ -594,7 +594,11 @@ public class VtProyectoView implements Serializable{
 			Long codigoFiltro=entity.getVtEmpresa().getEmprCodigo();
 			
 			businessDelegatorView.updateVtProyecto(entity);
-			FacesUtils.addInfoMessage("El proyecto ha sido modificado con exito");
+			if(entity.getActivo().equals("S")){
+				FacesContext.getCurrentInstance().addMessage("", new FacesMessage("Ok,!El proyecto se ha activado con éxito!"));
+			}else if(entity.getActivo().equals("N")){
+				FacesContext.getCurrentInstance().addMessage("", new FacesMessage("Ok,!El proyecto se ha inactivado con éxito!"));
+			}
 			
 			VtEmpresa vtEmpresaFiltro = businessDelegatorView.getVtEmpresa(codigoFiltro);
 		

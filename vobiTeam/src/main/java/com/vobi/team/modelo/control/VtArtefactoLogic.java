@@ -461,7 +461,6 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 			return vtArtefactoDTO;
 		} catch (Exception e) {
 			log.error(e.toString());
-			e.printStackTrace();
 			throw e;
 		}
 	}
@@ -543,7 +542,6 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 			return vtArtefactoDTO;
 		} catch (Exception e) {
 			log.error(e.toString());
-			e.printStackTrace();
 			throw e;
 		}
 	}
@@ -1154,12 +1152,14 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 						vtArtefactoDTO2
 						.setPrioCodigo_VtPrioridad((vtArtefactoTmp.getVtPrioridad().getPrioCodigo() != null)
 								? vtArtefactoTmp.getVtPrioridad().getPrioCodigo() : null);
-						vtArtefactoDTO2.setSpriCodigo_VtSprint((vtArtefactoTmp.getVtSprint().getSpriCodigo() != null)
-								? vtArtefactoTmp.getVtSprint().getSpriCodigo() : null);
 						vtArtefactoDTO2.setTparCodigo_VtTipoArtefacto(
 								(vtArtefactoTmp.getVtTipoArtefacto().getTparCodigo() != null)
 								? vtArtefactoTmp.getVtTipoArtefacto().getTparCodigo() : null);
 						vtArtefactoDTO.add(vtArtefactoDTO2);
+						
+						vtArtefactoDTO2.setTpar_Nombre(vtArtefactoTmp.getVtTipoArtefacto().getNombre());
+						vtArtefactoDTO2.setEstado_Nombre(vtArtefactoTmp.getVtEstado().getNombre());
+						vtArtefactoDTO2.setPrioridad_Nombre(vtArtefactoTmp.getVtPrioridad().getNombre());
 					}
 				}
 			}
@@ -1216,12 +1216,15 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 						vtArtefactoDTO2
 						.setPrioCodigo_VtPrioridad((vtArtefactoTmp.getVtPrioridad().getPrioCodigo() != null)
 								? vtArtefactoTmp.getVtPrioridad().getPrioCodigo() : null);
-						vtArtefactoDTO2.setSpriCodigo_VtSprint((vtArtefactoTmp.getVtSprint().getSpriCodigo() != null)
-								? vtArtefactoTmp.getVtSprint().getSpriCodigo() : null);
 						vtArtefactoDTO2.setTparCodigo_VtTipoArtefacto(
 								(vtArtefactoTmp.getVtTipoArtefacto().getTparCodigo() != null)
 								? vtArtefactoTmp.getVtTipoArtefacto().getTparCodigo() : null);
 						vtArtefactoDTO.add(vtArtefactoDTO2);
+						
+						
+						vtArtefactoDTO2.setTpar_Nombre(vtArtefactoTmp.getVtTipoArtefacto().getNombre());
+						vtArtefactoDTO2.setEstado_Nombre(vtArtefactoTmp.getVtEstado().getNombre());
+						vtArtefactoDTO2.setPrioridad_Nombre(vtArtefactoTmp.getVtPrioridad().getNombre());
 					}
 				}
 			}

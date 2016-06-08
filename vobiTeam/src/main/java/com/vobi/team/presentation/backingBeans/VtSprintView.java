@@ -988,9 +988,11 @@ public class VtSprintView implements Serializable {
 			entity.setUsuModificador(vtUsuarioEnSession.getUsuaCodigo());
 
 			businessDelegatorView.updateVtSprint(entity);
-
-			FacesContext.getCurrentInstance().addMessage("",
-					new FacesMessage("El sprint de producto se modificó con exito"));
+			if(entity.getActivo().equals("S")){
+				FacesContext.getCurrentInstance().addMessage("", new FacesMessage("Ok,!El sprint se ha activado con éxito!"));
+			}else if(entity.getActivo().equals("N")){
+				FacesContext.getCurrentInstance().addMessage("", new FacesMessage("Ok,!El sprint se ha inactivado con éxito!"));
+			}
 
 			dataFiltro = businessDelegatorView.getDataVtSprintFiltro(pilaCodigo);
 			dataFiltroI = businessDelegatorView.getDataVtSprintFiltroI(pilaCodigo);

@@ -269,7 +269,6 @@ public class VtArtefactoView implements Serializable {
 			limpiar();
 			action_closeDialog();
 		} catch (Exception e) {
-			e.printStackTrace();
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
 		return "";
@@ -277,8 +276,11 @@ public class VtArtefactoView implements Serializable {
 
 	public void asignarDatosACampos() {
 		String esfuerzo = txtEsfuerzoEstimado.getValue().toString().trim();
-		txtEsfuerzoRestante.setValue(esfuerzo);
-		txtPuntos.setValue(esfuerzo);
+		if(!esfuerzo.equalsIgnoreCase("-1")){
+			txtEsfuerzoRestante.setValue(esfuerzo);
+			txtPuntos.setValue(esfuerzo);
+		}
+		
 	}
 
 	public Long convertirHorasAMinutos(String horas, String minutos) {
@@ -434,7 +436,6 @@ public class VtArtefactoView implements Serializable {
 
 		} catch (Exception e) {
 			log.error(e.getMessage());
-			e.printStackTrace();
 		}
 	}
 

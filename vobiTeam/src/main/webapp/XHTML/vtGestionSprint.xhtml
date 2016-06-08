@@ -300,6 +300,14 @@
 								</f:facet>
 								<h:outputText value="#{vtSprint.fechaFin}" />
 							</p:column>
+							
+							<p:column filterBy="#{vtSprint.capacidadEstimada}"
+								sortBy="#{vtSprint.capacidadEstimada}">
+								<f:facet name="header">
+									<h:outputText value="Capacidad estimada" />
+								</f:facet>
+								<h:outputText value="#{vtSprint.capacidadEstimada}" />
+							</p:column>
 
 							<p:column filterBy="#{vtSprint.nombre}"
 								sortBy="#{vtSprint.nombre}">
@@ -350,19 +358,6 @@
 										value="Cambiar estado" />
 								</div>
 							</p:column>
-
-							<p:column headerText="Lista artefactos">
-								<div align="center">
-									<p:commandButton id="btnListadoArtefactoI" icon="fa fa-list"
-										action="vtGestionArtefacto.xhtml" update="frm"
-										actionListener="#{vtSprintView.redireccionarAArtefactos}">
-										<f:attribute name="selectedVtSprint" value="#{vtSprint}" />
-									</p:commandButton>
-									<p:tooltip id="toolTipFadeLi" for="btnListadoArtefactoI"
-										value="Lista artefactos" />
-								</div>
-							</p:column>
-
 						</p:dataTable>
 					</p:panel>
 
