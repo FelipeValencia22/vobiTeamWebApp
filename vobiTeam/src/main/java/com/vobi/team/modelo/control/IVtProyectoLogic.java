@@ -55,6 +55,7 @@ public interface IVtProyectoLogic {
     public Long findTotalNumberVtProyecto() throws Exception;
 
     public List<VtProyectoDTO> getDataVtProyecto(Long codigoFiltro) throws Exception;
+    public List<VtProyectoDTO> getDataVtProyectoActivo(Long codigoFiltro) throws Exception;
     
     public List<VtProyectoDTO> getDataVtProyectoInactivo(Long codigoFiltro) throws Exception;
     

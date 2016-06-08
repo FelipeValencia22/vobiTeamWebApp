@@ -1172,7 +1172,7 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 
 	@Override
 	public List<VtArtefactoDTO> getDataVtArtefactoPilaFiltroI(Long codigoFiltro) throws Exception {
-		// TODO Auto-generated method stub
+
 		return vtArtefactoLogic.getDataVtArtefactoPilaFiltroI(codigoFiltro);
 	}
 
@@ -1180,6 +1180,11 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	public void enviarMensajeAlCorreo(String from, String to, String subject, String body) throws Exception {
 		vtUsuarioLogic.enviarMensajeAlCorreo(from, to, subject, body);
 		
+	}
+
+	@Override
+	public List<VtProyectoDTO> getDataVtProyectoActivo(Long codigoFiltro) throws Exception {
+		return vtProyectoLogic.getDataVtProyectoActivo(codigoFiltro);
 	}
 
 }

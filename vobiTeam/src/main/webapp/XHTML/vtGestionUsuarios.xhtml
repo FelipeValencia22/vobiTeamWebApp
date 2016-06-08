@@ -122,13 +122,6 @@
 								<h:outputText value="#{vtUsuario.usuaCodigo}" />
 							</p:column>
 
-							<p:column filterBy="#{vtUsuario.activo}"
-								sortBy="#{vtUsuario.activo}">
-								<f:facet name="header">
-									<h:outputText value="Activo" />
-								</f:facet>
-								<h:outputText value="#{vtUsuario.activo}" />
-							</p:column>
 
 
 							<p:column filterBy="#{vtUsuario.login}"
@@ -153,6 +146,15 @@
 									<h:outputText value="Nombre empresa" />
 								</f:facet>
 								<h:outputText value="#{vtUsuario.nombre_VtEmpresa}" />
+							</p:column>
+							
+							
+							<p:column filterBy="#{vtUsuario.activo}"
+								sortBy="#{vtUsuario.activo}">
+								<f:facet name="header">
+									<h:outputText value="Activo" />
+								</f:facet>
+								<h:outputText value="#{vtUsuario.activo}" />
 							</p:column>
 
 							<p:column headerText="Modificar">
@@ -201,21 +203,20 @@
 						</p:selectOneMenu>
 
 						<p:inputText id="txtEmailC" placeholder="Email"  style="width:400px"
-							binding="#{vtUsuarioView.txtLoginC}" maxlength="100">
-							<p:ajax listener="#{vtUsuarioView.txtLoginListener}"
+							binding="#{vtUsuarioView.txtLoginC}" maxlength="50">
+							<p:ajax listener="#{vtUsuarioView.txtLoginListener}" 
 								update="@([id$=txtNombreUC]), @([id$=txtClaveC]), @([id$=txtClaveCR]), @([id$=btnCrearU]), @([id$=btnLimpiar]) " />
 						</p:inputText>
 
 						<p:inputText id="txtNombreUC" placeholder="Nombre"  style="width:400px"
-							binding="#{vtUsuarioView.txtNombreC}" maxlength="150" />
+							binding="#{vtUsuarioView.txtNombreC}" maxlength="60" />
 
 						<p:password id="txtClaveC" placeholder="Contrase&#241;a"  style="width:400px"
-							binding="#{vtUsuarioView.txtClaveC}" maxlength="100"/>
+							binding="#{vtUsuarioView.txtClaveC}" maxlength="25"/>
 
 						<p:password id="txtClaveCR" placeholder="Repetir contrase&#241;a"  style="width:400px"
-							binding="#{vtUsuarioView.txtClaveRC}" maxlength="100" /> 
-
-
+							binding="#{vtUsuarioView.txtClaveRC}" maxlength="25" /> 
+							
 					</h:panelGrid>
 
 					<p:commandButton id="btnCrearU" icon="fa fa-save" title="Crear"
@@ -256,19 +257,19 @@
 
 						<h:outputText id="msgLogin" value=" Login" />
 						<p:inputText id="txtLogin" disabled="true"
-							binding="#{vtUsuarioView.txtLogin}" />
+							binding="#{vtUsuarioView.txtLogin}"   maxlength="50"/>
 
 						<h:outputText id="msgNombre" value=" Nombre" />
 						<p:inputText id="txtNombre" disabled="true"
-							binding="#{vtUsuarioView.txtNombre}" />
+							binding="#{vtUsuarioView.txtNombre}"   maxlength="60"/>
 
 						<h:outputText id="msgClave" value="Contrase&#241;a" />
 						<p:password id="txtClave" placeholder="Contrase&#241;a"
-							binding="#{vtUsuarioView.txtClave}" />
+							binding="#{vtUsuarioView.txtClave}" maxlength="25" />
 
 						<h:outputText id="msgClaveR" value="Repetir contrase&#241;a" />
 						<p:password id="txtClaveR" placeholder="Repetir contrase&#241;a"
-							binding="#{vtUsuarioView.txtClaveR}" />
+							binding="#{vtUsuarioView.txtClaveR}" maxlength="25" />
 
 
 

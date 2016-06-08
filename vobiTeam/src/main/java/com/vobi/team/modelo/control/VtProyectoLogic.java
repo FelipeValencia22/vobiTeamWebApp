@@ -276,6 +276,64 @@ public class VtProyectoLogic implements IVtProyectoLogic {
 
 			return vtProyectoDTO;
 		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+			
+		}
+	}
+	
+	
+	@Transactional(readOnly = true)
+	public List<VtProyectoDTO> getDataVtProyectoActivo(Long codigoFiltro) throws Exception {
+		try {
+			List<VtProyecto> vtProyecto = vtProyectoDAO.findAll();
+
+			List<VtProyectoDTO> vtProyectoDTOI = new ArrayList<VtProyectoDTO>();
+
+			for (VtProyecto vtProyectoTmp : vtProyecto) {
+				log.info("Entro al filtro activo");
+
+				if(vtProyectoTmp.getActivo().equalsIgnoreCase("S")){
+					VtProyectoDTO vtProyectoDTO2 = new VtProyectoDTO();
+					if(vtProyectoTmp.getVtEmpresa().getEmprCodigo().equals(codigoFiltro)){
+				
+						vtProyectoDTO2.setProyCodigo(vtProyectoTmp.getProyCodigo());
+
+						vtProyectoDTO2.setActivo((vtProyectoTmp.getActivo() != null)
+								? vtProyectoTmp.getActivo()+"i" : null);
+
+						vtProyectoDTO2.setDescripcion((vtProyectoTmp.getDescripcion() != null)
+								? vtProyectoTmp.getDescripcion() : null);
+
+						vtProyectoDTO2.setFechaCreacion(vtProyectoTmp.getFechaCreacion());
+
+						vtProyectoDTO2.setFechaModificacion(vtProyectoTmp.getFechaModificacion());
+
+						vtProyectoDTO2.setNombre((vtProyectoTmp.getNombre() != null)
+								? vtProyectoTmp.getNombre() : null);
+
+						vtProyectoDTO2.setPublico((vtProyectoTmp.getPublico() != null)
+								? vtProyectoTmp.getPublico() : null);
+
+						vtProyectoDTO2.setUsuCreador((vtProyectoTmp.getUsuCreador() != null)
+								? vtProyectoTmp.getUsuCreador() : null);
+
+						vtProyectoDTO2.setUsuModificador((vtProyectoTmp.getUsuModificador() != null)
+								? vtProyectoTmp.getUsuModificador() : null);
+
+						vtProyectoDTO2.setEmprCodigo_VtEmpresa((vtProyectoTmp.getVtEmpresa()
+								.getEmprCodigo() != null)
+								? vtProyectoTmp.getVtEmpresa().getEmprCodigo() : null);
+
+						vtProyectoDTO2.setNombre_VtEmpresa(vtProyectoTmp.getVtEmpresa().getNombre());
+
+						vtProyectoDTOI.add(vtProyectoDTO2);
+					}
+				}
+			}
+
+			return vtProyectoDTOI;
+		} catch (Exception e) {
 			throw e;
 		}
 	}
@@ -288,12 +346,12 @@ public class VtProyectoLogic implements IVtProyectoLogic {
 			List<VtProyectoDTO> vtProyectoDTOI = new ArrayList<VtProyectoDTO>();
 
 			for (VtProyecto vtProyectoTmp : vtProyecto) {
-				VtProyectoDTO vtProyectoDTO2 = new VtProyectoDTO();
+				log.info("Entro al filtro inactivo");
 
 				if(vtProyectoTmp.getActivo().equalsIgnoreCase("N")){
-
-					if(vtProyectoTmp.getVtEmpresa().getEmprCodigo()==codigoFiltro.longValue()){
-
+					VtProyectoDTO vtProyectoDTO2 = new VtProyectoDTO();
+					if(vtProyectoTmp.getVtEmpresa().getEmprCodigo().equals(codigoFiltro)){
+				
 						vtProyectoDTO2.setProyCodigo(vtProyectoTmp.getProyCodigo());
 
 						vtProyectoDTO2.setActivo((vtProyectoTmp.getActivo() != null)

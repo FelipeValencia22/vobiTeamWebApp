@@ -78,7 +78,7 @@ public class VtProyectoView implements Serializable{
 
 	
 	@PostConstruct
-	public void vtArtefactoViewPostConstructor() {
+	public void VtProyectoViewPostConstructor() {
 		try {
 			
 			VtEmpresa vtEmpresasTotales = (VtEmpresa) FacesUtils.getfromSession("vtEmpresa");
@@ -555,9 +555,10 @@ public class VtProyectoView implements Serializable{
 			businessDelegatorView.updateVtProyecto(entity);
 			FacesUtils.addInfoMessage("El proyecto ha sido modificado con exito");
 			
-	
-			data = businessDelegatorView.getDataVtProyecto(codigoFiltro);
-			dataI = businessDelegatorView.getDataVtProyectoInactivo(codigoFiltro);
+			VtEmpresa vtEmpresaFiltro = businessDelegatorView.getVtEmpresa(codigoFiltro);
+			
+			data=businessDelegatorView.getDataVtProyectoActivo(vtEmpresaFiltro.getEmprCodigo());
+			dataI=businessDelegatorView.getDataVtProyectoInactivo(vtEmpresaFiltro.getEmprCodigo());
 		} catch (Exception e) {
 			data = null;
 			FacesUtils.addErrorMessage(e.getMessage());
@@ -594,9 +595,11 @@ public class VtProyectoView implements Serializable{
 			
 			businessDelegatorView.updateVtProyecto(entity);
 			FacesUtils.addInfoMessage("El proyecto ha sido modificado con exito");
+			
+			VtEmpresa vtEmpresaFiltro = businessDelegatorView.getVtEmpresa(codigoFiltro);
 		
-			data = businessDelegatorView.getDataVtProyecto(codigoFiltro);
-			dataI = businessDelegatorView.getDataVtProyectoInactivo(codigoFiltro);
+			data=businessDelegatorView.getDataVtProyectoActivo(vtEmpresaFiltro.getEmprCodigo());
+			dataI=businessDelegatorView.getDataVtProyectoInactivo(vtEmpresaFiltro.getEmprCodigo());
 			
 			selectedVtProyecto=null;
 			entity=null;
@@ -621,14 +624,16 @@ public class VtProyectoView implements Serializable{
 				dataI = null;
 			}else{
 				Long codigoFiltro = Long.valueOf(empresaS);
-				data=businessDelegatorView.getDataVtProyecto(codigoFiltro);
-				dataI=businessDelegatorView.getDataVtProyectoInactivo(codigoFiltro);
+				VtEmpresa vtEmpresa = businessDelegatorView.getVtEmpresa(codigoFiltro);
+				data=businessDelegatorView.getDataVtProyectoActivo(vtEmpresa.getEmprCodigo());
+				dataI=businessDelegatorView.getDataVtProyectoInactivo(vtEmpresa.getEmprCodigo());
 				btnCrearP.setDisabled(false);
 			}
 			
 			
 		} catch (Exception e) {
 			log.error(e.getMessage());
+			e.printStackTrace();
 		}
 		return "";
 	}
