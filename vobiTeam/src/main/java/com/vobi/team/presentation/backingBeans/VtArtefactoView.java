@@ -844,8 +844,11 @@ public class VtArtefactoView implements Serializable {
 			vtHistoriaArtefacto.setActivo(entity.getActivo());
 			vtHistoriaArtefacto.setEstaCodigo(entity.getVtEstado().getEstaCodigo());
 			vtHistoriaArtefacto.setTparCodigo(entity.getVtTipoArtefacto().getTparCodigo());
-			vtHistoriaArtefacto.setPilaCodigo(entity.getVtPilaProducto().getPilaCodigo());
-			vtHistoriaArtefacto.setSpriCodigo(entity.getVtSprint().getSpriCodigo());
+			vtHistoriaArtefacto.setPilaCodigo(entity.getVtPilaProducto().getPilaCodigo());			
+			//:TODO
+			if(vtSprintSele!=null){
+				vtHistoriaArtefacto.setSpriCodigo(entity.getVtSprint().getSpriCodigo());	
+			}
 			vtHistoriaArtefacto.setPrioCodigo(entity.getVtPrioridad().getPrioCodigo());
 			vtHistoriaArtefacto.setEsfuerzoEstimado(entity.getEsfuerzoEstimado());
 			vtHistoriaArtefacto.setEsfuerzoReal(entity.getEsfuerzoReal());
@@ -866,6 +869,7 @@ public class VtArtefactoView implements Serializable {
 
 		} catch (Exception e) {
 			data = null;
+			e.printStackTrace();
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
 
