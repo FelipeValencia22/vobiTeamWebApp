@@ -83,12 +83,12 @@
 
 					<p:panel id="panelDataTableVtArtefactoA">
 
-						<p:dataTable value="#{vtArtefactoView.dataFiltro}"
+						<p:dataTable value="#{vtArtefactoView.dataFiltro}" 
 							var="vtArtefacto" paginator="true" rows="7" reflow="true"
 							scrollRows="70" scrollable="true" liveScroll="true"
-							scrollHeight="400" style="margin-bottom:0"
+							scrollHeight="400" style="margin-bottom:0" 
 							emptyMessage="No hay artefactos activos en este momento">
-							<p:column filterBy="#{vtArtefacto.arteCodigo}"
+							<p:column filterBy="#{vtArtefacto.arteCodigo}" width="200"
 								filterMatchMode="contains" sortBy="#{vtArtefacto.arteCodigo}">
 								<f:facet name="header">
 									<h:outputText value="Código" />
@@ -96,7 +96,7 @@
 								<h:outputText value="#{vtArtefacto.arteCodigo}" />
 							</p:column>
 
-							<p:column filterBy="#{vtArtefacto.titulo}"
+							<p:column filterBy="#{vtArtefacto.titulo}" width="200"
 								filterMatchMode="contains" sortBy="#{vtArtefacto.titulo}">
 								<f:facet name="header">
 									<h:outputText value="Titulo" />
@@ -104,7 +104,7 @@
 								<h:outputText value="#{vtArtefacto.titulo}" />
 							</p:column>
 
-							<p:column filterBy="#{vtArtefacto.descripcion}"
+							<p:column filterBy="#{vtArtefacto.descripcion}" width="200"
 								filterMatchMode="contains" sortBy="#{vtArtefacto.descripcion}">
 								<f:facet name="header">
 									<h:outputText value="Descripción" />
@@ -112,7 +112,7 @@
 								<h:outputText value="#{vtArtefacto.descripcion}" />
 							</p:column>
 
-							<p:column filterBy="#{vtArtefacto.tpar_Nombre}"
+							<p:column filterBy="#{vtArtefacto.tpar_Nombre}" width="200"
 								filterMatchMode="contains" sortBy="#{vtArtefacto.tpar_Nombre}">
 								<f:facet name="header">
 									<h:outputText value="Tipo artefacto" />
@@ -120,7 +120,7 @@
 								<h:outputText value="#{vtArtefacto.tpar_Nombre}" />
 							</p:column>
 
-							<p:column filterBy="#{vtArtefacto.estado_Nombre}"
+							<p:column filterBy="#{vtArtefacto.estado_Nombre}" width="200"
 								filterMatchMode="contains" sortBy="#{vtArtefacto.estado_Nombre}">
 								<f:facet name="header">
 									<h:outputText value="Estado" />
@@ -128,7 +128,7 @@
 								<h:outputText value="#{vtArtefacto.estado_Nombre}" />
 							</p:column>
 
-							<p:column filterBy="#{vtArtefacto.prioridad_Nombre}"
+							<p:column filterBy="#{vtArtefacto.prioridad_Nombre}" width="200"
 								filterMatchMode="contains"
 								sortBy="#{vtArtefacto.prioridad_Nombre}">
 								<f:facet name="header">
@@ -138,7 +138,7 @@
 							</p:column>
 
 
-							<p:column filterBy="#{vtArtefacto.activo}"
+							<p:column filterBy="#{vtArtefacto.activo}"  width="200"
 								filterMatchMode="contains" sortBy="#{vtArtefacto.activo}">
 								<f:facet name="header">
 									<h:outputText value="Activo" />
@@ -146,7 +146,7 @@
 								<h:outputText value="#{vtArtefacto.activo}" />
 							</p:column>
 
-							<p:column headerText="Modificar">
+							<p:column headerText="Modificar" width="80"> 
 								<div align="center">
 									<p:commandButton id="btnEdit" icon="fa fa-edit"
 										update=":dialogVtArtefacto"
@@ -157,7 +157,7 @@
 								</div>
 							</p:column>
 
-							<p:column headerText="Cambiar estado">
+							<p:column headerText="Cambiar estado" width="80">
 								<div align="center">
 									<p:commandButton id="btnEstado" icon="fa fa-retweet"
 										update=":frm:pnlVtArtefacto, :frm:msg"
@@ -169,7 +169,7 @@
 								</div>
 							</p:column>
 
-							<p:column headerText="Mostrar archivos">
+							<p:column headerText="Mostrar archivos" width="80">
 								<div align="center">
 									<p:commandButton id="btnDescargar" icon="fa fa-list-alt"
 										update=":descargarArchivos"
@@ -181,7 +181,7 @@
 								</div>
 							</p:column>
 
-							<p:column headerText="Historial">
+							<p:column headerText="Historial" width="80">
 								<div align="center">
 									<p:commandButton id="btnHistorial" icon="fa fa-history"
 										update=":historialArtefactos"
@@ -206,10 +206,10 @@
 					<p:panel id="panelDataTableVtArtefactoI">
 						<p:dataTable value="#{vtArtefactoView.dataFiltroI}"
 							var="vtArtefacto" paginator="true" rows="7" reflow="true"
-							scrollRows="70" scrollable="true" liveScroll="true"
+							scrollRows="70" scrollable="true" liveScroll="true" 
 							scrollHeight="400" style="margin-bottom:0" widgetVar="artI"
 							emptyMessage="No hay artefactos inactivos en este momento">
-							<p:column filterBy="#{vtArtefacto.arteCodigo}"
+							<p:column filterBy="#{vtArtefacto.arteCodigo}"  width="200"
 								filterMatchMode="contains" sortBy="#{vtArtefacto.arteCodigo}">
 								<f:facet name="header">
 									<h:outputText value="Código" />
@@ -217,7 +217,7 @@
 								<h:outputText value="#{vtArtefacto.arteCodigo}" />
 							</p:column>
 
-							<p:column filterBy="#{vtArtefacto.titulo}"
+							<p:column filterBy="#{vtArtefacto.titulo}"  width="200"
 								filterMatchMode="contains" sortBy="#{vtArtefacto.titulo}">
 								<f:facet name="header">
 									<h:outputText value="Titulo" />
@@ -225,7 +225,7 @@
 								<h:outputText value="#{vtArtefacto.titulo}" />
 							</p:column>
 
-							<p:column filterBy="#{vtArtefacto.descripcion}"
+							<p:column filterBy="#{vtArtefacto.descripcion}" width="200"
 								filterMatchMode="contains" sortBy="#{vtArtefacto.descripcion}">
 								<f:facet name="header">
 									<h:outputText value="Descripción" />
@@ -233,7 +233,7 @@
 								<h:outputText value="#{vtArtefacto.descripcion}" />
 							</p:column>
 
-							<p:column filterBy="#{vtArtefacto.tpar_Nombre}"
+							<p:column filterBy="#{vtArtefacto.tpar_Nombre}" width="200"
 								filterMatchMode="contains" sortBy="#{vtArtefacto.tpar_Nombre}">
 								<f:facet name="header">
 									<h:outputText value="Tipo artefacto" />
@@ -241,7 +241,7 @@
 								<h:outputText value="#{vtArtefacto.tpar_Nombre}" />
 							</p:column>
 
-							<p:column filterBy="#{vtArtefacto.estado_Nombre}"
+							<p:column filterBy="#{vtArtefacto.estado_Nombre}" width="200"
 								filterMatchMode="contains" sortBy="#{vtArtefacto.estado_Nombre}">
 								<f:facet name="header">
 									<h:outputText value="Estado" />
@@ -249,8 +249,8 @@
 								<h:outputText value="#{vtArtefacto.estado_Nombre}" />
 							</p:column>
 
-							<p:column filterBy="#{vtArtefacto.prioridad_Nombre}"
-								filterMatchMode="contains"
+							<p:column filterBy="#{vtArtefacto.prioridad_Nombre}" width="200"
+								filterMatchMode="contains" 
 								sortBy="#{vtArtefacto.prioridad_Nombre}">
 								<f:facet name="header">
 									<h:outputText value="Prioridad" />
@@ -259,7 +259,7 @@
 							</p:column>
 
 
-							<p:column filterBy="#{vtArtefacto.activo}"
+							<p:column filterBy="#{vtArtefacto.activo}" width="200"
 								filterMatchMode="contains" sortBy="#{vtArtefacto.activo}">
 								<f:facet name="header">
 									<h:outputText value="Activo" />
@@ -267,7 +267,7 @@
 								<h:outputText value="#{vtArtefacto.activo}" />
 							</p:column>
 
-							<p:column headerText="Modificar">
+							<p:column headerText="Modificar" width="80">
 								<div align="center">
 									<p:commandButton id="btnEdit" icon="fa fa-edit"
 										update=":dialogVtArtefacto"
@@ -278,7 +278,7 @@
 								</div>
 							</p:column>
 
-							<p:column headerText="Cambiar estado">
+							<p:column headerText="Cambiar estado" width="80">
 								<div align="center">
 									<p:commandButton id="btnEstado" icon="fa fa-retweet"
 										update=":frm:pnlVtArtefacto, :frm:msg"
@@ -290,7 +290,7 @@
 								</div>
 							</p:column>
 
-							<p:column headerText="Mostrar archivos">
+							<p:column headerText="Mostrar archivos" width="80">
 								<div align="center">
 									<p:commandButton id="btnDescargar" icon="fa fa-list-alt"
 										update=":descargarArchivos"
@@ -302,7 +302,7 @@
 								</div>
 							</p:column>
 
-							<p:column headerText="Historial">
+							<p:column headerText="Historial" width="80">
 								<div align="center">
 									<p:commandButton id="btnHistorial" icon="fa fa-history"
 										update=":historialArtefactos"
@@ -463,8 +463,9 @@
 
 		<p:dialog id="descargarArchivos" header="Descargar archivos"
 			closable="false" rendered="true" modal="true" responsive=" true"
-			visible="#{vtArtefactoView.showDialogArchivos}"
-			widgetVar="dlgDescargar" width="1300" height="700">
+			visible="#{vtArtefactoView.showDialogArchivos}" scrollRows="70" scrollable="true" liveScroll="true"
+			scrollHeight="400" style="margin-bottom:0" 
+			widgetVar="dlgDescargar" width="900" height="500">
 			<h:form id="formularioDescarga">
 				<p:accordionPanel id="pnlVtArtefacto" multiple="true">
 					<p:growl id="menDos" />
@@ -474,7 +475,7 @@
 							emptyMessage="No hay archivos activos en este momento"
 							reflow="true" value="#{vtArtefactoView.dataFiltroArchivo}"
 							var="vtArchivo" paginator="true" rows="2">
-							<p:column filterBy="#{vtArchivo.archCodigo}"
+							<p:column filterBy="#{vtArchivo.archCodigo}" width="200"
 								sortBy="#{vtArchivo.archCodigo}">
 								<f:facet name="header">
 									<h:outputText value="Código" />
@@ -482,7 +483,7 @@
 								<h:outputText value="#{vtArchivo.archCodigo}" />
 							</p:column>
 
-							<p:column filterBy="#{vtArchivo.activo}"
+							<p:column filterBy="#{vtArchivo.activo}" width="200"
 								sortBy="#{vtArchivo.activo}">
 								<f:facet name="header">
 									<h:outputText value="Activo" />
@@ -490,14 +491,14 @@
 								<h:outputText value="#{vtArchivo.activo}" />
 							</p:column>
 
-							<p:column filterBy="#{vtArchivo.nombre}"
+							<p:column filterBy="#{vtArchivo.nombre}" width="200"
 								sortBy="#{vtArchivo.nombre}">
 								<f:facet name="header">
 									<h:outputText value="Nombre" />
 								</f:facet>
 								<h:outputText value="#{vtArchivo.nombre}" />
 							</p:column>
-							<p:column headerText="Descargar">
+							<p:column headerText="Descargar" width="100">
 								<div align="center">
 									<p:commandButton id="btnDescargar" icon="fa fa-cloud-download"
 										actionListener="#{vtArtefactoView.fileDownloadView}"
@@ -509,7 +510,7 @@
 								</div>
 
 							</p:column>
-							<p:column headerText="Eliminar">
+							<p:column headerText="Eliminar" width="100">
 								<div align="center">
 									<p:commandButton id="btnEliminar" icon="fa fa-times"
 										actionListener="#{vtArtefactoView.deleteFileView}"
@@ -520,7 +521,7 @@
 								</div>
 							</p:column>
 
-							<p:column headerText="Estado del archivo">
+							<p:column headerText="Estado del archivo" width="100">
 								<div align="center">
 									<p:commandButton id="btnEstadoArchivo" icon="fa fa-retweet"
 										actionListener="#{vtArtefactoView.cambiarEstadoArchivo}"
@@ -545,7 +546,7 @@
 							reflow="true"
 							value="#{vtArtefactoView.dataFiltroArchivoInactivo}"
 							var="vtArchivo" paginator="true" rows="2">
-							<p:column filterBy="#{vtArchivo.archCodigo}"
+							<p:column filterBy="#{vtArchivo.archCodigo}" width="200"
 								sortBy="#{vtArchivo.archCodigo}">
 								<f:facet name="header">
 									<h:outputText value="Código" />
@@ -553,7 +554,7 @@
 								<h:outputText value="#{vtArchivo.archCodigo}" />
 							</p:column>
 
-							<p:column filterBy="#{vtArchivo.activo}"
+							<p:column filterBy="#{vtArchivo.activo}" width="200"
 								sortBy="#{vtArchivo.activo}">
 								<f:facet name="header">
 									<h:outputText value="Activo" />
@@ -561,14 +562,14 @@
 								<h:outputText value="#{vtArchivo.activo}" />
 							</p:column>
 
-							<p:column filterBy="#{vtArchivo.nombre}"
+							<p:column filterBy="#{vtArchivo.nombre}" width="200"
 								sortBy="#{vtArchivo.nombre}">
 								<f:facet name="header">
 									<h:outputText value="Nombre" />
 								</f:facet>
 								<h:outputText value="#{vtArchivo.nombre}" />
 							</p:column>
-							<p:column headerText="Descargar">
+							<p:column headerText="Descargar" width="100">
 								<div align="center">
 									<p:commandButton id="btnDescargar" icon="fa fa-cloud-download"
 										actionListener="#{vtArtefactoView.fileDownloadView}"
@@ -580,7 +581,7 @@
 								</div>
 
 							</p:column>
-							<p:column headerText="Eliminar">
+							<p:column headerText="Eliminar" width="100"> 
 								<div align="center">
 									<p:commandButton id="btnEliminar" icon="fa fa-times"
 										actionListener="#{vtArtefactoView.deleteFileView}"
@@ -621,18 +622,20 @@
 		</p:dialog>
 
 		<p:dialog id="historialArtefactos" header="Historial del artefacto"
-			closable="false" rendered="true" modal="true" responsive=" true"
-			visible="#{vtArtefactoView.showDialogHistorial}" width="1000">
+			closable="false" rendered="true" modal="true" responsive=" true" 
+			visible="#{vtArtefactoView.showDialogHistorial}" width="800" height="400">
 			<h:form id="msgHistorial">
 
 				<p:growl id="menHistorial" />
 
 				<p:tab title="Historial">
 
-					<p:dataTable value="#{vtArtefactoView.dataFiltroHistoriaArtefacto}"
-						var="vtHistoriaArtefacto" paginator="true" rows="5">
+					<p:dataTable value="#{vtArtefactoView.dataFiltroHistoriaArtefacto}" 
+							scrollRows="70" scrollable="true" liveScroll="true" 
+							scrollHeight="200" style="margin-bottom:0"
+							var="vtHistoriaArtefacto" paginator="true" rows="4">
 
-						<p:column filterBy="#{vtHistoriaArtefacto.titulo}"
+						<p:column filterBy="#{vtHistoriaArtefacto.titulo}" width="200"
 							sortBy="#{vtHistoriaArtefacto.titulo}">
 							<f:facet name="header">
 								<h:outputText value="Título" />
@@ -640,7 +643,7 @@
 							<h:outputText value="#{vtHistoriaArtefacto.titulo}" />
 						</p:column>
 
-						<p:column filterBy="#{vtHistoriaArtefacto.esfuerzoEstimado}"
+						<p:column filterBy="#{vtHistoriaArtefacto.esfuerzoEstimado}" width="200"
 							sortBy="#{vtHistoriaArtefacto.esfuerzoEstimado}">
 							<f:facet name="header">
 								<h:outputText value="Esf. Estimado" />
@@ -648,7 +651,7 @@
 							<h:outputText value="#{vtHistoriaArtefacto.esfuerzoEstimado}" />
 						</p:column>
 
-						<p:column filterBy="#{vtHistoriaArtefacto.esfuerzoReal}"
+						<p:column filterBy="#{vtHistoriaArtefacto.esfuerzoReal}"  width="200"
 							sortBy="#{vtHistoriaArtefacto.esfuerzoReal}">
 							<f:facet name="header">
 								<h:outputText value="Esf. Real" />
@@ -656,15 +659,15 @@
 							<h:outputText value="#{vtHistoriaArtefacto.esfuerzoReal}" />
 						</p:column>
 
-						<p:column filterBy="#{vtHistoriaArtefacto.esfuerzoRestante}"
+						<p:column filterBy="#{vtHistoriaArtefacto.esfuerzoRestante}"  width="200"
 							sortBy="#{vtHistoriaArtefacto.esfuerzoRestante}">
 							<f:facet name="header">
 								<h:outputText value="Esf. Restante" />
 							</f:facet>
 							<h:outputText value="#{vtHistoriaArtefacto.esfuerzoRestante}" />
 						</p:column>
-
-						<p:column filterBy="#{vtHistoriaArtefacto.origen}"
+ 
+						<p:column filterBy="#{vtHistoriaArtefacto.origen}" width="200"
 							sortBy="#{vtHistoriaArtefacto.origen}">
 							<f:facet name="header">
 								<h:outputText value="Origen" />
@@ -673,7 +676,7 @@
 						</p:column>
 
 
-						<p:column filterBy="#{vtHistoriaArtefacto.fechaCreacion}"
+						<p:column filterBy="#{vtHistoriaArtefacto.fechaCreacion}"  width="200"
 							sortBy="#{vtHistoriaArtefacto.fechaCreacion}">
 							<f:facet name="header">
 								<h:outputText value="Fecha creación" />
@@ -681,7 +684,7 @@
 							<h:outputText value="#{vtHistoriaArtefacto.fechaCreacion}" />
 						</p:column>
 
-						<p:column filterBy="#{vtHistoriaArtefacto.fechaModificacion}"
+						<p:column filterBy="#{vtHistoriaArtefacto.fechaModificacion}"  width="200"
 							sortBy="#{vtHistoriaArtefacto.fechaModificacion}">
 							<f:facet name="header">
 								<h:outputText value="Fecha modificación" />
@@ -689,7 +692,7 @@
 							<h:outputText value="#{vtHistoriaArtefacto.fechaModificacion}" />
 						</p:column>
 
-						<p:column filterBy="#{vtHistoriaArtefacto.usuCreador}"
+						<p:column filterBy="#{vtHistoriaArtefacto.usuCreador}" width="200"
 							sortBy="#{vtHistoriaArtefacto.usuCreador}">
 							<f:facet name="header">
 								<h:outputText value="Usuario creador" />
@@ -697,7 +700,7 @@
 							<h:outputText value="#{vtHistoriaArtefacto.usuCreador}" />
 						</p:column>
 
-						<p:column filterBy="#{vtHistoriaArtefacto.usuModificador}"
+						<p:column filterBy="#{vtHistoriaArtefacto.usuModificador}" width="200"
 							sortBy="#{vtHistoriaArtefacto.usuModificador}">
 							<f:facet name="header">
 								<h:outputText value="Usuario modificador" />
@@ -706,7 +709,7 @@
 						</p:column>
 
 
-						<p:column headerText="Restablecer Versión">
+						<p:column headerText="Restablecer Versión"  width="100">
 							<div align="center">
 								<p:commandButton id="btnRestablecer" icon="fa fa-history"
 									actionListener="#{vtArtefactoView.restablecerArtefactoView}"

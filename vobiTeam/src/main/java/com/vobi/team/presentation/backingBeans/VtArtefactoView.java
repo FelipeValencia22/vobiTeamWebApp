@@ -26,6 +26,7 @@ import org.primefaces.component.inputmask.InputMask;
 import org.primefaces.component.inputtext.InputText;
 import org.primefaces.component.inputtextarea.InputTextarea;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
+import org.primefaces.component.spinner.Spinner;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.slf4j.Logger;
@@ -164,7 +165,7 @@ public class VtArtefactoView implements Serializable {
 				somPilaProducto.setValue(vtPilaProducto.getPilaCodigo());
 				imprimirValue();
 				somSprints.setValue(vtSprint.getSpriCodigo());
-				filtrar();			
+				filtrar();
 				dataFiltro = businessDelegatorView.getDataVtArtefactoFiltro(vtSprint.getSpriCodigo().longValue());
 				dataFiltroI = businessDelegatorView.getDataVtArtefactoFiltroI(vtSprint.getSpriCodigo().longValue());
 				FacesUtils.putinSession("vtSprint", null);
@@ -209,16 +210,14 @@ public class VtArtefactoView implements Serializable {
 			VtEstado vtEstado = businessDelegatorView.getVtEstado(estadoArtefacto);
 			entity.setVtEstado(vtEstado);
 			VtSprint vtSprint = null;
-			String sprint=somSprints.getValue().toString().trim();
-			if(sprint.equals(null) || sprint.equals("") || sprint.isEmpty()){
-				
-			}
-			else{
+			String sprint = somSprints.getValue().toString().trim();
+			if (sprint.equals(null) || sprint.equals("") || sprint.isEmpty()) {
+
+			} else {
 				Long idSprint = Long.parseLong(sprint);
 				vtSprint = businessDelegatorView.getVtSprint(idSprint);
 				entity.setVtSprint(vtSprint);
 			}
-			
 
 			String tipoPri = somPrioridades.getValue().toString().trim();
 			Long tipoPrioridad = Long.parseLong(tipoPri);
@@ -236,11 +235,10 @@ public class VtArtefactoView implements Serializable {
 			}
 			businessDelegatorView.saveVtArtefacto(entity, esfuerzoEstimado, esfuerzoRestante, puntos);
 			FacesUtils.addInfoMessage("Se ha creado el artefacto con éxito");
-			if(vtSprint!=null){
+			if (vtSprint != null) {
 				dataFiltro = businessDelegatorView.getDataVtArtefactoFiltro(vtSprint.getSpriCodigo().longValue());
 				dataFiltroI = businessDelegatorView.getDataVtArtefactoFiltroI(vtSprint.getSpriCodigo().longValue());
 			}
-			
 
 			VtHistoriaArtefacto vtHistoriaArtefacto = new VtHistoriaArtefacto();
 			vtHistoriaArtefacto.setActivo(entity.getActivo());
@@ -248,10 +246,10 @@ public class VtArtefactoView implements Serializable {
 			vtHistoriaArtefacto.setTparCodigo(entity.getVtTipoArtefacto().getTparCodigo());
 			vtHistoriaArtefacto.setPilaCodigo(entity.getVtPilaProducto().getPilaCodigo());
 			vtHistoriaArtefacto.setPrioCodigo(entity.getVtPrioridad().getPrioCodigo());
-			if(vtSprint!=null){
+			if (vtSprint != null) {
 				vtHistoriaArtefacto.setSpriCodigo(entity.getVtSprint().getSpriCodigo());
 			}
-			
+
 			vtHistoriaArtefacto.setEsfuerzoEstimado(entity.getEsfuerzoEstimado());
 			vtHistoriaArtefacto.setFechaCreacion(entity.getFechaCreacion());
 			vtHistoriaArtefacto.setFechaModificacion(entity.getFechaModificacion());
@@ -276,11 +274,11 @@ public class VtArtefactoView implements Serializable {
 
 	public void asignarDatosACampos() {
 		String esfuerzo = txtEsfuerzoEstimado.getValue().toString().trim();
-		if(!esfuerzo.equalsIgnoreCase("-1")){
+		if (!esfuerzo.equalsIgnoreCase("-1")) {
 			txtEsfuerzoRestante.setValue(esfuerzo);
 			txtPuntos.setValue(esfuerzo);
 		}
-		
+
 	}
 
 	public Long convertirHorasAMinutos(String horas, String minutos) {
@@ -456,12 +454,12 @@ public class VtArtefactoView implements Serializable {
 	public String filtrar() {
 
 		try {
-			
+
 			String sprint = somSprints.getValue().toString().trim();
-			if(sprint.equals("-1")){
+			if (sprint.equals("-1")) {
 				dataFiltro = null;
 				dataFiltroI = null;
-			}else{
+			} else {
 				spriCodigo = Long.valueOf(sprint);
 				VtSprint vtSprint = businessDelegatorView.getVtSprint(spriCodigo);
 				dataFiltro = businessDelegatorView.getDataVtArtefactoFiltro(vtSprint.getSpriCodigo().longValue());
@@ -692,7 +690,7 @@ public class VtArtefactoView implements Serializable {
 			VtPilaProducto vtPilaProducto = null;
 			dataSprint = null;
 			String pila = somPilaProducto.getValue().toString();
-		
+
 			losSprintsFiltro = null;
 			if (!usoPostConstructor) {
 				dataFiltro = null;
@@ -704,7 +702,7 @@ public class VtArtefactoView implements Serializable {
 			} else {
 				Long idPila = Long.parseLong(pila);
 				vtPilaProducto = businessDelegatorView.getVtPilaProducto(idPila);
-				log.info("El código de la pila es : " +vtPilaProducto.getPilaCodigo() );
+				log.info("El código de la pila es : " + vtPilaProducto.getPilaCodigo());
 				dataFiltro = businessDelegatorView.getDataVtArtefactoPilaFiltroA(vtPilaProducto.getPilaCodigo());
 				dataFiltroI = businessDelegatorView.getDataVtArtefactoPilaFiltroI(vtPilaProducto.getPilaCodigo());
 			}
@@ -736,6 +734,8 @@ public class VtArtefactoView implements Serializable {
 		String esfuerzoEstimado, esfuerzoRestante, puntos, esfuerzoReal;
 		String horas, minutos;
 		entity = null;
+		String sprintSeleccionado;
+		VtSprint vtSprintSele = null;
 		try {
 			VtHistoriaArtefacto vtHistoriaArtefacto = new VtHistoriaArtefacto();
 			if (entity == null) {
@@ -810,7 +810,7 @@ public class VtArtefactoView implements Serializable {
 							+ " o números negativos, solo se aceptan valores numéricos positivos.");
 				}
 			}
-
+			sprintSeleccionado = somSprints.getValue().toString().trim();
 			entity.setUsuModificador(vtUsuarioEnSession.getUsuaCodigo());
 			entity.setTitulo(FacesUtils.checkString(txtnombreCambio));
 			entity.setDescripcion(FacesUtils.checkString(txtdescripcionCambio));
@@ -829,12 +829,18 @@ public class VtArtefactoView implements Serializable {
 			entity.setVtPrioridad(vtPrioridad);
 
 			businessDelegatorView.updateVtArtefacto(entity);
-
-			Long sprintCodigo = Long.valueOf(entity.getVtSprint().getSpriCodigo());
-			VtSprint vtSprint = businessDelegatorView.getVtSprint(sprintCodigo);
 			FacesUtils.addInfoMessage("El Artefacto se ha sido modificado con exito");
-			dataFiltro = businessDelegatorView.getDataVtArtefactoFiltro(vtSprint.getSpriCodigo());
-			dataFiltroI = businessDelegatorView.getDataVtArtefactoFiltroI((vtSprint.getSpriCodigo()));
+			if (sprintSeleccionado.equals("-1")) {
+				dataFiltro = businessDelegatorView
+						.getDataVtArtefactoPilaFiltroA(Long.parseLong(somPilaProducto.getValue().toString().trim()));
+				dataFiltroI = businessDelegatorView
+						.getDataVtArtefactoPilaFiltroI(Long.parseLong(somPilaProducto.getValue().toString().trim()));
+			}else{
+				Long sprintCodigo = Long.valueOf(sprintSeleccionado);
+				vtSprintSele = businessDelegatorView.getVtSprint(sprintCodigo);
+				dataFiltro = businessDelegatorView.getDataVtArtefactoFiltro(vtSprintSele.getSpriCodigo());
+				dataFiltroI = businessDelegatorView.getDataVtArtefactoFiltroI(vtSprintSele.getSpriCodigo());
+			}
 			vtHistoriaArtefacto.setActivo(entity.getActivo());
 			vtHistoriaArtefacto.setEstaCodigo(entity.getVtEstado().getEstaCodigo());
 			vtHistoriaArtefacto.setTparCodigo(entity.getVtTipoArtefacto().getTparCodigo());
@@ -896,7 +902,8 @@ public class VtArtefactoView implements Serializable {
 
 		selectedVtArtefacto = (VtArtefactoDTO) (evt.getComponent().getAttributes().get("selectedVtArtefacto"));
 		VtHistoriaArtefacto vtHistoriaArtefacto = new VtHistoriaArtefacto();
-
+		String sprintSeleccionado;
+		VtSprint vtSprintSele = null;
 		try {
 			if (entity == null) {
 				Long arteCodigo = new Long(selectedVtArtefacto.getArteCodigo());
@@ -909,8 +916,8 @@ public class VtArtefactoView implements Serializable {
 			} else {
 				entity.setActivo("S");
 			}
-			Long sprintCodigo = Long.valueOf(entity.getVtSprint().getSpriCodigo());
-			VtSprint vtSprint = businessDelegatorView.getVtSprint(sprintCodigo);
+
+			sprintSeleccionado = somSprints.getValue().toString().trim();
 
 			Date fechaModificacion = new Date();
 			entity.setFechaModificacion(fechaModificacion);
@@ -919,8 +926,25 @@ public class VtArtefactoView implements Serializable {
 			entity.setUsuModificador(vtUsuarioEnSession.getUsuaCodigo());
 
 			businessDelegatorView.updateVtArtefacto(entity);
-			dataFiltro = businessDelegatorView.getDataVtArtefactoFiltro(vtSprint.getSpriCodigo());
-			dataFiltroI = businessDelegatorView.getDataVtArtefactoFiltroI(vtSprint.getSpriCodigo());
+			if (entity.getActivo().equals("S")) {
+				FacesContext.getCurrentInstance().addMessage("",
+						new FacesMessage("Ok,el artefacto ha sido activado con éxito"));
+			} else if (entity.getActivo().equals("N")) {
+				FacesContext.getCurrentInstance().addMessage("",
+						new FacesMessage("Ok,el artefacto ha sido inactivado con éxito"));
+			}
+			if (sprintSeleccionado.equals("-1")) {
+				dataFiltro = businessDelegatorView
+						.getDataVtArtefactoPilaFiltroA(Long.parseLong(somPilaProducto.getValue().toString().trim()));
+				dataFiltroI = businessDelegatorView
+						.getDataVtArtefactoPilaFiltroI(Long.parseLong(somPilaProducto.getValue().toString().trim()));
+			}else{
+				Long sprintCodigo = Long.valueOf(sprintSeleccionado);
+				vtSprintSele = businessDelegatorView.getVtSprint(sprintCodigo);
+				dataFiltro = businessDelegatorView.getDataVtArtefactoFiltro(vtSprintSele.getSpriCodigo());
+				dataFiltroI = businessDelegatorView.getDataVtArtefactoFiltroI(vtSprintSele.getSpriCodigo());
+			}
+
 			vtHistoriaArtefacto.setActivo(entity.getActivo());
 			vtHistoriaArtefacto.setEstaCodigo(entity.getVtEstado().getEstaCodigo());
 			vtHistoriaArtefacto.setTparCodigo(entity.getVtTipoArtefacto().getTparCodigo());
@@ -933,16 +957,15 @@ public class VtArtefactoView implements Serializable {
 			vtHistoriaArtefacto.setFechaModificacion(entity.getFechaModificacion());
 			vtHistoriaArtefacto.setOrigen(entity.getOrigen());
 			vtHistoriaArtefacto.setDescripcion(entity.getDescripcion());
-			vtHistoriaArtefacto.setPuntos(entity.getPuntos());
-			vtHistoriaArtefacto.setSpriCodigo(entity.getVtSprint().getSpriCodigo());
+			vtHistoriaArtefacto.setPuntos(entity.getPuntos());			
+			if(vtSprintSele!=null){
+				vtHistoriaArtefacto.setSpriCodigo(entity.getVtSprint().getSpriCodigo());	
+			}
 			vtHistoriaArtefacto.setTitulo(entity.getTitulo());
 			vtHistoriaArtefacto.setUsuCreador(entity.getUsuCreador());
 			vtHistoriaArtefacto.setUsuModificador(entity.getUsuModificador());
 			vtHistoriaArtefacto.setVtArtefacto(entity);
 			businessDelegatorView.saveVtHistoriaArtefacto(vtHistoriaArtefacto);
-
-			FacesContext.getCurrentInstance().addMessage("",
-					new FacesMessage("El estado del artefacto se modificó con exito"));
 
 			vtHistoriaArtefacto = null;
 			selectedVtArtefacto = null;

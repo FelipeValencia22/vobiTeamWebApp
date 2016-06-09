@@ -34,16 +34,18 @@
 
 					<p:selectOneMenu id="somEmpresas" style="width:400px"
 						binding="#{vtSprintView.somEmpresas}">
-						<p:ajax update="somProyectos,somPilaProducto,pnlVtSprint,panelVtSprint,btnCrearSc" event="change"
-							listener="#{vtSprintView.filtrarEmpresa}" />
+						<p:ajax
+							update="somProyectos,somPilaProducto,pnlVtSprint,panelVtSprint,btnCrearSc"
+							event="change" listener="#{vtSprintView.filtrarEmpresa}" />
 						<f:selectItem itemValue="-1" itemLabel="Seleccionar la empresa" />
 						<f:selectItems value="#{vtSprintView.lasEmpresasItems}" />
 					</p:selectOneMenu>
 
 					<p:selectOneMenu id="somProyectos" style="width:400px"
 						binding="#{vtSprintView.somProyectos}">
-						<p:ajax update="somPilaProducto,panelVtSprint,pnlVtSprint,btnCrearSc" event="change"
-							listener="#{vtSprintView.filtrarProyecto}" />
+						<p:ajax
+							update="somPilaProducto,panelVtSprint,pnlVtSprint,btnCrearSc"
+							event="change" listener="#{vtSprintView.filtrarProyecto}" />
 						<f:selectItem itemValue="-1" itemLabel="Seleccionar el proyecto" />
 						<f:selectItems value="#{vtSprintView.losProyectosFiltro}" />
 					</p:selectOneMenu>
@@ -52,7 +54,8 @@
 						binding="#{vtSprintView.somPilaProducto}">
 						<p:ajax update="pnlVtSprint, frm, btnCrearSc" event="change"
 							listener="#{vtSprintView.filtrar}" />
-						<f:selectItem itemValue="-1" itemLabel="Seleccionar la pila de Producto" />
+						<f:selectItem itemValue="-1"
+							itemLabel="Seleccionar la pila de Producto" />
 						<f:selectItems value="#{vtSprintView.lasPilasDeProductoFiltro}" />
 					</p:selectOneMenu>
 					<br></br>
@@ -64,8 +67,9 @@
 
 						<h:panelGrid columns="1" id="panelGrid">
 
-							<p:inputText id="txtNombreCrearC" placeholder="Nombre" maxlength="50"
-								binding="#{vtSprintView.txtNombreCrear}" style="width:415px" />
+							<p:inputText id="txtNombreCrearC" placeholder="Nombre"
+								maxlength="50" binding="#{vtSprintView.txtNombreCrear}"
+								style="width:415px" />
 
 
 							<p:inputTextarea id="txtObjetivoCrearC" placeholder="Objetivo"
@@ -107,7 +111,7 @@
 						<p:commandButton id="btnCrearSc"
 							binding="#{vtSprintView.btnCrearS}" icon="fa fa-save"
 							title="Crear" action="#{vtSprintView.crearSprint}"
-						    update="frm, pickList" />
+							update="frm, pickList" />
 
 						<p:commandButton id="btnLimpiarSc"
 							binding="#{vtSprintView.btnLimpiarS}" icon="fa fa-eraser"
@@ -169,10 +173,11 @@
 					<p:panel id="panelDataTableVtSprintA">
 
 						<p:dataTable value="#{vtSprintView.dataFiltro}" var="vtSprint"
-							paginator="true" rows="5"
+							paginator="true" rows="5" scrollRows="70" scrollable="true"
+							liveScroll="true" scrollHeight="400" style="margin-bottom:0"
 							emptyMessage="No hay sprints activos en este momento"
 							reflow="true">
-							<p:column filterBy="#{vtSprint.spriCodigo}"
+							<p:column filterBy="#{vtSprint.spriCodigo}" width="150"
 								sortBy="#{vtSprint.spriCodigo}">
 								<f:facet name="header">
 									<h:outputText value="Código" />
@@ -180,7 +185,7 @@
 								<h:outputText value="#{vtSprint.spriCodigo}" />
 							</p:column>
 
-							<p:column filterBy="#{vtSprint.fechaInicio}"
+							<p:column filterBy="#{vtSprint.fechaInicio}" width="200"
 								sortBy="#{vtSprint.fechaInicio}">
 								<f:facet name="header">
 									<h:outputText value="Fecha inicio" />
@@ -188,7 +193,7 @@
 								<h:outputText value="#{vtSprint.fechaInicio}" />
 							</p:column>
 
-							<p:column filterBy="#{vtSprint.fechaFin}"
+							<p:column filterBy="#{vtSprint.fechaFin}" width="200"
 								sortBy="#{vtSprint.fechaFin}">
 								<f:facet name="header">
 									<h:outputText value="Fecha fin" />
@@ -196,7 +201,7 @@
 								<h:outputText value="#{vtSprint.fechaFin}" />
 							</p:column>
 
-							<p:column filterBy="#{vtSprint.capacidadEstimada}"
+							<p:column filterBy="#{vtSprint.capacidadEstimada}" width="200"
 								sortBy="#{vtSprint.capacidadEstimada}">
 								<f:facet name="header">
 									<h:outputText value="Capacidad estimada" />
@@ -204,7 +209,7 @@
 								<h:outputText value="#{vtSprint.capacidadEstimada}" />
 							</p:column>
 
-							<p:column filterBy="#{vtSprint.nombre}"
+							<p:column filterBy="#{vtSprint.nombre}" width="200"
 								sortBy="#{vtSprint.nombre}">
 								<f:facet name="header">
 									<h:outputText value="Nombre" />
@@ -212,7 +217,7 @@
 								<h:outputText value="#{vtSprint.nombre}" />
 							</p:column>
 
-							<p:column filterBy="#{vtSprint.activo}"
+							<p:column filterBy="#{vtSprint.activo}" width="200"
 								sortBy="#{vtSprint.activo}">
 								<f:facet name="header">
 									<h:outputText value="Activo" />
@@ -220,7 +225,7 @@
 								<h:outputText value="#{vtSprint.activo}" />
 							</p:column>
 
-							<p:column filterBy="#{vtSprint.objetivo}"
+							<p:column filterBy="#{vtSprint.objetivo}" width="200"
 								sortBy="#{vtSprint.objetivo}">
 								<f:facet name="header">
 									<h:outputText value="Objetivo" />
@@ -228,7 +233,7 @@
 								<h:outputText value="#{vtSprint.objetivo}" />
 							</p:column>
 
-							<p:column headerText="Modificar">
+							<p:column headerText="Modificar" width="100">
 								<div align="center">
 									<p:commandButton id="btnEdit" icon="fa fa-edit"
 										update=":dialogVtSprint"
@@ -240,7 +245,7 @@
 							</p:column>
 
 
-							<p:column headerText="Cambiar estado">
+							<p:column headerText="Cambiar estado" width="100">
 								<div align="center">
 									<p:commandButton id="btnEstado" icon="fa fa-retweet"
 										update="@([id$=frm],@([id$=growl]"
@@ -252,7 +257,7 @@
 								</div>
 							</p:column>
 
-							<p:column headerText="Lista artefactos">
+							<p:column headerText="Lista artefactos" width="100">
 								<div align="center">
 									<p:commandButton id="btnListadoArtefacto" icon="fa fa-list"
 										action="vtGestionArtefacto.xhtml" update="frm"
@@ -274,10 +279,11 @@
 					<p:panel id="panelDataTableVtSprintI">
 
 						<p:dataTable value="#{vtSprintView.dataFiltroI}" var="vtSprint"
-							paginator="true" rows="5"
+							paginator="true" rows="5" scrollRows="70" scrollable="true"
+							liveScroll="true" scrollHeight="400" style="margin-bottom:0"
 							emptyMessage="No hay sprints inactivos en este momento"
 							reflow="true">
-							<p:column filterBy="#{vtSprint.spriCodigo}"
+							<p:column filterBy="#{vtSprint.spriCodigo}" width="200"
 								sortBy="#{vtSprint.spriCodigo}">
 								<f:facet name="header">
 									<h:outputText value="Código" />
@@ -285,7 +291,7 @@
 								<h:outputText value="#{vtSprint.spriCodigo}" />
 							</p:column>
 
-							<p:column filterBy="#{vtSprint.fechaInicio}"
+							<p:column filterBy="#{vtSprint.fechaInicio}" width="200"
 								sortBy="#{vtSprint.fechaInicio}">
 								<f:facet name="header">
 									<h:outputText value="Fecha inicio" />
@@ -293,15 +299,15 @@
 								<h:outputText value="#{vtSprint.fechaInicio}" />
 							</p:column>
 
-							<p:column filterBy="#{vtSprint.fechaFin}"
+							<p:column filterBy="#{vtSprint.fechaFin}" width="200"
 								sortBy="#{vtSprint.fechaFin}">
 								<f:facet name="header">
 									<h:outputText value="Fecha fin" />
 								</f:facet>
 								<h:outputText value="#{vtSprint.fechaFin}" />
 							</p:column>
-							
-							<p:column filterBy="#{vtSprint.capacidadEstimada}"
+
+							<p:column filterBy="#{vtSprint.capacidadEstimada}" width="200"
 								sortBy="#{vtSprint.capacidadEstimada}">
 								<f:facet name="header">
 									<h:outputText value="Capacidad estimada" />
@@ -309,7 +315,7 @@
 								<h:outputText value="#{vtSprint.capacidadEstimada}" />
 							</p:column>
 
-							<p:column filterBy="#{vtSprint.nombre}"
+							<p:column filterBy="#{vtSprint.nombre}" width="200"
 								sortBy="#{vtSprint.nombre}">
 								<f:facet name="header">
 									<h:outputText value="Nombre" />
@@ -317,7 +323,7 @@
 								<h:outputText value="#{vtSprint.nombre}" />
 							</p:column>
 
-							<p:column filterBy="#{vtSprint.activo}"
+							<p:column filterBy="#{vtSprint.activo}" width="200"
 								sortBy="#{vtSprint.activo}">
 								<f:facet name="header">
 									<h:outputText value="Activo" />
@@ -325,7 +331,7 @@
 								<h:outputText value="#{vtSprint.activo}" />
 							</p:column>
 
-							<p:column filterBy="#{vtSprint.objetivo}"
+							<p:column filterBy="#{vtSprint.objetivo}" width="200"
 								sortBy="#{vtSprint.objetivo}">
 								<f:facet name="header">
 									<h:outputText value="Objetivo" />
@@ -336,7 +342,7 @@
 
 
 
-							<p:column headerText="Modificar">
+							<p:column headerText="Modificar" width="100">
 								<div align="center">
 									<p:commandButton id="btnEditI" icon="fa fa-edit"
 										update=":dialogVtSprint"
@@ -347,7 +353,7 @@
 								</div>
 							</p:column>
 
-							<p:column headerText="Cambiar estado">
+							<p:column headerText="Cambiar estado" width="100">
 								<div align="center">
 									<p:commandButton id="btnEstadoI" icon="fa fa-retweet"
 										update="@([id$=frm],@([id$=growl]"
@@ -381,8 +387,8 @@
 
 					<h:outputText id="msgObjetivoM" value=" Objetivo" />
 					<p:inputTextarea id="txtObjetivo" disabled="true" rows="10"
-						style="overflow:auto;" autoResize="false" cols="33" maxlength="1500"
-						binding="#{vtSprintView.txtObjetivo}" />
+						style="overflow:auto;" autoResize="false" cols="33"
+						maxlength="1500" binding="#{vtSprintView.txtObjetivo}" />
 
 					<h:outputText id="txtEsfuerzoM" value=" Esfuerzo" />
 					<p:inputText id="txtEsfuerzo" placeholder="Esfuerzo" maxlength="3"

@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.sql.*;
 
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -51,23 +52,10 @@ public class VtArtefactoDTO implements Serializable {
 
 	public String convertirMinutosAHorasYMinutos(Integer numero){
 		try {
-			Integer horas = (numero)/60;
-			Integer minutos = (numero)%60;
-			String j = horas.toString()+minutos.toString();
-			
-			if(j.length()==3){
-				j = "0"+j;
-			}
-			if(j.length()==2){
-				j = "00"+j;
-			}
-			if(j.length()==1){
-				j = "000"+j;
-			}
-			if(j.equals("")){
-				j = "";
-			}
-			return j;
+			String formato = "%02d%02d";
+		    long horasReales = TimeUnit.MINUTES.toHours(numero);
+		    long minutosReales = TimeUnit.MINUTES.toMinutes(numero) - TimeUnit.HOURS.toMinutes(TimeUnit.MINUTES.toHours(numero));
+		    return String.format(formato, horasReales, minutosReales);
 		} catch (Exception e) {
 			return "";
 			
