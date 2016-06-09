@@ -173,7 +173,6 @@ public class VtArtefactoView implements Serializable {
 			usoPostConstructor = false;
 			vtSprint = null;
 		} catch (Exception e) {
-			e.printStackTrace();
 			log.error(e.getMessage());
 		}
 
@@ -869,7 +868,6 @@ public class VtArtefactoView implements Serializable {
 
 		} catch (Exception e) {
 			data = null;
-			e.printStackTrace();
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
 
@@ -979,7 +977,6 @@ public class VtArtefactoView implements Serializable {
 			data = null;
 			log.error(e.toString());
 			FacesUtils.addErrorMessage(e.getMessage());
-			e.printStackTrace();
 		}
 
 		return "";

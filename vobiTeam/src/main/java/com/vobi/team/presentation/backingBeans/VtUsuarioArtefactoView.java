@@ -106,7 +106,6 @@ public class VtUsuarioArtefactoView implements Serializable {
 			}
 		} catch (Exception e) {
 			actualizarListaArtefactos();
-			e.printStackTrace();
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
 	}
@@ -164,7 +163,6 @@ public class VtUsuarioArtefactoView implements Serializable {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
 
@@ -262,18 +260,14 @@ public class VtUsuarioArtefactoView implements Serializable {
 
 				if (losUsuariosFiltro == null) {
 					List<VtUsuario> listaUsuarios = businessDelegatorView.obtenerUsuariosAsignados(vtProyecto);
-					List<VtUsuarioRol> listaRoles = new ArrayList<VtUsuarioRol>();
+					VtUsuarioRol  vtUsuarioRol ;
 					losUsuariosFiltro = new ArrayList<SelectItem>();
 
-					for (VtUsuario vtUsuario : listaUsuarios) {
-						listaRoles = businessDelegatorView.consultarRolUsuarioPorUsuario(vtUsuario.getUsuaCodigo());
-						for (VtUsuarioRol vtUsuarioRol : listaRoles) {
-							if (vtUsuario.getActivo().equals("S") && vtUsuarioRol.getVtRol().getRolNombre()
-									.toUpperCase().toString().trim().equals("DESARROLLADOR")) {
+					for (VtUsuario vtUsuario : listaUsuarios) {	
+						vtUsuarioRol = businessDelegatorView.consultarRolUsuarioPorUsuarioYPorRol(vtUsuario.getUsuaCodigo(), 150L);
+							if (vtUsuarioRol.getActivo().equals("S") && vtUsuarioRol!=null) {
 								losUsuariosFiltro.add(new SelectItem(vtUsuario.getUsuaCodigo(), vtUsuario.getLogin()));
 							}
-						}
-
 					}
 				}
 

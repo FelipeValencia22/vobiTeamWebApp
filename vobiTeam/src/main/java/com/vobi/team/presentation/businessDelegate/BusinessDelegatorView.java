@@ -1187,4 +1187,9 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return vtProyectoLogic.getDataVtProyectoActivo(codigoFiltro);
 	}
 
+	@Override
+	public VtUsuarioArtefacto consultarUsuarioArtefactoPorArtefacto(Long codigoArtefacto) throws Exception {
+		return vtUsuarioArtefactoLogic.consultarUsuarioArtefactoPorArtefacto(codigoArtefacto);
+	}
+
 }

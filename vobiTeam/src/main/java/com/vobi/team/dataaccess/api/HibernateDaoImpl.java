@@ -703,5 +703,12 @@ public class HibernateDaoImpl<T, PK extends Serializable> implements Dao<T, PK> 
 		return vtUsuarioRol;
 	}
 
+	@Override
+	public VtUsuarioArtefacto consultarUsuarioArtefactoPorArtefacto(Long codigoArtefacto) {
+		// TODO Auto-generated method stub
+		return (VtUsuarioArtefacto) sessionFactory.getCurrentSession()
+				.getNamedQuery("consultarUsuarioArtefactoPorArtefacto").setLong("codigoArtefacto", codigoArtefacto).uniqueResult();
+	}
+
 
 }

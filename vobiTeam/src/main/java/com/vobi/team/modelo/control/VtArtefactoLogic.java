@@ -323,11 +323,11 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 			}
 
 			if (entity.getVtPrioridad() == null) {
-				throw new Exception("Seleccione la prioridad que tendra el nuevo artefacto a modificar.");
+				throw new Exception("Seleccione la prioridad que tendra el  artefacto a modificar.");
 			}
 
 			if (entity.getVtEstado() == null) {
-				throw new Exception("Seleccione el estado que va a tener el nuevo artefacto a crear.");
+				throw new Exception("Seleccione el estado que va a tener el  artefacto a modificar.");
 			}
 			if (entity.getUsuCreador() == null) {
 				throw new Exception("El usuario es obligatorio");
@@ -1083,9 +1083,9 @@ public class VtArtefactoLogic implements IVtArtefactoLogic {
 					vtArtefactoDTO2
 					.setPrioCodigo_VtPrioridad((vtArtefactoTmp.getVtPrioridad().getPrioCodigo() != null)
 							? vtArtefactoTmp.getVtPrioridad().getPrioCodigo() : null);
-					vtArtefactoDTO2
-					.setSpriCodigo_VtSprint((vtArtefactoTmp.getVtSprint().getSpriCodigo() != null)
-							? vtArtefactoTmp.getVtSprint().getSpriCodigo() : null);
+					if(vtArtefactoTmp.getVtSprint()!=null){
+						vtArtefactoDTO2.setSpriCodigo_VtSprint(vtArtefactoTmp.getVtSprint().getSpriCodigo());
+					}
 					vtArtefactoDTO2.setTparCodigo_VtTipoArtefacto(
 							(vtArtefactoTmp.getVtTipoArtefacto().getTparCodigo() != null)
 							? vtArtefactoTmp.getVtTipoArtefacto().getTparCodigo() : null);

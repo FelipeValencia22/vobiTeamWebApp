@@ -4,6 +4,7 @@ import com.vobi.team.dataaccess.dao.*;
 import com.vobi.team.exceptions.*;
 import com.vobi.team.modelo.*;
 import com.vobi.team.modelo.dto.VtUsuarioArtefactoDTO;
+import com.vobi.team.presentation.businessDelegate.BusinessDelegatorView;
 import com.vobi.team.utilities.Utilities;
 
 import org.slf4j.Logger;
@@ -61,6 +62,13 @@ public class VtUsuarioArtefactoLogic implements IVtUsuarioArtefactoLogic {
 	 */
 	@Autowired
 	IVtUsuarioLogic logicVtUsuario3;
+
+	@Autowired
+	IVtEstadoLogic logicVtEstado;
+	
+	
+	@Autowired
+	IVtArtefactoDAO vtArtefactoDAO;
 
 	@Transactional(readOnly = true)
 	public List<VtUsuarioArtefacto> getVtUsuarioArtefacto() throws Exception {
@@ -155,20 +163,21 @@ public class VtUsuarioArtefactoLogic implements IVtUsuarioArtefactoLogic {
 			throw new ZMessManager().new EmptyFieldException("usuartCodigo");
 		}
 
-		if (entity.getVtArtefacto().getVtEstado().getNombre().toUpperCase().equals("EN PROGRESO")
-				|| entity.getVtArtefacto().getVtEstado().getEstaCodigo().longValue() == 100L){
-			throw new Exception("El artefacto que deseas des-asginar se encuentra en progreso, no se puede ejecutar la acción");
+		VtEstado vtEstado = logicVtEstado.getVtEstado(2L);
+		if (entity.getVtArtefacto().getVtEstado().getNombre().toUpperCase().equals("EN PROGRESO")) {
+			entity.getVtArtefacto().setVtEstado(vtEstado);
+			vtArtefactoDAO.update(entity.getVtArtefacto());
 		}
 
-			try {
-				vtUsuarioArtefactoDAO.delete(entity);
+		try {
+			vtUsuarioArtefactoDAO.delete(entity);
 
-				log.debug("delete VtUsuarioArtefacto successful");
-			} catch (Exception e) {
-				log.error("delete VtUsuarioArtefacto failed", e);
-				throw e;
-			} finally {
-			}
+			log.debug("delete VtUsuarioArtefacto successful");
+		} catch (Exception e) {
+			log.error("delete VtUsuarioArtefacto failed", e);
+			throw e;
+		} finally {
+		}
 	}
 
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
@@ -475,5 +484,11 @@ public class VtUsuarioArtefactoLogic implements IVtUsuarioArtefactoLogic {
 		}
 
 		return list;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public VtUsuarioArtefacto consultarUsuarioArtefactoPorArtefacto(Long codigoArtefacto) throws Exception {
+		return vtUsuarioArtefactoDAO.consultarUsuarioArtefactoPorArtefacto(codigoArtefacto);
 	}
 }

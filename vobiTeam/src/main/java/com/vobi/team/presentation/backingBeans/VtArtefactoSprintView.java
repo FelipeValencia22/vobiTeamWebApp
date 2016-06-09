@@ -6,9 +6,11 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import org.primefaces.component.selectonemenu.SelectOneMenu;
@@ -24,6 +26,7 @@ import com.vobi.team.modelo.VtPilaProducto;
 import com.vobi.team.modelo.VtProyecto;
 import com.vobi.team.modelo.VtSprint;
 import com.vobi.team.modelo.VtUsuario;
+import com.vobi.team.modelo.VtUsuarioArtefacto;
 import com.vobi.team.modelo.dto.VtSprintDTO;
 import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
 import com.vobi.team.utilities.FacesUtils;
@@ -217,25 +220,38 @@ public class VtArtefactoSprintView implements Serializable {
 		iniciarMeterGaugeModels();
 	}
 
-	public void asignarArtefactoASprint(VtArtefacto vtArtefacto, VtSprint vtSprint, VtPilaProducto vtPilaProducto) {
+	public void asignarArtefactoASprint(VtArtefacto vtArtefacto, VtSprint vtSprint, VtPilaProducto vtPilaProducto)
+			throws Exception {
 		try {
+
 			VtUsuario vtUsuarioEnSession = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
 			vtArtefacto = (VtArtefacto) businessDelegatorView.consultarArtefactosAsignadosASprintYPila(
 					vtArtefacto.getArteCodigo(), vtPilaProducto.getPilaCodigo());
-			if (vtArtefacto != null) {
-				vtArtefacto.setVtSprint(vtSprint);
-				vtArtefacto.setUsuModificador(vtUsuarioEnSession.getUsuaCodigo());
-				vtArtefacto.setFechaModificacion(new Date());
-				vtArtefacto.setActivo("S");
-				businessDelegatorView.updateVtArtefacto(vtArtefacto);
+			VtUsuarioArtefacto vtUsuarioArtefacto = businessDelegatorView
+					.consultarUsuarioArtefactoPorArtefacto(vtArtefacto.getArteCodigo());
+			if (vtUsuarioArtefacto == null) {
+				throw new Exception("Este artefacto no"
+						+ " ha sido asignado a ningun desarrollador. No se puede ejecutar la acción.");
+			} else {
+				if (vtArtefacto != null) {
+					vtArtefacto.setVtSprint(vtSprint);
+					vtArtefacto.setUsuModificador(vtUsuarioEnSession.getUsuaCodigo());
+					vtArtefacto.setFechaModificacion(new Date());
+					vtArtefacto.setActivo("S");
+					businessDelegatorView.updateVtArtefacto(vtArtefacto);
 
+				}
 			}
+
 		} catch (Exception e) {
 			log.error(e.getMessage());
+			throw e;
+
 		}
 	}
 
-	public void removerArtefactoDelSprint(VtArtefacto vtArtefacto, VtSprint vtSprint, VtPilaProducto vtPilaProducto) {
+	public void removerArtefactoDelSprint(VtArtefacto vtArtefacto, VtSprint vtSprint, VtPilaProducto vtPilaProducto)
+			throws Exception {
 		try {
 			VtUsuario vtUsuarioEnSession = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
 			vtArtefacto = (VtArtefacto) businessDelegatorView.consultarArtefactosAsignadosASprintYPila(
@@ -244,9 +260,17 @@ public class VtArtefactoSprintView implements Serializable {
 			vtArtefacto.setFechaModificacion(new Date());
 			vtArtefacto.setActivo("N");
 			vtArtefacto.setVtSprint(null);
-			businessDelegatorView.updateVtArtefacto(vtArtefacto);
+
+			if (vtArtefacto.getVtEstado().getNombre().toUpperCase().toString().equals("EN PROGRESO")) {
+				throw new Exception("Este artefacto se encuentra en progreso. No se puede ejecutar la acción.");
+			} else {
+				businessDelegatorView.updateVtArtefacto(vtArtefacto);
+			}
+
 		} catch (Exception e) {
 			log.error(e.getMessage());
+			throw e;
+
 		}
 	}
 
@@ -276,7 +300,8 @@ public class VtArtefactoSprintView implements Serializable {
 			FacesUtils.addInfoMessage("" + mensaje);
 		} catch (Exception e) {
 			actualizarListaUsuarios();
-			FacesUtils.addErrorMessage("No se pudo realizar la transferencia");
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+					"Advertencia!" + "\n" + e.getMessage(), "Contacto admin"));
 		}
 
 	}
@@ -284,11 +309,29 @@ public class VtArtefactoSprintView implements Serializable {
 	public void actualizarListaUsuarios() throws Exception {
 
 		try {
+
 			Long idSprint = Long.parseLong(somSprints.getValue().toString().trim());
 			vtSprint = businessDelegatorView.getVtSprint(idSprint);
-
 			artefactosSource = businessDelegatorView
 					.consultarArtefactosSinAsignarASprint(vtSprint.getVtPilaProducto().getVtProyecto().getProyCodigo());
+			List<VtUsuarioArtefacto> losArtefactosAsignadosADesarrolladores = businessDelegatorView
+					.getVtUsuarioArtefacto();
+			if (losArtefactosAsignadosADesarrolladores != null) {
+				for (VtArtefacto vtArtefacto : artefactosSource) {
+					for (VtUsuarioArtefacto vtUsuarioArtefacto : losArtefactosAsignadosADesarrolladores) {
+						if (vtArtefacto.getArteCodigo() != vtUsuarioArtefacto.getVtArtefacto().getArteCodigo()) {
+							artefactosSource.remove(vtUsuarioArtefacto.getVtArtefacto());
+						}
+					}
+				}
+			} else {
+				artefactosSource.clear();
+			}
+
+			for (VtArtefacto vtArtefacto : artefactosSource) {
+				log.info("Artefactos restantes " + vtArtefacto.getTitulo());
+			}
+
 			artefactosTarget = businessDelegatorView.consultarArtefactosAsignadosASprint(idSprint);
 
 			vtArtefacto.setSource(artefactosSource);
@@ -378,9 +421,9 @@ public class VtArtefactoSprintView implements Serializable {
 			List<VtArtefacto> listaArtefactos = businessDelegatorView
 					.consultarArtefactosAsignadosASprint(Long.parseLong(somSprints.getValue().toString().trim()));
 			for (VtArtefacto vtArtefacto : listaArtefactos) {
-					log.info("Artefacto: " + vtArtefacto.getTitulo());
-					esfuerzo = esfuerzo + vtArtefacto.getEsfuerzoEstimado();
-			}		
+				log.info("Artefacto: " + vtArtefacto.getTitulo());
+				esfuerzo = esfuerzo + vtArtefacto.getEsfuerzoEstimado();
+			}
 			totalEsf = Double.parseDouble(convertirMinutosAHorasYMinutos(esfuerzo));
 			meterGaugeModel.setValue(totalEsf);
 		} catch (Exception e) {

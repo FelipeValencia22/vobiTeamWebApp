@@ -793,11 +793,14 @@ public class VtSprintViewDesarrollador implements Serializable {
 						
 						List<VtUsuarioArtefacto> listUsuarioArtefacto=businessDelegatorView.getVtUsuarioArtefacto();
 						for(VtUsuarioArtefacto vtUsuarioArtefacto : listUsuarioArtefacto){
-							if(vtUsuarioArtefacto.getVtArtefacto().getVtSprint().getSpriCodigo().equals(vtSprintS.getSpriCodigo()) &&
-									(vtUsuarioArtefacto.getVtUsuario().getUsuaCodigo().equals(vtUsuario.getUsuaCodigo()))
-									){
-								valores=valores+vtUsuarioArtefacto.getVtArtefacto().getEsfuerzoEstimado();
+							if(vtUsuarioArtefacto.getVtArtefacto().getVtSprint()!=null){
+								if(vtUsuarioArtefacto.getVtArtefacto().getVtSprint().getSpriCodigo().equals(vtSprintS.getSpriCodigo()) &&
+										(vtUsuarioArtefacto.getVtUsuario().getUsuaCodigo().equals(vtUsuario.getUsuaCodigo()))
+										){
+									valores=valores+vtUsuarioArtefacto.getVtArtefacto().getEsfuerzoEstimado();
+								}
 							}
+							
 						}
 					} catch (Exception e) {
 						e.printStackTrace();

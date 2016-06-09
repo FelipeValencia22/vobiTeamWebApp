@@ -61,7 +61,7 @@
 
 	<query name="consultarArtefactosSinAsignarASprint">
   <![CDATA[
-  	Select artefactos from VtArtefacto artefactos where artefactos.vtSprint.spriCodigo is null and artefactos.vtPilaProducto.vtProyecto.proyCodigo=:codigoProyecto 
+  	Select artefactos from VtArtefacto artefactos,VtUsuarioArtefacto usuArt where artefactos.vtSprint.spriCodigo is null and usuArt.vtArtefacto.arteCodigo=artefactos.arteCodigo and artefactos.vtPilaProducto.vtProyecto.proyCodigo=:codigoProyecto 
    ]]>
 	</query>
 
@@ -105,6 +105,12 @@
 	<query name="consultarUsuarioArtefactoPorUsuarioYArtefacto">
   <![CDATA[
 	Select usuarioArtefacto from VtUsuarioArtefacto usuarioArtefacto  where usuarioArtefacto.vtUsuario.usuaCodigo=:codigoUsuario and usuarioArtefacto.vtArtefacto.arteCodigo=:codigoArtefacto
+   ]]>
+	</query>
+	
+	<query name="consultarUsuarioArtefactoPorArtefacto">
+  <![CDATA[
+	Select usuarioArtefacto from VtUsuarioArtefacto usuarioArtefacto  where usuarioArtefacto.vtArtefacto.arteCodigo=:codigoArtefacto
    ]]>
 	</query>
 	

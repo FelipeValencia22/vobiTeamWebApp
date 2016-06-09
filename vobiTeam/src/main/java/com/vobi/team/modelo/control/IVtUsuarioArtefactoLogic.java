@@ -59,4 +59,6 @@ public interface IVtUsuarioArtefactoLogic {
 
     public List<VtUsuarioArtefactoDTO> getDataVtUsuarioArtefacto()
         throws Exception;
+    
+    public VtUsuarioArtefacto consultarUsuarioArtefactoPorArtefacto(Long codigoArtefacto)throws Exception;
 }
