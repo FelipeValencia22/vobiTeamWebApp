@@ -59,9 +59,7 @@ public class VtArtefactoDTO implements Serializable {
 		} catch (Exception e) {
 			return "";
 			
-		}
-		
-		
+		}	
 
 	}
 	
