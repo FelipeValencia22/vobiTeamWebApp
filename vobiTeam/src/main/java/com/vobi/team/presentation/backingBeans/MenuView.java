@@ -1,13 +1,9 @@
-
-
-
 package com.vobi.team.presentation.backingBeans;
-import com.vobi.team.modelo.VtProyecto;
+
 import com.vobi.team.modelo.VtProyectoUsuario;
 import com.vobi.team.modelo.VtUsuario;
 import com.vobi.team.modelo.VtUsuarioRol;
 import com.vobi.team.modelo.dto.VtArtefactoDTO;
-import com.vobi.team.modelo.dto.VtProyectoUsuarioDTO;
 import com.vobi.team.modelo.dto.VtSprintDTO;
 import com.vobi.team.presentation.businessDelegate.IBusinessDelegatorView;
 import com.vobi.team.utilities.*;
@@ -52,41 +48,45 @@ public class MenuView {
 	private int numeroArtefactos;
 	private int numeroSprint;
 	private int numeroProyectos;
+
 	@PostConstruct
 	public void init() {
 		VtUsuario vtUsuarioEnSession = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
 		model = new DefaultMenuModel();
 		try {
-			
+
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 		try {
-			
+
 			List<VtUsuarioRol> usuRol = ((List<VtUsuarioRol>) businessDelegatorView
 					.consultarRolUsuarioPorUsuario(vtUsuarioEnSession.getUsuaCodigo().longValue()));
 
 			for (VtUsuarioRol vtUsuarioRol : usuRol) {
 				if (vtUsuarioRol.getVtRol().getRolNombre().toUpperCase().equalsIgnoreCase("ADMINISTRADOR")
-						&& vtUsuarioRol.getActivo().equals("S")) {
+						&& vtUsuarioRol.getActivo().equals("S") && vtUsuarioRol.getVtRol().getActivo().equals("S")) {
 					establecerPermisosADMIN();
 					esAdmin = true;
 				}
 				if (vtUsuarioRol.getVtRol().getRolNombre().toUpperCase().equalsIgnoreCase("DESARROLLADOR") && esAdmin
-						&& vtUsuarioRol.getActivo().equals("S")) {
+						&& vtUsuarioRol.getActivo().equals("S") && vtUsuarioRol.getVtRol().getActivo().equals("S")) {
 				} else {
 					if (vtUsuarioRol.getVtRol().getRolNombre().toUpperCase().equalsIgnoreCase("DESARROLLADOR")
-							&& vtUsuarioRol.getActivo().equals("S")) {
+							&& vtUsuarioRol.getActivo().equals("S")
+							&& vtUsuarioRol.getVtRol().getActivo().equals("S")) {
 						establecerPermisosDESARROLLADOR();
 						esDesarrollador = true;
 					}
 				}
 
 				if (vtUsuarioRol.getVtRol().getRolNombre().toUpperCase().equalsIgnoreCase("CLIENTE") && esAdmin
-						&& esDesarrollador && vtUsuarioRol.getActivo().equals("S")) {
+						&& esDesarrollador && vtUsuarioRol.getActivo().equals("S")
+						&& vtUsuarioRol.getVtRol().getActivo().equals("S")) {
 				} else {
 					if (vtUsuarioRol.getVtRol().getRolNombre().toUpperCase().equalsIgnoreCase("CLIENTE")
-							&& vtUsuarioRol.getActivo().equals("S")) {
+							&& vtUsuarioRol.getActivo().equals("S")
+							&& vtUsuarioRol.getVtRol().getActivo().equals("S")) {
 						establecerPermisosCliente();
 						esCliente = true;
 					}
@@ -96,13 +96,12 @@ public class MenuView {
 			esCliente = false;
 			esDesarrollador = false;
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(e.getMessage());
 		}
 
 	}
 
 	public void establecerPermisosADMIN() {
-		// Empresa
 
 		DefaultMenuItem dashboardItem = new DefaultMenuItem("Dashboard");
 		dashboardItem.setOutcome("/XHTML/dashboard");
@@ -156,18 +155,18 @@ public class MenuView {
 		artefactosItem.setIcon("fa fa-files-o");
 		artefactosItem.setId("sm_VtArtefacto");
 		model.addElement(artefactosItem);
-		
-		DefaultMenuItem artefactosSprintItem = new DefaultMenuItem("Artefacto-Sprint");
-		artefactosSprintItem.setOutcome("/XHTML/vtArtefactoSprint.xhtml");
-		artefactosSprintItem.setIcon("fa fa-calendar");
-		artefactosSprintItem.setId("sm_VtArtefactosSprint");
-		model.addElement(artefactosSprintItem);
 
 		DefaultMenuItem artefactosUsuarioItem = new DefaultMenuItem("Artefacto-Usuario");
 		artefactosUsuarioItem.setOutcome("/XHTML/vtUsuarioArtefacto.xhtml");
 		artefactosUsuarioItem.setIcon("fa fa-calendar");
 		artefactosUsuarioItem.setId("sm_VtArtefactosUsuario");
 		model.addElement(artefactosUsuarioItem);
+
+		DefaultMenuItem artefactosSprintItem = new DefaultMenuItem("Artefacto-Sprint");
+		artefactosSprintItem.setOutcome("/XHTML/vtArtefactoSprint.xhtml");
+		artefactosSprintItem.setIcon("fa fa-calendar");
+		artefactosSprintItem.setId("sm_VtArtefactosSprint");
+		model.addElement(artefactosSprintItem);
 
 		DefaultMenuItem rolItem = new DefaultMenuItem("Roles");
 		rolItem.setOutcome("/XHTML/vtGestionarRoles.xhtml");
@@ -184,65 +183,63 @@ public class MenuView {
 	}
 
 	public void establecerPermisosDESARROLLADOR() {
-	
-		
+
 		try {
 			VtUsuario vtUsuarioEnSession = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
-			dataFiltroProyecto =((businessDelegatorView.consultarProyectoUsuarioPorUsuario(vtUsuarioEnSession.getUsuaCodigo())));
-			
+			dataFiltroProyecto = ((businessDelegatorView
+					.consultarProyectoUsuarioPorUsuario(vtUsuarioEnSession.getUsuaCodigo())));
+
 			DefaultMenuItem dashboardItem = new DefaultMenuItem("Información desarrollador");
 			dashboardItem.setOutcome("/XHTML/informacionDesarrollador.xhtml");
 			dashboardItem.setIcon("icon-home-outline");
 			dashboardItem.setId("sm_dashboard");
 			dashboardItem.setContainerStyleClass("layout-menubar-active");
 			model.addElement(dashboardItem);
-			
+
 			DefaultMenuItem proyectoItem = new DefaultMenuItem("Proyectos");
 			proyectoItem.setOutcome("/XHTML/vtProyecto.xhtml");
 			proyectoItem.setIcon("fa fa-folder-open");
 			proyectoItem.setId("sm_VtProyecto");
 			model.addElement(proyectoItem);
-			
+
 			DefaultMenuItem sprintItem = new DefaultMenuItem("Sprint");
 			sprintItem.setOutcome("/XHTML/vtSprint.xhtml");
 			sprintItem.setIcon("fa fa-calendar");
 			sprintItem.setId("sm_VtSprint");
 			model.addElement(sprintItem);
-			
+
 			DefaultMenuItem artefactosItem = new DefaultMenuItem("Artefacto");
 			artefactosItem.setOutcome("/XHTML/vtArtefacto.xhtml");
 			artefactosItem.setIcon("fa fa-files-o");
 			artefactosItem.setId("sm_VtArtefacto");
 			model.addElement(artefactosItem);
-			
-			
-			dataFiltro=((businessDelegatorView.obtenerArtefactosAsignadosDTO(vtUsuarioEnSession)));
+
+			dataFiltro = ((businessDelegatorView.obtenerArtefactosAsignadosDTO(vtUsuarioEnSession)));
 			numeroArtefactos = dataFiltro.size();
-			dataFiltroProyecto = businessDelegatorView.consultarProyectoUsuarioPorUsuario(vtUsuarioEnSession.getUsuaCodigo());
+			dataFiltroProyecto = businessDelegatorView
+					.consultarProyectoUsuarioPorUsuario(vtUsuarioEnSession.getUsuaCodigo());
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
 		}
-	
-		
 
 	}
 
 	public void establecerPermisosCliente() {
 
 		DefaultMenuItem dashboardItem = new DefaultMenuItem("Información cliente");
-		dashboardItem.setOutcome("/XHTML/informacionDesarrollador.xhtml");
+		dashboardItem.setOutcome("/XHTML/dashboard");
 		dashboardItem.setIcon("icon-home-outline");
 		dashboardItem.setId("sm_dashboard");
 		dashboardItem.setContainerStyleClass("layout-menubar-active");
 		model.addElement(dashboardItem);
-		
+
 		DefaultMenuItem proyectoItem = new DefaultMenuItem("Proyectos");
 		proyectoItem.setOutcome("/XHTML/vtProyecto.xhtml");
 		proyectoItem.setIcon("fa fa-folder-open");
 		proyectoItem.setId("sm_VtProyecto");
 		model.addElement(proyectoItem);
-		
+
 		DefaultMenuItem artefactosItem = new DefaultMenuItem("Artefacto");
 		artefactosItem.setOutcome("/XHTML/vtArtefactoCliente.xhtml");
 		artefactosItem.setIcon("fa fa-files-o");
@@ -307,6 +304,4 @@ public class MenuView {
 		this.dataFiltroProyecto = dataFiltroProyecto;
 	}
 
-
 }
-

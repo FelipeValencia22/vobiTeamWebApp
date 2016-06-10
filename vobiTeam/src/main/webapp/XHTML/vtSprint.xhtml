@@ -66,10 +66,11 @@
 					<p:panel id="panelDataTableVtSprintA">
 
 						<p:dataTable value="#{vtSprintViewDesarrollador.dataFiltro}"
-							var="vtSprint" paginator="true" rows="5"
+							var="vtSprint" paginator="true" rows="5" scrollRows="70" scrollable="true" liveScroll="true" 
+							scrollHeight="280" style="margin-bottom:0"
 							emptyMessage="No hay artefactos activos en este momento"
 							reflow="true">
-							<p:column filterBy="#{vtSprint.spriCodigo}"
+							<p:column filterBy="#{vtSprint.spriCodigo}"  width="135"
 								sortBy="#{vtSprint.spriCodigo}">
 								<f:facet name="header">
 									<h:outputText value="Código" />
@@ -77,7 +78,7 @@
 								<h:outputText value="#{vtSprint.spriCodigo}" />
 							</p:column>
 
-							<p:column filterBy="#{vtSprint.fechaInicio}"
+							<p:column filterBy="#{vtSprint.fechaInicio}" width="135"
 								sortBy="#{vtSprint.fechaInicio}">
 								<f:facet name="header">
 									<h:outputText value="Fecha inicio" />
@@ -85,7 +86,7 @@
 								<h:outputText value="#{vtSprint.fechaInicio}" />
 							</p:column>
 
-							<p:column filterBy="#{vtSprint.fechaFin}"
+							<p:column filterBy="#{vtSprint.fechaFin}" width="135"
 								sortBy="#{vtSprint.fechaFin}">
 								<f:facet name="header">
 									<h:outputText value="Fecha fin" />
@@ -93,7 +94,7 @@
 								<h:outputText value="#{vtSprint.fechaFin}" />
 							</p:column>
 
-							<p:column filterBy="#{vtSprint.capacidadEstimada}"
+							<p:column filterBy="#{vtSprint.capacidadEstimada}" width="145"
 								sortBy="#{vtSprint.capacidadEstimada}">
 								<f:facet name="header">
 									<h:outputText value="Capacidad estimada" />
@@ -101,7 +102,7 @@
 								<h:outputText value="#{vtSprint.capacidadEstimada}" />
 							</p:column>
 
-							<p:column filterBy="#{vtSprint.nombre}"
+							<p:column filterBy="#{vtSprint.nombre}" width="135"
 								sortBy="#{vtSprint.nombre}">
 								<f:facet name="header">
 									<h:outputText value="Nombre" />
@@ -109,7 +110,7 @@
 								<h:outputText value="#{vtSprint.nombre}" />
 							</p:column>
 
-							<p:column filterBy="#{vtSprint.activo}"
+							<p:column filterBy="#{vtSprint.activo}" width="135"
 								sortBy="#{vtSprint.activo}">
 								<f:facet name="header">
 									<h:outputText value="Activo" />
@@ -117,7 +118,7 @@
 								<h:outputText value="#{vtSprint.activo}" />
 							</p:column>
 
-							<p:column filterBy="#{vtSprint.objetivo}"
+							<p:column filterBy="#{vtSprint.objetivo}" width="135"
 								sortBy="#{vtSprint.objetivo}">
 								<f:facet name="header">
 									<h:outputText value="Objetivo" />
@@ -125,7 +126,7 @@
 								<h:outputText value="#{vtSprint.objetivo}" />
 							</p:column>
 
-							<p:column headerText="Progreso">
+							<p:column headerText="Progreso" width="95">
 								<div align="center">
 									<p:commandButton id="btnProgreso" icon="fa fa-tasks"
 										update=":dialogProgreso"
@@ -137,7 +138,7 @@
 								</div>
 							</p:column>
 
-							<p:column headerText="Lista artefactos">
+							<p:column headerText="Lista artefactos" width="95">
 								<div align="center">
 									<p:commandButton id="btnListadoArtefacto" icon="fa fa-list"
 										action="vtArtefacto.xhtml" update="frm"
@@ -163,8 +164,9 @@
 						<p:dataTable value="#{vtSprintViewDesarrollador.dataFiltroI}"
 							var="vtSprint" paginator="true" rows="5"
 							emptyMessage="No hay artefactos activos en este momento"
-							reflow="true">
-							<p:column filterBy="#{vtSprint.spriCodigo}"
+							reflow="true" scrollRows="70" scrollable="true" liveScroll="true" 
+							scrollHeight="280" style="margin-bottom:0">
+							<p:column filterBy="#{vtSprint.spriCodigo}" width="135"
 								sortBy="#{vtSprint.spriCodigo}">
 								<f:facet name="header">
 									<h:outputText value="Código" />
@@ -172,7 +174,7 @@
 								<h:outputText value="#{vtSprint.spriCodigo}" />
 							</p:column>
 
-							<p:column filterBy="#{vtSprint.fechaInicio}"
+							<p:column filterBy="#{vtSprint.fechaInicio}" width="135"
 								sortBy="#{vtSprint.fechaInicio}">
 								<f:facet name="header">
 									<h:outputText value="Fecha inicio" />
@@ -180,15 +182,23 @@
 								<h:outputText value="#{vtSprint.fechaInicio}" />
 							</p:column>
 
-							<p:column filterBy="#{vtSprint.fechaFin}"
+							<p:column filterBy="#{vtSprint.fechaFin}" width="135"
 								sortBy="#{vtSprint.fechaFin}">
 								<f:facet name="header">
 									<h:outputText value="Fecha fin" />
 								</f:facet>
 								<h:outputText value="#{vtSprint.fechaFin}" />
 							</p:column>
+							
+							<p:column filterBy="#{vtSprint.capacidadEstimada}" width="145"
+								sortBy="#{vtSprint.capacidadEstimada}">
+								<f:facet name="header">
+									<h:outputText value="Capacidad estimada" />
+								</f:facet>
+								<h:outputText value="#{vtSprint.capacidadEstimada}" />
+							</p:column>
 
-							<p:column filterBy="#{vtSprint.nombre}"
+							<p:column filterBy="#{vtSprint.nombre}" width="135"
 								sortBy="#{vtSprint.nombre}">
 								<f:facet name="header">
 									<h:outputText value="Nombre" />
@@ -196,7 +206,7 @@
 								<h:outputText value="#{vtSprint.nombre}" />
 							</p:column>
 
-							<p:column filterBy="#{vtSprint.activo}"
+							<p:column filterBy="#{vtSprint.activo}" width="135"
 								sortBy="#{vtSprint.activo}">
 								<f:facet name="header">
 									<h:outputText value="Activo" />
@@ -204,7 +214,7 @@
 								<h:outputText value="#{vtSprint.activo}" />
 							</p:column>
 
-							<p:column filterBy="#{vtSprint.objetivo}"
+							<p:column filterBy="#{vtSprint.objetivo}" width="135"
 								sortBy="#{vtSprint.objetivo}">
 								<f:facet name="header">
 									<h:outputText value="Objetivo" />
@@ -212,7 +222,7 @@
 								<h:outputText value="#{vtSprint.objetivo}" />
 							</p:column>
 
-							<p:column headerText="Lista artefactos">
+							<p:column headerText="Lista artefactos" width="95">
 								<div align="center">
 									<p:commandButton id="btnListadoArtefactoI" icon="fa fa-list"
 										action="vtGestionArtefacto.xhtml" update="frm"

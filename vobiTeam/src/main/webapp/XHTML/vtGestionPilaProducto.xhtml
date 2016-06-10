@@ -70,12 +70,13 @@
 				<p:tab title="Pilas de producto activas">
 
 					<p:panel id="panelDataTableVtPilaProducto">
-						<p:dataTable id="dataTableListaA"
+						<p:dataTable id="dataTableListaA" scrollRows="70" scrollable="true" liveScroll="true"
+							scrollHeight="200" style="margin-bottom:0"
 							emptyMessage="No hay pilas de producto activas en este momento"
 							value="#{vtPilaProductoView.dataFiltro}" var="vtPilaProducto"
 							paginator="true" rows="5">
 
-							<p:column filterBy="#{vtPilaProducto.pilaCodigo}"
+							<p:column filterBy="#{vtPilaProducto.pilaCodigo}" width="130"
 								sortBy="#{vtPilaProducto.pilaCodigo}">
 								<f:facet name="header">
 									<h:outputText value="Código" />
@@ -83,7 +84,7 @@
 								<h:outputText value="#{vtPilaProducto.pilaCodigo}" />
 							</p:column>
 
-							<p:column filterBy="#{vtPilaProducto.nombre}"
+							<p:column filterBy="#{vtPilaProducto.nombre}" width="130"
 								sortBy="#{vtPilaProducto.nombre}">
 								<f:facet name="header">
 									<h:outputText value="Nombre" />
@@ -91,7 +92,7 @@
 								<h:outputText value="#{vtPilaProducto.nombre}" />
 							</p:column>
 
-							<p:column filterBy="#{vtPilaProducto.descripcion}"
+							<p:column filterBy="#{vtPilaProducto.descripcion}" width="130"
 								sortBy="#{vtPilaProducto.descripcion}">
 								<f:facet name="header">
 									<h:outputText value="Descripción" />
@@ -99,7 +100,7 @@
 								<h:outputText value="#{vtPilaProducto.descripcion}" />
 							</p:column>
 
-							<p:column filterBy="#{vtPilaProducto.activo}"
+							<p:column filterBy="#{vtPilaProducto.activo}" width="130"
 								sortBy="#{vtPilaProducto.activo}">
 								<f:facet name="header">
 									<h:outputText value="Activo" />
@@ -107,7 +108,7 @@
 								<h:outputText value="#{vtPilaProducto.activo}" />
 							</p:column>
 
-							<p:column headerText="Modificar">
+							<p:column headerText="Modificar" width="90">
 								<div align="center">
 									<p:commandButton id="btnEdit" icon="fa fa-edit"
 										update=":dialogVtPilaProducto"
@@ -119,7 +120,7 @@
 								</div>
 							</p:column>
 
-							<p:column headerText="Cambiar estado">
+							<p:column headerText="Cambiar estado" width="90">
 								<div align="center">
 									<p:commandButton id="btnEstado" icon="fa fa-retweet"
 										update="@([id$=growl], @([id$=frm]"
@@ -132,7 +133,7 @@
 								</div>
 							</p:column>
 
-							<p:column headerText="Lista sprints">
+							<p:column headerText="Lista sprints" width="90">
 								<div align="center">
 									<p:commandButton id="btnListadoSprintA" icon="fa fa-list"
 										action="vtGestionSprint.xhtml" update="frm"
@@ -153,12 +154,13 @@
 				<p:tab title="Pilas de producto inactivas">
 
 					<p:panel id="panelDataTableVtPilaProductoI">
-						<p:dataTable id="dataTableListaI"
+						<p:dataTable id="dataTableListaI" scrollRows="70" scrollable="true" liveScroll="true"
+							scrollHeight="200" style="margin-bottom:0"
 							emptyMessage="No hay pilas de producto inactivas en este momento"
 							value="#{vtPilaProductoView.dataFiltroI}" var="vtPilaProducto"
 							paginator="true" rows="5">
 
-							<p:column filterBy="#{vtPilaProducto.pilaCodigo}"
+							<p:column filterBy="#{vtPilaProducto.pilaCodigo}" width="130"
 								sortBy="#{vtPilaProducto.pilaCodigo}">
 								<f:facet name="header">
 									<h:outputText value="Código" />
@@ -166,7 +168,7 @@
 								<h:outputText value="#{vtPilaProducto.pilaCodigo}" />
 							</p:column>
 
-							<p:column filterBy="#{vtPilaProducto.nombre}"
+							<p:column filterBy="#{vtPilaProducto.nombre}" width="130"
 								sortBy="#{vtPilaProducto.nombre}">
 								<f:facet name="header">
 									<h:outputText value="Nombre" />
@@ -174,7 +176,7 @@
 								<h:outputText value="#{vtPilaProducto.nombre}" />
 							</p:column>
 
-							<p:column filterBy="#{vtPilaProducto.descripcion}"
+							<p:column filterBy="#{vtPilaProducto.descripcion}" width="130"
 								sortBy="#{vtPilaProducto.descripcion}">
 								<f:facet name="header">
 									<h:outputText value="Descripción" />
@@ -182,7 +184,7 @@
 								<h:outputText value="#{vtPilaProducto.descripcion}" />
 							</p:column>
 
-							<p:column filterBy="#{vtPilaProducto.activo}"
+							<p:column filterBy="#{vtPilaProducto.activo}" width="130"
 								sortBy="#{vtPilaProducto.activo}">
 								<f:facet name="header">
 									<h:outputText value="Activo" />
@@ -192,7 +194,7 @@
 
 
 
-							<p:column headerText="Modificar">
+							<p:column headerText="Modificar" width="90">
 								<div align="center">
 									<p:commandButton id="btnEdit" icon="fa fa-edit"
 										update=":dialogVtPilaProducto"
@@ -204,7 +206,7 @@
 								</div>
 							</p:column>
 
-							<p:column headerText="Cambiar estado">
+							<p:column headerText="Cambiar estado" width="90">
 								<div align="center">
 									<p:commandButton id="btnEstado" icon="fa fa-retweet"
 										update="@([id$=growl], @([id$=frm]"

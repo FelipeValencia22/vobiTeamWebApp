@@ -38,6 +38,7 @@ import com.vobi.team.modelo.VtHistoriaArtefacto;
 import com.vobi.team.modelo.VtPilaProducto;
 import com.vobi.team.modelo.VtPrioridad;
 import com.vobi.team.modelo.VtProyecto;
+import com.vobi.team.modelo.VtProyectoUsuario;
 import com.vobi.team.modelo.VtSprint;
 import com.vobi.team.modelo.VtTipoArtefacto;
 import com.vobi.team.modelo.VtUsuario;
@@ -133,6 +134,12 @@ public class VtArtefactoViewCliente implements Serializable {
 
 	@ManagedProperty(value = "#{BusinessDelegatorView}")
 	private IBusinessDelegatorView businessDelegatorView;
+	
+	
+	public VtArtefactoViewCliente() {
+		btnCrearArtefactoFiltrado = new CommandButton();
+		btnCrearArtefactoFiltrado.setDisabled(true);
+	}
 
 	@PostConstruct
 	public void vtArtefactoViewPostConstructor() {
@@ -562,6 +569,11 @@ public class VtArtefactoViewCliente implements Serializable {
 
 	public String filtrarProyecto() {
 		try {
+			somPilaProducto.resetValue();
+			somSprints.resetValue();
+			dataFiltro=null;
+			dataFiltroI=null;
+
 			VtProyecto vtProyecto = null;
 			lasPilasDeProductoFiltro = null;
 			String proyectoS = somProyectos.getValue().toString().trim();
@@ -580,7 +592,7 @@ public class VtArtefactoViewCliente implements Serializable {
 						if (vtPilaProducto.getActivo().equalsIgnoreCase("S")
 								&& vtPilaProducto.getVtProyecto().getProyCodigo().equals(vtProyecto.getProyCodigo())) {
 							lasPilasDeProductoFiltro
-									.add(new SelectItem(vtPilaProducto.getPilaCodigo(), vtPilaProducto.getNombre()));
+							.add(new SelectItem(vtPilaProducto.getPilaCodigo(), vtPilaProducto.getNombre()));
 						}
 					}
 				}
@@ -596,39 +608,30 @@ public class VtArtefactoViewCliente implements Serializable {
 	}
 
 	public String imprimirValue() {
-
+		VtPilaProducto vtPilaProducto=null;
 		try {
-			VtPilaProducto vtPilaProducto = null;
-			dataSprint = null;
-			losSprintsFiltro = null;
-			String pila = somPilaProducto.getValue().toString();
-			if (pila.isEmpty() || pila.equals("-1")) {
-			} else {
-				Long idPila = Long.parseLong(pila);
-				vtPilaProducto = businessDelegatorView.getVtPilaProducto(idPila);
-			}
+			somSprints.resetValue();
+			dataFiltro=null;
+			dataFiltroI=null;
 
-			try {
+			vtPilaProducto=businessDelegatorView.getVtPilaProducto(Long.parseLong(somPilaProducto.getValue().toString().trim()));
 
-				if (dataSprint == null) {
-					dataSprint = businessDelegatorView.getDataVtSprintFiltro(vtPilaProducto.getPilaCodigo());
-					losSprintsFiltro = new ArrayList<SelectItem>();
-					for (VtSprintDTO vtSprintDTO : dataSprint) {
-						if (vtSprintDTO.getPilaCodigo_VtPilaProducto().equals(vtPilaProducto.getPilaCodigo())) {
-							losSprintsFiltro.add(new SelectItem(vtSprintDTO.getSpriCodigo(), vtSprintDTO.getNombre()));
-						}
-
+			if(losSprintsFiltro==null){
+				List<VtSprint> listaSprints=businessDelegatorView.getVtSprint();
+				losSprintsFiltro = new ArrayList<SelectItem>();
+				for(VtSprint vtSprint: listaSprints){
+					if(vtSprint.getVtPilaProducto().getPilaCodigo().equals(vtPilaProducto.getPilaCodigo())){
+						losSprintsFiltro.add(new SelectItem(vtSprint.getSpriCodigo(),vtSprint.getNombre()));
 					}
 				}
-
-			} catch (Exception e) {
-				log.error(e.getMessage());
 			}
+		} catch (NumberFormatException e) {
+			log.error(e.getMessage());
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}
-
 		return "";
+
 	}
 
 	public String action_modify() {
@@ -1136,10 +1139,6 @@ public class VtArtefactoViewCliente implements Serializable {
 		this.esUsuarioArtefactoItems = esUsuarioArtefactoItems;
 	}
 
-	public List<SelectItem> getLosProyectosFiltro() {
-		return losProyectosFiltro;
-	}
-
 	public void setLosProyectosFiltro(List<SelectItem> losProyectosFiltro) {
 		this.losProyectosFiltro = losProyectosFiltro;
 	}
@@ -1436,6 +1435,22 @@ public class VtArtefactoViewCliente implements Serializable {
 
 	public List<VtArtefactoDTO> getData() {
 		return data;
+	}
+	public List<SelectItem> getLosProyectosFiltro() {
+		try{
+			VtUsuario vtUsuario = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
+			if(losProyectosFiltro==null){
+				List<VtProyectoUsuario> listaProyectos= businessDelegatorView.consultarProyectoUsuario(vtUsuario.getUsuaCodigo());
+				losProyectosFiltro = new ArrayList<SelectItem>();
+				for(VtProyectoUsuario vtProyectoUsuario : listaProyectos){
+					losProyectosFiltro.add(new SelectItem(vtProyectoUsuario.getVtProyecto().getProyCodigo(), vtProyectoUsuario.getVtProyecto().getNombre()));
+				}
+			}
+
+		}catch (Exception e) {
+			log.error(e.getMessage());
+		}
+		return losProyectosFiltro;
 	}
 
 	public void setData(List<VtArtefactoDTO> data) {

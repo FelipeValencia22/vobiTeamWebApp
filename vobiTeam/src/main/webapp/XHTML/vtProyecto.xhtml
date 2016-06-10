@@ -28,57 +28,59 @@
 			<p:growl id="growl" />
 
 			<br></br>
-			
-			<p:panel id="pnlListaSprint" header="PROYECTOS" >
+
+			<p:panel id="pnlListaSprint" header="PROYECTOS">
 				<h:panelGrid columns="1">
 
-								<p:dataTable value="#{vtProyectoViewDesarrollador.data}" var="vtProyecto" reflow="true"
-									paginator="true" rows="10">
+					<p:dataTable value="#{vtProyectoViewDesarrollador.data}"
+						var="vtProyecto" reflow="true" paginator="true" rows="10"
+						scrollRows="70" scrollable="true" liveScroll="true"
+						scrollHeight="90" style="margin-bottom:0">
 
+
+						<p:column filterBy="#{vtProyecto.vtProyecto.proyCodigo}" width="135"
+							sortBy="#{vtProyecto.vtProyecto.proyCodigo}">
+							<f:facet name="header">
+								<h:outputText value="C&#243;digo proyecto" />
+							</f:facet>
+							<h:outputText value="#{vtProyecto.vtProyecto.proyCodigo}" />
+						</p:column>
+
+						<p:column filterBy="#{vtProyecto.vtProyecto.vtEmpresa.nombre}" width="135"
+							sortBy="#{vtProyecto.vtProyecto.vtEmpresa.nombre}">
+							<f:facet name="header">
+								<h:outputText value="Nombre Empresa" />
+							</f:facet>
+							<h:outputText value="#{vtProyecto.vtProyecto.vtEmpresa.nombre}" />
+						</p:column>
+
+
+						<p:column filterBy="#{vtProyecto.vtProyecto.nombre}" width="135"
+							sortBy="#{vtProyecto.vtProyecto.nombre}">
+							<f:facet name="header">
+								<h:outputText value="Nombre proyecto" />
+							</f:facet>
+							<h:outputText value="#{vtProyecto.vtProyecto.nombre}" />
+						</p:column>
  
-									<p:column filterBy="#{vtProyecto.vtProyecto.proyCodigo}"
-										sortBy="#{vtProyecto.vtProyecto.proyCodigo}">
-										<f:facet name="header">
-											<h:outputText value="C&#243;digo proyecto" />
-										</f:facet>
-										<h:outputText value="#{vtProyecto.vtProyecto.proyCodigo}" />
-									</p:column>
+						<p:column filterBy="#{vtProyecto.vtProyecto.activo}" width="135"
+							sortBy="#{vtProyecto.vtProyecto.activo}">
+							<f:facet name="header">
+								<h:outputText value="Activo" />
+							</f:facet>
+							<h:outputText value="#{vtProyecto.vtProyecto.activo}" />
+						</p:column>
 
-									<p:column filterBy="#{vtProyecto.vtProyecto.vtEmpresa.nombre}"
-										sortBy="#{vtProyecto.vtProyecto.vtEmpresa.nombre}">
-										<f:facet name="header">
-											<h:outputText value="Nombre Empresa" />
-										</f:facet>
-										<h:outputText value="#{vtProyecto.vtProyecto.vtEmpresa.nombre}" />
-									</p:column>
+						<p:column filterBy="#{vtProyecto.vtProyecto.descripcion}" width="135"
+							sortBy="#{vtProyecto.vtProyecto.descripcion}">
+							<f:facet name="header">
+								<h:outputText value="Descripci&#243;n" />
+							</f:facet>
+							<h:outputText value="#{vtProyecto.vtProyecto.descripcion}" />
+						</p:column>
 
+					</p:dataTable>
 
-									<p:column filterBy="#{vtProyecto.vtProyecto.nombre}"
-										sortBy="#{vtProyecto.vtProyecto.nombre}">
-										<f:facet name="header">
-											<h:outputText value="Nombre proyecto" />
-										</f:facet>
-										<h:outputText value="#{vtProyecto.vtProyecto.nombre}" />
-									</p:column>
-
-									<p:column filterBy="#{vtProyecto.vtProyecto.activo}"
-										sortBy="#{vtProyecto.vtProyecto.activo}">
-										<f:facet name="header">
-											<h:outputText value="Activo" />
-										</f:facet>
-										<h:outputText value="#{vtProyecto.vtProyecto.activo}" />
-									</p:column>
-
-									<p:column filterBy="#{vtProyecto.vtProyecto.descripcion}"
-										sortBy="#{vtProyecto.vtProyecto.descripcion}">
-										<f:facet name="header">
-											<h:outputText value="Descripci&#243;n" />
-										</f:facet>
-										<h:outputText value="#{vtProyecto.vtProyecto.descripcion}" />
-									</p:column>
-
-								</p:dataTable>
-			
 				</h:panelGrid>
 			</p:panel>
 

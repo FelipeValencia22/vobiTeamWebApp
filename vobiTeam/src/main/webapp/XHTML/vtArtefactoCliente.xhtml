@@ -32,38 +32,41 @@
 			<p:panel id="pnlListaSprint" header="ARTEFACTOS">
 				<h:panelGrid columns="1">
 
-					<p:selectOneMenu id="somProyectos" style="width:300px"
+					<p:selectOneMenu id="somProyectos" style="width:400px"
 						binding="#{vtArtefactoViewCliente.somProyectos}">
-						<p:ajax update="somPilaProducto" event="change"
+						<p:ajax update="somPilaProducto,somSprints,pnlVtArtefacto"
+							event="change"
 							listener="#{vtArtefactoViewCliente.filtrarProyecto}" />
-						<f:selectItem itemValue="-1" itemLabel="Proyecto" />
+						<f:selectItem itemValue="-1" itemLabel="-Seleccionar el proyecto-" />
 						<f:selectItems
 							value="#{vtArtefactoViewCliente.losProyectosFiltro}" />
 					</p:selectOneMenu>
 
-					<p:selectOneMenu id="somPilaProducto" style="width:300px"
+					<p:selectOneMenu id="somPilaProducto" style="width:400px"
 						binding="#{vtArtefactoViewCliente.somPilaProducto}">
-						<p:ajax update="somSprints" event="change"
+						<p:ajax update="somSprints,pnlVtArtefacto" event="change"
 							listener="#{vtArtefactoViewCliente.imprimirValue}" />
-						<f:selectItem itemValue="-1" itemLabel="Pila de Producto" />
+						<f:selectItem itemValue="-1"
+							itemLabel="-Seleccionar la pila de Producto-" />
 						<f:selectItems
 							value="#{vtArtefactoViewCliente.lasPilasDeProductoFiltro}" />
 					</p:selectOneMenu>
 
-					<p:selectOneMenu id="somSprints" style="width:300px"
+					<p:selectOneMenu id="somSprints" style="width:400px"
 						binding="#{vtArtefactoViewCliente.somSprints}">
-						<p:ajax update="pnlVtArtefacto,frm" event="change"
+						<p:ajax update="pnlVtArtefacto,frm,botonCrearArt" event="change"
 							listener="#{vtArtefactoViewCliente.filtrar}" />
-						<f:selectItem itemValue="-1" itemLabel="Sprint" />
-						<f:selectItems value="#{vtArtefactoViewCliente.losSprintsFiltro}" />
+						<f:selectItem itemValue="-1" itemLabel="-Seleccionar el sprint-" />
+						<f:selectItems
+							value="#{vtArtefactoViewCliente.losSprintsFiltro}" />
 					</p:selectOneMenu>
 
 					<br></br>
 
-					<p:commandButton value="Crear artefacto" type="button"
+					<p:commandButton id="botonCrearArt" value="Crear artefacto" type="button"
 						onclick="PF('dlg').show();" update="pnlListArtefacto"
 						binding="#{vtArtefactoViewCliente.btnCrearArtefactoFiltrado}"
-						disabled="true" />
+						/>
 
 					<br></br>
 
@@ -83,7 +86,7 @@
 							scrollHeight="150" style="margin-bottom:0"
 							emptyMessage="No hay artefactos activos en este momento">
 
-							<p:column filterBy="#{vtArtefacto.titulo}"
+							<p:column filterBy="#{vtArtefacto.titulo}" width="200"
 								filterMatchMode="contains" sortBy="#{vtArtefacto.titulo}">
 								<f:facet name="header">
 									<h:outputText value="Titulo" />
@@ -91,7 +94,7 @@
 								<h:outputText value="#{vtArtefacto.titulo}" />
 							</p:column>
 
-							<p:column filterBy="#{vtArtefacto.descripcion}"
+							<p:column filterBy="#{vtArtefacto.descripcion}" width="200"
 								filterMatchMode="contains" sortBy="#{vtArtefacto.descripcion}">
 								<f:facet name="header">
 									<h:outputText value="Descripción" />
@@ -99,7 +102,7 @@
 								<h:outputText value="#{vtArtefacto.descripcion}" />
 							</p:column>
 
-							<p:column filterBy="#{vtArtefacto.tpar_Nombre}"
+							<p:column filterBy="#{vtArtefacto.tpar_Nombre}" width="200"
 								filterMatchMode="contains" sortBy="#{vtArtefacto.tpar_Nombre}">
 								<f:facet name="header">
 									<h:outputText value="Tipo artefacto" />
@@ -107,7 +110,7 @@
 								<h:outputText value="#{vtArtefacto.tpar_Nombre}" />
 							</p:column>
 
-							<p:column filterBy="#{vtArtefacto.estado_Nombre}"
+							<p:column filterBy="#{vtArtefacto.estado_Nombre}" width="200"
 								filterMatchMode="contains" sortBy="#{vtArtefacto.estado_Nombre}">
 								<f:facet name="header">
 									<h:outputText value="Estado" />
@@ -115,7 +118,7 @@
 								<h:outputText value="#{vtArtefacto.estado_Nombre}" />
 							</p:column>
 
-							<p:column filterBy="#{vtArtefacto.prioridad_Nombre}"
+							<p:column filterBy="#{vtArtefacto.prioridad_Nombre}" width="200"
 								filterMatchMode="contains"
 								sortBy="#{vtArtefacto.prioridad_Nombre}">
 								<f:facet name="header">
@@ -124,8 +127,8 @@
 								<h:outputText value="#{vtArtefacto.prioridad_Nombre}" />
 							</p:column>
 
-
-							<p:column filterBy="#{vtArtefacto.activo}"
+ 
+							<p:column filterBy="#{vtArtefacto.activo}" width="200"
 								filterMatchMode="contains" sortBy="#{vtArtefacto.activo}">
 								<f:facet name="header">
 									<h:outputText value="Activo" />
@@ -153,7 +156,7 @@
 							scrollRows="20" scrollable="true" liveScroll="true"
 							scrollHeight="150" style="margin-bottom:0" widgetVar="artI"
 							emptyMessage="No hay artefactos inactivos en este momento">
-							<p:column filterBy="#{vtArtefacto.titulo}"
+							<p:column filterBy="#{vtArtefacto.titulo}" width="200"
 								filterMatchMode="contains" sortBy="#{vtArtefacto.titulo}">
 								<f:facet name="header">
 									<h:outputText value="Titulo" />
@@ -161,7 +164,7 @@
 								<h:outputText value="#{vtArtefacto.titulo}" />
 							</p:column>
 
-							<p:column filterBy="#{vtArtefacto.descripcion}"
+							<p:column filterBy="#{vtArtefacto.descripcion}" width="200"
 								filterMatchMode="contains" sortBy="#{vtArtefacto.descripcion}">
 								<f:facet name="header">
 									<h:outputText value="Descripción" />
@@ -169,7 +172,7 @@
 								<h:outputText value="#{vtArtefacto.descripcion}" />
 							</p:column>
 
-							<p:column filterBy="#{vtArtefacto.tpar_Nombre}"
+							<p:column filterBy="#{vtArtefacto.tpar_Nombre}" width="200"
 								filterMatchMode="contains" sortBy="#{vtArtefacto.tpar_Nombre}">
 								<f:facet name="header">
 									<h:outputText value="Tipo artefacto" />
@@ -177,7 +180,7 @@
 								<h:outputText value="#{vtArtefacto.tpar_Nombre}" />
 							</p:column>
 
-							<p:column filterBy="#{vtArtefacto.estado_Nombre}"
+							<p:column filterBy="#{vtArtefacto.estado_Nombre}" width="200"
 								filterMatchMode="contains" sortBy="#{vtArtefacto.estado_Nombre}">
 								<f:facet name="header">
 									<h:outputText value="Estado" />
@@ -185,7 +188,7 @@
 								<h:outputText value="#{vtArtefacto.estado_Nombre}" />
 							</p:column>
 
-							<p:column filterBy="#{vtArtefacto.prioridad_Nombre}"
+							<p:column filterBy="#{vtArtefacto.prioridad_Nombre}" width="200"
 								filterMatchMode="contains"
 								sortBy="#{vtArtefacto.prioridad_Nombre}">
 								<f:facet name="header">
@@ -195,7 +198,7 @@
 							</p:column>
 
 
-							<p:column filterBy="#{vtArtefacto.activo}"
+							<p:column filterBy="#{vtArtefacto.activo}" width="200"
 								filterMatchMode="contains" sortBy="#{vtArtefacto.activo}">
 								<f:facet name="header">
 									<h:outputText value="Activo" />
@@ -204,7 +207,7 @@
 							</p:column>
 
 						</p:dataTable>
-								 <h3>Exportar a Excel</h3>
+								 <h3>Exportar a Excel</h3> 
 								 <p:graphicImage name="excel.png" width="24"/>
     							 <p:commandButton value="Exportar como Excel" ajax="false">                					
                 					<p:dataExporter type="xls" target="tblinactivos" fileName="Artefactos inactivos"  pageOnly="false"/>

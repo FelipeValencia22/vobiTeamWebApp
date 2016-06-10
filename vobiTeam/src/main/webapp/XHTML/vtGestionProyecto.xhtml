@@ -34,16 +34,15 @@
 
 					<p:selectOneMenu id="somEmpresas" style="width:300px"
 						binding="#{vtProyectoView.somEmpresasFiltro}">
-						<p:ajax update="formDialog1,btnCrear,accordionPanelVtProyecto" event="change"
-							listener="#{vtProyectoView.filtrarEmpresa}" />
+						<p:ajax update="formDialog1,btnCrear,accordionPanelVtProyecto"
+							event="change" listener="#{vtProyectoView.filtrarEmpresa}" />
 						<f:selectItem itemValue="-1" itemLabel="-Seleccionar la empresa-" />
 						<f:selectItems value="#{vtProyectoView.lasEmpresasItems}" />
 					</p:selectOneMenu>
 
 					<br></br>
 					<p:commandButton id="btnCrear" value="Crear proyecto" type="button"
-						binding="#{vtProyectoView.btnCrearP}" onclick="PF('dlg').show();"
-						 />
+						binding="#{vtProyectoView.btnCrearP}" onclick="PF('dlg').show();" />
 					<br></br>
 
 
@@ -54,11 +53,14 @@
 						<p:tab title="Proyectos activos">
 							<p:panel id="panelDataTableVtProyecto">
 
-								<p:dataTable value="#{vtProyectoView.data}" var="vtProyecto" emptyMessage="No hay proyectos activos en este momento"
-									reflow="true" paginator="true" rows="10">
+								<p:dataTable value="#{vtProyectoView.data}" var="vtProyecto"
+									emptyMessage="No hay proyectos activos en este momento"
+									scrollRows="70" scrollable="true" liveScroll="true"
+									scrollHeight="200" style="margin-bottom:0" reflow="true"
+									paginator="true" rows="5">
 
 
-									<p:column filterBy="#{vtProyecto.proyCodigo}"
+									<p:column filterBy="#{vtProyecto.proyCodigo}" width="140"
 										sortBy="#{vtProyecto.proyCodigo}">
 										<f:facet name="header">
 											<h:outputText value="C&#243;digo proyecto" />
@@ -66,7 +68,7 @@
 										<h:outputText value="#{vtProyecto.proyCodigo}" />
 									</p:column>
 
-									<p:column filterBy="#{vtProyecto.nombre_VtEmpresa}"
+									<p:column filterBy="#{vtProyecto.nombre_VtEmpresa}" width="140"
 										sortBy="#{vtProyecto.nombre_VtEmpresa}">
 										<f:facet name="header">
 											<h:outputText value="Nombre Empresa" />
@@ -74,15 +76,14 @@
 										<h:outputText value="#{vtProyecto.nombre_VtEmpresa}" />
 									</p:column>
 
-									<p:column filterBy="#{vtProyecto.publico}"
-										sortBy="#{vtProyecto.publico}">
+									<p:column filterBy="#{vtProyecto.publico}" width="140"										sortBy="#{vtProyecto.publico}">
 										<f:facet name="header">
 											<h:outputText value="P&#250;blico" />
 										</f:facet>
 										<h:outputText value="#{vtProyecto.publico}" />
 									</p:column>
 
-									<p:column filterBy="#{vtProyecto.nombre}"
+									<p:column filterBy="#{vtProyecto.nombre}" width="140"
 										sortBy="#{vtProyecto.nombre}">
 										<f:facet name="header">
 											<h:outputText value="Nombre proyecto" />
@@ -90,7 +91,7 @@
 										<h:outputText value="#{vtProyecto.nombre}" />
 									</p:column>
 
-									<p:column filterBy="#{vtProyecto.activo}"
+									<p:column filterBy="#{vtProyecto.activo}" width="140"
 										sortBy="#{vtProyecto.activo}">
 										<f:facet name="header">
 											<h:outputText value="Activo" />
@@ -98,7 +99,7 @@
 										<h:outputText value="#{vtProyecto.activo}" />
 									</p:column>
 
-									<p:column filterBy="#{vtProyecto.descripcion}"
+									<p:column filterBy="#{vtProyecto.descripcion}" width="140"
 										sortBy="#{vtProyecto.descripcion}">
 										<f:facet name="header">
 											<h:outputText value="Descripci&#243;n" />
@@ -109,7 +110,7 @@
 
 
 
-									<p:column headerText="Modificar">
+									<p:column headerText="Modificar" width="100">
 										<div align="center">
 											<p:commandButton id="btnEdit" icon="fa fa-edit"
 												update=":dialogVtProyecto"
@@ -121,7 +122,7 @@
 									</p:column>
 
 
-									<p:column headerText="Cambiar estado">
+									<p:column headerText="Cambiar estado" width="100">
 										<div align="center">
 											<p:commandButton id="btnEstado" icon="fa fa-retweet"
 												update=":formDialog1:accordionPanelVtProyecto, :formDialog1:growl"
@@ -132,7 +133,7 @@
 												value="Cambiar estado" />
 										</div>
 									</p:column>
-									<p:column headerText="Lista pilas">
+									<p:column headerText="Lista pilas" width="100">
 										<div align="center">
 											<p:commandButton id="btnListadoPilaA" icon="fa fa-list"
 												action="vtGestionPilaProducto.xhtml" update="formDialog1"
@@ -152,11 +153,14 @@
 						<p:tab title="Proyectos inactivos">
 							<p:panel id="panelDataTableVtProyectoI">
 
-								<p:dataTable value="#{vtProyectoView.dataI}" var="vtProyecto" emptyMessage="No hay proyectos inactivos en este momento"
+								<p:dataTable value="#{vtProyectoView.dataI}" var="vtProyecto"
+								scrollRows="70" scrollable="true" liveScroll="true"
+								scrollHeight="100" style="margin-bottom:0"
+									emptyMessage="No hay proyectos inactivos en este momento"
 									reflow="true" paginator="true" rows="10">
 
-
-									<p:column filterBy="#{vtProyecto.proyCodigo}"
+ 
+									<p:column filterBy="#{vtProyecto.proyCodigo}" width="140"
 										sortBy="#{vtProyecto.proyCodigo}">
 										<f:facet name="header">
 											<h:outputText value="C&#243;digo proyecto" />
@@ -164,7 +168,7 @@
 										<h:outputText value="#{vtProyecto.proyCodigo}" />
 									</p:column>
 
-									<p:column filterBy="#{vtProyecto.nombre_VtEmpresa}"
+									<p:column filterBy="#{vtProyecto.nombre_VtEmpresa}" width="140"
 										sortBy="#{vtProyecto.nombre_VtEmpresa}">
 										<f:facet name="header">
 											<h:outputText value="Nombre Empresa" />
@@ -174,7 +178,7 @@
 
 
 
-									<p:column filterBy="#{vtProyecto.publico}"
+									<p:column filterBy="#{vtProyecto.publico}" width="140"
 										sortBy="#{vtProyecto.publico}">
 										<f:facet name="header">
 											<h:outputText value="P&#250;blico" />
@@ -182,21 +186,21 @@
 										<h:outputText value="#{vtProyecto.publico}" />
 									</p:column>
 
-									<p:column filterBy="#{vtProyecto.nombre}"
-										sortBy="#{vtProyecto.nombre}">
+									<p:column filterBy="#{vtProyecto.nombre}" width="140"
+										sortBy="#{vtProyecto.nombre}"> 
 										<f:facet name="header">
 											<h:outputText value="Nombre proyecto" />
 										</f:facet>
 										<h:outputText value="#{vtProyecto.nombre}" />
 									</p:column>
-									<p:column filterBy="#{vtProyecto.activo}"
+									<p:column filterBy="#{vtProyecto.activo}" width="140"
 										sortBy="#{vtProyecto.activo}">
 										<f:facet name="header">
 											<h:outputText value="Activo" />
 										</f:facet>
 										<h:outputText value="#{vtProyecto.activo}" />
 									</p:column>
-									<p:column filterBy="#{vtProyecto.descripcion}"
+									<p:column filterBy="#{vtProyecto.descripcion}" width="140"
 										sortBy="#{vtProyecto.descripcion}">
 										<f:facet name="header">
 											<h:outputText value="Descripci&#243;n" />
@@ -207,7 +211,7 @@
 
 
 
-									<p:column headerText="Modificar">
+									<p:column headerText="Modificar" width="100">
 										<div align="center">
 											<p:commandButton id="btnEdit" icon="fa fa-edit"
 												update=":dialogVtProyecto"
@@ -218,7 +222,7 @@
 										</div>
 									</p:column>
 
-									<p:column headerText="Cambiar estado">
+									<p:column headerText="Cambiar estado" width="100">
 										<div align="center">
 											<p:commandButton id="btnEstado" icon="fa fa-retweet"
 												update=":formDialog1:accordionPanelVtProyecto, :formDialog1:growl"
@@ -254,11 +258,12 @@
 				<h:panelGrid columns="1">
 
 					<p:inputText id="txtNombre" placeholder="Nombre del proyecto"
-						size="51"  maxlength="50" binding="#{vtProyectoView.txtNombreC}" />
+						size="51" maxlength="50" binding="#{vtProyectoView.txtNombreC}" />
 
 					<p:inputTextarea id="txtDescripcion" rows="10" cols="50"
-						placeholder="Descripci&#243;n" style="overflow:auto;"  maxlength="1500"
-						autoResize="false" binding="#{vtProyectoView.txtDescripcionC}" />
+						placeholder="Descripci&#243;n" style="overflow:auto;"
+						maxlength="1500" autoResize="false"
+						binding="#{vtProyectoView.txtDescripcionC}" />
 
 					<p:selectOneMenu id="somPublico" style="width:140px"
 						binding="#{vtProyectoView.somPublico}"
@@ -323,12 +328,12 @@
 
 						<h:outputText id="msgNombre" value=" Nombre" />
 						<p:inputText id="txtNombre" disabled="true" size="51"
-							binding="#{vtProyectoView.txtNombre}"   maxlength="50"/>
+							binding="#{vtProyectoView.txtNombre}" maxlength="50" />
 
 						<h:outputText id="msgDescripcion" value=" Descripcion" />
-						<p:inputTextarea id="txtDescripcion" disabled="true"  maxlength="1500"
-							style="overflow:auto;" autoResize="false" rows="5" cols="50"
-							binding="#{vtProyectoView.txtDescripcion}" />
+						<p:inputTextarea id="txtDescripcion" disabled="true"
+							maxlength="1500" style="overflow:auto;" autoResize="false"
+							rows="5" cols="50" binding="#{vtProyectoView.txtDescripcion}" />
 
 
 

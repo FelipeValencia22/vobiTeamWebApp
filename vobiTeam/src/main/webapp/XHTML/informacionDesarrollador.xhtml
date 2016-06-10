@@ -62,9 +62,9 @@
 								Bienvenido
 							</div>
 							<div class="Fs12 Fright leaden Wid70">
-								Actualmente tenés<span class="red">3 unread messages</span> and
+								Actualmente tienes
 								<span class="red"><h:outputText
-										value="#{menuView.numeroArtefactos}" /> artefactos</span> !
+										value="#{menuView.numeroArtefactos}" /> artefactos asignados</span> !
 							</div>
 							<div class="EmptyBox10"></div>
 
@@ -92,7 +92,57 @@
 								<div class="EmptyBox10"></div>
 								<div class="Container100">
 									<h:form id="form">
-										
+										<p:dataTable value="#{menuView.dataFiltro}" var="vtArtefacto"
+											rows="5" paginator="true" pageLinks="5" reflow="true"
+											scrollRows="20" scrollable="true" liveScroll="true"
+											scrollHeight="150" style="margin-bottom:0"
+											emptyMessage="No tienes artefactos asignados en este momento">
+
+											<p:column filterBy="#{vtArtefacto.titulo}"
+												filterMatchMode="contains" sortBy="#{vtArtefacto.titulo}">
+												<f:facet name="header">
+													<h:outputText value="Titulo" />
+												</f:facet>
+												<h:outputText value="#{vtArtefacto.titulo}" />
+											</p:column>
+
+											<p:column filterBy="#{vtArtefacto.esfuerzoEstimado}"
+												filterMatchMode="contains"
+												sortBy="#{vtArtefacto.esfuerzoEstimado}">
+												<f:facet name="header">
+													<h:outputText value="Esfuerzo estimado" />
+												</f:facet>
+												<h:outputText value="#{vtArtefacto.esfuerzoEstimado}" />
+											</p:column>
+
+											<p:column filterBy="#{vtArtefacto.esfuerzoRestante}"
+												filterMatchMode="contains"
+												sortBy="#{vtArtefacto.esfuerzoRestante}">
+												<f:facet name="header">
+													<h:outputText value="Esfuerzo restante" />
+												</f:facet>
+												<h:outputText value="#{vtArtefacto.esfuerzoRestante}" />
+											</p:column>
+
+											<p:column filterBy="#{vtArtefacto.tpar_Nombre}"
+												filterMatchMode="contains">
+												<f:facet name="header">
+													<h:outputText value="Tipo artefacto" />
+												</f:facet>
+												<h:outputText value="#{vtArtefacto.tpar_Nombre}" />
+											</p:column>
+
+											<p:column filterBy="#{vtArtefacto.estado_Nombre}"
+												filterMatchMode="contains"
+												sortBy="#{vtArtefacto.estado_Nombre}">
+												<f:facet name="header">
+													<h:outputText value="Estado" />
+												</f:facet>
+												<h:outputText value="#{vtArtefacto.estado_Nombre}" />
+											</p:column>
+
+
+										</p:dataTable>
 									</h:form>
 								</div>
 							</div>

@@ -833,12 +833,15 @@ public class VtSprintViewDesarrollador implements Serializable {
 			VtUsuario vtUsuario = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
 			List<VtProgresoArtefacto> listaProgresoArtefacto=businessDelegatorView.getVtProgresoArtefacto();
 			for(VtProgresoArtefacto vtProgresoArtefacto : listaProgresoArtefacto){
-				if(vtProgresoArtefacto.getVtArtefacto().getVtSprint().getSpriCodigo().equals(vtSprintS.getSpriCodigo())
-						&&
-						(vtProgresoArtefacto.getUsuCreador().equals(vtUsuario.getUsuaCodigo()))
-						){
-					esfuerzo=esfuerzo+vtProgresoArtefacto.getTiempoDedicado();
+				if(vtProgresoArtefacto.getVtArtefacto().getVtSprint()!=null){
+					if(vtProgresoArtefacto.getVtArtefacto().getVtSprint().getSpriCodigo().equals(vtSprintS.getSpriCodigo())
+							&&
+							(vtProgresoArtefacto.getUsuCreador().equals(vtUsuario.getUsuaCodigo()))
+							){
+						esfuerzo=esfuerzo+vtProgresoArtefacto.getTiempoDedicado();
+					}
 				}
+				
 			}
 			meterGaugeModel.setValue(esfuerzo);
 		} catch (Exception e) {
@@ -937,9 +940,6 @@ public class VtSprintViewDesarrollador implements Serializable {
 		String proyectoS=somProyectos.getValue().toString().trim();
 		if(!proyectoS.equals("-1")){
 			try {
-				somPilaProducto.resetValue();
-				dataFiltro=null;
-				dataFiltroI=null;
 				VtProyecto vtProyecto=null;
 				lasPilasDeProductoFiltro=null;
 
@@ -971,6 +971,10 @@ public class VtSprintViewDesarrollador implements Serializable {
 				e.printStackTrace();
 
 			}
+		}else{
+			somPilaProducto.resetValue();
+			dataFiltro=null;
+			dataFiltroI=null;
 		}
 
 		return "";
