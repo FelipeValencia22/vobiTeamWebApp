@@ -44,7 +44,7 @@
 
 					<p:selectOneMenu id="somPilaProducto" style="width:400px"
 						binding="#{vtArtefactoViewCliente.somPilaProducto}">
-						<p:ajax update="somSprints,pnlVtArtefacto" event="change"
+						<p:ajax update="somSprints,pnlVtArtefacto,botonCrearArt,frm" event="change"
 							listener="#{vtArtefactoViewCliente.imprimirValue}" />
 						<f:selectItem itemValue="-1"
 							itemLabel="-Seleccionar la pila de Producto-" />
@@ -54,7 +54,7 @@
 
 					<p:selectOneMenu id="somSprints" style="width:400px"
 						binding="#{vtArtefactoViewCliente.somSprints}">
-						<p:ajax update="pnlVtArtefacto,frm,botonCrearArt" event="change"
+						<p:ajax update="pnlVtArtefacto,botonCrearArt" event="change"
 							listener="#{vtArtefactoViewCliente.filtrar}" />
 						<f:selectItem itemValue="-1" itemLabel="-Seleccionar el sprint-" />
 						<f:selectItems
