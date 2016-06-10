@@ -323,6 +323,9 @@ public class VtArtefactoViewDesarrollador implements Serializable {
 			}
 			businessDelegatorView.saveVtArtefacto(entity, esfuerzoEstimado, esfuerzoRestante, puntos);
 			FacesUtils.addInfoMessage("Se ha creado el artefacto con éxito");
+			
+			dataFiltro = businessDelegatorView.getDataVtArtefactoFiltro(vtSprint.getSpriCodigo().longValue());
+			dataFiltroI = businessDelegatorView.getDataVtArtefactoFiltroI(vtSprint.getSpriCodigo().longValue());
 
 			VtUsuarioArtefacto vtUsuarioArtefacto = new VtUsuarioArtefacto();
 			vtUsuarioArtefacto.setActivo("S");
@@ -333,6 +336,7 @@ public class VtArtefactoViewDesarrollador implements Serializable {
 
 			VtInteres vtInteres = businessDelegatorView.getVtInteres(200L);
 			vtUsuarioArtefacto.setVtInteres(vtInteres);
+			businessDelegatorView.saveVtUsuarioArtefacto(vtUsuarioArtefacto);
 
 			VtHistoriaArtefacto vtHistoriaArtefacto = new VtHistoriaArtefacto();
 			vtHistoriaArtefacto.setActivo(entity.getActivo());
@@ -340,7 +344,6 @@ public class VtArtefactoViewDesarrollador implements Serializable {
 			vtHistoriaArtefacto.setTparCodigo(entity.getVtTipoArtefacto().getTparCodigo());
 			vtHistoriaArtefacto.setPilaCodigo(entity.getVtPilaProducto().getPilaCodigo());
 			vtHistoriaArtefacto.setPrioCodigo(entity.getVtPrioridad().getPrioCodigo());
-			vtHistoriaArtefacto.setSpriCodigo(entity.getVtSprint().getSpriCodigo());
 			vtHistoriaArtefacto.setEsfuerzoEstimado(entity.getEsfuerzoEstimado());
 			vtHistoriaArtefacto.setFechaCreacion(entity.getFechaCreacion());
 			vtHistoriaArtefacto.setFechaModificacion(entity.getFechaModificacion());

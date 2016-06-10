@@ -43,7 +43,7 @@ public class SeguridadLogica implements IVtSeguridadLogica {
 				if(vtUsuarioRol.getActivo().equals("N")){
 					contador++;
 					if(contador==usuRol.size()){
-						throw new Exception(mensaje);
+						throw new Exception("No tienes permisos");
 					}
 				}
 			}
