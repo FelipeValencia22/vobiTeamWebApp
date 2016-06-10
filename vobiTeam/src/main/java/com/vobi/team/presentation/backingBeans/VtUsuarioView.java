@@ -95,7 +95,12 @@ public class VtUsuarioView implements Serializable{
 
 	public VtUsuarioView() {
 		super();
-		 vtUsuarioEnSession = ((VtUsuario) FacesUtils.getfromSession("vtUsuario"));
+		try {
+			 vtUsuarioEnSession = ((VtUsuario) FacesUtils.getfromSession("vtUsuario"));
+		} catch (Exception e) {
+			
+		}
+		
 	}
 
 	public CommandButton getBtnCrearU() {

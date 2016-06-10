@@ -50,7 +50,7 @@
 
 					<p:selectOneMenu id="somPilaProducto" style="width:300px"
 						binding="#{vtArtefactoView.somPilaProducto}">
-						<p:ajax update="somSprints,pnlVtArtefacto,filtredBottomCreated" event="change"
+						<p:ajax update="somSprints,pnlVtArtefacto,filtredBottomCreated,frm" event="change"
 							listener="#{vtArtefactoView.imprimirValue}" />
 						<f:selectItem itemValue="-1" itemLabel="-Seleccionar la pila de Producto-" />
 						<f:selectItems value="#{vtArtefactoView.lasPilasDeProductoFiltro}" />
@@ -58,7 +58,7 @@
 
 					<p:selectOneMenu id="somSprints" style="width:300px"
 						binding="#{vtArtefactoView.somSprints}">
-						<p:ajax update="pnlVtArtefacto,frm" event="change"
+						<p:ajax update="pnlVtArtefacto,filtredBottomCreated,frm" event="change"
 							listener="#{vtArtefactoView.filtrar}" />
 						<f:selectItem itemValue="-1" itemLabel="-Seleccionar el sprint-" />
 						<f:selectItems value="#{vtArtefactoView.losSprintsFiltro}" />
