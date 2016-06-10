@@ -131,6 +131,7 @@ public class VtArtefactoViewCliente implements Serializable {
 	private boolean showDialogSubirArchivo;
 	private boolean restablecioVersion = false;
 	private List<VtUsuarioRol> listaRoles;
+	VtUsuario vtUsuario = null; 
 
 	@ManagedProperty(value = "#{BusinessDelegatorView}")
 	private IBusinessDelegatorView businessDelegatorView;
@@ -169,7 +170,7 @@ public class VtArtefactoViewCliente implements Serializable {
 		Long idTipoArtefacto;
 		try {
 
-			VtUsuario vtUsuario = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
+			vtUsuario = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
 			entity = new VtArtefacto();
 			entity.setDescripcion(txtdescripcion.getValue().toString().trim());
 			entity.setTitulo(txtnombre.getValue().toString().trim());
@@ -1117,13 +1118,9 @@ public class VtArtefactoViewCliente implements Serializable {
 	public List<SelectItem> getLasEmpresasItems() {
 		try {
 			if (lasEmpresasItems == null) {
-				List<VtEmpresa> listaEmpresas = businessDelegatorView.getVtEmpresa();
 				lasEmpresasItems = new ArrayList<SelectItem>();
-				for (VtEmpresa vtEmpresa : listaEmpresas) {
-					if (vtEmpresa.getActivo().equalsIgnoreCase("S")) {
-						lasEmpresasItems.add(new SelectItem(vtEmpresa.getEmprCodigo(), vtEmpresa.getNombre()));
-					}
-				}
+				lasEmpresasItems.add(
+						new SelectItem(vtUsuario.getVtEmpresa().getEmprCodigo(), vtUsuario.getVtEmpresa().getNombre()));
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage());
@@ -1438,12 +1435,17 @@ public class VtArtefactoViewCliente implements Serializable {
 	}
 	public List<SelectItem> getLosProyectosFiltro() {
 		try{
+			losProyectosFiltro = null;
 			VtUsuario vtUsuario = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
 			if(losProyectosFiltro==null){
-				List<VtProyectoUsuario> listaProyectos= businessDelegatorView.consultarProyectoUsuario(vtUsuario.getUsuaCodigo());
+				List<VtProyectoUsuario> listaProyectos = businessDelegatorView.getVtProyectoUsuario();
 				losProyectosFiltro = new ArrayList<SelectItem>();
+				log.info("Cantidad de proyectos asignados " + listaProyectos.size());
 				for(VtProyectoUsuario vtProyectoUsuario : listaProyectos){
-					losProyectosFiltro.add(new SelectItem(vtProyectoUsuario.getVtProyecto().getProyCodigo(), vtProyectoUsuario.getVtProyecto().getNombre()));
+					if(vtProyectoUsuario.getVtUsuario().getLogin().equals(vtUsuario.getLogin())){
+						losProyectosFiltro.add(new SelectItem(vtProyectoUsuario.getVtProyecto().getProyCodigo(), vtProyectoUsuario.getVtProyecto().getNombre()));
+					}
+					
 				}
 			}
 
