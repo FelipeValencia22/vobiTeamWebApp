@@ -351,14 +351,17 @@ public class VtProyectoView implements Serializable{
 			limpiar();
 			FacesContext.getCurrentInstance().addMessage("", new FacesMessage("El proyecto se creo con exito"));
 			Long codigoFiltro = Long.valueOf(empresaS);
-			data=businessDelegatorView.getDataVtProyectoActivo(codigoFiltro);
-			dataI=businessDelegatorView.getDataVtProyectoInactivo(codigoFiltro);
+			somEmpresasFiltro.resetValue();
+			btnCrearP.setDisabled(true);
+			data = businessDelegatorView.getDataVtProyecto(codigoFiltro);
+			dataI = businessDelegatorView.getDataVtProyectoInactivo(codigoFiltro);
 		} catch (Exception e) {
-			FacesUtils.addErrorMessage(e.getMessage());
+			FacesContext.getCurrentInstance().addMessage("", new FacesMessage(e.getMessage()));
 		}
 
 		return "";
 	}
+
 
 	public String limpiar(){
 		log.info("Limpiando campos de texto");
