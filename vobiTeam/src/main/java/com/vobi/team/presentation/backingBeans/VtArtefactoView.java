@@ -260,9 +260,18 @@ public class VtArtefactoView implements Serializable {
 			vtHistoriaArtefacto.setUsuCreador(entity.getUsuCreador());
 			vtHistoriaArtefacto.setUsuModificador(entity.getUsuModificador());
 			vtHistoriaArtefacto.setVtArtefacto(entity);
+			
 			businessDelegatorView.saveVtHistoriaArtefacto(vtHistoriaArtefacto);
 			FacesUtils.addInfoMessage("Se ha creado el historial del artefacto con éxito");
 			vtHistoriaArtefacto = null;
+			somEmpresas.resetValue();
+			somProyectos.resetValue();
+			somPilaProducto.resetValue();
+			somSprints.resetValue();
+			btnCrearArtefactoFiltrado.setDisabled(true);
+			dataFiltro=null;
+			dataFiltroI=null;
+			
 			limpiar();
 			action_closeDialog();
 		} catch (Exception e) {

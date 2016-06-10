@@ -351,6 +351,8 @@ public class VtProyectoView implements Serializable{
 			limpiar();
 			FacesContext.getCurrentInstance().addMessage("", new FacesMessage("El proyecto se creo con exito"));
 			Long codigoFiltro = Long.valueOf(empresaS);
+			somEmpresasFiltro.resetValue();
+			btnCrearP.setDisabled(true);
 			data = businessDelegatorView.getDataVtProyecto(codigoFiltro);
 			dataI = businessDelegatorView.getDataVtProyectoInactivo(codigoFiltro);
 		} catch (Exception e) {
