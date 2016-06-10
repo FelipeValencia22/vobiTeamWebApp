@@ -83,10 +83,10 @@
 						<p:dataTable id="tblactivos" value="#{vtArtefactoViewCliente.dataFiltro}"
 							var="vtArtefacto" paginator="true" rows="4" reflow="true"
 							scrollRows="20" scrollable="true" liveScroll="true"
-							scrollHeight="150" style="margin-bottom:0"
+							scrollHeight="350" style="margin-bottom:0"
 							emptyMessage="No hay artefactos activos en este momento">
 
-							<p:column filterBy="#{vtArtefacto.titulo}" width="200"
+							<p:column filterBy="#{vtArtefacto.titulo}" width="130"
 								filterMatchMode="contains" sortBy="#{vtArtefacto.titulo}">
 								<f:facet name="header">
 									<h:outputText value="Titulo" />
@@ -94,7 +94,7 @@
 								<h:outputText value="#{vtArtefacto.titulo}" />
 							</p:column>
 
-							<p:column filterBy="#{vtArtefacto.descripcion}" width="200"
+							<p:column filterBy="#{vtArtefacto.descripcion}" width="130"
 								filterMatchMode="contains" sortBy="#{vtArtefacto.descripcion}">
 								<f:facet name="header">
 									<h:outputText value="Descripción" />
@@ -102,7 +102,7 @@
 								<h:outputText value="#{vtArtefacto.descripcion}" />
 							</p:column>
 
-							<p:column filterBy="#{vtArtefacto.tpar_Nombre}" width="200"
+							<p:column filterBy="#{vtArtefacto.tpar_Nombre}" width="130"
 								filterMatchMode="contains" sortBy="#{vtArtefacto.tpar_Nombre}">
 								<f:facet name="header">
 									<h:outputText value="Tipo artefacto" />
@@ -110,7 +110,7 @@
 								<h:outputText value="#{vtArtefacto.tpar_Nombre}" />
 							</p:column>
 
-							<p:column filterBy="#{vtArtefacto.estado_Nombre}" width="200"
+							<p:column filterBy="#{vtArtefacto.estado_Nombre}" width="130"
 								filterMatchMode="contains" sortBy="#{vtArtefacto.estado_Nombre}">
 								<f:facet name="header">
 									<h:outputText value="Estado" />
@@ -118,7 +118,7 @@
 								<h:outputText value="#{vtArtefacto.estado_Nombre}" />
 							</p:column>
 
-							<p:column filterBy="#{vtArtefacto.prioridad_Nombre}" width="200"
+							<p:column filterBy="#{vtArtefacto.prioridad_Nombre}" width="130"
 								filterMatchMode="contains"
 								sortBy="#{vtArtefacto.prioridad_Nombre}">
 								<f:facet name="header">
@@ -128,7 +128,7 @@
 							</p:column>
 
  
-							<p:column filterBy="#{vtArtefacto.activo}" width="200"
+							<p:column filterBy="#{vtArtefacto.activo}" width="130"
 								filterMatchMode="contains" sortBy="#{vtArtefacto.activo}">
 								<f:facet name="header">
 									<h:outputText value="Activo" />
@@ -152,11 +152,11 @@
 
 					<p:panel id="panelDataTableVtArtefactoI">
 						<p:dataTable id="tblinactivos" value="#{vtArtefactoViewCliente.dataFiltroI}"
-							var="vtArtefacto" paginator="true" rows="4" reflow="true"
+							var="vtArtefacto" paginator="true" rows="7" reflow="true"
 							scrollRows="20" scrollable="true" liveScroll="true"
-							scrollHeight="150" style="margin-bottom:0" widgetVar="artI"
+							scrollHeight="350" style="margin-bottom:0" widgetVar="artI"
 							emptyMessage="No hay artefactos inactivos en este momento">
-							<p:column filterBy="#{vtArtefacto.titulo}" width="200"
+							<p:column filterBy="#{vtArtefacto.titulo}" width="130"
 								filterMatchMode="contains" sortBy="#{vtArtefacto.titulo}">
 								<f:facet name="header">
 									<h:outputText value="Titulo" />
@@ -164,7 +164,7 @@
 								<h:outputText value="#{vtArtefacto.titulo}" />
 							</p:column>
 
-							<p:column filterBy="#{vtArtefacto.descripcion}" width="200"
+							<p:column filterBy="#{vtArtefacto.descripcion}" width="130"
 								filterMatchMode="contains" sortBy="#{vtArtefacto.descripcion}">
 								<f:facet name="header">
 									<h:outputText value="Descripción" />
@@ -172,7 +172,7 @@
 								<h:outputText value="#{vtArtefacto.descripcion}" />
 							</p:column>
 
-							<p:column filterBy="#{vtArtefacto.tpar_Nombre}" width="200"
+							<p:column filterBy="#{vtArtefacto.tpar_Nombre}" width="130"
 								filterMatchMode="contains" sortBy="#{vtArtefacto.tpar_Nombre}">
 								<f:facet name="header">
 									<h:outputText value="Tipo artefacto" />
@@ -180,7 +180,7 @@
 								<h:outputText value="#{vtArtefacto.tpar_Nombre}" />
 							</p:column>
 
-							<p:column filterBy="#{vtArtefacto.estado_Nombre}" width="200"
+							<p:column filterBy="#{vtArtefacto.estado_Nombre}" width="130"
 								filterMatchMode="contains" sortBy="#{vtArtefacto.estado_Nombre}">
 								<f:facet name="header">
 									<h:outputText value="Estado" />
@@ -188,7 +188,7 @@
 								<h:outputText value="#{vtArtefacto.estado_Nombre}" />
 							</p:column>
 
-							<p:column filterBy="#{vtArtefacto.prioridad_Nombre}" width="200"
+							<p:column filterBy="#{vtArtefacto.prioridad_Nombre}" width="130"
 								filterMatchMode="contains"
 								sortBy="#{vtArtefacto.prioridad_Nombre}">
 								<f:facet name="header">
@@ -198,7 +198,7 @@
 							</p:column>
 
 
-							<p:column filterBy="#{vtArtefacto.activo}" width="200"
+							<p:column filterBy="#{vtArtefacto.activo}" width="130"
 								filterMatchMode="contains" sortBy="#{vtArtefacto.activo}">
 								<f:facet name="header">
 									<h:outputText value="Activo" />

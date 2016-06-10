@@ -140,7 +140,7 @@
 
 	<query name="todosLosArtefactosDeUnUsuario">
   <![CDATA[
-	Select vtArt from VtArtefacto as vtArt, VtUsuarioArtefacto as usuArt where vtArt.arteCodigo = usuArt.vtArtefacto.arteCodigo  and usuArt.vtUsuario.usuaCodigo =:usuCodigo
+	Select vtArt from VtArtefacto as vtArt, VtUsuarioArtefacto as usuArt where vtArt.vtSprint.spriCodigo is not null and vtArt.arteCodigo = usuArt.vtArtefacto.arteCodigo  and usuArt.vtUsuario.usuaCodigo =:usuCodigo
 	   ]]>
 	</query>
 	

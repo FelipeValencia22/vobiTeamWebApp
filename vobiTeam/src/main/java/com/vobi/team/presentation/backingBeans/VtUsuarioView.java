@@ -68,16 +68,6 @@ public class VtUsuarioView implements Serializable{
 
 	@ManagedProperty(value = "#{BusinessDelegatorView}")
 	private IBusinessDelegatorView businessDelegatorView;
-	
-	@PostConstruct
-	public void ini(){
-		try {
-			vtUsuarioEnSession = ((VtUsuario) FacesUtils.getfromSession("vtUsuario"));
-		} catch (Exception e) {
-			log.error(e.getMessage());
-		}
-		
-	}
 
 	public IBusinessDelegatorView getBusinessDelegatorView() {
 		return businessDelegatorView;
@@ -105,6 +95,7 @@ public class VtUsuarioView implements Serializable{
 
 	public VtUsuarioView() {
 		super();
+		 vtUsuarioEnSession = ((VtUsuario) FacesUtils.getfromSession("vtUsuario"));
 	}
 
 	public CommandButton getBtnCrearU() {

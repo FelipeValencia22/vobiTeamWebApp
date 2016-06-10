@@ -33,7 +33,7 @@ import com.vobi.team.utilities.FacesUtils;
 
 import com.vobi.team.modelo.dto.VtPilaProductoDTO;
 
-@ManagedBean 
+@ManagedBean
 @ViewScoped
 public class VtPilaProductoView implements Serializable {
 
@@ -60,7 +60,7 @@ public class VtPilaProductoView implements Serializable {
 	private CommandButton btnGuardar;
 	private CommandButton btnCrearPdP;
 
-	private Panel panelDataTableVtPilaProducto; 
+	private Panel panelDataTableVtPilaProducto;
 
 	String stringActivo;
 
@@ -70,7 +70,7 @@ public class VtPilaProductoView implements Serializable {
 	private InputText txtNombreCrear;
 	private InputTextarea txtDescripcion;
 	private InputTextarea txtDescripcionCrear;
-	
+
 	private List<SelectItem> esActivoItems;
 	private List<SelectItem> losProyectosItems;
 	private List<SelectItem> losProyectosItemsLista;
@@ -78,47 +78,46 @@ public class VtPilaProductoView implements Serializable {
 	private List<SelectItem> losSprintsItems;
 	private List<SelectItem> lasEmpresasItemsFiltro;
 	private List<SelectItem> losProyectosFiltro;
-	
 
 	private List<VtPilaProductoDTO> data;
 	private List<VtPilaProductoDTO> dataFiltro;
 	private List<VtPilaProductoDTO> dataFiltroI;
-	
+
 	private VtPilaProducto entity;
 	private VtPilaProductoDTO selectedVtPilaProducto;
-	
+
 	private boolean showDialog;
-	
+
 	private boolean usoPostConstructor = false;
 
 	@ManagedProperty(value = "#{BusinessDelegatorView}")
 	private IBusinessDelegatorView businessDelegatorView;
 
-
-	public VtPilaProductoView(){
+	public VtPilaProductoView() {
 		super();
 		somEmpresas = new SelectOneMenu();
 		somProyectos = new SelectOneMenu();
 		btnCrearPdP = new CommandButton();
 		btnCrearPdP.setDisabled(true);
 	}
-	
-	
+
 	@PostConstruct
 	public void vtArtefactoViewPostConstructor() {
 		try {
 			VtProyecto vtProyecto = (VtProyecto) FacesUtils.getfromSession("vtProyecto");
 			usoPostConstructor = true;
-			
+
 			if (vtProyecto != null) {
 				VtEmpresa vtEmpresa = (VtEmpresa) FacesUtils.getfromSession("vtEmpresa");
 				somEmpresas.setValue(vtEmpresa.getEmprCodigo());
 				filtrarEmpresa();
-				somProyectos.setValue(vtProyecto.getProyCodigo());					
+				somProyectos.setValue(vtProyecto.getProyCodigo());
 				filtrar();
 				dataFiltro = businessDelegatorView.getDataVtPilaProductoNombreProyecto(vtProyecto.getProyCodigo());
+				dataFiltroI = businessDelegatorView.getDataVtPilaProductoNombreProyectoI(vtProyecto.getProyCodigo());
+
 				FacesUtils.putinSession("vtProyecto", null);
-			} 
+			}
 			usoPostConstructor = false;
 			vtProyecto = null;
 		} catch (Exception e) {
@@ -129,11 +128,11 @@ public class VtPilaProductoView implements Serializable {
 
 	public List<SelectItem> getLasEmpresasItemsFiltro() {
 		try {
-			if(lasEmpresasItemsFiltro==null){
-				List<VtEmpresa> listaEmpresas=businessDelegatorView.getVtEmpresa();
-				lasEmpresasItemsFiltro=new ArrayList<SelectItem>();
-				for (VtEmpresa vtEmpresa: listaEmpresas) {
-					if(vtEmpresa.getActivo().equalsIgnoreCase("S")){
+			if (lasEmpresasItemsFiltro == null) {
+				List<VtEmpresa> listaEmpresas = businessDelegatorView.getVtEmpresa();
+				lasEmpresasItemsFiltro = new ArrayList<SelectItem>();
+				for (VtEmpresa vtEmpresa : listaEmpresas) {
+					if (vtEmpresa.getActivo().equalsIgnoreCase("S")) {
 						lasEmpresasItemsFiltro.add(new SelectItem(vtEmpresa.getEmprCodigo(), vtEmpresa.getNombre()));
 					}
 				}
@@ -192,21 +191,16 @@ public class VtPilaProductoView implements Serializable {
 
 	public List<SelectItem> getLosProyectosItems() {
 		/*
-		try {
-			if (losProyectosItems == null) {
-				List<VtProyecto> listaProyectos = businessDelegatorView.getVtProyecto();
-				losProyectosItems = new ArrayList<SelectItem>();
-
-				for (VtProyecto vtProyecto : listaProyectos) {
-					if(vtProyecto.getActivo().equalsIgnoreCase("S")){
-						losProyectosItems.add(new SelectItem(vtProyecto.getProyCodigo(), vtProyecto.getNombre()));
-					}
-				}
-			}
-		} catch (Exception e) {
-			log.error(e.getMessage());
-		}
-		*/
+		 * try { if (losProyectosItems == null) { List<VtProyecto>
+		 * listaProyectos = businessDelegatorView.getVtProyecto();
+		 * losProyectosItems = new ArrayList<SelectItem>();
+		 * 
+		 * for (VtProyecto vtProyecto : listaProyectos) {
+		 * if(vtProyecto.getActivo().equalsIgnoreCase("S")){
+		 * losProyectosItems.add(new SelectItem(vtProyecto.getProyCodigo(),
+		 * vtProyecto.getNombre())); } } } } catch (Exception e) {
+		 * log.error(e.getMessage()); }
+		 */
 		return losProyectosItems;
 	}
 
@@ -221,7 +215,7 @@ public class VtPilaProductoView implements Serializable {
 				losProyectosItemsLista = new ArrayList<SelectItem>();
 
 				for (VtProyecto vtProyecto : listaProyectos) {
-					if(vtProyecto.getActivo().equalsIgnoreCase("S")){
+					if (vtProyecto.getActivo().equalsIgnoreCase("S")) {
 						losProyectosItemsLista.add(new SelectItem(vtProyecto.getNombre()));
 					}
 				}
@@ -302,10 +296,10 @@ public class VtPilaProductoView implements Serializable {
 
 	public List<SelectItem> getLasEmpresasItems() {
 		try {
-			if(lasEmpresasItems==null){
-				List<VtEmpresa> listaEmpresas=businessDelegatorView.getVtEmpresa();
-				lasEmpresasItems=new ArrayList<SelectItem>();
-				for (VtEmpresa vtEmpresa: listaEmpresas) {
+			if (lasEmpresasItems == null) {
+				List<VtEmpresa> listaEmpresas = businessDelegatorView.getVtEmpresa();
+				lasEmpresasItems = new ArrayList<SelectItem>();
+				for (VtEmpresa vtEmpresa : listaEmpresas) {
 					lasEmpresasItems.add(new SelectItem(vtEmpresa.getEmprCodigo(), vtEmpresa.getNombre()));
 				}
 			}
@@ -414,8 +408,8 @@ public class VtPilaProductoView implements Serializable {
 				losSprintsItems = new ArrayList<SelectItem>();
 
 				for (VtSprint vtSprint : listaSprint) {
-					if(vtSprint.getActivo().equalsIgnoreCase("S")){
-						losSprintsItems.add(new SelectItem(vtSprint.getSpriCodigo(),vtSprint.getNombre()));
+					if (vtSprint.getActivo().equalsIgnoreCase("S")) {
+						losSprintsItems.add(new SelectItem(vtSprint.getSpriCodigo(), vtSprint.getNombre()));
 					}
 				}
 			}
@@ -429,7 +423,7 @@ public class VtPilaProductoView implements Serializable {
 		this.losSprintsItems = losSprintsItems;
 	}
 
-	//TODO: Obtener DTO para el Filtro
+	// TODO: Obtener DTO para el Filtro
 	public List<VtPilaProductoDTO> getData() {
 		try {
 			if (data == null) {
@@ -446,7 +440,7 @@ public class VtPilaProductoView implements Serializable {
 		this.data = vtPilaProductoDTO;
 	}
 
-	//TODO: Metodos
+	// TODO: Metodos
 	public String crearPilaProducto() throws Exception {
 		log.info("Creando la pila de producto");
 
@@ -468,21 +462,23 @@ public class VtPilaProductoView implements Serializable {
 		VtProyecto vtProyecto = businessDelegatorView.getVtProyecto(proyecto);
 		vtPilaProducto.setVtProyecto(vtProyecto);
 
-		VtUsuario vtUsuarioEnSession =  (VtUsuario) FacesUtils.getfromSession("vtUsuario");
+		VtUsuario vtUsuarioEnSession = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
 		vtPilaProducto.setUsuCreador(vtUsuarioEnSession.getUsuaCodigo());
-		
-		dataFiltro=businessDelegatorView.getDataVtPilaProductoNombreProyecto(getProyectoSeleccionado());
 
 		try {
+			dataFiltro = businessDelegatorView
+					.getDataVtPilaProductoNombreProyecto(vtProyecto.getProyCodigo().longValue());
+			dataFiltroI = businessDelegatorView
+					.getDataVtPilaProductoNombreProyectoI(vtProyecto.getProyCodigo().longValue());
 			businessDelegatorView.saveVtPilaProducto(vtPilaProducto);
 			FacesContext.getCurrentInstance().addMessage("", new FacesMessage("La pila de producto se creo con exito"));
 			limpiar();
-			vtPilaProducto=null;
+			vtPilaProducto = null;
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage("", new FacesMessage(e.getMessage()));
+			FacesUtils.addErrorMessage(e.getMessage());
 		}
 
-		return "/XHTML/vtGestionPilaProducto.xhtml";
+		return "";
 	}
 
 	public String limpiar() {
@@ -495,9 +491,7 @@ public class VtPilaProductoView implements Serializable {
 	}
 
 	public String action_edit(ActionEvent evt) {
-		selectedVtPilaProducto = (VtPilaProductoDTO) (evt.getComponent()
-				.getAttributes()
-				.get("selectedVtPilaProducto"));
+		selectedVtPilaProducto = (VtPilaProductoDTO) (evt.getComponent().getAttributes().get("selectedVtPilaProducto"));
 
 		txtDescripcion.setValue(selectedVtPilaProducto.getDescripcion());
 		txtDescripcion.setDisabled(false);
@@ -519,38 +513,37 @@ public class VtPilaProductoView implements Serializable {
 		this.proyectoSeleccionado = proyectoSeleccionado;
 	}
 
-	public void localeChanged(ValueChangeEvent e){
+	public void localeChanged(ValueChangeEvent e) {
 		setProyectoSeleccionado(Long.parseLong(e.getNewValue().toString()));
 		try {
-			dataFiltro=businessDelegatorView.getDataVtPilaProductoNombreProyecto(getProyectoSeleccionado());
+			dataFiltro = businessDelegatorView.getDataVtPilaProductoNombreProyecto(getProyectoSeleccionado());
 
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 	}
 
-	public String filtrar(){
+	public String filtrar() {
 		btnCrearPdP.setDisabled(false);
-		String nombreProyecto=somProyectos.getValue().toString().trim();
-		
-		if(!nombreProyecto.equals("-1")){
-			try {				
-				long codigoFiltro= Long.parseLong(nombreProyecto);
-				dataFiltro=businessDelegatorView.getDataVtPilaProductoNombreProyecto(codigoFiltro);
-				dataFiltroI=businessDelegatorView.getDataVtPilaProductoNombreProyectoI(codigoFiltro);
-				
+		String nombreProyecto = somProyectos.getValue().toString().trim();
+
+		if (!nombreProyecto.equals("-1")) {
+			try {
+				long codigoFiltro = Long.parseLong(nombreProyecto);
+				dataFiltro = businessDelegatorView.getDataVtPilaProductoNombreProyecto(codigoFiltro);
+				dataFiltroI = businessDelegatorView.getDataVtPilaProductoNombreProyectoI(codigoFiltro);
+
 			} catch (Exception e) {
-				e.printStackTrace();
+				log.error(e.getMessage());
 			}
-		}else{
+		} else {
 			btnCrearPdP.setDisabled(true);
 			dataFiltro = null;
 			dataFiltroI = null;
 		}
-		
+
 		return "";
 	}
-
 
 	public String action_save() {
 		try {
@@ -573,16 +566,15 @@ public class VtPilaProductoView implements Serializable {
 			if (entity == null) {
 				Long pilaCodigo = new Long(selectedVtPilaProducto.getPilaCodigo());
 				entity = businessDelegatorView.getVtPilaProducto(pilaCodigo);
-			} 
+			}
 
 			String activo = somActivoCambio.getValue().toString().trim();
 			if (activo.equalsIgnoreCase("Si")) {
 				entity.setActivo("S");
 			} else {
-				if(activo.equals("-1")){
+				if (activo.equals("-1")) {
 					entity.setActivo(entity.getActivo());
-				}
-				else{
+				} else {
 					entity.setActivo("N");
 				}
 
@@ -590,7 +582,7 @@ public class VtPilaProductoView implements Serializable {
 			Date fechaModificacion = new Date();
 			entity.setFechaModificacion(fechaModificacion);
 
-			VtUsuario vtUsuarioEnSession =  (VtUsuario) FacesUtils.getfromSession("vtUsuario");
+			VtUsuario vtUsuarioEnSession = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
 			entity.setUsuModificador(vtUsuarioEnSession.getUsuaCodigo());
 
 			entity.setDescripcion(FacesUtils.checkString(txtDescripcion));
@@ -598,11 +590,10 @@ public class VtPilaProductoView implements Serializable {
 			entity.setNombre(FacesUtils.checkString(txtNombre));
 
 			String proyectos = somProyectoCambio.getValue().toString().trim();
-			log.info("proyectos:"+proyectos);
-			if(proyectos.equalsIgnoreCase("-1")){
+			log.info("proyectos:" + proyectos);
+			if (proyectos.equalsIgnoreCase("-1")) {
 				entity.setVtProyecto(entity.getVtProyecto());
-			}
-			else{
+			} else {
 				Long proyecto = Long.parseLong(proyectos);
 				VtProyecto vtProyecto = businessDelegatorView.getVtProyecto(proyecto);
 				entity.setVtProyecto(vtProyecto);
@@ -610,12 +601,13 @@ public class VtPilaProductoView implements Serializable {
 
 			businessDelegatorView.updateVtPilaProducto(entity);
 
-			String nombreProyecto=somProyectos.getValue().toString().trim();
-			long codigoFiltro= Long.parseLong(nombreProyecto);
-			dataFiltro=businessDelegatorView.getDataVtPilaProductoNombreProyecto(codigoFiltro);
-			dataFiltroI=businessDelegatorView.getDataVtPilaProductoNombreProyectoI(codigoFiltro);
+			String nombreProyecto = somProyectos.getValue().toString().trim();
+			long codigoFiltro = Long.parseLong(nombreProyecto);
+			dataFiltro = businessDelegatorView.getDataVtPilaProductoNombreProyecto(codigoFiltro);
+			dataFiltroI = businessDelegatorView.getDataVtPilaProductoNombreProyectoI(codigoFiltro);
 
-			FacesContext.getCurrentInstance().addMessage("", new FacesMessage("La pila de producto se modificó con exito"));
+			FacesContext.getCurrentInstance().addMessage("",
+					new FacesMessage("La pila de producto se modificó con exito"));
 
 		} catch (Exception e) {
 			data = null;
@@ -632,48 +624,47 @@ public class VtPilaProductoView implements Serializable {
 		return "";
 	}
 
-	public String cambiarEstado(ActionEvent evt){
+	public String cambiarEstado(ActionEvent evt) {
 
-		selectedVtPilaProducto= (VtPilaProductoDTO)(evt.getComponent().getAttributes()
-				.get("selectedVtPilaProducto"));
+		selectedVtPilaProducto = (VtPilaProductoDTO) (evt.getComponent().getAttributes().get("selectedVtPilaProducto"));
 
 		try {
 			if (entity == null) {
 				Long pilaCodigo = new Long(selectedVtPilaProducto.getPilaCodigo());
 				entity = businessDelegatorView.getVtPilaProducto(pilaCodigo);
-			} 
-			
-			String cambioActivo=entity.getActivo().toString().trim();
-			if (cambioActivo.equalsIgnoreCase("S")) {
-				entity.setActivo("N");
-			}else{
-				entity.setActivo("S");
-			}			
-			
-			Date fechaModificacion= new Date();
-			entity.setFechaModificacion(fechaModificacion);
-
-			VtUsuario vtUsuarioEnSession =  (VtUsuario) FacesUtils.getfromSession("vtUsuario");
-			entity.setUsuModificador(vtUsuarioEnSession.getUsuaCodigo());
-			
-			businessDelegatorView.updateVtPilaProducto(entity);
-			
-			if(entity.getActivo().equals("S")){
-				FacesContext.getCurrentInstance().addMessage("", new FacesMessage("Ok,!La pila de producto se ha activado con éxito!"));
-			}else if(entity.getActivo().equals("N")){
-				FacesContext.getCurrentInstance().addMessage("", new FacesMessage("Ok,!La pila de producto se ha inactivado con éxito!"));
 			}
 
-			String nombreProyecto=somProyectos.getValue().toString().trim();
-			long codigoFiltro= Long.parseLong(nombreProyecto);
-			dataFiltro=businessDelegatorView.getDataVtPilaProductoNombreProyecto(codigoFiltro);
-			dataFiltroI=businessDelegatorView.getDataVtPilaProductoNombreProyectoI(codigoFiltro);			
-			selectedVtPilaProducto=null;
-			entity=null;
-			
-			
-			
-		}catch (Exception e) {
+			String cambioActivo = entity.getActivo().toString().trim();
+			if (cambioActivo.equalsIgnoreCase("S")) {
+				entity.setActivo("N");
+			} else {
+				entity.setActivo("S");
+			}
+
+			Date fechaModificacion = new Date();
+			entity.setFechaModificacion(fechaModificacion);
+
+			VtUsuario vtUsuarioEnSession = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
+			entity.setUsuModificador(vtUsuarioEnSession.getUsuaCodigo());
+
+			businessDelegatorView.updateVtPilaProducto(entity);
+
+			if (entity.getActivo().equals("S")) {
+				FacesContext.getCurrentInstance().addMessage("",
+						new FacesMessage("Ok,!La pila de producto se ha activado con éxito!"));
+			} else if (entity.getActivo().equals("N")) {
+				FacesContext.getCurrentInstance().addMessage("",
+						new FacesMessage("Ok,!La pila de producto se ha inactivado con éxito!"));
+			}
+
+			String nombreProyecto = somProyectos.getValue().toString().trim();
+			long codigoFiltro = Long.parseLong(nombreProyecto);
+			dataFiltro = businessDelegatorView.getDataVtPilaProductoNombreProyecto(codigoFiltro);
+			dataFiltroI = businessDelegatorView.getDataVtPilaProductoNombreProyectoI(codigoFiltro);
+			selectedVtPilaProducto = null;
+			entity = null;
+
+		} catch (Exception e) {
 			data = null;
 			log.error(e.toString());
 			FacesUtils.addErrorMessage(e.getMessage());
@@ -682,38 +673,39 @@ public class VtPilaProductoView implements Serializable {
 		return "";
 	}
 
-	public String filtrarEmpresa(){
+	public String filtrarEmpresa() {
 		try {
-			VtEmpresa vtEmpresa=null;
-			losProyectosFiltro=null;
-			
-			if(!usoPostConstructor){
+			VtEmpresa vtEmpresa = null;
+			losProyectosFiltro = null;
+
+			if (!usoPostConstructor) {
 				somProyectos.setValue("-1");
 				dataFiltro = null;
 				dataFiltroI = null;
 				btnCrearPdP.setDisabled(true);
 			}
-		
-			String empresaS=somEmpresas.getValue().toString().trim();
-			if(empresaS.isEmpty() || empresaS.equals("-1")){
-			}else{
-				Long empresa=Long.parseLong(empresaS);
-				vtEmpresa=businessDelegatorView.getVtEmpresa(empresa);
-				//TODO:mejorar esto.
+
+			String empresaS = somEmpresas.getValue().toString().trim();
+			if (empresaS.isEmpty() || empresaS.equals("-1")) {
+			} else {
+				Long empresa = Long.parseLong(empresaS);
+				vtEmpresa = businessDelegatorView.getVtEmpresa(empresa);
+				// TODO:mejorar esto.
 			}
 
-			try{
-				if(losProyectosFiltro==null){
-					List<VtProyecto> listaProyectos=businessDelegatorView.getVtProyecto();
-					losProyectosFiltro=new ArrayList<SelectItem>();
-					for (VtProyecto vtProyecto:listaProyectos) {
-						if(vtProyecto.getActivo().equalsIgnoreCase("S") && vtProyecto.getVtEmpresa().getEmprCodigo().equals(vtEmpresa.getEmprCodigo())){
+			try {
+				if (losProyectosFiltro == null) {
+					List<VtProyecto> listaProyectos = businessDelegatorView.getVtProyecto();
+					losProyectosFiltro = new ArrayList<SelectItem>();
+					for (VtProyecto vtProyecto : listaProyectos) {
+						if (vtProyecto.getActivo().equalsIgnoreCase("S")
+								&& vtProyecto.getVtEmpresa().getEmprCodigo().equals(vtEmpresa.getEmprCodigo())) {
 							losProyectosFiltro.add(new SelectItem(vtProyecto.getProyCodigo(), vtProyecto.getNombre()));
 						}
 					}
 				}
 
-			}catch(Exception e) {
+			} catch (Exception e) {
 				log.error(e.getMessage());
 			}
 		} catch (Exception e) {
@@ -721,30 +713,31 @@ public class VtPilaProductoView implements Serializable {
 		}
 		return "";
 	}
-	
-	public String filtrarEmpresaCrear(){
+
+	public String filtrarEmpresaCrear() {
 		try {
-			VtEmpresa vtEmpresa=null;
-			losProyectosItems=null;
-			String empresaS=somEmpresasCrear.getValue().toString().trim();
-			if(empresaS.isEmpty() || empresaS.equals("-1")){
-			}else{
-				Long empresa=Long.parseLong(empresaS);
-				vtEmpresa=businessDelegatorView.getVtEmpresa(empresa);
+			VtEmpresa vtEmpresa = null;
+			losProyectosItems = null;
+			String empresaS = somEmpresasCrear.getValue().toString().trim();
+			if (empresaS.isEmpty() || empresaS.equals("-1")) {
+			} else {
+				Long empresa = Long.parseLong(empresaS);
+				vtEmpresa = businessDelegatorView.getVtEmpresa(empresa);
 			}
 
-			try{
-				if(losProyectosItems==null){
-					List<VtProyecto> listaProyectos=businessDelegatorView.getVtProyecto();
-					losProyectosItems=new ArrayList<SelectItem>();
-					for (VtProyecto vtProyecto:listaProyectos) {
-						if(vtProyecto.getActivo().equalsIgnoreCase("S") && vtProyecto.getVtEmpresa().getEmprCodigo().equals(vtEmpresa.getEmprCodigo())){
-							losProyectosItems.add(new SelectItem(vtProyecto.getProyCodigo(),vtProyecto.getNombre()));
+			try {
+				if (losProyectosItems == null) {
+					List<VtProyecto> listaProyectos = businessDelegatorView.getVtProyecto();
+					losProyectosItems = new ArrayList<SelectItem>();
+					for (VtProyecto vtProyecto : listaProyectos) {
+						if (vtProyecto.getActivo().equalsIgnoreCase("S")
+								&& vtProyecto.getVtEmpresa().getEmprCodigo().equals(vtEmpresa.getEmprCodigo())) {
+							losProyectosItems.add(new SelectItem(vtProyecto.getProyCodigo(), vtProyecto.getNombre()));
 						}
 					}
 				}
 
-			}catch(Exception e) {
+			} catch (Exception e) {
 				log.error(e.getMessage());
 			}
 		} catch (Exception e) {
@@ -752,26 +745,23 @@ public class VtPilaProductoView implements Serializable {
 		}
 		return "";
 	}
-	
-	
-	public String redireccionarASprint(ActionEvent evt){
+
+	public String redireccionarASprint(ActionEvent evt) {
 		try {
 			selectedVtPilaProducto = (VtPilaProductoDTO) (evt.getComponent().getAttributes()
-					.get("selectedVtPilaProducto"));		
+					.get("selectedVtPilaProducto"));
 			String pilaProducto = selectedVtPilaProducto.getPilaCodigo().toString().trim();
-			Long idPilaProducto= Long.parseLong(pilaProducto);
+			Long idPilaProducto = Long.parseLong(pilaProducto);
 			VtPilaProducto vtPilaProducto = businessDelegatorView.getVtPilaProducto(idPilaProducto);
 			FacesUtils.putinSession("vtPilaProducto", vtPilaProducto);
 			selectedVtPilaProducto = null;
 		} catch (Exception e) {
 			log.error(e.getMessage());
-			e.printStackTrace();
 		}
 
 		return "";
 	}
-	
-	
+
 	public IBusinessDelegatorView getBusinessDelegatorView() {
 		return businessDelegatorView;
 	}
@@ -816,14 +806,12 @@ public class VtPilaProductoView implements Serializable {
 		this.btnCrearPdP = btnCrearPdP;
 	}
 
-
 	public boolean isUsoPostConstructor() {
 		return usoPostConstructor;
 	}
 
-
 	public void setUsoPostConstructor(boolean usoPostConstructor) {
 		this.usoPostConstructor = usoPostConstructor;
 	}
-	
+
 }

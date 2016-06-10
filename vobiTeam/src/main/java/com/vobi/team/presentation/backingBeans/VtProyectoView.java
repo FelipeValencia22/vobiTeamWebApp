@@ -351,10 +351,10 @@ public class VtProyectoView implements Serializable{
 			limpiar();
 			FacesContext.getCurrentInstance().addMessage("", new FacesMessage("El proyecto se creo con exito"));
 			Long codigoFiltro = Long.valueOf(empresaS);
-			data = businessDelegatorView.getDataVtProyecto(codigoFiltro);
-			dataI = businessDelegatorView.getDataVtProyectoInactivo(codigoFiltro);
+			data=businessDelegatorView.getDataVtProyectoActivo(codigoFiltro);
+			dataI=businessDelegatorView.getDataVtProyectoInactivo(codigoFiltro);
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage("", new FacesMessage(e.getMessage()));
+			FacesUtils.addErrorMessage(e.getMessage());
 		}
 
 		return "";
@@ -362,12 +362,11 @@ public class VtProyectoView implements Serializable{
 
 	public String limpiar(){
 		log.info("Limpiando campos de texto");
-		txtNombre.resetValue();
-		txtDescripcion.resetValue();
+		txtNombreC.resetValue();
+		txtDescripcionC.resetValue();
 		somPublico.setValue("-1");
 		somActivo.setValue("-1");
-
-		btnCrear.setDisabled(true);
+		btnCrearP.setDisabled(false);
 		return "";
 	}
 
@@ -404,7 +403,7 @@ public class VtProyectoView implements Serializable{
 				dataI=businessDelegatorView.getDataVtProyectoInactivo(vtUsuarioEnSession.getVtEmpresa().getEmprCodigo());
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(e.getMessage());
 		}
 
 		return dataI;
@@ -637,7 +636,6 @@ public class VtProyectoView implements Serializable{
 			
 		} catch (Exception e) {
 			log.error(e.getMessage());
-			e.printStackTrace();
 		}
 		return "";
 	}
@@ -702,7 +700,6 @@ public class VtProyectoView implements Serializable{
 			selectedVtProyecto = null;
 		} catch (Exception e) {
 			log.error(e.getMessage());
-			e.printStackTrace();
 		}
 
 		return "";

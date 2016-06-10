@@ -261,7 +261,7 @@
 					title="Crear pila producto"
 					binding="#{vtPilaProductoView.btnCrear}" disable="true"
 					action="#{vtPilaProductoView.crearPilaProducto}"
-					update="@([id$=growl], @([id$=frm]" />
+					update="formDialogCrearPila,msg, @([id$=pnVtPilaProducto]" />
 
 				<p:commandButton id="btnLimpiar" icon="fa fa-eraser"
 					title="Limpiar " binding="#{vtPilaProductoView.btnLimpiar}"

@@ -614,6 +614,16 @@ public class VtArtefactoViewCliente implements Serializable {
 			somSprints.resetValue();
 			dataFiltro=null;
 			dataFiltroI=null;
+			String pila = somPilaProducto.getValue().toString();
+			
+			if (pila.isEmpty() || pila.equals("-1")) {
+			} else {
+				Long idPila = Long.parseLong(pila);
+				vtPilaProducto = businessDelegatorView.getVtPilaProducto(idPila);
+				log.info("El código de la pila es : " + vtPilaProducto.getPilaCodigo());
+				dataFiltro = businessDelegatorView.getDataVtArtefactoPilaFiltroA(vtPilaProducto.getPilaCodigo());
+				dataFiltroI = businessDelegatorView.getDataVtArtefactoPilaFiltroI(vtPilaProducto.getPilaCodigo());
+			}
 
 			vtPilaProducto=businessDelegatorView.getVtPilaProducto(Long.parseLong(somPilaProducto.getValue().toString().trim()));
 
