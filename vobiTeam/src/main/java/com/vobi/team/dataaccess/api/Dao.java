@@ -21,6 +21,7 @@ import com.vobi.team.modelo.VtUsuarioRol;
  * @date Nov 01, 2013
  *
  */
+
 public interface Dao<T, PK extends Serializable> {
     /**
      * Persiste la nueva entidad a la base de datos.
