@@ -173,6 +173,16 @@ public class VtArtefactoViewDesarrollador implements Serializable {
 
 	@ManagedProperty(value = "#{BusinessDelegatorView}")
 	private IBusinessDelegatorView businessDelegatorView;
+	
+	public VtArtefactoViewDesarrollador() {
+		super();
+		somEmpresas = new SelectOneMenu();
+		somProyectos = new SelectOneMenu();
+		somPilaProducto = new SelectOneMenu();
+		somSprints = new SelectOneMenu();
+		btnCrearArtefactoFiltrado = new CommandButton();
+		btnCrearArtefactoFiltrado.setDisabled(true);
+	}
 
 	@PostConstruct
 	public void vtArtefactoViewPostConstructor() {
@@ -181,9 +191,17 @@ public class VtArtefactoViewDesarrollador implements Serializable {
 			VtSprint vtSprint = (VtSprint) FacesUtils.getfromSession("vtSprint");
 
 			if (vtSprint != null) {
-
+				btnCrearArtefactoFiltrado.setDisabled(false);
+				VtPilaProducto vtPilaProducto = vtSprint.getVtPilaProducto();
+				VtProyecto vtProyecto = vtPilaProducto.getVtProyecto();
+				
+				somProyectos.setValue(vtProyecto.getProyCodigo());
+				filtrarProyecto();
+				somPilaProducto.setValue(vtPilaProducto.getPilaCodigo());
+				imprimirValue();
+				somSprints.setValue(vtSprint.getSpriCodigo());
 				vtUsuario = (VtUsuario) FacesUtils.getfromSession("vtUsuario");
-
+				filtrar();
 				dataFiltro = businessDelegatorView.getDataVtArtefactoFiltroDesarrollador(
 						vtSprint.getSpriCodigo().longValue(), vtUsuario.getUsuaCodigo());
 				dataFiltroI = businessDelegatorView.getDataVtArtefactoFiltroIDesarrollador(
@@ -195,7 +213,6 @@ public class VtArtefactoViewDesarrollador implements Serializable {
 			}
 			vtSprint = null;
 		} catch (Exception e) {
-			e.printStackTrace();
 			log.error(e.getMessage());
 		}
 
@@ -324,8 +341,8 @@ public class VtArtefactoViewDesarrollador implements Serializable {
 			businessDelegatorView.saveVtArtefacto(entity, esfuerzoEstimado, esfuerzoRestante, puntos);
 			FacesUtils.addInfoMessage("Se ha creado el artefacto con éxito");
 			
-			dataFiltro = businessDelegatorView.getDataVtArtefactoFiltro(vtSprint.getSpriCodigo().longValue());
-			dataFiltroI = businessDelegatorView.getDataVtArtefactoFiltroI(vtSprint.getSpriCodigo().longValue());
+			dataFiltro = businessDelegatorView.getDataVtArtefactoFiltro(vtSprint.getSpriCodigo());
+			dataFiltroI = businessDelegatorView.getDataVtArtefactoFiltroI(vtSprint.getSpriCodigo());
 
 			VtUsuarioArtefacto vtUsuarioArtefacto = new VtUsuarioArtefacto();
 			vtUsuarioArtefacto.setActivo("S");
@@ -356,6 +373,9 @@ public class VtArtefactoViewDesarrollador implements Serializable {
 			vtHistoriaArtefacto.setVtArtefacto(entity);
 			businessDelegatorView.saveVtHistoriaArtefacto(vtHistoriaArtefacto);
 			FacesUtils.addInfoMessage("Se ha creado el historial del artefacto con éxito");
+			
+			
+			
 			vtHistoriaArtefacto = null;
 			limpiar();
 			action_closeDialog();

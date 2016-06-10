@@ -1115,6 +1115,8 @@ public class VtSprintViewDesarrollador implements Serializable {
 	public void setLosEstadosSprintsItems(List<SelectItem> losEstadosSprintsItems) {
 		this.losEstadosSprintsItems = losEstadosSprintsItems;
 	}
+	
+
 
 
 }

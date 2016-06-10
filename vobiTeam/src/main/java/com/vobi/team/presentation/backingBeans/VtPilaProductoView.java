@@ -466,11 +466,13 @@ public class VtPilaProductoView implements Serializable {
 		vtPilaProducto.setUsuCreador(vtUsuarioEnSession.getUsuaCodigo());
 
 		try {
-			dataFiltro = businessDelegatorView
-					.getDataVtPilaProductoNombreProyecto(vtProyecto.getProyCodigo().longValue());
-			dataFiltroI = businessDelegatorView
-					.getDataVtPilaProductoNombreProyectoI(vtProyecto.getProyCodigo().longValue());
 			businessDelegatorView.saveVtPilaProducto(vtPilaProducto);
+			
+			dataFiltro = businessDelegatorView
+					.getDataVtPilaProductoNombreProyecto(vtProyecto.getProyCodigo());
+			dataFiltroI = businessDelegatorView
+					.getDataVtPilaProductoNombreProyectoI(vtProyecto.getProyCodigo());
+			
 			FacesContext.getCurrentInstance().addMessage("", new FacesMessage("La pila de producto se creo con exito"));
 			limpiar();
 			vtPilaProducto = null;
