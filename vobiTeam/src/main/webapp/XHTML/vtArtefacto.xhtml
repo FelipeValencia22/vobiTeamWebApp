@@ -147,18 +147,6 @@
 								</div>
 							</p:column>
 
-							<p:column headerText="Historial" width="90">
-								<div align="center">
-									<p:commandButton id="btnHistorial" icon="fa fa-history"
-										update=":historialArtefactos"
-										actionListener="#{vtArtefactoViewDesarrollador.filtrarVersionHistorialView}">
-										<f:attribute name="selectedVtArtefacto" value="#{vtArtefacto}" />
-									</p:commandButton>
-									<p:tooltip id="toolTipFadeH" for="btnHistorial"
-										value="Historial" />
-								</div>
-							</p:column>
-
 							<p:column headerText="Progreso" width="90">
 								<div align="center">
 									<p:commandButton id="btnProgreso" icon="fa fa-code"
@@ -247,19 +235,6 @@
 										value="Mostrar archivos" />
 								</div>
 							</p:column>
-
-							<p:column headerText="Historial" width="90">
-								<div align="center">
-									<p:commandButton id="btnHistorial" icon="fa fa-history"
-										update=":historialArtefactos"
-										actionListener="#{vtArtefactoViewDesarrollador.filtrarVersionHistorialView}">
-										<f:attribute name="selectedVtArtefacto" value="#{vtArtefacto}" />
-									</p:commandButton>
-									<p:tooltip id="toolTipFadeH" for="btnHistorial"
-										value="Historial" />
-								</div>
-							</p:column>
-
 
 
 						</p:dataTable>
